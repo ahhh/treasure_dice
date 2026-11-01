@@ -1,0 +1,3434 @@
+{
+ "ruleset": "srd-5.2.1",
+ "generated": "2026-11-01",
+ "counts": {
+  "features": 265,
+  "spells": 113
+ },
+ "features": [
+  {
+   "id": "feature:barbarian:rage",
+   "class": "barbarian",
+   "level": 1,
+   "name": "Rage",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:unarmoredDefense",
+   "class": "barbarian",
+   "level": 1,
+   "name": "Unarmored Defense",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:weaponMastery",
+   "class": "barbarian",
+   "level": 1,
+   "name": "Weapon Mastery",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:recklessAttack",
+   "class": "barbarian",
+   "level": 2,
+   "name": "Reckless Attack",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:dangerSense",
+   "class": "barbarian",
+   "level": 2,
+   "name": "Danger Sense",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:frenzy",
+   "class": "barbarian",
+   "level": 3,
+   "name": "Frenzy",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:primalKnowledge",
+   "class": "barbarian",
+   "level": 3,
+   "name": "Primal Knowledge",
+   "implementation": "narrative",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:asi",
+   "class": "barbarian",
+   "level": 4,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:extraAttack",
+   "class": "barbarian",
+   "level": 5,
+   "name": "Extra Attack",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:fastMovement",
+   "class": "barbarian",
+   "level": 5,
+   "name": "Fast Movement",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:mindlessRage",
+   "class": "barbarian",
+   "level": 6,
+   "name": "Mindless Rage",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:feralInstinct",
+   "class": "barbarian",
+   "level": 7,
+   "name": "Feral Instinct",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:instinctivePounce",
+   "class": "barbarian",
+   "level": 7,
+   "name": "Instinctive Pounce",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:asi",
+   "class": "barbarian",
+   "level": 8,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:brutalStrike",
+   "class": "barbarian",
+   "level": 9,
+   "name": "Brutal Strike",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:retaliation",
+   "class": "barbarian",
+   "level": 10,
+   "name": "Retaliation",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:relentlessRage",
+   "class": "barbarian",
+   "level": 11,
+   "name": "Relentless Rage",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:asi",
+   "class": "barbarian",
+   "level": 12,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:improvedBrutalStrike",
+   "class": "barbarian",
+   "level": 13,
+   "name": "Improved Brutal Strike",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:intimidatingPresence",
+   "class": "barbarian",
+   "level": 14,
+   "name": "Intimidating Presence",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:persistentRage",
+   "class": "barbarian",
+   "level": 15,
+   "name": "Persistent Rage",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:asi",
+   "class": "barbarian",
+   "level": 16,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:improvedBrutalStrike2",
+   "class": "barbarian",
+   "level": 17,
+   "name": "Improved Brutal Strike II",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:indomitableMight",
+   "class": "barbarian",
+   "level": 18,
+   "name": "Indomitable Might",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:epicBoon",
+   "class": "barbarian",
+   "level": 19,
+   "name": "Epic Boon",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:primalChampion",
+   "class": "barbarian",
+   "level": 20,
+   "name": "Primal Champion",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:bardicInspiration",
+   "class": "bard",
+   "level": 1,
+   "name": "Bardic Inspiration",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:spellcasting",
+   "class": "bard",
+   "level": 1,
+   "name": "Spellcasting",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:expertise",
+   "class": "bard",
+   "level": 2,
+   "name": "Expertise",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:jackOfAllTrades",
+   "class": "bard",
+   "level": 2,
+   "name": "Jack of All Trades",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:cuttingWords",
+   "class": "bard",
+   "level": 3,
+   "name": "Cutting Words",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:bonusProficiencies",
+   "class": "bard",
+   "level": 3,
+   "name": "Bonus Proficiencies",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:asi",
+   "class": "bard",
+   "level": 4,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:fontOfInspiration",
+   "class": "bard",
+   "level": 5,
+   "name": "Font of Inspiration",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:magicalDiscoveries",
+   "class": "bard",
+   "level": 6,
+   "name": "Magical Discoveries",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:countercharm",
+   "class": "bard",
+   "level": 7,
+   "name": "Countercharm",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:asi",
+   "class": "bard",
+   "level": 8,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:magicalSecrets",
+   "class": "bard",
+   "level": 10,
+   "name": "Magical Secrets",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:asi",
+   "class": "bard",
+   "level": 12,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:peerlessSkill",
+   "class": "bard",
+   "level": 14,
+   "name": "Peerless Skill",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:asi",
+   "class": "bard",
+   "level": 16,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:superiorInspiration",
+   "class": "bard",
+   "level": 18,
+   "name": "Superior Inspiration",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:epicBoon",
+   "class": "bard",
+   "level": 19,
+   "name": "Epic Boon",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:wordsOfCreation",
+   "class": "bard",
+   "level": 20,
+   "name": "Words of Creation",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:spellcasting",
+   "class": "cleric",
+   "level": 1,
+   "name": "Spellcasting",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:divineOrder",
+   "class": "cleric",
+   "level": 1,
+   "name": "Divine Order",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:divineSpark",
+   "class": "cleric",
+   "level": 2,
+   "name": "Channel Divinity: Divine Spark",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:turnUndead",
+   "class": "cleric",
+   "level": 2,
+   "name": "Channel Divinity: Turn Undead",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:discipleOfLife",
+   "class": "cleric",
+   "level": 3,
+   "name": "Disciple of Life",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:preserveLife",
+   "class": "cleric",
+   "level": 3,
+   "name": "Preserve Life",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:asi",
+   "class": "cleric",
+   "level": 4,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:searUndead",
+   "class": "cleric",
+   "level": 5,
+   "name": "Sear Undead",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:blessedHealer",
+   "class": "cleric",
+   "level": 6,
+   "name": "Blessed Healer",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:blessedStrikes",
+   "class": "cleric",
+   "level": 7,
+   "name": "Blessed Strikes",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:asi",
+   "class": "cleric",
+   "level": 8,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:divineIntervention",
+   "class": "cleric",
+   "level": 10,
+   "name": "Divine Intervention",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:asi",
+   "class": "cleric",
+   "level": 12,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:improvedBlessedStrikes",
+   "class": "cleric",
+   "level": 14,
+   "name": "Improved Blessed Strikes",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:asi",
+   "class": "cleric",
+   "level": 16,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:supremeHealing",
+   "class": "cleric",
+   "level": 17,
+   "name": "Supreme Healing",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:epicBoon",
+   "class": "cleric",
+   "level": 19,
+   "name": "Epic Boon",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:greaterIntervention",
+   "class": "cleric",
+   "level": 20,
+   "name": "Greater Divine Intervention",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:spellcasting",
+   "class": "druid",
+   "level": 1,
+   "name": "Spellcasting",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:primalOrder",
+   "class": "druid",
+   "level": 1,
+   "name": "Primal Order",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:wildShape",
+   "class": "druid",
+   "level": 2,
+   "name": "Wild Shape",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:landsAid",
+   "class": "druid",
+   "level": 3,
+   "name": "Land's Aid",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:asi",
+   "class": "druid",
+   "level": 4,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:wildResurgence",
+   "class": "druid",
+   "level": 5,
+   "name": "Wild Resurgence",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:naturalRecovery",
+   "class": "druid",
+   "level": 6,
+   "name": "Natural Recovery",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:elementalFury",
+   "class": "druid",
+   "level": 7,
+   "name": "Elemental Fury",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:asi",
+   "class": "druid",
+   "level": 8,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:naturesWard",
+   "class": "druid",
+   "level": 10,
+   "name": "Nature's Ward",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:asi",
+   "class": "druid",
+   "level": 12,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:naturesSanctuary",
+   "class": "druid",
+   "level": 14,
+   "name": "Nature's Sanctuary",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:improvedElementalFury",
+   "class": "druid",
+   "level": 15,
+   "name": "Improved Elemental Fury",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:asi",
+   "class": "druid",
+   "level": 16,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:beastSpells",
+   "class": "druid",
+   "level": 18,
+   "name": "Beast Spells",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:epicBoon",
+   "class": "druid",
+   "level": 19,
+   "name": "Epic Boon",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:archdruid",
+   "class": "druid",
+   "level": 20,
+   "name": "Archdruid",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:fightingStyle",
+   "class": "fighter",
+   "level": 1,
+   "name": "Fighting Style",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:secondWind",
+   "class": "fighter",
+   "level": 1,
+   "name": "Second Wind",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:weaponMastery",
+   "class": "fighter",
+   "level": 1,
+   "name": "Weapon Mastery",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:actionSurge",
+   "class": "fighter",
+   "level": 2,
+   "name": "Action Surge",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:tacticalMind",
+   "class": "fighter",
+   "level": 2,
+   "name": "Tactical Mind",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:improvedCritical",
+   "class": "fighter",
+   "level": 3,
+   "name": "Improved Critical",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:remarkableAthlete",
+   "class": "fighter",
+   "level": 3,
+   "name": "Remarkable Athlete",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:asi",
+   "class": "fighter",
+   "level": 4,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:extraAttack",
+   "class": "fighter",
+   "level": 5,
+   "name": "Extra Attack",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:tacticalShift",
+   "class": "fighter",
+   "level": 5,
+   "name": "Tactical Shift",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:asi",
+   "class": "fighter",
+   "level": 6,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:additionalFightingStyle",
+   "class": "fighter",
+   "level": 7,
+   "name": "Additional Fighting Style",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:asi",
+   "class": "fighter",
+   "level": 8,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:indomitable",
+   "class": "fighter",
+   "level": 9,
+   "name": "Indomitable",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:tacticalMaster",
+   "class": "fighter",
+   "level": 9,
+   "name": "Tactical Master",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:heroicWarrior",
+   "class": "fighter",
+   "level": 10,
+   "name": "Heroic Warrior",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:extraAttack2",
+   "class": "fighter",
+   "level": 11,
+   "name": "Two Extra Attacks",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:asi",
+   "class": "fighter",
+   "level": 12,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:studiedAttacks",
+   "class": "fighter",
+   "level": 13,
+   "name": "Studied Attacks",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:asi",
+   "class": "fighter",
+   "level": 14,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:superiorCritical",
+   "class": "fighter",
+   "level": 15,
+   "name": "Superior Critical",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:asi",
+   "class": "fighter",
+   "level": 16,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:actionSurge2",
+   "class": "fighter",
+   "level": 17,
+   "name": "Action Surge (two uses)",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:survivor",
+   "class": "fighter",
+   "level": 18,
+   "name": "Survivor",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:epicBoon",
+   "class": "fighter",
+   "level": 19,
+   "name": "Epic Boon",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:extraAttack3",
+   "class": "fighter",
+   "level": 20,
+   "name": "Three Extra Attacks",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:martialArts",
+   "class": "monk",
+   "level": 1,
+   "name": "Martial Arts",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:unarmoredDefenseMonk",
+   "class": "monk",
+   "level": 1,
+   "name": "Unarmored Defense",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:flurryOfBlows",
+   "class": "monk",
+   "level": 2,
+   "name": "Flurry of Blows",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:patientDefense",
+   "class": "monk",
+   "level": 2,
+   "name": "Patient Defense",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:uncannyMetabolism",
+   "class": "monk",
+   "level": 2,
+   "name": "Uncanny Metabolism",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:deflectAttacks",
+   "class": "monk",
+   "level": 3,
+   "name": "Deflect Attacks",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:openHandTechnique",
+   "class": "monk",
+   "level": 3,
+   "name": "Open Hand Technique",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:asi",
+   "class": "monk",
+   "level": 4,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:slowFall",
+   "class": "monk",
+   "level": 4,
+   "name": "Slow Fall",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:extraAttack",
+   "class": "monk",
+   "level": 5,
+   "name": "Extra Attack",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:stunningStrike",
+   "class": "monk",
+   "level": 5,
+   "name": "Stunning Strike",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:empoweredStrikes",
+   "class": "monk",
+   "level": 6,
+   "name": "Empowered Strikes",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:wholenessOfBody",
+   "class": "monk",
+   "level": 6,
+   "name": "Wholeness of Body",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:evasion",
+   "class": "monk",
+   "level": 7,
+   "name": "Evasion",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:asi",
+   "class": "monk",
+   "level": 8,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:acrobaticMovement",
+   "class": "monk",
+   "level": 9,
+   "name": "Acrobatic Movement",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:heightenedFocus",
+   "class": "monk",
+   "level": 10,
+   "name": "Heightened Focus",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:selfRestoration",
+   "class": "monk",
+   "level": 10,
+   "name": "Self-Restoration",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:fleetStep",
+   "class": "monk",
+   "level": 11,
+   "name": "Fleet Step",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:asi",
+   "class": "monk",
+   "level": 12,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:deflectEnergy",
+   "class": "monk",
+   "level": 13,
+   "name": "Deflect Energy",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:disciplinedSurvivor",
+   "class": "monk",
+   "level": 14,
+   "name": "Disciplined Survivor",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:perfectFocus",
+   "class": "monk",
+   "level": 15,
+   "name": "Perfect Focus",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:asi",
+   "class": "monk",
+   "level": 16,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:quiveringPalm",
+   "class": "monk",
+   "level": 17,
+   "name": "Quivering Palm",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:superiorDefense",
+   "class": "monk",
+   "level": 18,
+   "name": "Superior Defense",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:epicBoon",
+   "class": "monk",
+   "level": 19,
+   "name": "Epic Boon",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:bodyAndMind",
+   "class": "monk",
+   "level": 20,
+   "name": "Body and Mind",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:layOnHands",
+   "class": "paladin",
+   "level": 1,
+   "name": "Lay on Hands",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:spellcasting",
+   "class": "paladin",
+   "level": 1,
+   "name": "Spellcasting",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:weaponMastery",
+   "class": "paladin",
+   "level": 1,
+   "name": "Weapon Mastery",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:fightingStyle",
+   "class": "paladin",
+   "level": 2,
+   "name": "Fighting Style",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:paladinsSmite",
+   "class": "paladin",
+   "level": 2,
+   "name": "Paladin's Smite",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:sacredWeapon",
+   "class": "paladin",
+   "level": 3,
+   "name": "Sacred Weapon",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:divineSense",
+   "class": "paladin",
+   "level": 3,
+   "name": "Divine Sense",
+   "implementation": "narrative",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:asi",
+   "class": "paladin",
+   "level": 4,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:extraAttack",
+   "class": "paladin",
+   "level": 5,
+   "name": "Extra Attack",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:faithfulSteed",
+   "class": "paladin",
+   "level": 5,
+   "name": "Faithful Steed",
+   "implementation": "narrative",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:auraOfProtection",
+   "class": "paladin",
+   "level": 6,
+   "name": "Aura of Protection",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:auraOfDevotion",
+   "class": "paladin",
+   "level": 7,
+   "name": "Aura of Devotion",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:asi",
+   "class": "paladin",
+   "level": 8,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:abjureFoes",
+   "class": "paladin",
+   "level": 9,
+   "name": "Abjure Foes",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:auraOfCourage",
+   "class": "paladin",
+   "level": 10,
+   "name": "Aura of Courage",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:radiantStrikes",
+   "class": "paladin",
+   "level": 11,
+   "name": "Radiant Strikes",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:asi",
+   "class": "paladin",
+   "level": 12,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:restoringTouch",
+   "class": "paladin",
+   "level": 14,
+   "name": "Restoring Touch",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:smiteOfProtection",
+   "class": "paladin",
+   "level": 15,
+   "name": "Smite of Protection",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:asi",
+   "class": "paladin",
+   "level": 16,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:auraExpansion",
+   "class": "paladin",
+   "level": 18,
+   "name": "Aura Expansion",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:epicBoon",
+   "class": "paladin",
+   "level": 19,
+   "name": "Epic Boon",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:holyNimbus",
+   "class": "paladin",
+   "level": 20,
+   "name": "Holy Nimbus",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:spellcasting",
+   "class": "ranger",
+   "level": 1,
+   "name": "Spellcasting",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:favoredEnemy",
+   "class": "ranger",
+   "level": 1,
+   "name": "Favored Enemy",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:weaponMastery",
+   "class": "ranger",
+   "level": 1,
+   "name": "Weapon Mastery",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:deftExplorer",
+   "class": "ranger",
+   "level": 2,
+   "name": "Deft Explorer",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:fightingStyle",
+   "class": "ranger",
+   "level": 2,
+   "name": "Fighting Style",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:huntersPrey",
+   "class": "ranger",
+   "level": 3,
+   "name": "Hunter's Prey: Colossus Slayer",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:huntersLore",
+   "class": "ranger",
+   "level": 3,
+   "name": "Hunter's Lore",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:asi",
+   "class": "ranger",
+   "level": 4,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:extraAttack",
+   "class": "ranger",
+   "level": 5,
+   "name": "Extra Attack",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:roving",
+   "class": "ranger",
+   "level": 6,
+   "name": "Roving",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:defensiveTactics",
+   "class": "ranger",
+   "level": 7,
+   "name": "Defensive Tactics: Multiattack Defense",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:asi",
+   "class": "ranger",
+   "level": 8,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:expertiseRanger",
+   "class": "ranger",
+   "level": 9,
+   "name": "Expertise",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:tireless",
+   "class": "ranger",
+   "level": 10,
+   "name": "Tireless",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:volley",
+   "class": "ranger",
+   "level": 11,
+   "name": "Superior Hunter's Prey: Volley",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:asi",
+   "class": "ranger",
+   "level": 12,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:relentlessHunter",
+   "class": "ranger",
+   "level": 13,
+   "name": "Relentless Hunter",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:naturesVeil",
+   "class": "ranger",
+   "level": 14,
+   "name": "Nature's Veil",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:superiorHuntersDefense",
+   "class": "ranger",
+   "level": 15,
+   "name": "Superior Hunter's Defense",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:asi",
+   "class": "ranger",
+   "level": 16,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:preciseHunter",
+   "class": "ranger",
+   "level": 17,
+   "name": "Precise Hunter",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:feralSenses",
+   "class": "ranger",
+   "level": 18,
+   "name": "Feral Senses",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:epicBoon",
+   "class": "ranger",
+   "level": 19,
+   "name": "Epic Boon",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:foeSlayer",
+   "class": "ranger",
+   "level": 20,
+   "name": "Foe Slayer",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:expertise",
+   "class": "rogue",
+   "level": 1,
+   "name": "Expertise",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:sneakAttack",
+   "class": "rogue",
+   "level": 1,
+   "name": "Sneak Attack",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:thievesCant",
+   "class": "rogue",
+   "level": 1,
+   "name": "Thieves' Cant",
+   "implementation": "narrative",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:weaponMastery",
+   "class": "rogue",
+   "level": 1,
+   "name": "Weapon Mastery",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:cunningAction",
+   "class": "rogue",
+   "level": 2,
+   "name": "Cunning Action",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:fastHands",
+   "class": "rogue",
+   "level": 3,
+   "name": "Fast Hands",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:steadyAim",
+   "class": "rogue",
+   "level": 3,
+   "name": "Steady Aim",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:asi",
+   "class": "rogue",
+   "level": 4,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:cunningStrike",
+   "class": "rogue",
+   "level": 5,
+   "name": "Cunning Strike",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:uncannyDodge",
+   "class": "rogue",
+   "level": 5,
+   "name": "Uncanny Dodge",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:expertise2",
+   "class": "rogue",
+   "level": 6,
+   "name": "Expertise",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:evasion",
+   "class": "rogue",
+   "level": 7,
+   "name": "Evasion",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:reliableTalent",
+   "class": "rogue",
+   "level": 7,
+   "name": "Reliable Talent",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:asi",
+   "class": "rogue",
+   "level": 8,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:supremeSneak",
+   "class": "rogue",
+   "level": 9,
+   "name": "Supreme Sneak",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:asi",
+   "class": "rogue",
+   "level": 10,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:improvedCunningStrike",
+   "class": "rogue",
+   "level": 11,
+   "name": "Improved Cunning Strike",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:asi",
+   "class": "rogue",
+   "level": 12,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:useMagicDevice",
+   "class": "rogue",
+   "level": 13,
+   "name": "Use Magic Device",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:deviousStrikes",
+   "class": "rogue",
+   "level": 14,
+   "name": "Devious Strikes",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:slipperyMind",
+   "class": "rogue",
+   "level": 15,
+   "name": "Slippery Mind",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:asi",
+   "class": "rogue",
+   "level": 16,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:thiefsReflexes",
+   "class": "rogue",
+   "level": 17,
+   "name": "Thief's Reflexes",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:elusive",
+   "class": "rogue",
+   "level": 18,
+   "name": "Elusive",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:epicBoon",
+   "class": "rogue",
+   "level": 19,
+   "name": "Epic Boon",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:strokeOfLuck",
+   "class": "rogue",
+   "level": 20,
+   "name": "Stroke of Luck",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:spellcasting",
+   "class": "sorcerer",
+   "level": 1,
+   "name": "Spellcasting",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:innateSorcery",
+   "class": "sorcerer",
+   "level": 1,
+   "name": "Innate Sorcery",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:fontOfMagic",
+   "class": "sorcerer",
+   "level": 2,
+   "name": "Font of Magic",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:metamagic",
+   "class": "sorcerer",
+   "level": 2,
+   "name": "Metamagic",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:draconicResilience",
+   "class": "sorcerer",
+   "level": 3,
+   "name": "Draconic Resilience",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:asi",
+   "class": "sorcerer",
+   "level": 4,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:sorcerousRestoration",
+   "class": "sorcerer",
+   "level": 5,
+   "name": "Sorcerous Restoration",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:elementalAffinity",
+   "class": "sorcerer",
+   "level": 6,
+   "name": "Elemental Affinity",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:sorceryIncarnate",
+   "class": "sorcerer",
+   "level": 7,
+   "name": "Sorcery Incarnate",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:asi",
+   "class": "sorcerer",
+   "level": 8,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:metamagic2",
+   "class": "sorcerer",
+   "level": 10,
+   "name": "Metamagic",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:asi",
+   "class": "sorcerer",
+   "level": 12,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:dragonWings",
+   "class": "sorcerer",
+   "level": 14,
+   "name": "Dragon Wings",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:asi",
+   "class": "sorcerer",
+   "level": 16,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:metamagic3",
+   "class": "sorcerer",
+   "level": 17,
+   "name": "Metamagic",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:dragonCompanion",
+   "class": "sorcerer",
+   "level": 18,
+   "name": "Dragon Companion",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:epicBoon",
+   "class": "sorcerer",
+   "level": 19,
+   "name": "Epic Boon",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:arcaneApotheosis",
+   "class": "sorcerer",
+   "level": 20,
+   "name": "Arcane Apotheosis",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:eldritchInvocations",
+   "class": "warlock",
+   "level": 1,
+   "name": "Eldritch Invocations",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:pactMagic",
+   "class": "warlock",
+   "level": 1,
+   "name": "Pact Magic",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:magicalCunning",
+   "class": "warlock",
+   "level": 2,
+   "name": "Magical Cunning",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:invocation2",
+   "class": "warlock",
+   "level": 2,
+   "name": "Eldritch Invocations",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:darkOnesBlessing",
+   "class": "warlock",
+   "level": 3,
+   "name": "Dark One's Blessing",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:asi",
+   "class": "warlock",
+   "level": 4,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:invocation3",
+   "class": "warlock",
+   "level": 5,
+   "name": "Eldritch Invocations",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:darkOnesOwnLuck",
+   "class": "warlock",
+   "level": 6,
+   "name": "Dark One's Own Luck",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:invocation4",
+   "class": "warlock",
+   "level": 7,
+   "name": "Eldritch Invocation",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:asi",
+   "class": "warlock",
+   "level": 8,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:contactPatron",
+   "class": "warlock",
+   "level": 9,
+   "name": "Contact Patron",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:invocation5",
+   "class": "warlock",
+   "level": 9,
+   "name": "Eldritch Invocation",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:fiendishResilience",
+   "class": "warlock",
+   "level": 10,
+   "name": "Fiendish Resilience",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:mysticArcanum6",
+   "class": "warlock",
+   "level": 11,
+   "name": "Mystic Arcanum (6th level)",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:asi",
+   "class": "warlock",
+   "level": 12,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:invocation6",
+   "class": "warlock",
+   "level": 12,
+   "name": "Eldritch Invocation",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:mysticArcanum7",
+   "class": "warlock",
+   "level": 13,
+   "name": "Mystic Arcanum (7th level)",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:hurlThroughHell",
+   "class": "warlock",
+   "level": 14,
+   "name": "Hurl Through Hell",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:mysticArcanum8",
+   "class": "warlock",
+   "level": 15,
+   "name": "Mystic Arcanum (8th level)",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:invocation7",
+   "class": "warlock",
+   "level": 15,
+   "name": "Eldritch Invocation",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:asi",
+   "class": "warlock",
+   "level": 16,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:mysticArcanum9",
+   "class": "warlock",
+   "level": 17,
+   "name": "Mystic Arcanum (9th level)",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:invocation8",
+   "class": "warlock",
+   "level": 18,
+   "name": "Eldritch Invocation",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:epicBoon",
+   "class": "warlock",
+   "level": 19,
+   "name": "Epic Boon",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:eldritchMaster",
+   "class": "warlock",
+   "level": 20,
+   "name": "Eldritch Master",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:spellcasting",
+   "class": "wizard",
+   "level": 1,
+   "name": "Spellcasting",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:arcaneRecovery",
+   "class": "wizard",
+   "level": 1,
+   "name": "Arcane Recovery",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:scholar",
+   "class": "wizard",
+   "level": 2,
+   "name": "Scholar",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:potentCantrip",
+   "class": "wizard",
+   "level": 3,
+   "name": "Potent Cantrip",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:evocationSavant",
+   "class": "wizard",
+   "level": 3,
+   "name": "Evocation Savant",
+   "implementation": "narrative",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:asi",
+   "class": "wizard",
+   "level": 4,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:memorizeSpell",
+   "class": "wizard",
+   "level": 5,
+   "name": "Memorize Spell",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:sculptSpells",
+   "class": "wizard",
+   "level": 6,
+   "name": "Sculpt Spells",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:asi",
+   "class": "wizard",
+   "level": 8,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:empoweredEvocation",
+   "class": "wizard",
+   "level": 10,
+   "name": "Empowered Evocation",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:asi",
+   "class": "wizard",
+   "level": 12,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:overchannel",
+   "class": "wizard",
+   "level": 14,
+   "name": "Overchannel",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:asi",
+   "class": "wizard",
+   "level": 16,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:spellMastery",
+   "class": "wizard",
+   "level": 18,
+   "name": "Spell Mastery",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:epicBoon",
+   "class": "wizard",
+   "level": 19,
+   "name": "Epic Boon",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:signatureSpells",
+   "class": "wizard",
+   "level": 20,
+   "name": "Signature Spells",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  }
+ ],
+ "spells": [
+  {
+   "id": "spell:fireBolt",
+   "name": "Fire Bolt",
+   "level": 0,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:rayOfFrost",
+   "name": "Ray of Frost",
+   "level": 0,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:shockingGrasp",
+   "name": "Shocking Grasp",
+   "level": 0,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:chillTouch",
+   "name": "Chill Touch",
+   "level": 0,
+   "classes": [
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:poisonSpray",
+   "name": "Poison Spray",
+   "level": 0,
+   "classes": [
+    "druid",
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:sacredFlame",
+   "name": "Sacred Flame",
+   "level": 0,
+   "classes": [
+    "cleric"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:tollTheDead",
+   "name": "Toll the Dead",
+   "level": 0,
+   "classes": [
+    "cleric",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:eldritchBlast",
+   "name": "Eldritch Blast",
+   "level": 0,
+   "classes": [
+    "warlock"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:viciousMockery",
+   "name": "Vicious Mockery",
+   "level": 0,
+   "classes": [
+    "bard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:starryWisp",
+   "name": "Starry Wisp",
+   "level": 0,
+   "classes": [
+    "bard",
+    "druid"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:produceFlame",
+   "name": "Produce Flame",
+   "level": 0,
+   "classes": [
+    "druid"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:thornWhip",
+   "name": "Thorn Whip",
+   "level": 0,
+   "classes": [
+    "druid"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:light",
+   "name": "Light",
+   "level": 0,
+   "classes": [
+    "bard",
+    "cleric",
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:guidance",
+   "name": "Guidance",
+   "level": 0,
+   "classes": [
+    "cleric",
+    "druid"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:magicMissile",
+   "name": "Magic Missile",
+   "level": 1,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:burningHands",
+   "name": "Burning Hands",
+   "level": 1,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:thunderwave",
+   "name": "Thunderwave",
+   "level": 1,
+   "classes": [
+    "bard",
+    "druid",
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:chromaticOrb",
+   "name": "Chromatic Orb",
+   "level": 1,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:iceKnife",
+   "name": "Ice Knife",
+   "level": 1,
+   "classes": [
+    "druid",
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:sleep",
+   "name": "Sleep",
+   "level": 1,
+   "classes": [
+    "bard",
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:shield",
+   "name": "Shield",
+   "level": 1,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:cureWounds",
+   "name": "Cure Wounds",
+   "level": 1,
+   "classes": [
+    "bard",
+    "cleric",
+    "druid",
+    "paladin",
+    "ranger"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:healingWord",
+   "name": "Healing Word",
+   "level": 1,
+   "classes": [
+    "bard",
+    "cleric",
+    "druid"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:guidingBolt",
+   "name": "Guiding Bolt",
+   "level": 1,
+   "classes": [
+    "cleric"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:bless",
+   "name": "Bless",
+   "level": 1,
+   "classes": [
+    "cleric",
+    "paladin"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:bane",
+   "name": "Bane",
+   "level": 1,
+   "classes": [
+    "bard",
+    "cleric"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:shieldOfFaith",
+   "name": "Shield of Faith",
+   "level": 1,
+   "classes": [
+    "cleric",
+    "paladin"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:inflictWounds",
+   "name": "Inflict Wounds",
+   "level": 1,
+   "classes": [
+    "cleric"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:command",
+   "name": "Command",
+   "level": 1,
+   "classes": [
+    "bard",
+    "cleric",
+    "paladin"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:huntersMark",
+   "name": "Hunter's Mark",
+   "level": 1,
+   "classes": [
+    "ranger"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:hex",
+   "name": "Hex",
+   "level": 1,
+   "classes": [
+    "warlock"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:armorOfAgathys",
+   "name": "Armor of Agathys",
+   "level": 1,
+   "classes": [
+    "warlock"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:dissonantWhispers",
+   "name": "Dissonant Whispers",
+   "level": 1,
+   "classes": [
+    "bard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:faerieFire",
+   "name": "Faerie Fire",
+   "level": 1,
+   "classes": [
+    "bard",
+    "druid"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:entangle",
+   "name": "Entangle",
+   "level": 1,
+   "classes": [
+    "druid"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:divineSmite",
+   "name": "Divine Smite",
+   "level": 1,
+   "classes": [
+    "paladin"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:heroism",
+   "name": "Heroism",
+   "level": 1,
+   "classes": [
+    "bard",
+    "paladin"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:falseLife",
+   "name": "False Life",
+   "level": 1,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:scorchingRay",
+   "name": "Scorching Ray",
+   "level": 2,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:shatter",
+   "name": "Shatter",
+   "level": 2,
+   "classes": [
+    "bard",
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:holdPerson",
+   "name": "Hold Person",
+   "level": 2,
+   "classes": [
+    "bard",
+    "cleric",
+    "druid",
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:spiritualWeapon",
+   "name": "Spiritual Weapon",
+   "level": 2,
+   "classes": [
+    "cleric"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:mistyStep",
+   "name": "Misty Step",
+   "level": 2,
+   "classes": [
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:aid",
+   "name": "Aid",
+   "level": 2,
+   "classes": [
+    "bard",
+    "cleric",
+    "druid",
+    "paladin",
+    "ranger"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:blur",
+   "name": "Blur",
+   "level": 2,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:moonbeam",
+   "name": "Moonbeam",
+   "level": 2,
+   "classes": [
+    "druid"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:lesserRestoration",
+   "name": "Lesser Restoration",
+   "level": 2,
+   "classes": [
+    "bard",
+    "cleric",
+    "druid",
+    "paladin",
+    "ranger"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:invisibility",
+   "name": "Invisibility",
+   "level": 2,
+   "classes": [
+    "bard",
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:web",
+   "name": "Web",
+   "level": 2,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:spikeGrowth",
+   "name": "Spike Growth",
+   "level": 2,
+   "classes": [
+    "druid",
+    "ranger"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:heatMetal",
+   "name": "Heat Metal",
+   "level": 2,
+   "classes": [
+    "bard",
+    "druid"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:cloudOfDaggers",
+   "name": "Cloud of Daggers",
+   "level": 2,
+   "classes": [
+    "bard",
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:prayerOfHealing",
+   "name": "Prayer of Healing",
+   "level": 2,
+   "classes": [
+    "cleric",
+    "paladin"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:findTraps",
+   "name": "Find Traps",
+   "level": 2,
+   "classes": [
+    "cleric",
+    "druid",
+    "ranger"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:knock",
+   "name": "Knock",
+   "level": 2,
+   "classes": [
+    "bard",
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:fireball",
+   "name": "Fireball",
+   "level": 3,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:lightningBolt",
+   "name": "Lightning Bolt",
+   "level": 3,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:massHealingWord",
+   "name": "Mass Healing Word",
+   "level": 3,
+   "classes": [
+    "bard",
+    "cleric"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:spiritGuardians",
+   "name": "Spirit Guardians",
+   "level": 3,
+   "classes": [
+    "cleric"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:haste",
+   "name": "Haste",
+   "level": 3,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:hypnoticPattern",
+   "name": "Hypnotic Pattern",
+   "level": 3,
+   "classes": [
+    "bard",
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:revivify",
+   "name": "Revivify",
+   "level": 3,
+   "classes": [
+    "cleric",
+    "druid",
+    "paladin",
+    "ranger"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:callLightning",
+   "name": "Call Lightning",
+   "level": 3,
+   "classes": [
+    "druid"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:vampiricTouch",
+   "name": "Vampiric Touch",
+   "level": 3,
+   "classes": [
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:fear",
+   "name": "Fear",
+   "level": 3,
+   "classes": [
+    "bard",
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:slow",
+   "name": "Slow",
+   "level": 3,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:hungerOfHadar",
+   "name": "Hunger of Hadar",
+   "level": 3,
+   "classes": [
+    "warlock"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:crusadersMantle",
+   "name": "Crusader's Mantle",
+   "level": 3,
+   "classes": [
+    "paladin"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:conjureBarrage",
+   "name": "Conjure Barrage",
+   "level": 3,
+   "classes": [
+    "ranger"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:dispelMagic",
+   "name": "Dispel Magic",
+   "level": 3,
+   "classes": [
+    "bard",
+    "cleric",
+    "druid",
+    "paladin",
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:iceStorm",
+   "name": "Ice Storm",
+   "level": 4,
+   "classes": [
+    "druid",
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:blight",
+   "name": "Blight",
+   "level": 4,
+   "classes": [
+    "druid",
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:greaterInvisibility",
+   "name": "Greater Invisibility",
+   "level": 4,
+   "classes": [
+    "bard",
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:deathWard",
+   "name": "Death Ward",
+   "level": 4,
+   "classes": [
+    "cleric",
+    "paladin"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:stoneskin",
+   "name": "Stoneskin",
+   "level": 4,
+   "classes": [
+    "druid",
+    "ranger",
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:wallOfFire",
+   "name": "Wall of Fire",
+   "level": 4,
+   "classes": [
+    "druid",
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:banishment",
+   "name": "Banishment",
+   "level": 4,
+   "classes": [
+    "cleric",
+    "paladin",
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:guardianOfFaith",
+   "name": "Guardian of Faith",
+   "level": 4,
+   "classes": [
+    "cleric"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:coneOfCold",
+   "name": "Cone of Cold",
+   "level": 5,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:flameStrike",
+   "name": "Flame Strike",
+   "level": 5,
+   "classes": [
+    "cleric"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:massCureWounds",
+   "name": "Mass Cure Wounds",
+   "level": 5,
+   "classes": [
+    "bard",
+    "cleric",
+    "druid"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:holdMonster",
+   "name": "Hold Monster",
+   "level": 5,
+   "classes": [
+    "bard",
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:insectPlague",
+   "name": "Insect Plague",
+   "level": 5,
+   "classes": [
+    "cleric",
+    "druid",
+    "sorcerer"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:raiseDead",
+   "name": "Raise Dead",
+   "level": 5,
+   "classes": [
+    "bard",
+    "cleric",
+    "paladin"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:greaterRestoration",
+   "name": "Greater Restoration",
+   "level": 5,
+   "classes": [
+    "bard",
+    "cleric",
+    "druid",
+    "paladin",
+    "ranger"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:cloudkill",
+   "name": "Cloudkill",
+   "level": 5,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:destructiveWave",
+   "name": "Destructive Wave",
+   "level": 5,
+   "classes": [
+    "paladin"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:swiftQuiver",
+   "name": "Swift Quiver",
+   "level": 5,
+   "classes": [
+    "ranger"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:chainLightning",
+   "name": "Chain Lightning",
+   "level": 6,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:disintegrate",
+   "name": "Disintegrate",
+   "level": 6,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:heal",
+   "name": "Heal",
+   "level": 6,
+   "classes": [
+    "cleric",
+    "druid"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:harm",
+   "name": "Harm",
+   "level": 6,
+   "classes": [
+    "cleric"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:sunbeam",
+   "name": "Sunbeam",
+   "level": 6,
+   "classes": [
+    "cleric",
+    "druid",
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:bladeBarrier",
+   "name": "Blade Barrier",
+   "level": 6,
+   "classes": [
+    "cleric"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:circleOfDeath",
+   "name": "Circle of Death",
+   "level": 6,
+   "classes": [
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:eyebite",
+   "name": "Eyebite",
+   "level": 6,
+   "classes": [
+    "bard",
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:fingerOfDeath",
+   "name": "Finger of Death",
+   "level": 7,
+   "classes": [
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:fireStorm",
+   "name": "Fire Storm",
+   "level": 7,
+   "classes": [
+    "cleric",
+    "druid",
+    "sorcerer"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:delayedBlastFireball",
+   "name": "Delayed Blast Fireball",
+   "level": 7,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:regenerate",
+   "name": "Regenerate",
+   "level": 7,
+   "classes": [
+    "bard",
+    "cleric",
+    "druid"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:powerWordFortify",
+   "name": "Power Word Fortify",
+   "level": 7,
+   "classes": [
+    "bard",
+    "cleric"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:prismaticSpray",
+   "name": "Prismatic Spray",
+   "level": 7,
+   "classes": [
+    "bard",
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:sunburst",
+   "name": "Sunburst",
+   "level": 8,
+   "classes": [
+    "cleric",
+    "druid",
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:incendiaryCloud",
+   "name": "Incendiary Cloud",
+   "level": 8,
+   "classes": [
+    "druid",
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:powerWordStun",
+   "name": "Power Word Stun",
+   "level": 8,
+   "classes": [
+    "bard",
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:holyAura",
+   "name": "Holy Aura",
+   "level": 8,
+   "classes": [
+    "cleric"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:meteorSwarm",
+   "name": "Meteor Swarm",
+   "level": 9,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:powerWordKill",
+   "name": "Power Word Kill",
+   "level": 9,
+   "classes": [
+    "bard",
+    "sorcerer",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:massHeal",
+   "name": "Mass Heal",
+   "level": 9,
+   "classes": [
+    "cleric"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:powerWordHeal",
+   "name": "Power Word Heal",
+   "level": 9,
+   "classes": [
+    "bard",
+    "cleric"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:timeStop",
+   "name": "Time Stop",
+   "level": 9,
+   "classes": [
+    "sorcerer",
+    "wizard"
+   ],
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:foresight",
+   "name": "Foresight",
+   "level": 9,
+   "classes": [
+    "bard",
+    "druid",
+    "warlock",
+    "wizard"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "spell:trueResurrection",
+   "name": "True Resurrection",
+   "level": 9,
+   "classes": [
+    "cleric",
+    "druid"
+   ],
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  }
+ ],
+ "not_yet_supported": [
+  "multiclassing",
+  "non-SRD subclasses",
+  "grid movement",
+  "free-form utility spells beyond listed exploration uses"
+ ]
+}

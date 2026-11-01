@@ -1,0 +1,2109 @@
+{
+ "game": "treasure_dice",
+ "count": 263,
+ "entries": [
+  {
+   "key": "heroes/fighter_1",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter (human)",
+   "subject": "a broad-shouldered human man in his thirties with a short dark beard, chain mail and a steel-rimmed shield. A fighter — The master of weapons and armor — steady, durable, relentless.",
+   "anchor": true
+  },
+  {
+   "key": "heroes/fighter_2",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter (dwarf)",
+   "subject": "a stout dwarf woman with braided copper hair and a battle-scarred breastplate. A fighter — The master of weapons and armor — steady, durable, relentless.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_3",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter (orc)",
+   "subject": "a tall grey-green orc woman with tusks, a shaved head and heavy plate pauldrons. A fighter — The master of weapons and armor — steady, durable, relentless.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_4",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter (goliath)",
+   "subject": "a towering goliath man with stone-grey skin and tribal markings, holding a greatsword. A fighter — The master of weapons and armor — steady, durable, relentless.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_1",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric (dwarf)",
+   "subject": "a dwarf woman priestess with silver-streaked braids, a sun-disc holy symbol and a mace. A cleric — A conduit of divine light: heals, shields, and burns the undead.",
+   "anchor": true
+  },
+  {
+   "key": "heroes/cleric_2",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric (human)",
+   "subject": "an elderly human man with kind eyes, white robes over scale mail and a glowing holy symbol. A cleric — A conduit of divine light: heals, shields, and burns the undead.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_3",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric (dragonborn)",
+   "subject": "a bronze-scaled dragonborn woman in vestments with a radiant halo of light. A cleric — A conduit of divine light: heals, shields, and burns the undead.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_4",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric (halfling)",
+   "subject": "a cheerful halfling man with curly hair, a too-large shield and a lantern of holy light. A cleric — A conduit of divine light: heals, shields, and burns the undead.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_1",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue (halfling)",
+   "subject": "a sly halfling with a crooked grin, a dark hood and a dagger twirling between fingers. A rogue — A knife in the dark who loves a loaded die.",
+   "anchor": true
+  },
+  {
+   "key": "heroes/rogue_2",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue (elf)",
+   "subject": "a sharp-featured elf woman with a cowl, a mask over her lower face and twin shortswords. A rogue — A knife in the dark who loves a loaded die.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_3",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue (tiefling)",
+   "subject": "a purple-skinned tiefling man with curled horns, a feathered hat and loaded dice. A rogue — A knife in the dark who loves a loaded die.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_4",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue (human)",
+   "subject": "a young human woman with freckles, a patched leather coat and a lockpick behind her ear. A rogue — A knife in the dark who loves a loaded die.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_1",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian (goliath)",
+   "subject": "a massive goliath woman with stone-grey skin, war paint and a greataxe. A barbarian — A storm of fury that shrugs off blows and hits like a landslide.",
+   "anchor": true
+  },
+  {
+   "key": "heroes/barbarian_2",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian (human)",
+   "subject": "a wild-haired human man with a bear-pelt cloak, scars and a roaring expression. A barbarian — A storm of fury that shrugs off blows and hits like a landslide.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_3",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian (orc)",
+   "subject": "a scarred orc man with tusks, braids and blood-red war paint. A barbarian — A storm of fury that shrugs off blows and hits like a landslide.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_4",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian (dwarf)",
+   "subject": "a dwarf berserker with a flame-red beard and twin handaxes. A barbarian — A storm of fury that shrugs off blows and hits like a landslide.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_1",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard (elf)",
+   "subject": "a graceful elf man with long silver hair, a lute and an embroidered violet coat. A bard — Words and music shape the dice — a bard turns luck into a party resource.",
+   "anchor": true
+  },
+  {
+   "key": "heroes/bard_2",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard (tiefling)",
+   "subject": "a crimson-skinned tiefling woman with ram horns, a feathered cap and a fiddle. A bard — Words and music shape the dice — a bard turns luck into a party resource.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_3",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard (gnome)",
+   "subject": "a tiny gnome with wild teal hair, round spectacles and a set of pan-pipes. A bard — Words and music shape the dice — a bard turns luck into a party resource.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_4",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard (human)",
+   "subject": "a charming human woman with a grin, a cloak of patchwork and a hand drum. A bard — Words and music shape the dice — a bard turns luck into a party resource.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_1",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid (elf)",
+   "subject": "a wood elf woman with a crown of antlers and leaves, holding a gnarled staff. A druid — Shapeshifter and storm-caller, rooted in the old magic of living things.",
+   "anchor": true
+  },
+  {
+   "key": "heroes/druid_2",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid (human)",
+   "subject": "a weathered human man with moss in his beard and a staff topped with a crow skull. A druid — Shapeshifter and storm-caller, rooted in the old magic of living things.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_3",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid (halfling)",
+   "subject": "a halfling woman with mushrooms woven into her hair and a fox companion on her shoulder. A druid — Shapeshifter and storm-caller, rooted in the old magic of living things.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_4",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid (orc)",
+   "subject": "an orc druid with bark-like tattoos and a cloak of living vines. A druid — Shapeshifter and storm-caller, rooted in the old magic of living things.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_1",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk (human)",
+   "subject": "a shaven-headed human woman in storm-blue wraps, hands wrapped, in a fighting stance. A monk — A blur of fists and focus who plays more hands than anyone.",
+   "anchor": true
+  },
+  {
+   "key": "heroes/monk_2",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk (elf)",
+   "subject": "a serene elf man with a long braid and simple robes, crackling with blue ki energy. A monk — A blur of fists and focus who plays more hands than anyone.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_3",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk (dragonborn)",
+   "subject": "a sapphire-scaled dragonborn monk with prayer beads and wrapped fists. A monk — A blur of fists and focus who plays more hands than anyone.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_4",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk (gnome)",
+   "subject": "a wiry old gnome master with a long white moustache and a bo staff. A monk — A blur of fists and focus who plays more hands than anyone.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_1",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin (human)",
+   "subject": "a noble human woman in polished plate with a sunburst tabard and a longsword. A paladin — An oath made steel — smites, auras and hands that mend.",
+   "anchor": true
+  },
+  {
+   "key": "heroes/paladin_2",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin (dragonborn)",
+   "subject": "a gold-scaled dragonborn knight in gleaming armour with a radiant shield. A paladin — An oath made steel — smites, auras and hands that mend.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_3",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin (dwarf)",
+   "subject": "a dwarf paladin with a white beard, a warhammer and a sun-emblazoned shield. A paladin — An oath made steel — smites, auras and hands that mend.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_4",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin (goliath)",
+   "subject": "a goliath paladin with a halo of light and a great holy blade. A paladin — An oath made steel — smites, auras and hands that mend.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_1",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger (elf)",
+   "subject": "a hooded elf archer with a longbow, green cloak and keen eyes. A ranger — Tracker and archer who marks a quarry and never lets it go.",
+   "anchor": true
+  },
+  {
+   "key": "heroes/ranger_2",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger (human)",
+   "subject": "a rugged human man with a three-day beard, a wolf-pelt mantle and a quiver. A ranger — Tracker and archer who marks a quarry and never lets it go.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_3",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger (halfling)",
+   "subject": "a halfling woman scout with a hawk on her arm and a shortbow. A ranger — Tracker and archer who marks a quarry and never lets it go.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_4",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger (orc)",
+   "subject": "an orc tracker with a scarred face, a recurve bow and bone fetishes. A ranger — Tracker and archer who marks a quarry and never lets it go.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_1",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer (human)",
+   "subject": "a young human man with ember-orange eyes and flames curling from his fingertips. A sorcerer — Raw magic in the blood; bends spells — and dice — at will.",
+   "anchor": true
+  },
+  {
+   "key": "heroes/sorcerer_2",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer (dragonborn)",
+   "subject": "a red-scaled dragonborn woman wreathed in draconic fire. A sorcerer — Raw magic in the blood; bends spells — and dice — at will.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_3",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer (tiefling)",
+   "subject": "a tiefling with glowing magma veins and a confident smirk. A sorcerer — Raw magic in the blood; bends spells — and dice — at will.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_4",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer (elf)",
+   "subject": "an elf woman with hair of living flame and gold draconic scales on her cheeks. A sorcerer — Raw magic in the blood; bends spells — and dice — at will.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_1",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock (tiefling)",
+   "subject": "a tiefling man in a black coat with an infernal contract and violet hellfire. A warlock — A bargain with a fiend: few spells, short rests, terrible power.",
+   "anchor": true
+  },
+  {
+   "key": "heroes/warlock_2",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock (human)",
+   "subject": "a pale human woman with a raven-feather collar and shadowy eldritch power. A warlock — A bargain with a fiend: few spells, short rests, terrible power.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_3",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock (elf)",
+   "subject": "a drow-like dark elf with white hair and a pact blade of purple flame. A warlock — A bargain with a fiend: few spells, short rests, terrible power.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_4",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock (gnome)",
+   "subject": "a gnome with an unsettling grin and a glowing fiendish tome. A warlock — A bargain with a fiend: few spells, short rests, terrible power.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_1",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard (human)",
+   "subject": "an old human wizard with a long grey beard, a starry blue robe and a crystal staff. A wizard — A scholar of the arcane with the largest spellbook in the Keep.",
+   "anchor": true
+  },
+  {
+   "key": "heroes/wizard_2",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard (gnome)",
+   "subject": "a gnome woman wizard with goggles, scrolls tucked everywhere and arcane sparks. A wizard — A scholar of the arcane with the largest spellbook in the Keep.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_3",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard (elf)",
+   "subject": "a high elf woman with a circlet, an open spellbook and floating glyphs. A wizard — A scholar of the arcane with the largest spellbook in the Keep.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_4",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard (tiefling)",
+   "subject": "a scholarly tiefling man with spectacles on his horns and a quill of light. A wizard — A scholar of the arcane with the largest spellbook in the Keep.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/cinder_sootGoblin",
+   "kind": "sprite",
+   "group": "biome:cinder",
+   "name": "Soot Goblin",
+   "subject": "a wiry soot-blackened goblin miner with a jagged knife, ember-lit eyes and a sack of stolen dice. Quick hands, sooty grins, and a nose for your dice.",
+   "anchor": true
+  },
+  {
+   "key": "monsters/cinder_emberImp",
+   "kind": "sprite",
+   "group": "biome:cinder",
+   "name": "Ember Imp",
+   "subject": "a tiny winged fire imp made of glowing coals, cackling, flinging a bolt of flame. A cackling spark with a grudge against good fortune.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/cinder_slagHound",
+   "kind": "sprite",
+   "group": "biome:cinder",
+   "name": "Slag Hound",
+   "subject": "a hulking hound with a hide of cracked cooling slag and magma glowing through the cracks, jaws dripping molten metal. Its hide is cooling slag; its bite is not.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/cinder_forgeAutomaton",
+   "kind": "sprite",
+   "group": "biome:cinder",
+   "name": "Forge Automaton",
+   "subject": "a squat iron forge automaton with a furnace belly, riveted plates and anvil fists. Built to guard the forge long after the smiths were gone.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/cinder_ashCultist",
+   "kind": "sprite",
+   "group": "biome:cinder",
+   "name": "Ash Cultist",
+   "subject": "a hooded ash-grey cultist with a smouldering censer and soot-painted face. Robed in grey, chanting to a furnace god.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/cinder_magmaOoze",
+   "kind": "sprite",
+   "group": "biome:cinder",
+   "name": "Magma Ooze",
+   "subject": "a glistening blob of bright orange magma with half-melted weapons floating inside. It remembers being a mountain.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/cinder_forgemaster",
+   "kind": "sprite",
+   "group": "biome:cinder",
+   "name": "The Forgemaster",
+   "subject": "a towering black-iron forge golem with a furnace chest, a giant hammer, chains and bellows, molten light pouring from its seams. A colossal smith-engine that still keeps the forge lit. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/cinder_ashHydra",
+   "kind": "sprite",
+   "group": "biome:cinder",
+   "name": "Ash Hydra",
+   "subject": "a five-headed hydra of charcoal scales and glowing ember throats rising from an ash pit. Every head you cut grows back hotter. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/cinder_boundEmber",
+   "kind": "sprite",
+   "group": "biome:cinder",
+   "name": "The Bound Ember",
+   "subject": "a blazing fire elemental bound by glowing runic chains, a white-hot core and a crown of flame. A fire elemental chained beneath the vaults for an age. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/rootbound_sporeling",
+   "kind": "sprite",
+   "group": "biome:rootbound",
+   "name": "Sporeling",
+   "subject": "a waddling knee-high mushroom creature with a spotted cap, puffing a cloud of glowing spores. Waddling mushrooms with a toxic sneeze.",
+   "anchor": true
+  },
+  {
+   "key": "monsters/rootbound_mossWight",
+   "kind": "sprite",
+   "group": "biome:rootbound",
+   "name": "Moss Wight",
+   "subject": "an undead knight overgrown with moss and roots, hollow green-glowing eyes and a rusted blade. A mausoleum knight wrapped in moss and grave-roots.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/rootbound_thornSprite",
+   "kind": "sprite",
+   "group": "biome:rootbound",
+   "name": "Thorn Sprite",
+   "subject": "a tiny malicious fey sprite with bramble wings and a bow of thorns, glowing pink. Giggling fey that think your luck is their toy.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/rootbound_vineStrangler",
+   "kind": "sprite",
+   "group": "biome:rootbound",
+   "name": "Vine Strangler",
+   "subject": "a writhing mass of thick strangling vines with a gaping flower maw at its centre. The hallway is alive, and it wants to hug you.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/rootbound_fungalShaman",
+   "kind": "sprite",
+   "group": "biome:rootbound",
+   "name": "Fungal Shaman",
+   "subject": "a tall stooped fungus-folk shaman with a glowing mushroom-capped staff and robes of lichen. A myconid elder whose staff blooms with healing caps.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/rootbound_barkGolem",
+   "kind": "sprite",
+   "group": "biome:rootbound",
+   "name": "Bark Golem",
+   "subject": "a massive golem of living oak bark and roots, moss beard, glowing amber sap eyes. Old oak shaped into a guardian by forgotten druids.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/rootbound_mycelialMonarch",
+   "kind": "sprite",
+   "group": "biome:rootbound",
+   "name": "The Mycelial Monarch",
+   "subject": "a colossal regal fungus monarch on a throne of mushrooms, a crown of glowing caps and a veil of drifting spores. A fungal intelligence that rules the halls from a throne of caps. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/rootbound_thornKnight",
+   "kind": "sprite",
+   "group": "biome:rootbound",
+   "name": "The Thorn Knight",
+   "subject": "a fey knight in armour grown from thorny briars and roses, wielding a briar lance. A fey knight sworn to keep the dead asleep. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/rootbound_rootDragon",
+   "kind": "sprite",
+   "group": "biome:rootbound",
+   "name": "The Root Dragon",
+   "subject": "a great dragon whose body is twisted roots and bark, with moss wings and glowing green rot breath. An ancient wyrm that became more tree than dragon. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/drowned_inkEel",
+   "kind": "sprite",
+   "group": "biome:drowned",
+   "name": "Ink Eel",
+   "subject": "a sinuous black eel with glowing glyph markings, trailing clouds of ink through water. It swims through the drowned stacks in clouds of black ink.",
+   "anchor": true
+  },
+  {
+   "key": "monsters/drowned_drownedScribe",
+   "kind": "sprite",
+   "group": "biome:drowned",
+   "name": "Drowned Scribe",
+   "subject": "a bloated drowned undead scribe in waterlogged robes with a glowing quill and dripping scrolls. Still copying the same page it drowned writing.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/drowned_brassCrab",
+   "kind": "sprite",
+   "group": "biome:drowned",
+   "name": "Brass Crab",
+   "subject": "a large clockwork crab of verdigris brass with gears, barnacles and lamp eyes. A clockwork librarian's guard, barnacled and furious.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/drowned_tideCultist",
+   "kind": "sprite",
+   "group": "biome:drowned",
+   "name": "Tide Cultist",
+   "subject": "a scaled tide cultist with a coral trident, eel-skin robes and a conch. Eel-cult priests who sing to the inverted tide.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/drowned_glyphWisp",
+   "kind": "sprite",
+   "group": "biome:drowned",
+   "name": "Glyph Wisp",
+   "subject": "a floating crackling ball of blue lightning shaped like a glowing rune. A loose letter of power, crackling between the shelves.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/drowned_deepLurker",
+   "kind": "sprite",
+   "group": "biome:drowned",
+   "name": "Deep Lurker",
+   "subject": "a hulking anglerfish-like lurker with tentacles and a lantern lure, teeth like broken pens. Something with too many arms lives in the reading pool.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/drowned_drownedArchivist",
+   "kind": "sprite",
+   "group": "biome:drowned",
+   "name": "The Drowned Archivist",
+   "subject": "a towering drowned lich-librarian with a hood of floating pages, chained tomes and a lantern of drowned starlight. It has catalogued every death in the archive. Yours is next. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/drowned_tideOracle",
+   "kind": "sprite",
+   "group": "biome:drowned",
+   "name": "The Tide Oracle",
+   "subject": "a blindfolded sea oracle with a fishtail of glowing scales, floating in an upward-falling column of water. A sea-witch who sees futures in reversed tides. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/drowned_armoredLeviathan",
+   "kind": "sprite",
+   "group": "biome:drowned",
+   "name": "The Armored Leviathan",
+   "subject": "an enormous armored leviathan encased in brass plating and pistons, barnacled, porthole eyes glowing. A great beast caged in brass to drive the archive's pumps. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/mirror_shardStalker",
+   "kind": "sprite",
+   "group": "biome:mirror",
+   "name": "Shard Stalker",
+   "subject": "a lean predator made of jagged mirror shards, reflecting distorted faces. A predator of broken glass that moves between reflections.",
+   "anchor": true
+  },
+  {
+   "key": "monsters/mirror_mirrorMimic",
+   "kind": "sprite",
+   "group": "biome:mirror",
+   "name": "Mirror Mimic",
+   "subject": "an ornate standing mirror whose frame is splitting into a toothy maw with a long tongue. It looks like you. Then it opens its mouth.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/mirror_prismWisp",
+   "kind": "sprite",
+   "group": "biome:mirror",
+   "name": "Prism Wisp",
+   "subject": "a floating crystal prism splitting light into rainbow beams. Light, split and angry.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/mirror_glassGolem",
+   "kind": "sprite",
+   "group": "biome:mirror",
+   "name": "Glass Golem",
+   "subject": "a hulking golem made of stained-glass panels with lead seams and a glowing rose window chest. A cathedral window that got up and walked.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/mirror_facetCultist",
+   "kind": "sprite",
+   "group": "biome:mirror",
+   "name": "Facet Cultist",
+   "subject": "a masked cultist with a faceted mirror mask and robes sewn with glass beads. Worshippers of the perfect reflection.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/mirror_hollowDouble",
+   "kind": "sprite",
+   "group": "biome:mirror",
+   "name": "Hollow Double",
+   "subject": "a faceless humanoid made of dark mirror glass, holding a mirror-image sword. Your reflection, hungry and hollow.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/mirror_prismSentinel",
+   "kind": "sprite",
+   "group": "biome:mirror",
+   "name": "The Prism Sentinel",
+   "subject": "a towering crystal knight sentinel of faceted prisms with a halberd of light, rainbow refractions everywhere. The reliquary's last guardian, built of a thousand lenses. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/mirror_shatteredDouble",
+   "kind": "sprite",
+   "group": "biome:mirror",
+   "name": "The Shattered Double",
+   "subject": "a fractured mirror-glass doppelganger warrior with shards orbiting it, cracks of white light across its body. Everything the mirrors ever stole, wearing your face. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/mirror_glassSeraph",
+   "kind": "sprite",
+   "group": "biome:mirror",
+   "name": "The Glass Seraph",
+   "subject": "a six-winged seraph made of stained glass with a cracked golden halo, radiant and serene. An angel of stained glass with a cracked halo. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/starfall_graveSentinel",
+   "kind": "sprite",
+   "group": "biome:starfall",
+   "name": "Grave Sentinel",
+   "subject": "a tall skeletal sentinel in star-etched armour holding a bone glaive, a nebula glowing in its ribcage. Skeletal guardians of the floating tombs.",
+   "anchor": true
+  },
+  {
+   "key": "monsters/starfall_voidMote",
+   "kind": "sprite",
+   "group": "biome:starfall",
+   "name": "Void Mote",
+   "subject": "a floating orb of absolute black ringed with violet event-horizon light. A pinprick of nothing that eats light.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/starfall_starboneHound",
+   "kind": "sprite",
+   "group": "biome:starfall",
+   "name": "Starbone Hound",
+   "subject": "a skeletal hound whose bones are linked by glowing constellation lines, star-fire eyes. A hound of constellations, held together by old light.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/starfall_cometCultist",
+   "kind": "sprite",
+   "group": "biome:starfall",
+   "name": "Comet Cultist",
+   "subject": "a robed comet cultist with a meteorite staff trailing fire and a star-map cloak. They pray for the sky to fall again.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/starfall_astralLeech",
+   "kind": "sprite",
+   "group": "biome:starfall",
+   "name": "Astral Leech",
+   "subject": "a translucent cosmic leech with a ring of teeth and swirling galaxy innards. It feeds on luck, then on blood.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/starfall_orbitWarden",
+   "kind": "sprite",
+   "group": "biome:starfall",
+   "name": "Orbit Warden",
+   "subject": "a floating brass orrery construct with rotating rings and glowing planet orbs. A brass orrery that commands gravity.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/starfall_astralJudge",
+   "kind": "sprite",
+   "group": "biome:starfall",
+   "name": "The Astral Judge",
+   "subject": "a robed skeletal judge with a crown of orbiting stars, scales of balance and a gavel of starlight. It weighs every soul that falls from the sky. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/starfall_fallenComet",
+   "kind": "sprite",
+   "group": "biome:starfall",
+   "name": "The Fallen Comet",
+   "subject": "a living molten comet with a rocky face and a long blazing tail, crater-scarred. A star that fell and did not die. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/starfall_epochDevourer",
+   "kind": "sprite",
+   "group": "biome:starfall",
+   "name": "The Epoch Devourer",
+   "subject": "a vast cosmic serpent-worm of void with clock-faces dissolving in its maw and nebula-filled eyes. It ate the civilisation that built the ossuary. It is still hungry. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "charms/copperTooth",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Copper Tooth",
+   "subject": "a magical trinket charm called \"Copper Tooth\". Its power: +4 Mult.",
+   "anchor": true
+  },
+  {
+   "key": "charms/twinFang",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Twin Fang",
+   "subject": "a magical trinket charm called \"Twin Fang\". Its power: +6 Mult if the hand contains a Pair.",
+   "anchor": false
+  },
+  {
+   "key": "charms/tripleCrown",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Triple Crown",
+   "subject": "a magical trinket charm called \"Triple Crown\". Its power: +10 Mult if the hand contains Three of a Kind.",
+   "anchor": false
+  },
+  {
+   "key": "charms/ladderOfBones",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Ladder of Bones",
+   "subject": "a magical trinket charm called \"Ladder of Bones\". Its power: +10 Mult if the hand contains a Straight.",
+   "anchor": false
+  },
+  {
+   "key": "charms/guildmark",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Guildmark",
+   "subject": "a magical trinket charm called \"Guildmark\". Its power: +8 Mult if the hand contains a Set.",
+   "anchor": false
+  },
+  {
+   "key": "charms/pebblePouch",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Pebble Pouch",
+   "subject": "a magical trinket charm called \"Pebble Pouch\". Its power: +20 Chips if the hand contains Two Pair.",
+   "anchor": false
+  },
+  {
+   "key": "charms/oddFellow",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Odd Fellow's Coin",
+   "subject": "a magical trinket charm called \"Odd Fellow's Coin\". Its power: Scored odd dice give +2 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "charms/evenKeel",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Even Keel",
+   "subject": "a magical trinket charm called \"Even Keel\". Its power: Scored even dice give +5 Chips.",
+   "anchor": false
+  },
+  {
+   "key": "charms/snakeEyes",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Snake-Eye Locket",
+   "subject": "a magical trinket charm called \"Snake-Eye Locket\". Its power: Scored 1s give +6 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "charms/hexSpur",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Hexagon Spur",
+   "subject": "a magical trinket charm called \"Hexagon Spur\". Its power: Scored 6s give +8 Chips and +1 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "charms/whetstone",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Whetstone",
+   "subject": "a magical trinket charm called \"Whetstone\". Its power: +25 Chips if 3 or fewer dice are played.",
+   "anchor": false
+  },
+  {
+   "key": "charms/gamblersGrin",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Gambler's Grin",
+   "subject": "a magical trinket charm called \"Gambler's Grin\". Its power: +3 Mult per unused reroll.",
+   "anchor": false
+  },
+  {
+   "key": "charms/lastLaugh",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Last Laugh",
+   "subject": "a magical trinket charm called \"Last Laugh\". Its power: +12 Mult if the acting hero is below half HP.",
+   "anchor": false
+  },
+  {
+   "key": "charms/rustedKey",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Rusted Key",
+   "subject": "a magical trinket charm called \"Rusted Key\". Its power: Earn 2 doubloons after each combat.",
+   "anchor": false
+  },
+  {
+   "key": "charms/kinship",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Kinship Band",
+   "subject": "a magical trinket charm called \"Kinship Band\". Its power: Scored dice matching the hero's affinity give +1 extra Mult.",
+   "anchor": false
+  },
+  {
+   "key": "charms/lanternMoth",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Lantern Moth",
+   "subject": "a magical trinket charm called \"Lantern Moth\". Its power: +15 Chips on spells.",
+   "anchor": false
+  },
+  {
+   "key": "charms/brawlersKnuckle",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Brawler's Knuckle",
+   "subject": "a magical trinket charm called \"Brawler's Knuckle\". Its power: +5 Mult on weapon attacks.",
+   "anchor": false
+  },
+  {
+   "key": "charms/bloodstone",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Bloodstone",
+   "subject": "a magical trinket charm called \"Bloodstone\". Its power: Gains +1 Mult whenever an enemy dies. ",
+   "anchor": true
+  },
+  {
+   "key": "charms/dragonLedger",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Dragon's Ledger",
+   "subject": "a magical trinket charm called \"Dragon's Ledger\". Its power: +1 Mult for every 3 doubloons you hold.",
+   "anchor": false
+  },
+  {
+   "key": "charms/loadedBone",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Loaded Knucklebone",
+   "subject": "a magical trinket charm called \"Loaded Knucklebone\". Its power: +1 reroll every turn.",
+   "anchor": false
+  },
+  {
+   "key": "charms/deepPockets",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Deep Pockets",
+   "subject": "a magical trinket charm called \"Deep Pockets\". Its power: +1 tray size.",
+   "anchor": false
+  },
+  {
+   "key": "charms/crookedLadder",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Crooked Ladder",
+   "subject": "a magical trinket charm called \"Crooked Ladder\". Its power: Straights and Sets can be made with 4 dice.",
+   "anchor": false
+  },
+  {
+   "key": "charms/gapTooth",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Gap-Tooth Grin",
+   "subject": "a magical trinket charm called \"Gap-Tooth Grin\". Its power: Straights may skip one number.",
+   "anchor": false
+  },
+  {
+   "key": "charms/weightedFate",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Weighted Fate",
+   "subject": "a magical trinket charm called \"Weighted Fate\". Its power: +2 to hit on all attack rolls.",
+   "anchor": false
+  },
+  {
+   "key": "charms/hawkMonocle",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Hawk's Monocle",
+   "subject": "a magical trinket charm called \"Hawk's Monocle\". Its power: Critical hits on one lower d20 face.",
+   "anchor": false
+  },
+  {
+   "key": "charms/stoicShield",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Stoic Shield",
+   "subject": "a magical trinket charm called \"Stoic Shield\". Its power: Guard grants double Ward.",
+   "anchor": false
+  },
+  {
+   "key": "charms/mendersThread",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Mender's Thread",
+   "subject": "a magical trinket charm called \"Mender's Thread\". Its power: Healing is 50% stronger.",
+   "anchor": false
+  },
+  {
+   "key": "charms/luckySeven",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Lucky Seven",
+   "subject": "a magical trinket charm called \"Lucky Seven\". Its power: ×3 Mult if scored pips total a multiple of 7.",
+   "anchor": false
+  },
+  {
+   "key": "charms/snowball",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Rolling Snowball",
+   "subject": "a magical trinket charm called \"Rolling Snowball\". Its power: Gains +3 Chips each time a Pair is played. ",
+   "anchor": false
+  },
+  {
+   "key": "charms/ironPiggy",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Iron Piggy",
+   "subject": "a magical trinket charm called \"Iron Piggy\". Its power: Interest cap +5.",
+   "anchor": false
+  },
+  {
+   "key": "charms/paritySeal",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Parity Seal",
+   "subject": "a magical trinket charm called \"Parity Seal\". Its power: ×1.5 Mult if all scored dice are odd, or all even.",
+   "anchor": false
+  },
+  {
+   "key": "charms/magpie",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Magpie Nest",
+   "subject": "a magical trinket charm called \"Magpie Nest\". Its power: Scored Gold dice give +2 more doubloons.",
+   "anchor": false
+  },
+  {
+   "key": "charms/echoBell",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Echo Bell",
+   "subject": "a magical trinket charm called \"Echo Bell\". Its power: The first scored die triggers twice.",
+   "anchor": false
+  },
+  {
+   "key": "charms/sixfoldBell",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Sixfold Bell",
+   "subject": "a magical trinket charm called \"Sixfold Bell\". Its power: Scored 6s trigger twice.",
+   "anchor": false
+  },
+  {
+   "key": "charms/hourglass",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Sandglass",
+   "subject": "a magical trinket charm called \"Sandglass\". Its power: ×2 Mult on the first hand of each combat.",
+   "anchor": false
+  },
+  {
+   "key": "charms/quarrymark",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Quarry Sigil",
+   "subject": "a magical trinket charm called \"Quarry Sigil\". Its power: ×1.5 Mult against a Marked or Hexed target.",
+   "anchor": false
+  },
+  {
+   "key": "charms/pocketSun",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Pocket Sun",
+   "subject": "a magical trinket charm called \"Pocket Sun\". Its power: +3 Mult per scored Sun or Ember die.",
+   "anchor": false
+  },
+  {
+   "key": "charms/nightOwl",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Night Owl",
+   "subject": "a magical trinket charm called \"Night Owl\". Its power: +3 Mult per scored Shadow or Arcane die.",
+   "anchor": false
+  },
+  {
+   "key": "charms/ironRoot",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Iron Root",
+   "subject": "a magical trinket charm called \"Iron Root\". Its power: +3 Mult per scored Steel, Verdant, Storm or Blood die.",
+   "anchor": false
+  },
+  {
+   "key": "charms/boneDust",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Bone Dust",
+   "subject": "a magical trinket charm called \"Bone Dust\". Its power: Scored Bone dice give +10 Chips.",
+   "anchor": false
+  },
+  {
+   "key": "charms/tyrantCrown",
+   "kind": "icon",
+   "group": "charm:rare",
+   "name": "Tyrant's Crown",
+   "subject": "a magical trinket charm called \"Tyrant's Crown\". Its power: ×2 Mult on Four of a Kind or better.",
+   "anchor": true
+  },
+  {
+   "key": "charms/twinSuns",
+   "kind": "icon",
+   "group": "charm:rare",
+   "name": "Twin Suns",
+   "subject": "a magical trinket charm called \"Twin Suns\". Its power: ×2 Mult if the hand contains Two Pair.",
+   "anchor": false
+  },
+  {
+   "key": "charms/glassHeart",
+   "kind": "icon",
+   "group": "charm:rare",
+   "name": "Glass Heart",
+   "subject": "a magical trinket charm called \"Glass Heart\". Its power: ×3 Mult. The acting hero loses 5% max HP per hand.",
+   "anchor": false
+  },
+  {
+   "key": "charms/ouroboros",
+   "kind": "icon",
+   "group": "charm:rare",
+   "name": "Ouroboros Ring",
+   "subject": "a magical trinket charm called \"Ouroboros Ring\". Its power: Gains ×0.1 Mult per hand played this run. ",
+   "anchor": false
+  },
+  {
+   "key": "charms/fortuneWheel",
+   "kind": "icon",
+   "group": "charm:rare",
+   "name": "Wheel of Chance",
+   "subject": "a magical trinket charm called \"Wheel of Chance\". Its power: 1 in 3 chance for ×3 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "charms/paupersCrown",
+   "kind": "icon",
+   "group": "charm:rare",
+   "name": "Pauper's Crown",
+   "subject": "a magical trinket charm called \"Pauper's Crown\". Its power: ×2.5 Mult while you hold fewer than 5 doubloons.",
+   "anchor": false
+  },
+  {
+   "key": "charms/monolith",
+   "kind": "icon",
+   "group": "charm:rare",
+   "name": "Monolith",
+   "subject": "a magical trinket charm called \"Monolith\". Its power: A single played die scores as Three of a Kind.",
+   "anchor": false
+  },
+  {
+   "key": "charms/prismLens",
+   "kind": "icon",
+   "group": "charm:rare",
+   "name": "Prismatic Lens",
+   "subject": "a magical trinket charm called \"Prismatic Lens\". Its power: Every die counts as every material.",
+   "anchor": false
+  },
+  {
+   "key": "charms/mimicTongue",
+   "kind": "icon",
+   "group": "charm:rare",
+   "name": "Mimic Tongue",
+   "subject": "a magical trinket charm called \"Mimic Tongue\". Its power: Copies the charm to its right.",
+   "anchor": false
+  },
+  {
+   "key": "charms/avalanche",
+   "kind": "icon",
+   "group": "charm:rare",
+   "name": "Avalanche Idol",
+   "subject": "a magical trinket charm called \"Avalanche Idol\". Its power: Gains ×0.25 Mult each combat won without a hero falling. Resets if one falls. ",
+   "anchor": false
+  },
+  {
+   "key": "charms/warDrum",
+   "kind": "icon",
+   "group": "charm:rare",
+   "name": "War Drum",
+   "subject": "a magical trinket charm called \"War Drum\". Its power: ×1 Mult per enemy still standing (min ×1).",
+   "anchor": false
+  },
+  {
+   "key": "charms/cartographer",
+   "kind": "icon",
+   "group": "charm:rare",
+   "name": "Cartographer's Pin",
+   "subject": "a magical trinket charm called \"Cartographer's Pin\". Its power: +1 Charm slot.",
+   "anchor": false
+  },
+  {
+   "key": "charms/dragonHoard",
+   "kind": "icon",
+   "group": "charm:legendary",
+   "name": "Heart of the Hoard",
+   "subject": "a magical trinket charm called \"Heart of the Hoard\". Its power: ×0.2 Mult for every 5 doubloons held (min ×1).",
+   "anchor": true
+  },
+  {
+   "key": "charms/crownOfAges",
+   "kind": "icon",
+   "group": "charm:legendary",
+   "name": "Crown of Ages",
+   "subject": "a magical trinket charm called \"Crown of Ages\". Its power: ×3 Mult. -1 reroll every turn.",
+   "anchor": false
+  },
+  {
+   "key": "charms/fifthDoor",
+   "kind": "icon",
+   "group": "charm:legendary",
+   "name": "Key of the Fifth Door",
+   "subject": "a magical trinket charm called \"Key of the Fifth Door\". Its power: +1 tray size, +1 reroll, +1 Charm slot.",
+   "anchor": false
+  },
+  {
+   "key": "charms/starEater",
+   "kind": "icon",
+   "group": "charm:legendary",
+   "name": "Star-Eater Fang",
+   "subject": "a magical trinket charm called \"Star-Eater Fang\". Its power: Scored dice of 5 or higher give ×1.25 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "charms/idol_steel",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Anvil Idol",
+   "subject": "a magical trinket charm called \"Anvil Idol\". Its power: Scored Steel dice give +4 Chips and +2 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "charms/idol_sun",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Dawn Idol",
+   "subject": "a magical trinket charm called \"Dawn Idol\". Its power: Scored Sun dice give +4 Chips and +2 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "charms/idol_shadow",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Dusk Idol",
+   "subject": "a magical trinket charm called \"Dusk Idol\". Its power: Scored Shadow dice give +4 Chips and +2 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "charms/idol_ember",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Pyre Idol",
+   "subject": "a magical trinket charm called \"Pyre Idol\". Its power: Scored Ember dice give +4 Chips and +2 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "charms/idol_verdant",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Thorn Idol",
+   "subject": "a magical trinket charm called \"Thorn Idol\". Its power: Scored Verdant dice give +4 Chips and +2 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "charms/idol_arcane",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Sigil Idol",
+   "subject": "a magical trinket charm called \"Sigil Idol\". Its power: Scored Arcane dice give +4 Chips and +2 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "charms/idol_blood",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Fury Idol",
+   "subject": "a magical trinket charm called \"Fury Idol\". Its power: Scored Blood dice give +4 Chips and +2 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "charms/idol_storm",
+   "kind": "icon",
+   "group": "charm:common",
+   "name": "Gale Idol",
+   "subject": "a magical trinket charm called \"Gale Idol\". Its power: Scored Storm dice give +4 Chips and +2 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "items/simple_club",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Club",
+   "subject": "Club (a melee weapon dealing bludgeoning damage)",
+   "anchor": true
+  },
+  {
+   "key": "items/simple_dagger",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Dagger",
+   "subject": "Dagger (a melee weapon dealing piercing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/simple_greatclub",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Greatclub",
+   "subject": "Greatclub (a melee weapon dealing bludgeoning damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/simple_handaxe",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Handaxe",
+   "subject": "Handaxe (a melee weapon dealing slashing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/simple_javelin",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Javelin",
+   "subject": "Javelin (a melee weapon dealing piercing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/simple_mace",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Mace",
+   "subject": "Mace (a melee weapon dealing bludgeoning damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/simple_quarterstaff",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Quarterstaff",
+   "subject": "Quarterstaff (a melee weapon dealing bludgeoning damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/simple_spear",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Spear",
+   "subject": "Spear (a melee weapon dealing piercing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/simple_lightCrossbow",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Light Crossbow",
+   "subject": "Light Crossbow (a ranged weapon dealing piercing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/simple_shortbow",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Shortbow",
+   "subject": "Shortbow (a ranged weapon dealing piercing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/simple_dart",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Darts",
+   "subject": "Darts (a ranged weapon dealing piercing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_battleaxe",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Battleaxe",
+   "subject": "Battleaxe (a melee weapon dealing slashing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_flail",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Flail",
+   "subject": "Flail (a melee weapon dealing bludgeoning damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_glaive",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Glaive",
+   "subject": "Glaive (a melee weapon dealing slashing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_greataxe",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Greataxe",
+   "subject": "Greataxe (a melee weapon dealing slashing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_greatsword",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Greatsword",
+   "subject": "Greatsword (a melee weapon dealing slashing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_halberd",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Halberd",
+   "subject": "Halberd (a melee weapon dealing slashing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_longsword",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Longsword",
+   "subject": "Longsword (a melee weapon dealing slashing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_maul",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Maul",
+   "subject": "Maul (a melee weapon dealing bludgeoning damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_morningstar",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Morningstar",
+   "subject": "Morningstar (a melee weapon dealing piercing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_rapier",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Rapier",
+   "subject": "Rapier (a melee weapon dealing piercing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_scimitar",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Scimitar",
+   "subject": "Scimitar (a melee weapon dealing slashing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_shortsword",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Shortsword",
+   "subject": "Shortsword (a melee weapon dealing piercing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_warhammer",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Warhammer",
+   "subject": "Warhammer (a melee weapon dealing bludgeoning damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_whip",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Whip",
+   "subject": "Whip (a melee weapon dealing slashing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_handCrossbow",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Hand Crossbow",
+   "subject": "Hand Crossbow (a ranged weapon dealing piercing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_heavyCrossbow",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Heavy Crossbow",
+   "subject": "Heavy Crossbow (a ranged weapon dealing piercing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/martial_longbow",
+   "kind": "icon",
+   "group": "item:weapon",
+   "name": "Longbow",
+   "subject": "Longbow (a ranged weapon dealing piercing damage)",
+   "anchor": false
+  },
+  {
+   "key": "items/armor_padded",
+   "kind": "icon",
+   "group": "item:armor",
+   "name": "Padded Armor",
+   "subject": "Padded Armor",
+   "anchor": true
+  },
+  {
+   "key": "items/armor_leather",
+   "kind": "icon",
+   "group": "item:armor",
+   "name": "Leather Armor",
+   "subject": "Leather Armor",
+   "anchor": false
+  },
+  {
+   "key": "items/armor_studdedLeather",
+   "kind": "icon",
+   "group": "item:armor",
+   "name": "Studded Leather",
+   "subject": "Studded Leather",
+   "anchor": false
+  },
+  {
+   "key": "items/armor_hide",
+   "kind": "icon",
+   "group": "item:armor",
+   "name": "Hide Armor",
+   "subject": "Hide Armor",
+   "anchor": false
+  },
+  {
+   "key": "items/armor_chainShirt",
+   "kind": "icon",
+   "group": "item:armor",
+   "name": "Chain Shirt",
+   "subject": "Chain Shirt",
+   "anchor": false
+  },
+  {
+   "key": "items/armor_scaleMail",
+   "kind": "icon",
+   "group": "item:armor",
+   "name": "Scale Mail",
+   "subject": "Scale Mail",
+   "anchor": false
+  },
+  {
+   "key": "items/armor_breastplate",
+   "kind": "icon",
+   "group": "item:armor",
+   "name": "Breastplate",
+   "subject": "Breastplate",
+   "anchor": false
+  },
+  {
+   "key": "items/armor_halfPlate",
+   "kind": "icon",
+   "group": "item:armor",
+   "name": "Half Plate",
+   "subject": "Half Plate",
+   "anchor": false
+  },
+  {
+   "key": "items/armor_ringMail",
+   "kind": "icon",
+   "group": "item:armor",
+   "name": "Ring Mail",
+   "subject": "Ring Mail",
+   "anchor": false
+  },
+  {
+   "key": "items/armor_chainMail",
+   "kind": "icon",
+   "group": "item:armor",
+   "name": "Chain Mail",
+   "subject": "Chain Mail",
+   "anchor": false
+  },
+  {
+   "key": "items/armor_splint",
+   "kind": "icon",
+   "group": "item:armor",
+   "name": "Splint Armor",
+   "subject": "Splint Armor",
+   "anchor": false
+  },
+  {
+   "key": "items/armor_plate",
+   "kind": "icon",
+   "group": "item:armor",
+   "name": "Plate Armor",
+   "subject": "Plate Armor",
+   "anchor": false
+  },
+  {
+   "key": "items/armor_shield",
+   "kind": "icon",
+   "group": "item:armor",
+   "name": "Shield",
+   "subject": "Shield",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_thievesTools",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Thieves' Tools",
+   "subject": "a rolled-up leather locksmith's kit with fine brass picks, tension wrenches and a tiny mirror"
+  },
+  {
+   "key": "items/trinket_ringProtection",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Ring of Protection",
+   "subject": "Ring of Protection — +1 AC and saving throws.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_cloakProtection",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Cloak of Protection",
+   "subject": "Cloak of Protection — +1 AC and saving throws.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_amuletHealth",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Amulet of Health",
+   "subject": "Amulet of Health — Constitution becomes 19.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_gauntletsOgre",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Gauntlets of Ogre Power",
+   "subject": "Gauntlets of Ogre Power — Strength becomes 19.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_headbandIntellect",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Headband of Intellect",
+   "subject": "Headband of Intellect — Intelligence becomes 19.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_bracersDefense",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Bracers of Defense",
+   "subject": "Bracers of Defense — +2 AC while wearing no armor and no shield.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_pearlPower",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Pearl of Power",
+   "subject": "Pearl of Power — Once per expedition, recover a spell slot of 3rd level or lower at a safe room.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_bootsSpeed",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Boots of Haste",
+   "subject": "Boots of Haste — +5 initiative.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_periaptWound",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Periapt of Wound Closure",
+   "subject": "Periapt of Wound Closure — +10% max HP; you stabilise automatically when downed.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_luckstone",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Luckstone",
+   "subject": "Luckstone — +1 to saves and +1 reroll on your turns.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_emberCharm",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Ember Ward",
+   "subject": "Ember Ward — Resistance to fire.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_frostCharm",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Tideglass Ward",
+   "subject": "Tideglass Ward — Resistance to cold and lightning.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_graveCharm",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Grave Ward",
+   "subject": "Grave Ward — Resistance to necrotic and poison.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_rodPact",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Rod of the Pact Keeper",
+   "subject": "Rod of the Pact Keeper — +1 spell save DC and spell attacks.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_wandWar",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Wand of the War Mage",
+   "subject": "Wand of the War Mage — +1 spell attack rolls and save DC.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_hawkEye",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Falconer's Eye",
+   "subject": "Falconer's Eye — Critical hits on one lower d20 face.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_diceOfTheDoor",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Bone of the Fifth Door",
+   "subject": "Bone of the Fifth Door — An old die-bone that hums near the door: +1 reroll, +1 AC, +1 saves.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_beltGiant",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Belt of Hill Giant Strength",
+   "subject": "Belt of Hill Giant Strength — Strength becomes 21.",
+   "anchor": false
+  },
+  {
+   "key": "items/consumable_potionHealing",
+   "kind": "icon",
+   "group": "item:consumable",
+   "name": "Potion of Healing",
+   "subject": "Potion of Healing — Restore 2d4+2 HP (× vitality).",
+   "anchor": true
+  },
+  {
+   "key": "items/consumable_potionGreater",
+   "kind": "icon",
+   "group": "item:consumable",
+   "name": "Potion of Greater Healing",
+   "subject": "Potion of Greater Healing — Restore 4d4+4 HP (× vitality).",
+   "anchor": false
+  },
+  {
+   "key": "items/consumable_potionSuperior",
+   "kind": "icon",
+   "group": "item:consumable",
+   "name": "Potion of Superior Healing",
+   "subject": "Potion of Superior Healing — Restore 8d4+8 HP (× vitality).",
+   "anchor": false
+  },
+  {
+   "key": "items/consumable_potionSupreme",
+   "kind": "icon",
+   "group": "item:consumable",
+   "name": "Potion of Supreme Healing",
+   "subject": "Potion of Supreme Healing — Restore 10d4+20 HP (× vitality).",
+   "anchor": false
+  },
+  {
+   "key": "items/consumable_antitoxin",
+   "kind": "icon",
+   "group": "item:consumable",
+   "name": "Antitoxin",
+   "subject": "Antitoxin — End poisoned and similar ailments.",
+   "anchor": false
+  },
+  {
+   "key": "items/consumable_alchemistsFire",
+   "kind": "icon",
+   "group": "item:consumable",
+   "name": "Alchemist's Fire",
+   "subject": "Alchemist's Fire — Hurl: 2d6 fire and the target burns.",
+   "anchor": false
+  },
+  {
+   "key": "items/consumable_holyWater",
+   "kind": "icon",
+   "group": "item:consumable",
+   "name": "Holy Water",
+   "subject": "Holy Water — 2d8 radiant to a fiend or undead (half to others).",
+   "anchor": false
+  },
+  {
+   "key": "items/consumable_potionHeroism",
+   "kind": "icon",
+   "group": "item:consumable",
+   "name": "Potion of Heroism",
+   "subject": "Potion of Heroism — 10 temp HP (× vitality) and Bless for the fight.",
+   "anchor": false
+  },
+  {
+   "key": "items/consumable_smokeBomb",
+   "kind": "icon",
+   "group": "item:consumable",
+   "name": "Smoke Bomb",
+   "subject": "Smoke Bomb — Escape from a non-boss fight (lose this room's rewards).",
+   "anchor": false
+  },
+  {
+   "key": "items/consumable_elixirHealth",
+   "kind": "icon",
+   "group": "item:consumable",
+   "name": "Elixir of Health",
+   "subject": "Elixir of Health — Cure all conditions and heal 25%.",
+   "anchor": false
+  },
+  {
+   "key": "items/consumable_campSupplies",
+   "kind": "icon",
+   "group": "item:consumable",
+   "name": "Camp Supplies",
+   "subject": "Camp Supplies — Take a short rest anywhere that is not a combat room.",
+   "anchor": false
+  },
+  {
+   "key": "items/consumable_diamond",
+   "kind": "icon",
+   "group": "item:consumable",
+   "name": "Resurrection Diamond",
+   "subject": "Resurrection Diamond — Revive a fallen hero at a safe room (consumed).",
+   "anchor": false
+  },
+  {
+   "key": "items/consumable_luckyCharm",
+   "kind": "icon",
+   "group": "item:consumable",
+   "name": "Gambler's Rabbit Foot",
+   "subject": "Gambler's Rabbit Foot — Gain a Mulligan Coin for this expedition.",
+   "anchor": false
+  },
+  {
+   "key": "items/consumable_scrollCure",
+   "kind": "icon",
+   "group": "item:scroll",
+   "name": "Scroll of Cure Wounds",
+   "subject": "Scroll of Cure Wounds — Cast Cure Wounds (1st). Anyone can read it.",
+   "anchor": true
+  },
+  {
+   "key": "items/consumable_scrollFireball",
+   "kind": "icon",
+   "group": "item:scroll",
+   "name": "Scroll of Fireball",
+   "subject": "Scroll of Fireball — Cast Fireball (3rd). Anyone can read it.",
+   "anchor": false
+  },
+  {
+   "key": "items/consumable_scrollShield",
+   "kind": "icon",
+   "group": "item:scroll",
+   "name": "Scroll of Shield of Faith",
+   "subject": "Scroll of Shield of Faith — Cast Shield of Faith. Anyone can read it.",
+   "anchor": false
+  },
+  {
+   "key": "items/consumable_scrollRevivify",
+   "kind": "icon",
+   "group": "item:scroll",
+   "name": "Scroll of Revivify",
+   "subject": "Scroll of Revivify — Cast Revivify on an ally who fell this fight.",
+   "anchor": false
+  },
+  {
+   "key": "scenes/cinder_corridor",
+   "kind": "scene",
+   "group": "scene:cinder",
+   "name": "The Cinder Vaults — corridor",
+   "subject": "an ash-choked dwarven mine tunnel with rail tracks, iron doors and glowing lava seams",
+   "anchor": true
+  },
+  {
+   "key": "scenes/cinder_forge",
+   "kind": "scene",
+   "group": "scene:cinder",
+   "name": "The Cinder Vaults — forge",
+   "subject": "a vast molten forge hall with chains, anvils and rivers of lava, a battle arena",
+   "anchor": false
+  },
+  {
+   "key": "scenes/cinder_vault",
+   "kind": "scene",
+   "group": "scene:cinder",
+   "name": "The Cinder Vaults — vault",
+   "subject": "a treasure vault of iron ingots and gold behind a heat-warped door",
+   "anchor": false
+  },
+  {
+   "key": "scenes/cinder_boss",
+   "kind": "scene",
+   "group": "scene:cinder",
+   "name": "The Cinder Vaults — boss",
+   "subject": "the Deep Forge: a colossal cathedral-sized furnace with a giant anvil, molten falls and chains",
+   "anchor": false
+  },
+  {
+   "key": "scenes/rootbound_corridor",
+   "kind": "scene",
+   "group": "scene:rootbound",
+   "name": "The Rootbound Halls — corridor",
+   "subject": "a root-choked mausoleum corridor with bioluminescent mushrooms and cracked tombs",
+   "anchor": true
+  },
+  {
+   "key": "scenes/rootbound_tomb",
+   "kind": "scene",
+   "group": "scene:rootbound",
+   "name": "The Rootbound Halls — tomb",
+   "subject": "an overgrown burial hall where giant roots split sarcophagi, glowing spores in the air",
+   "anchor": false
+  },
+  {
+   "key": "scenes/rootbound_grove",
+   "kind": "scene",
+   "group": "scene:rootbound",
+   "name": "The Rootbound Halls — grove",
+   "subject": "a quiet hidden grove inside a crypt, moss and a glowing pool, treasure among roots",
+   "anchor": false
+  },
+  {
+   "key": "scenes/rootbound_boss",
+   "kind": "scene",
+   "group": "scene:rootbound",
+   "name": "The Rootbound Halls — boss",
+   "subject": "the Heartroot: an enormous hollow tree heart inside a necropolis, pulsing green light",
+   "anchor": false
+  },
+  {
+   "key": "scenes/drowned_corridor",
+   "kind": "scene",
+   "group": "scene:drowned",
+   "name": "The Drowned Archive — corridor",
+   "subject": "a flooded library corridor with toppled bookshelves, brass pipes and floating pages",
+   "anchor": true
+  },
+  {
+   "key": "scenes/drowned_library",
+   "kind": "scene",
+   "group": "scene:drowned",
+   "name": "The Drowned Archive — library",
+   "subject": "a sunken reading hall with a brass orrery, waist-deep teal water and drifting ink",
+   "anchor": false
+  },
+  {
+   "key": "scenes/drowned_pumps",
+   "kind": "scene",
+   "group": "scene:drowned",
+   "name": "The Drowned Archive — pumps",
+   "subject": "a brass pump room with valves, gauges and treasure chests on a dry platform",
+   "anchor": false
+  },
+  {
+   "key": "scenes/drowned_boss",
+   "kind": "scene",
+   "group": "scene:drowned",
+   "name": "The Drowned Archive — boss",
+   "subject": "the Drowned Star: a flooded observatory dome where a fallen star glows beneath the water",
+   "anchor": false
+  },
+  {
+   "key": "scenes/mirror_corridor",
+   "kind": "scene",
+   "group": "scene:mirror",
+   "name": "The Mirror Reliquary — corridor",
+   "subject": "a corridor of mirrors and stained glass reflecting impossible rooms",
+   "anchor": true
+  },
+  {
+   "key": "scenes/mirror_chapel",
+   "kind": "scene",
+   "group": "scene:mirror",
+   "name": "The Mirror Reliquary — chapel",
+   "subject": "a shattered chapel of glass with floating shards and prismatic light",
+   "anchor": false
+  },
+  {
+   "key": "scenes/mirror_lenses",
+   "kind": "scene",
+   "group": "scene:mirror",
+   "name": "The Mirror Reliquary — lenses",
+   "subject": "a reliquary of giant lenses and crystal cases holding glowing relics",
+   "anchor": false
+  },
+  {
+   "key": "scenes/mirror_boss",
+   "kind": "scene",
+   "group": "scene:mirror",
+   "name": "The Mirror Reliquary — boss",
+   "subject": "the Bright Nave: a vast cathedral of mirrors with a cracked colossal window of light",
+   "anchor": false
+  },
+  {
+   "key": "scenes/starfall_corridor",
+   "kind": "scene",
+   "group": "scene:starfall",
+   "name": "The Starfall Ossuary — corridor",
+   "subject": "a floating causeway of bones and gravestones drifting through a starfield",
+   "anchor": true
+  },
+  {
+   "key": "scenes/starfall_graves",
+   "kind": "scene",
+   "group": "scene:starfall",
+   "name": "The Starfall Ossuary — graves",
+   "subject": "an ossuary of floating tombs around a small dead star, silent cosmic machinery",
+   "anchor": false
+  },
+  {
+   "key": "scenes/starfall_orrery",
+   "kind": "scene",
+   "group": "scene:starfall",
+   "name": "The Starfall Ossuary — orrery",
+   "subject": "a giant brass orrery vault with meteorite treasure and constellations",
+   "anchor": false
+  },
+  {
+   "key": "scenes/starfall_boss",
+   "kind": "scene",
+   "group": "scene:starfall",
+   "name": "The Starfall Ossuary — boss",
+   "subject": "the End of Ages: a ruined temple adrift in a nebula, a black hole swallowing the stars",
+   "anchor": false
+  },
+  {
+   "key": "town/keep",
+   "kind": "scene",
+   "group": "scene:town",
+   "name": "keep",
+   "subject": "the Lantern Keep: a fortified hilltop town at dusk with a great lantern tower, and in the cliff below it, a mysterious ancient stone door with five carved seals glowing",
+   "anchor": true
+  },
+  {
+   "key": "town/guild",
+   "kind": "scene",
+   "group": "scene:town",
+   "name": "guild",
+   "subject": "a warm adventurers' guild hall interior with a notice board, banners, a roaring hearth and tables of heroes",
+   "anchor": false
+  },
+  {
+   "key": "town/armory",
+   "kind": "scene",
+   "group": "scene:town",
+   "name": "armory",
+   "subject": "a blacksmith's armory with racks of swords, shields and armour, a glowing forge in back",
+   "anchor": false
+  },
+  {
+   "key": "town/apothecary",
+   "kind": "scene",
+   "group": "scene:town",
+   "name": "apothecary",
+   "subject": "a cosy apothecary shop with shelves of glowing potion bottles, dried herbs and a cauldron",
+   "anchor": false
+  },
+  {
+   "key": "town/enchanter",
+   "kind": "scene",
+   "group": "scene:town",
+   "name": "enchanter",
+   "subject": "an enchanter's tower study with runes floating in the air over an anvil of crystal",
+   "anchor": false
+  },
+  {
+   "key": "town/training",
+   "kind": "scene",
+   "group": "scene:town",
+   "name": "training",
+   "subject": "an outdoor training yard with practice dummies, an archery range and sparring ring at sunset",
+   "anchor": false
+  },
+  {
+   "key": "town/cartographer",
+   "kind": "scene",
+   "group": "scene:town",
+   "name": "cartographer",
+   "subject": "a cartographer's map room with a huge table map, compasses, candles and five glowing doorways painted on the wall",
+   "anchor": false
+  },
+  {
+   "key": "town/vault",
+   "kind": "scene",
+   "group": "scene:town",
+   "name": "vault",
+   "subject": "an underground bank vault with heavy iron doors, chests of gold and guarded lockboxes",
+   "anchor": false
+  },
+  {
+   "key": "town/door",
+   "kind": "scene",
+   "group": "scene:town",
+   "name": "door",
+   "subject": "the Fifth Door: a colossal ancient stone door in a cavern, five glowing seals, dice-shaped runes, light spilling through the crack",
+   "anchor": false
+  }
+ ]
+}
