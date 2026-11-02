@@ -68,7 +68,8 @@ async function start(slot: number, mode: 'legacy' | 'story') {
   await saveGame(g);
   setGame(g);
   app.ui.townTab = 'guild';
-  app.ui.modal = { kind: 'help' };
+  // The guided tour opens on its own (with a Skip button) instead of the rules sheet.
+  app.ui.modal = g.tutorial ? undefined : { kind: 'help' };
   sfx.fanfare();
   render();
 }

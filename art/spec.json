@@ -1,6 +1,6 @@
 {
  "game": "treasure_dice",
- "count": 263,
+ "count": 264,
  "entries": [
   {
    "key": "heroes/fighter_1",
@@ -744,6 +744,14 @@
    "group": "biome:starfall",
    "name": "The Epoch Devourer",
    "subject": "a vast cosmic serpent-worm of void with clock-faces dissolving in its maw and nebula-filled eyes. It ate the civilisation that built the ossuary. It is still hungry. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/starfall_tiamat",
+   "kind": "sprite",
+   "group": "biome:starfall",
+   "name": "Tiamat",
+   "subject": "Tiamat, a colossal five-headed chromatic dragon queen with red, blue, green, black and white heads, coiled atop a mountain of gold coins and dice, wings spread. The five-headed Dragon Queen, sealed beyond the Fifth Door for an age, and awake again. It is a towering BOSS: monumental, imposing, filling the frame.",
    "anchor": false
   },
   {

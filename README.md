@@ -7,9 +7,10 @@ It's a static site (Vite + TypeScript, no backend) that works offline once loade
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm test           # 18 tests: rules, fortune scoring, 1,000-seed dungeon property test, runs, saves
+npm test           # 24 tests: rules, fortune scoring, 1,000-seed dungeon property test, runs, saves, tutorial, finale
 npm run build      # dist/ for GitHub Pages (relative base, works at any project path)
 npm run sim -- 40 1 cinder standard   # Monte Carlo balance: runs, level, biome, difficulty
+npm run sim -- 24 20 finale standard  # ...or Tiamat's Dragon Throne
 ```
 
 ## The loop
@@ -17,6 +18,13 @@ npm run sim -- 40 1 cinder standard   # Monte Carlo balance: runs, level, biome,
 1. **The Lantern Keep (persistent).** Recruit from all 12 SRD classes, gear up, enchant, train your reserves, then pick three heroes and an echo.
 2. **The dungeon (one instance).** Move forward, left, right or back on a seeded grid. Search for secret doors, take skill checks, haggle with the Peddler, spin the Wheel of Fate, find the Boss Sigil, and kill the boss.
 3. **Aftermath.** Survivors gain **one class level** (1→20). Carried gold and items are banked. Clearing an echo unlocks the next one and earns a boss sigil for Keep upgrades. Dead heroes stay dead in Legacy mode. Story mode sends a wiped party home empty-handed instead.
+
+## Story, tutorial and sharing
+
+- **The story.** Tiamat, the five-headed Dragon Queen, is stirring beyond the Fifth Door, and each echo is fed by one of her heads. A new Keep opens on the prologue, and the first clear of each echo adds a chapter to the **Chronicle** tab (`src/content/story.ts`).
+- **The finale.** The **Dragon Throne** in the Cartographer is a long Starfall dungeon with Tiamat (3 phases, ×1.6 HP, the *Chromatic Dominion* curse) in place of its boss. The party needs at least one level-20 hero to enter.
+- **The guided tour.** A new Keep starts a coach-mark tutorial (`src/ui/tutorial.ts`) that can be skipped at any step. It covers the Keep's menus and hero sheets, then runs the hand-built **Training Cellar** (`src/dungeon/tutorial.ts`): movement, one fight with recommended dice, treasure, the Boss Sigil and a gentle boss. Nobody can die there, it earns no sigil, and it takes level-1 heroes to level 2. *How to play* can restart the tour.
+- **Share card.** The Chronicle tab (and the result screen after a win) makes a PNG of your three best heroes, the echoes you've broken and your record (`src/ui/shareCard.ts`). The frame and title improve as you progress, up to *Dragonslayer*.
 
 ## The Fortune layer (the run-only, Balatro-style meta game)
 

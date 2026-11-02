@@ -122,7 +122,7 @@ describe('saves', () => {
     const r = importSave(text, 3);
     expect(r.ok).toBe(true);
     if (r.ok) expect(r.game.roster.length).toBe(3);
-    const bad = text.replace('\\"bankedGold\\":150', '\\"bankedGold\\":999999');
+    const bad = text.replace('\\"bankedGold\\":50', '\\"bankedGold\\":999999');
     expect(bad).not.toBe(text);
     expect(importSave(bad, 3).ok).toBe(false);
     expect(importSave('{"nope":1}', 1).ok).toBe(false);

@@ -107,6 +107,9 @@ export function scaledMonster(ctx: { exp: Expedition }, entry: string, idx: numb
   let atk = monsterAttack(L) + role.atk;
   if (elite) { hp *= ELITE_MOD.hp; dmg *= ELITE_MOD.dmg; ac += ELITE_MOD.ac; atk += ELITE_MOD.atk; }
   if (def.role === 'boss' && L <= 2) hp *= 0.85;
+  if (def.boss?.hpMult) hp *= def.boss.hpMult;
+  // The guided first dungeon is gentle.
+  if (ctx.exp.tutorial) { hp *= 0.6; dmg *= 0.7; }
   const dc = monsterDc(L) + (def.role === 'boss' ? 1 : 0);
   const saveBase = Math.floor(L / 3) + 1;
   const saves: Record<Ability, number> = { str: saveBase, dex: saveBase, con: saveBase + 1, int: saveBase - 1, wis: saveBase, cha: saveBase - 1 };

@@ -10,7 +10,9 @@ import { createHero, derive, applyLevel, autoPrepare, fullRestore, makeItem, cho
 import { spellsForClass } from '../content/spells.ts';
 
 export const SCHEMA_VERSION = 1;
-export const CONTENT_REVISION = 'td-1.0';
+export const CONTENT_REVISION = 'td-1.1';
+/** Banked gold for a brand-new Keep: enough for a potion or two, not a shopping spree. */
+export const STARTING_GOLD = 50;
 
 export const FACILITIES: Record<string, { name: string; text: string; max: number }> = {
   guild: { name: 'Guild Hall', text: 'More recruits to choose from and a bigger roster.', max: 4 },
@@ -33,15 +35,18 @@ export function newGame(slot: number, mode: 'legacy' | 'story', seed = `KEEP-${D
   const g: GameState = {
     schemaVersion: SCHEMA_VERSION, contentRevision: CONTENT_REVISION, slot, mode, createdAt: Date.now(), savedAt: Date.now(),
     profile: {
-      bankedGold: 150, unlockedBiomes: ['cinder'], sigils: {}, facility: { guild: 1, armory: 1, apothecary: 1, enchanter: 1, training: 1 },
+      bankedGold: STARTING_GOLD, unlockedBiomes: ['cinder'], sigils: {}, facility: { guild: 1, armory: 1, apothecary: 1, enchanter: 1, training: 1 },
       codex: { charms: [], monsters: [], hands: [] }, stats: { expeditions: 0, clears: 0, wipes: 0, deaths: 0, bestScore: 0, retreats: 0 }, townDay: 1,
+      story: { seen: [], tiamat: 0 },
     },
     roster: [], vault: [], recruits: [], shopStock: [], townRng: rng.state, uidCounter: 0, settings: { fast: false, sound: true },
+    // A fresh Keep offers the guided tour; the first bubble lets the player skip it.
+    tutorial: { step: 0, tips: [] },
   };
   // The plan's starting trio.
-  g.roster.push(createHero(rng, 'fighter', 1, { name: 'Alaric', ancestry: 'human', background: 'soldier', portrait: 'heroes/fighter_1' }));
-  g.roster.push(createHero(rng, 'cleric', 1, { name: 'Mira', ancestry: 'dwarf', background: 'acolyte', portrait: 'heroes/cleric_1' }));
-  g.roster.push(createHero(rng, 'rogue', 1, { name: 'Vex', ancestry: 'halfling', background: 'criminal', portrait: 'heroes/rogue_1' }));
+  g.roster.push(createHero(rng, 'fighter', 1, { name: 'Alaric Thornwood', ancestry: 'human', background: 'soldier', portrait: 'heroes/fighter_1' }));
+  g.roster.push(createHero(rng, 'cleric', 1, { name: 'Mira Coppervein', ancestry: 'dwarf', background: 'acolyte', portrait: 'heroes/cleric_1' }));
+  g.roster.push(createHero(rng, 'rogue', 1, { name: 'Vex Underbough', ancestry: 'halfling', background: 'criminal', portrait: 'heroes/rogue_1' }));
   g.vault.push(makeItem(rng, 'potionHealing', 0, [], 2));
   g.townRng = rng.state;
   refreshRecruits(g);
@@ -65,7 +70,14 @@ export function refreshRecruits(g: GameState) {
   const lvl = recruitLevel(g);
   const owned = new Set(g.roster.filter((h) => h.status === 'alive').map((h) => h.classId));
   const classes = rng.shuffle(CLASS_IDS.slice()).sort((a, b) => Number(owned.has(a)) - Number(owned.has(b)));
-  g.recruits = classes.slice(0, n).map((c) => createHero(rng, c, Math.max(1, lvl - (rng.chance(0.3) ? 1 : 0)), { rolled: true }));
+  // Every name on the roster (fallen and retired included) stays unique.
+  const taken = g.roster.map((h) => h.name);
+  g.recruits = [];
+  for (const c of classes.slice(0, n)) {
+    const r = createHero(rng, c, Math.max(1, lvl - (rng.chance(0.3) ? 1 : 0)), { rolled: true, taken });
+    taken.push(r.name);
+    g.recruits.push(r);
+  }
   g.townRng = rng.state;
 }
 

@@ -6,7 +6,7 @@ import type { PlayedDie } from './charms.ts';
 
 export type CurseId =
   | 'ashen' | 'molten' | 'thorns' | 'barren' | 'tide' | 'oddDrown' | 'evenMirror'
-  | 'void' | 'gravity' | 'hunger' | 'silence' | 'judgement';
+  | 'void' | 'gravity' | 'hunger' | 'silence' | 'judgement' | 'chromatic';
 
 export interface CurseDef {
   id: CurseId;
@@ -33,5 +33,6 @@ export const CURSES: Record<CurseId, CurseDef> = {
   gravity: { id: 'gravity', name: 'Crushing Weight', text: 'Dice showing 5 or more are debuffed.', debuff: (d) => d.value >= 5 },
   hunger: { id: 'hunger', name: 'Gnawing Hunger', text: 'Tray size -2.', handSizeDelta: -2 },
   silence: { id: 'silence', name: 'Hush', text: '-1 reroll every turn.', rerollDelta: -1 },
+  chromatic: { id: 'chromatic', name: 'Chromatic Dominion', text: 'Ember, Verdant, Shadow, Frost and Storm dice are debuffed, and Mult is ×0.75.', debuff: (d) => ['ember', 'verdant', 'shadow', 'frost', 'storm'].includes(d.material), multFactor: 0.75 },
   judgement: { id: 'judgement', name: 'Judgement', text: 'Playing the same hand type twice in a row scores ×0.5.', repeatPenalty: true },
 };

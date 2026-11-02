@@ -432,6 +432,10 @@ export interface Expedition {
   fallen: string[];
   bossDefeated: boolean;
   journal: string[];
+  /** The scripted first dungeon (guided tutorial). */
+  tutorial?: boolean;
+  /** The final stage: Tiamat's throne beyond the Fifth Door. */
+  finale?: boolean;
 }
 
 export interface BoonOffer {
@@ -455,6 +459,21 @@ export interface Profile {
   codex: { charms: string[]; monsters: string[]; hands: HandType[] };
   stats: { expeditions: number; clears: number; wipes: number; deaths: number; bestScore: number; retreats: number };
   townDay: number;
+  /** Story progress: chapters already shown, and how often Tiamat has fallen. */
+  story?: { seen: string[]; tiamat: number };
+  /** Optional name shown on the share card. */
+  keeperName?: string;
+}
+
+/** Guided-tutorial progress. Null/undefined once finished or skipped. */
+export interface TutorialState {
+  step: number;
+  /** Last step whose enter hook ran. */
+  entered?: number;
+  /** Scratch value a step records on entry. */
+  mark?: string;
+  /** Contextual tips already shown (spoils, boons, events…). */
+  tips: string[];
 }
 
 export interface GameState {
@@ -471,7 +490,8 @@ export interface GameState {
   shopStock: string[];
   townRng: RngStreams['town'];
   expedition?: Expedition;
-  lastResult?: { kind: 'won' | 'retreated' | 'wiped'; gold: number; items: string[]; fallen: string[]; leveled: string[]; biome: BiomeId; score: number; fights: number; rank: number; charms: string[]; bossRounds?: number };
+  lastResult?: { kind: 'won' | 'retreated' | 'wiped'; gold: number; items: string[]; fallen: string[]; leveled: string[]; biome: BiomeId; score: number; fights: number; rank: number; charms: string[]; bossRounds?: number; tutorial?: boolean; finale?: boolean; chapter?: string };
   uidCounter: number;
   settings: { fast: boolean; sound: boolean };
+  tutorial?: TutorialState | null;
 }

@@ -1,5 +1,6 @@
 /** SRD 5.2.1 species and backgrounds (paraphrased), plus name tables. */
 import type { Ability, DamageType, Skill } from '../engine/types.ts';
+import type { Rng } from '../engine/rng.ts';
 
 export interface SpeciesDef {
   id: string;
@@ -45,6 +46,28 @@ export const FIRST_NAMES = [
   'Isolde', 'Jory', 'Kael', 'Lark', 'Magnus', 'Nell', 'Orla', 'Piety', 'Rhosyn', 'Sable', 'Tobin', 'Ula',
   'Wren', 'Yarrow', 'Zephyr', 'Ansel', 'Brisa', 'Cato', 'Delphine', 'Emrys', 'Frey', 'Gideon', 'Hale', 'Ivo',
 ];
+
+export const LAST_NAMES = [
+  'Ashdown', 'Blackbriar', 'Coppervein', 'Dunmore', 'Emberly', 'Fairwind', 'Greymantle', 'Hollowell', 'Ironwood', 'Kettleburn',
+  'Larkspur', 'Mossgrave', 'Nettlefield', 'Oakhart', 'Pennywhistle', 'Quarrystone', 'Ravenscar', 'Saltmarsh', 'Thornwood', 'Underbough',
+  'Vantrell', 'Whitlock', 'Yewbrook', 'Ambervale', 'Brightwater', 'Cindermoor', 'Dawnmere', 'Elmsworth', 'Foxglove', 'Goldhollow',
+  'Hearthstone', 'Juniper', 'Kingsley', 'Lockhart', 'Marrowby', 'Northam', 'Oldcastle', 'Pike', 'Redfern', 'Stormcrow',
+  'Tallowmere', 'Umber', 'Vale', 'Wyndham', 'Fletcher', 'Dicewright', 'Lanternfall', 'Blackwood', 'Silverhand', 'Gallowglass',
+];
+
+/** First + last name, avoiding every name in `taken` (case-insensitive). */
+export function uniqueName(rng: Rng, taken: Iterable<string>): string {
+  const used = new Set([...taken].map((n) => n.toLowerCase()));
+  for (let i = 0; i < 200; i++) {
+    const n = `${rng.pick(FIRST_NAMES)} ${rng.pick(LAST_NAMES)}`;
+    if (!used.has(n.toLowerCase())) return n;
+  }
+  // Exhausted the random tries (absurdly large roster): number the name.
+  const base = `${rng.pick(FIRST_NAMES)} ${rng.pick(LAST_NAMES)}`;
+  let k = 2;
+  while (used.has(`${base} ${k}`.toLowerCase())) k++;
+  return `${base} ${k}`;
+}
 
 export const EPITHETS = [
   'the Bold', 'Ashborn', 'of the Lantern', 'Dicehand', 'the Quiet', 'Coinsworn', 'the Unlucky', 'Thrice-Risen',

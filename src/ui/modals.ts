@@ -22,6 +22,9 @@ import { SKILL_ABILITY } from '../rules/character.ts';
 import { itemSummary, SLOT_NAMES } from './town.ts';
 import { sfx } from './audio.ts';
 import { CLASS_MATERIAL, MATERIALS } from '../fortune/materials.ts';
+import { CHAPTERS, EPILOGUE, type Chapter } from '../content/story.ts';
+import { openShareCard } from './shareCard.ts';
+import { restartTutorial } from './tutorial.ts';
 
 const mod = (n: number) => (n >= 0 ? `+${n}` : `${n}`);
 
@@ -175,7 +178,7 @@ export function boonsModal(): HTMLElement {
   if (app.ui.bagPick?.purpose === 'boon') return bagPickModal();
   if (replacing?.purpose === 'boon') return replaceModal();
   return modal([
-    h('h2', null, b.source === 'boss' ? `Choose ${b.picks} boons` : 'Choose a boon'),
+    h('h2', null, b.picks > 1 ? `Choose ${b.picks} boons` : 'Choose a boon'),
     h('div', { class: 'row small muted' }, `Charms ${run0.charms.length}/${charmSlots(run0)}`, doubloons(run0.doubloons)),
     h('div', { class: 'boons', style: 'margin:10px 0' }, ...b.offers.map((o, i) => boonCard(o, () => pickOffer('boon', o, i)))),
     h('div', { class: 'row' }, h('span', { class: 'spacer' }), btn('Skip (+2 doubloons)', () => run({ type: 'skipBoon' }))),
@@ -305,19 +308,24 @@ export function bagModal(): HTMLElement {
 export function resultScreen(): HTMLElement {
   const g = app.game!;
   const r = g.lastResult!;
-  const title = r.kind === 'won' ? 'The echo is broken' : r.kind === 'retreated' ? 'A tactical retreat' : 'The party has fallen';
+  const title = r.finale && r.kind === 'won' ? 'The Dragon Queen falls!' : r.tutorial && r.kind === 'won' ? 'Practice complete' : r.kind === 'won' ? 'The echo is broken' : r.kind === 'retreated' ? 'A tactical retreat' : 'The party has fallen';
+  const chapter: Chapter | undefined = r.chapter === EPILOGUE.id ? EPILOGUE : r.chapter ? CHAPTERS[r.chapter as keyof typeof CHAPTERS] : undefined;
   return h('div', { class: 'title-screen', style: bgStyle(r.kind === 'won' ? `scenes/${r.biome}_boss` : 'town/keep', '#0b1230') + ';background-size:cover;background-position:center' },
     h('div', { class: 'title-inner' },
       h('div', { class: 'win', style: 'width:min(640px,100%)' },
         h('h1', { class: `result-big ${r.kind === 'wiped' ? 'danger' : 'gold'}` }, title),
-        h('p', { class: 'prose', style: 'text-align:center;margin:8px auto' }, `${BIOMES[r.biome].name} — ${r.fights} fights, best hand ${fmt(r.score)}.`),
+        h('p', { class: 'prose', style: 'text-align:center;margin:8px auto' }, `${r.finale ? 'The Dragon Throne' : r.tutorial ? 'The Training Cellar' : BIOMES[r.biome].name} — ${r.fights} fights, best hand ${fmt(r.score)}.`),
+        chapter ? h('div', { class: 'chronicle story-beat' }, h('div', { class: 'chapter-head' }, chapter.head), h('h2', null, chapter.title), ...chapter.text.map((t) => h('p', { class: 'prose' }, t))) : null,
+        r.tutorial && r.kind !== 'won' ? h('p', { class: 'prose', style: 'text-align:center' }, 'Practice makes perfect. Nobody died, and the Training Cellar is still open in the Cartographer.') : null,
         h('table', { class: 'mini' },
           h('tr', null, h('th', null, 'Gold banked'), h('td', { class: 'gold' }, r.gold)),
           r.items.length ? h('tr', null, h('th', null, 'Treasure'), h('td', null, r.items.join(', '))) : null,
           r.leveled.length ? h('tr', null, h('th', null, 'Ready to level up'), h('td', null, r.leveled.join(', '))) : null,
           r.fallen.length ? h('tr', null, h('th', null, 'Fallen'), h('td', { class: 'danger' }, r.fallen.join(', '))) : null),
         r.charms.length ? h('div', { style: 'margin-top:10px' }, h('div', { class: 'small muted' }, 'This run\'s charms, now gone with the echo:'), h('div', { class: 'charm-bar' }, ...r.charms.map((c) => charmEl(c)))) : null,
-        h('div', { class: 'row', style: 'justify-content:center;margin-top:14px' }, btn('Return to the Keep', () => { app.ui.townTab = r.leveled.length ? 'guild' : 'cartographer'; run({ type: 'ackResult' }); }, { cls: 'primary big', key: 'ack' })))));
+        h('div', { class: 'row', style: 'justify-content:center;margin-top:14px' },
+          r.kind === 'won' && !r.tutorial ? btn('🖼 Share card', () => openShareCard(g), { key: 'result-share' }) : null,
+          btn('Return to the Keep', () => { app.ui.townTab = r.leveled.length ? 'guild' : 'cartographer'; run({ type: 'ackResult' }); }, { cls: 'primary big', key: 'ack' })))));
 }
 
 export { art, dieFace, SKILL_ABILITY };
@@ -337,7 +345,11 @@ export function helpModal(): HTMLElement {
     p('After every fight your Fortune Rank rises: choose a charm, an omen (levels up a hand), a new die, a face enchantment, or a token. Charms score left to right, so order matters (rearrange them in the Dice bag). Doubloons earn interest; spend them at the Peddler. It all vanishes when the dungeon ends, so go big.'),
     h('h3', null, 'Watch out'),
     p('Enemies hex your tray: they steal dice, jinx your best face, or flip everything. Bosses bring a curse that changes the rules for the fight. Each echo has its own meter, like Heat or Gravity, that bends both the map and the dice.'),
+    h('h3', null, 'The story'),
+    p('Tiamat, the five-headed Dragon Queen, stirs beyond the Fifth Door. Each echo you break tells the next chapter (see the Chronicle). Once a hero reaches level 20, take them to the Dragon Throne in the Cartographer and end her reign.'),
     h('p', { class: 'small muted' }, 'Keys: 1–9 select dice · R reroll · A/B/C/D/G menus · E end turn · Esc back · arrows to explore.'),
-    h('div', { class: 'row' }, h('span', { class: 'spacer' }), btn('Got it', close, { cls: 'primary', key: 'help-ok' })),
+    h('div', { class: 'row' },
+      app.game && !app.game.expedition && !app.game.tutorial ? btn('Restart the guided tour', () => { restartTutorial(app.game!); app.ui.townTab = 'guild'; close(); }, { cls: 'small' }) : null,
+      h('span', { class: 'spacer' }), btn('Got it', close, { cls: 'primary', key: 'help-ok' })),
   ], { label: 'How to play', onClose: close });
 }

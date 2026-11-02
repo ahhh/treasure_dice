@@ -31,7 +31,7 @@ export type GameCmd =
   | { type: 'castExplore'; heroId: string; spellId: string; targetId?: string }
   | { type: 'retreat' }
   | { type: 'exitDungeon' }
-  | { type: 'startExpedition'; partyIds: string[]; biome: BiomeId; difficulty: Difficulty; seed: string; size?: 'short' | 'normal' | 'long' }
+  | { type: 'startExpedition'; partyIds: string[]; biome: BiomeId; difficulty: Difficulty; seed: string; size?: 'short' | 'normal' | 'long'; tutorial?: boolean; finale?: boolean }
   | { type: 'hire'; idx: number }
   | { type: 'rerollRecruits' }
   | { type: 'retire'; heroId: string }

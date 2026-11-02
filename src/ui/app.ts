@@ -14,6 +14,8 @@ export interface UiState {
   seed: string;
   // combat
   selected: number[];
+  /** Combatant id the current selection belongs to. */
+  selFor?: string;
   menu: string;
   pending?: { key: string; slot?: number; meta: string[] };
   talent?: { id: string; needs: string };
@@ -59,6 +61,8 @@ export function toast(msg: string, ok = false) {
 }
 
 let saveTimer: ReturnType<typeof setTimeout> | null = null;
+/** Debounced save of the current game (used by UI-only state like tutorial progress). */
+export function persist() { autosave(); }
 function autosave() {
   if (!app.game) return;
   if (saveTimer) clearTimeout(saveTimer);
@@ -103,9 +107,12 @@ export function render() {
   if (focusKey) (root.querySelector(`[data-key="${CSS.escape(focusKey)}"]`) as HTMLElement | null)?.focus();
   afterRender.forEach((f) => f());
   afterRender.length = 0;
+  for (const f of postRender) f();
 }
 
 export const afterRender: (() => void)[] = [];
+/** Hooks that run after every render (the tutorial coach). */
+export const postRender: (() => void)[] = [];
 
 export function wait(ms: number) {
   return new Promise((r) => setTimeout(r, app.game?.settings.fast ? ms / 3 : ms));

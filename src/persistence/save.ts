@@ -118,5 +118,7 @@ export function migrate(g: GameState): GameState {
   if (!g.schemaVersion) g.schemaVersion = 1;
   g.settings = g.settings ?? { fast: false, sound: true };
   if (g.expedition && !g.expedition.searched) g.expedition.searched = [];
+  // Story progress: earlier saves have seen the chapters for the echoes they already cleared.
+  if (!g.profile.story) g.profile.story = { seen: Object.keys(g.profile.sigils).filter((b) => (g.profile.sigils[b as keyof typeof g.profile.sigils] ?? 0) > 0), tiamat: 0 };
   return g;
 }

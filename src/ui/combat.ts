@@ -48,7 +48,6 @@ export function doReroll() {
     app.ui.rolling = new Set(sel);
     app.ui.selected = [];
     render();
-    setTimeout(() => { app.ui.rolling = new Set(); }, 500);
   }
 }
 
@@ -161,7 +160,13 @@ function trayEl(): HTMLElement {
   const turn = ctx.combat.turn;
   const actor = current(ctx);
   const hero = actor && g.roster.find((x) => x.id === actor.refId);
+  // A selection belongs to the hero who made it: never hand it to the next actor.
+  if (app.ui.selFor !== actor?.id) { app.ui.selected = []; app.ui.selFor = actor?.id; }
   const sel = app.ui.selected.filter((i) => f.tray[i]);
+  // The roll animation is one-shot: consume it so later renders (a die click,
+  // a menu change) don't replay it on dice that were rolled earlier.
+  const rolling = app.ui.rolling;
+  app.ui.rolling = new Set();
   let preview: ReturnType<typeof previewHand> | null = null;
   if (sel.length && hero) {
     preview = previewHand({ run: f, trayIndices: sel.slice(0, 5), actor: { classId: hero.classId, level: hero.level, hpFrac: actor!.hp / actor!.maxHp, affinity: CLASS_MATERIAL[hero.classId] }, action: 'attack', base: 0, baseLabel: 'Action', rng: new Rng([1, 2, 3, 4]), firstHand: ctx.combat.handsThisCombat === 0, marked: false, enemiesAlive: 2, curse: ctx.combat.curse });
@@ -207,7 +212,7 @@ function trayEl(): HTMLElement {
       h('span', { class: 'rerolls' }, 'Rerolls ', h('b', null, f.rerollsLeft)),
       h('span', { class: 'rerolls' }, 'Plays ', h('b', null, playsLeft)),
       doubloons(f.doubloons)),
-    h('div', { class: 'dice-row' }, ...f.tray.map((td, i) => trayDie(f, td, i, sel.includes(i), app.ui.rolling.has(i), () => toggleDie(i)))),
+    h('div', { class: 'dice-row' }, ...f.tray.map((td, i) => trayDie(f, td, i, sel.includes(i), rolling.has(i), () => toggleDie(i)))),
     h('div', { class: 'tray-actions' },
       btn(['Reroll selected ', h('span', { class: 'kbd' }, 'R')], doReroll, { disabled: !turn || !sel.length || (f.rerollsLeft <= 0 && !(hero?.classId === 'barbarian' && has(actor!, 'raging'))), key: 'reroll', title: hero?.classId === 'barbarian' && has(actor!, 'raging') && f.rerollsLeft <= 0 ? 'Blood Dice: pay HP for a reroll' : undefined }),
       btn('Clear', () => { app.ui.selected = []; render(); }, { cls: 'small', disabled: !sel.length }),

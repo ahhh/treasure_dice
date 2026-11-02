@@ -5,6 +5,8 @@ import { titleScreen } from './ui/title.ts';
 import { townScreen } from './ui/town.ts';
 import { exploreScreen, move } from './ui/explore.ts';
 import { combatScreen, combatKeys } from './ui/combat.ts';
+import { shareModal } from './ui/shareCard.ts';
+import { installTutorial, coachBlocking } from './ui/tutorial.ts';
 import { heroSheet, levelUpModal, spoilsModal, boonsModal, lootChoiceModal, eventModal, shopModal, bagModal, resultScreen, helpModal } from './ui/modals.ts';
 
 app.root = document.getElementById('app')!;
@@ -20,6 +22,7 @@ app.renderers.overlay = () => {
   if (app.ui.levelUp) return levelUpModal(app.ui.levelUp);
   if (app.ui.modal?.kind === 'bag' && g.expedition) return bagModal();
   if (app.ui.modal?.kind === 'help') return helpModal();
+  if (app.ui.modal?.kind === 'share') return shareModal();
   const exp = g.expedition;
   if (exp) {
     if (exp.spoils) return spoilsModal();
@@ -34,6 +37,8 @@ app.renderers.overlay = () => {
 document.addEventListener('keydown', (e) => {
   if ((e.target as HTMLElement).tagName === 'INPUT' || (e.target as HTMLElement).tagName === 'SELECT') return;
   if (e.metaKey || e.ctrlKey || e.altKey) return;
+  // A blocking tutorial bubble owns the keyboard until Next.
+  if (coachBlocking()) return;
   const g = app.game;
   if (!g) return;
   if (e.key === 'Escape' && (app.ui.heroSheet || app.ui.levelUp || app.ui.modal)) {
@@ -49,6 +54,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+installTutorial();
 void loadManifest().then(render);
 render();
 

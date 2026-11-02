@@ -19,9 +19,12 @@ import { exportSave } from '../persistence/save.ts';
 import { download } from './title.ts';
 import { saveGame } from '../persistence/save.ts';
 import { sfx } from './audio.ts';
+import { PROLOGUE, CHAPTERS, HEADS, FINALE, FINALE_LEVEL, EPILOGUE, finaleBlocked, storyOf } from '../content/story.ts';
+import { openShareCard } from './shareCard.ts';
 
 const TABS: [string, string, string][] = [
   ['guild', 'Guild Hall', 'town/guild'],
+  ['chronicle', 'Chronicle', 'town/door'],
   ['cartographer', 'Cartographer', 'town/cartographer'],
   ['armory', 'Armory', 'town/armory'],
   ['apothecary', 'Apothecary', 'town/apothecary'],
@@ -63,7 +66,7 @@ export function townScreen(): HTMLElement {
 }
 
 const TAB_RENDER: Record<string, () => HTMLElement> = {
-  guild: guildTab, cartographer: cartTab, armory: () => shopTab('gear'), apothecary: () => shopTab('consumable'),
+  guild: guildTab, chronicle: chronicleTab, cartographer: cartTab, armory: () => shopTab('gear'), apothecary: () => shopTab('consumable'),
   enchanter: enchantTab, training: trainingTab, vault: vaultTab, codex: codexTab,
 };
 
@@ -86,14 +89,14 @@ function guildTab(): HTMLElement {
   const alive = g.roster.filter((x) => x.status === 'alive');
   const fallen = g.roster.filter((x) => x.status === 'dead');
   return h('div', { class: 'col' },
-    h('div', { class: 'win' },
+    h('div', { class: 'win', 'data-tut': 'roster' },
       h('h2', null, `Roster (${alive.length}/${rosterCap(g)})`),
       h('p', { class: 'small muted' }, 'Click a hero to see their sheet, gear and spells.'),
       h('div', { class: 'cards' }, ...alive.map((hero) => heroCard(hero, {
         onClick: () => { app.ui.heroSheet = hero.id; render(); },
-        extra: hero.pendingLevel ? btn('Level up', () => { app.ui.levelUp = hero.id; render(); }, { cls: 'primary small' }) : null,
+        extra: hero.pendingLevel ? h('span', { 'data-tut': 'levelup' }, btn('Level up', () => { app.ui.levelUp = hero.id; render(); }, { cls: 'primary small' })) : null,
       })))),
-    h('div', { class: 'win' },
+    h('div', { class: 'win', 'data-tut': 'recruits' },
       h('div', { class: 'row' }, h('h2', { class: 'grow' }, 'Recruits'), btn('New faces (25 gold)', () => run({ type: 'rerollRecruits' }), { cls: 'small' })),
       h('div', { class: 'cards' }, ...g.recruits.map((hero, i) => heroCard(hero, {
         onClick: () => { app.ui.heroSheet = `recruit:${i}`; render(); },
@@ -115,10 +118,22 @@ function cartTab(): HTMLElement {
     else if (ui.party.length < 3) ui.party = [...ui.party, id];
     render();
   };
-  const levels = ui.party.map((id) => g.roster.find((x) => x.id === id)!.level);
+  const finale = ui.biome === 'finale';
+  const partyHeroes = ui.party.map((id) => g.roster.find((x) => x.id === id)!);
+  const hasChampion = alive.some((x) => x.level >= FINALE_LEVEL);
+  if (finale && !hasChampion) ui.biome = 'cinder';
+  const tutorialOn = !!g.tutorial;
+  const levels = partyHeroes.map((x) => x.level);
   const spread = levels.length ? Math.max(...levels) - Math.min(...levels) : 0;
   return h('div', { class: 'col' },
-    h('div', { class: 'win' },
+    tutorialOn ? h('div', { class: 'win tutorial-call' },
+      h('h2', null, 'The Training Cellar'),
+      h('p', { class: 'prose' }, 'A short, gentle practice dungeon under the Keep: one fight, a treasure room, the Boss Sigil and a sparring boss. Nobody can die there, and your heroes come back one level stronger.'),
+      btn('Enter the Training Cellar', () => {
+        const r = run({ type: 'startExpedition', partyIds: ui.party, biome: 'cinder', difficulty: 'explorer', seed: 'TUTORIAL', tutorial: true });
+        if (r.ok) sfx.fanfare();
+      }, { cls: 'primary big', disabled: ui.party.length !== 3, key: 'start-tutorial' })) : null,
+    h('div', { class: 'win', 'data-tut': 'party' },
       h('h2', null, 'Choose your three'),
       spread >= 4 ? h('p', { class: 'small danger' }, `Level spread of ${spread}: the dungeon is tuned to the party as a whole, so your weakest hero will struggle. Consider the Training Grounds.`) : null,
       h('div', { class: 'cards' }, ...alive.map((hero) => heroCard(hero, {
@@ -126,14 +141,20 @@ function cartTab(): HTMLElement {
       })))),
     h('div', { class: 'win' },
       h('h2', null, 'Choose an echo'),
-      h('div', { class: 'biome-pick' }, ...BIOME_ORDER.map((b) => {
+      h('div', { class: 'biome-pick', 'data-tut': 'biomes' }, ...BIOME_ORDER.map((b) => {
         const def = BIOMES[b];
         const open = g.profile.unlockedBiomes.includes(b);
         return h('button', { class: `biome-card ${ui.biome === b ? 'sel' : ''} ${open ? '' : 'locked'}`, style: bgStyle(`scenes/${b}_corridor`, `linear-gradient(135deg, ${def.color}, #0b1230)`), disabled: !open, on: { click: () => { ui.biome = b; render(); } } },
           h('b', null, def.name), h('span', { class: 'small' }, open ? def.tagline : 'Sealed — clear the previous echo'), open && g.profile.sigils[b] ? h('span', { class: 'small gold' }, `Cleared ×${g.profile.sigils[b]}`) : null);
-      })),
-      h('p', { class: 'prose' }, BIOMES[ui.biome as BiomeId].premise),
-      h('p', { class: 'small muted' }, `${BIOMES[ui.biome as BiomeId].meter.icon} ${BIOMES[ui.biome as BiomeId].meter.name}: ${BIOMES[ui.biome as BiomeId].meter.text}`),
+      }), h('button', { class: `biome-card finale ${finale ? 'sel' : ''} ${hasChampion ? '' : 'locked'}`, style: bgStyle('monsters/starfall_tiamat', 'linear-gradient(135deg, #7a1f2b, #2b1550 55%, #0b1230)'), disabled: !hasChampion, 'data-key': 'biome-finale', title: hasChampion ? FINALE.tagline : `Needs a level ${FINALE_LEVEL} hero`, on: { click: () => { ui.biome = 'finale'; render(); } } },
+        h('b', null, `👑 ${FINALE.name}`), h('span', { class: 'small' }, hasChampion ? FINALE.tagline : `Sealed — needs a level ${FINALE_LEVEL} hero`), storyOf(g).tiamat ? h('span', { class: 'small gold' }, `Tiamat slain ×${storyOf(g).tiamat}`) : null)),
+      finale
+        ? h('div', null, h('p', { class: 'prose' }, FINALE.premise),
+          h('p', { class: 'small muted' }, 'Final stage: a long Starfall dungeon, and Tiamat on her throne in place of its boss. Her Chromatic Dominion curse debuffs Ember, Verdant, Shadow, Frost and Storm dice and cuts Mult to ×0.75.'),
+          finaleBlocked(partyHeroes) ? h('p', { class: 'small danger' }, finaleBlocked(partyHeroes)) : null)
+        : h('div', null,
+          h('p', { class: 'prose' }, BIOMES[ui.biome as BiomeId].premise),
+          h('p', { class: 'small muted' }, `${BIOMES[ui.biome as BiomeId].meter.icon} ${BIOMES[ui.biome as BiomeId].meter.name}: ${BIOMES[ui.biome as BiomeId].meter.text}`)),
       h('div', { class: 'row' },
         h('span', null, 'Difficulty'),
         ...(['explorer', 'standard', 'perilous'] as const).map((d) => btn(d[0].toUpperCase() + d.slice(1), () => { ui.difficulty = d; render(); }, { cls: `small ${ui.difficulty === d ? 'on' : ''}`, title: d === 'perilous' ? 'More foes, tougher fights, elite curses, ×1.5 gold' : d === 'explorer' ? 'Fewer, softer foes; less gold' : 'The intended challenge' })),
@@ -145,13 +166,51 @@ function cartTab(): HTMLElement {
         h('input', { id: 'seed', value: ui.seed, style: 'background:#0b1230;color:inherit;border:1px solid #556;padding:6px;border-radius:4px;font:inherit;width:160px', on: { change: (e: Event) => { ui.seed = (e.target as HTMLInputElement).value.trim().toUpperCase() || randomSeed(); } } }),
         btn('Random', () => { ui.seed = randomSeed(); render(); }, { cls: 'small' }),
         h('span', { class: 'spacer' }),
-        btn('Open the Fifth Door', () => {
-          const r = run({ type: 'startExpedition', partyIds: ui.party, biome: ui.biome as BiomeId, difficulty: ui.difficulty, seed: ui.seed, size: ui.size });
+        btn(finale ? 'Face the Dragon Queen' : 'Open the Fifth Door', () => {
+          const r = run(finale
+            ? { type: 'startExpedition', partyIds: ui.party, biome: 'starfall', difficulty: ui.difficulty, seed: ui.seed, finale: true }
+            : { type: 'startExpedition', partyIds: ui.party, biome: ui.biome as BiomeId, difficulty: ui.difficulty, seed: ui.seed, size: ui.size });
           if (r.ok) { ui.seed = ''; sfx.fanfare(); }
-        }, { cls: 'primary big', disabled: ui.party.length !== 3, key: 'start-exp' }),
+        }, { cls: 'primary big', disabled: ui.party.length !== 3 || (finale && !!finaleBlocked(partyHeroes)), key: 'start-exp' }),
       ),
       h('p', { class: 'small muted' }, 'Consumables in the Vault (up to six stacks) are packed automatically. Your Fortune — dice bag, charms, omens, doubloons — starts fresh in every echo.'),
     ),
+  );
+}
+
+function chronicleTab(): HTMLElement {
+  const g = app.game!;
+  const story = storyOf(g);
+  const alive = g.roster.filter((x) => x.status === 'alive');
+  const best = alive.reduce((m, x) => Math.max(m, x.level), 0);
+  const para = (t: string) => h('p', { class: 'prose' }, t);
+  return h('div', { class: 'col' },
+    h('div', { class: 'win chronicle', 'data-tut': 'story' },
+      h('div', { class: 'chapter-head' }, PROLOGUE.head), h('h2', null, PROLOGUE.title), ...PROLOGUE.text.map(para),
+      h('div', { class: 'heads' }, ...BIOME_ORDER.map((b) => {
+        const broken = (g.profile.sigils[b] ?? 0) > 0;
+        return h('div', { class: `head ${broken ? 'broken' : ''}`, style: `--hc:${HEADS[b].color}`, title: `${HEADS[b].name} (${HEADS[b].breath}) feeds ${BIOMES[b].name}${broken ? ' — broken' : ''}` },
+          h('span', { class: 'head-dot' }), h('span', { class: 'small' }, BIOMES[b].name.replace(/^The /, '')));
+      }))),
+    ...BIOME_ORDER.map((b) => {
+      const c = CHAPTERS[b];
+      const earned = (g.profile.sigils[b] ?? 0) > 0;
+      return h('div', { class: `win chronicle ${earned ? '' : 'sealed'}` },
+        h('div', { class: 'chapter-head' }, `${c.head} · ${BIOMES[b].name}`),
+        earned ? [h('h2', null, c.title), ...c.text.map(para)] : h('p', { class: 'muted' }, `Break ${BIOMES[b].name} to read this chapter.`));
+    }),
+    h('div', { class: 'win chronicle finale-win' },
+      h('div', { class: 'chapter-head' }, 'The Final Stage'),
+      h('h2', null, `👑 ${FINALE.name}`),
+      para(FINALE.premise),
+      h('p', { class: best >= FINALE_LEVEL ? 'gold' : 'muted' }, best >= FINALE_LEVEL
+        ? 'You have a champion at the height of their power. Choose the Dragon Throne in the Cartographer.'
+        : `Requires a level ${FINALE_LEVEL} hero in the party. Your strongest living hero is level ${best || '—'}.`),
+      story.tiamat ? [h('div', { class: 'chapter-head', style: 'margin-top:10px' }, EPILOGUE.head), h('h3', null, EPILOGUE.title), ...EPILOGUE.text.map(para), h('p', { class: 'gold' }, `Tiamat slain ×${story.tiamat}.`)] : null),
+    h('div', { class: 'win' },
+      h('h2', null, 'Share your legends'),
+      h('p', { class: 'small muted' }, 'A card with your three best heroes, the echoes you have broken, and your record. Save it as an image or share it.'),
+      h('span', { 'data-tut': 'share' }, btn('🖼 Make a share card', () => openShareCard(g), { cls: 'primary', key: 'share-card' }))),
   );
 }
 

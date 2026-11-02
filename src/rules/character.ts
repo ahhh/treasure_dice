@@ -7,7 +7,7 @@ import { ABILITIES } from '../engine/types.ts';
 import type { Rng } from '../engine/rng.ts';
 import { CLASSES, maxSlots, proficiency, featuresUpTo, FIGHTING_STYLES, METAMAGIC, INVOCATIONS, EPIC_BOONS } from '../content/classes.ts';
 import { ITEMS, AFFIXES, type Mastery, type WeaponProp } from '../content/items.ts';
-import { SPECIES, BACKGROUNDS, FIRST_NAMES } from '../content/origins.ts';
+import { SPECIES, BACKGROUNDS, uniqueName } from '../content/origins.ts';
 import { portraitsFor } from '../content/portraits.ts';
 import { VITALITY } from './balance.ts';
 import { SPELLS, spellsForClass } from '../content/spells.ts';
@@ -325,6 +325,8 @@ export interface CreateOpts {
   background?: string;
   portrait?: string;
   rolled?: boolean;
+  /** Names already in use, so a generated name never collides. */
+  taken?: Iterable<string>;
 }
 
 export function createHero(rng: Rng, classId: ClassId, level: number, opts: CreateOpts = {}): Hero {
@@ -352,7 +354,7 @@ export function createHero(rng: Rng, classId: ClassId, level: number, opts: Crea
   }
   const hero: Hero = {
     id: heroUid(rng),
-    name: opts.name ?? rng.pick(FIRST_NAMES),
+    name: opts.name ?? uniqueName(rng, opts.taken ?? []),
     portrait: opts.portrait ?? variant?.key ?? `heroes/${classId}_1`,
     ancestry, background: bg.id, classId, level: 1, abilities,
     hpRolls: [], hp: 1, hitDice: 1,

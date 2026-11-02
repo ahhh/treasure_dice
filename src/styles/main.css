@@ -396,3 +396,40 @@ table.mini td, table.mini th { padding: 3px 6px; border-bottom: 1px solid rgba(2
   .abil { grid-template-columns: repeat(3, 1fr); }
   .battlefield { min-height: 300px; }
 }
+
+/* ── tutorial coach marks ─────────────────────────────────────────────────── */
+.coach { position: fixed; inset: 0; z-index: 55; pointer-events: none; }
+.coach-block { position: absolute; inset: 0; pointer-events: auto; }
+.coach-ring { position: fixed; border: 2px solid var(--gold); border-radius: 10px; box-shadow: 0 0 0 9999px rgba(3, 6, 18, .35), 0 0 18px var(--gold); pointer-events: none; transition: left .2s, top .2s, width .2s, height .2s; }
+.coach-ring.block { box-shadow: 0 0 0 9999px rgba(3, 6, 18, .7), 0 0 18px var(--gold); }
+.coach-ring.free { box-shadow: 0 0 18px var(--gold); }
+.coach-bubble { position: fixed; width: min(360px, calc(100vw - 20px)); max-height: 70vh; overflow-y: auto; pointer-events: auto; background: #10173a; border: 2px solid var(--gold); border-radius: 10px; padding: 12px 14px; box-shadow: 0 14px 40px #000c; font-size: 14px; }
+.coach-bubble.free { width: min(290px, calc(100vw - 20px)); opacity: .96; }
+.coach-bubble.enter { animation: coachIn .25s ease-out; }
+@keyframes coachIn { from { opacity: 0; transform: translateY(6px); } }
+.coach-bubble h4 { font-size: 17px; margin: 2px 0 6px; color: var(--gold); }
+.coach-bubble p { margin: 0 0 6px; font-family: var(--prose); font-size: 15px; line-height: 1.4; }
+.coach-bubble .coach-faint { color: var(--muted); font-size: 13px; }
+.coach-list { margin: 0 0 6px; padding-left: 18px; font-family: var(--prose); font-size: 15px; line-height: 1.35; }
+.coach-meta { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.coach-skip { background: none; border: 0; padding: 4px 0; color: var(--muted); text-decoration: underline; cursor: pointer; font: inherit; font-size: 12px; }
+@media (prefers-reduced-motion: reduce) { .coach-ring { transition: none; } .coach-bubble.enter { animation: none; } }
+
+/* ── story ────────────────────────────────────────────────────────────────── */
+.chronicle .chapter-head { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--brass); }
+.chronicle.sealed { opacity: .6; }
+.chronicle .prose { margin: 6px 0; }
+.story-beat { margin: 12px 0; padding: 12px 14px; border-left: 3px solid var(--gold); background: rgba(242, 193, 78, .06); text-align: left; }
+.heads { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px; }
+.head { display: flex; align-items: center; gap: 6px; color: var(--muted); }
+.head-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--hc); background: transparent; }
+.head.broken { color: var(--bone); }
+.head.broken .head-dot { background: var(--hc); box-shadow: 0 0 8px var(--hc); }
+.finale-win { border-color: rgba(226, 64, 58, .6); }
+.biome-card.finale { border-color: rgba(242, 193, 78, .6); }
+.tutorial-call { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold) inset; }
+
+/* ── share card ───────────────────────────────────────────────────────────── */
+.share-sheet { text-align: center; }
+.share-card { display: block; width: 100%; max-width: 420px; height: auto; margin: 0 auto 10px; border-radius: 12px; box-shadow: 0 8px 28px #000a; }
+.field { width: 100%; max-width: 420px; background: #0b1230; color: inherit; border: 1px solid #556; padding: 8px; border-radius: 4px; font: inherit; }

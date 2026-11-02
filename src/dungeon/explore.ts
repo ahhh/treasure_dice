@@ -20,6 +20,8 @@ import { castableSpells, SPELLS } from '../content/spells.ts';
 import { goldReward, DOUBLOONS_PER_COMBAT, DIFFICULTY_MOD, VITALITY } from '../rules/balance.ts';
 import { rollItem, bossLootChoice } from '../meta/loot.ts';
 import { makeItem } from '../rules/character.ts';
+import { buildTutorialMap, TUTORIAL_SEED } from './tutorial.ts';
+import { FINALE, CHAPTERS, EPILOGUE, finaleBlocked, storyOf } from '../content/story.ts';
 
 export function xlog(exp: Expedition, t: string, kind?: LogEntry['kind']) {
   exp.log.push({ t, kind });
@@ -31,20 +33,33 @@ const living = (g: GameState) => party(g).filter((h) => h.status === 'alive');
 
 // ── start ───────────────────────────────────────────────────────────────────
 
-export interface StartOpts { partyIds: string[]; biome: BiomeId; difficulty: Difficulty; seed: string; size?: 'short' | 'normal' | 'long' }
+export interface StartOpts { partyIds: string[]; biome: BiomeId; difficulty: Difficulty; seed: string; size?: 'short' | 'normal' | 'long'; tutorial?: boolean; finale?: boolean }
 
 export function startExpedition(g: GameState, o: StartOpts): string | null {
   if (o.partyIds.length !== 3) return 'Choose exactly three heroes.';
   const heroes = o.partyIds.map((id) => g.roster.find((h) => h.id === id));
   if (heroes.some((h) => !h || h.status !== 'alive')) return 'Only living heroes can join.';
   if (heroes.some((h) => h!.pendingLevel)) return 'Finish level-ups first.';
-  if (!g.profile.unlockedBiomes.includes(o.biome)) return 'That echo is still sealed.';
+  if (o.tutorial && o.finale) return 'Pick one: the tutorial or the finale.';
+  if (o.tutorial) { o = { ...o, biome: 'cinder', difficulty: 'explorer', seed: TUTORIAL_SEED, size: 'short' }; }
+  if (o.finale) {
+    const blocked = finaleBlocked(heroes as Hero[]);
+    if (blocked) return blocked;
+    o = { ...o, biome: 'starfall', size: 'long' };
+  } else if (!o.tutorial && !g.profile.unlockedBiomes.includes(o.biome)) return 'That echo is still sealed.';
   const levels = heroes.map((h) => h!.level).sort((a, b) => a - b);
   // Effective level weights the strongest heroes but never ignores a weak link (plan §4.5).
   const partyLevel = Math.max(1, Math.round((levels[0] + levels[1] * 1.5 + levels[2] * 1.5) / 4));
   const rng = makeStreams(o.seed);
   const layout = new Rng(rng.layout);
-  const map = generateDungeon(layout, { seed: o.seed, biome: o.biome, level: partyLevel, difficulty: o.difficulty, size: o.size });
+  const map = o.tutorial ? buildTutorialMap() : generateDungeon(layout, { seed: o.seed, biome: o.biome, level: partyLevel, difficulty: o.difficulty, size: o.size });
+  if (o.finale) {
+    // The last stage: Tiamat replaces the echo's boss.
+    const throne = map.rooms[map.bossKey];
+    throne.name = FINALE.bossRoom;
+    throne.text = FINALE.bossText;
+    throne.encounter!.monsters[0] = 'tiamat';
+  }
   const narr = new Rng(rng.narrative);
   const b = BIOMES[o.biome];
   const bossRoom = map.rooms[map.bossKey];
@@ -61,11 +76,14 @@ export function startExpedition(g: GameState, o: StartOpts): string | null {
     map, pos: map.start, facing: 'N', visited: [map.start], seen: [map.start], fortune, log: [], depth: 0, status: 'active', rng,
     carriedGold: 0, carriedItems: [], keys: [], flags: {}, meter: o.biome === 'drowned' ? 1 : 0, steps: 0, shortRests: 0, longRestUsed: false,
     theme: {
-      name: b.name, anomaly: narr.pick(b.anomalies), faction: narr.pick(b.factions), objective: narr.pick(b.objectives),
-      boss: bossDef.name, hook: narr.pick(b.hooks),
+      name: o.finale ? FINALE.name : o.tutorial ? 'The Training Cellar' : b.name, anomaly: narr.pick(b.anomalies), faction: narr.pick(b.factions),
+      objective: o.finale ? 'end the Dragon Queen\'s reign' : o.tutorial ? 'take the Boss Sigil and beat the practice forge' : narr.pick(b.objectives),
+      boss: o.finale ? 'Tiamat, the Dragon Queen' : bossDef.name, hook: narr.pick(b.hooks),
     },
     fallen: [], bossDefeated: false, journal: [], searched: [],
   };
+  if (o.tutorial) exp.tutorial = true;
+  if (o.finale) exp.finale = true;
   // Carry the party's packed consumables (one stack of potions from the vault, if any).
   for (const inst of g.vault.filter((i) => ITEMS[i.defId]?.kind === 'consumable').slice(0, 6)) {
     exp.carriedItems.push(inst);
@@ -73,7 +91,9 @@ export function startExpedition(g: GameState, o: StartOpts): string | null {
   g.vault = g.vault.filter((i) => !exp.carriedItems.includes(i));
   g.expedition = exp;
   revealAround(exp);
-  xlog(exp, `${b.name}: ${exp.theme.anomaly}. Your goal: ${exp.theme.objective}.`, 'info');
+  if (o.tutorial) xlog(exp, 'The Training Cellar: a short, gentle dungeon beneath the Keep. Your goal: take the Boss Sigil and beat the practice forge.', 'info');
+  else if (o.finale) xlog(exp, `${FINALE.name}: ${FINALE.premise}`, 'warn');
+  else xlog(exp, `${b.name}: ${exp.theme.anomaly}. Your goal: ${exp.theme.objective}.`, 'info');
   xlog(exp, `Rumour has it ${exp.theme.boss} waits in the deepest chamber.`, 'info');
   g.profile.stats.expeditions += 1;
   // Face into the dungeon.
@@ -514,11 +534,11 @@ export function afterCombat(g: GameState) {
   }
   if (combat.status === 'defeat') {
     endCombatTray(exp.fortune);
-    if (g.mode === 'story') {
+    if (g.mode === 'story' || exp.tutorial) {
       for (const h of party(g)) if (h.status === 'alive' || combat.diedThisFight.includes(h.id)) { h.status = 'alive'; h.hp = 1; }
       exp.carriedGold = 0;
       exp.carriedItems = [];
-      xlog(exp, 'Story mode: the Keep\'s rescuers drag you home, empty-handed.', 'warn');
+      xlog(exp, exp.tutorial ? 'The Keep\'s trainers drag you out of the cellar. Nobody dies in practice.' : 'Story mode: the Keep\'s rescuers drag you home, empty-handed.', 'warn');
       finishExpedition(g, 'wiped');
     } else {
       for (const h of party(g)) if (h.status === 'alive') { h.status = 'dead'; h.history.deathCause = `fell in ${BIOMES[exp.biome].name}`; }
@@ -876,7 +896,9 @@ export function exitDungeon(g: GameState): string | null {
 export function finishExpedition(g: GameState, kind: 'won' | 'retreated' | 'wiped') {
   const exp = g.expedition!;
   exp.status = kind;
-  const result = { kind, gold: 0, items: [] as string[], fallen: [] as string[], leveled: [] as string[], biome: exp.biome, score: exp.fortune.bestScore, fights: exp.fortune.rank, rank: exp.fortune.rank, charms: exp.fortune.charms.map((c) => c.id), bossRounds: exp.flags.bossRounds ?? 0 };
+  const result: NonNullable<GameState['lastResult']> = { kind, gold: 0, items: [] as string[], fallen: [] as string[], leveled: [] as string[], biome: exp.biome, score: exp.fortune.bestScore, fights: exp.fortune.rank, rank: exp.fortune.rank, charms: exp.fortune.charms.map((c) => c.id), bossRounds: exp.flags.bossRounds ?? 0 };
+  if (exp.tutorial) result.tutorial = true;
+  if (exp.finale) result.finale = true;
   const members = party(g);
   if (kind === 'won' || kind === 'retreated') {
     const gold = kind === 'won' ? exp.carriedGold : Math.floor(exp.carriedGold * 0.5);
@@ -888,7 +910,8 @@ export function finishExpedition(g: GameState, kind: 'won' | 'retreated' | 'wipe
     if (h.status === 'dead') { result.fallen.push(h.name); continue; }
     if (kind === 'won') {
       h.history.clears += 1;
-      if (h.level < 20) { h.pendingLevel = true; result.leveled.push(h.name); }
+      // The practice cellar only takes a fresh hero from level 1 to 2 (replaying the tour is no XP farm).
+      if (h.level < 20 && (!exp.tutorial || h.level === 1)) { h.pendingLevel = true; result.leveled.push(h.name); }
     }
     // Everyone comes home rested.
     fullRestore(h);
@@ -902,11 +925,20 @@ export function finishExpedition(g: GameState, kind: 'won' | 'retreated' | 'wipe
       }
     }
   }
-  if (kind === 'won') {
+  const story = storyOf(g);
+  if (kind === 'won' && exp.finale) {
+    // Tiamat slain: the epilogue, not a sigil.
+    g.profile.stats.clears += 1;
+    story.tiamat += 1;
+    result.chapter = EPILOGUE.id;
+  } else if (kind === 'won' && !exp.tutorial) {
+    // (The practice cellar teaches the loop but earns no sigil and unlocks nothing.)
     g.profile.stats.clears += 1;
     g.profile.sigils[exp.biome] = (g.profile.sigils[exp.biome] ?? 0) + 1;
     const next = BIOME_ORDER[BIOME_ORDER.indexOf(exp.biome) + 1];
     if (next && !g.profile.unlockedBiomes.includes(next)) g.profile.unlockedBiomes.push(next);
+    // The first clear of an echo tells the next part of the story.
+    if (!story.seen.includes(exp.biome)) { story.seen.push(exp.biome); result.chapter = CHAPTERS[exp.biome].id; }
   }
   if (kind === 'wiped') g.profile.stats.wipes += 1;
   if (kind === 'retreated') g.profile.stats.retreats += 1;

@@ -19,7 +19,9 @@ export interface MonsterDef {
   immune?: DamageType[];
   vuln?: DamageType[];
   actions: MonsterAction[];
-  boss?: { curse: CurseId; phases: number; title: string; intro: string };
+  boss?: { curse: CurseId; phases: number; title: string; intro: string; hpMult?: number };
+  /** Final-stage boss: never rolled into an ordinary echo. */
+  finale?: boolean;
   flavor: string;
   /** Visual description for the art pipeline. */
   look: string;
@@ -193,10 +195,29 @@ M({ id: 'epochDevourer', name: 'The Epoch Devourer', biome: 'starfall', role: 'b
   boss: { curse: 'void', phases: 3, title: 'That Which Ends Ages', intro: 'Time goes thin. Something that eats eras uncurls.' },
   flavor: 'It ate the civilisation that built the ossuary. It is still hungry.', look: 'a vast cosmic serpent-worm of void with clock-faces dissolving in its maw and nebula-filled eyes' });
 
+// ── The finale ───────────────────────────────────────────────────────────────
+M({ id: 'tiamat', name: 'Tiamat', biome: 'starfall', role: 'boss', rank: 'front', tags: ['dragon', 'fiend'], finale: true,
+  resist: ['fire', 'cold', 'lightning', 'acid', 'poison'],
+  actions: [
+    atk('bites', 'Five-Headed Bite', 0.8, 'piercing', 4, { target: 'front' }),
+    atk('tail', 'Tail of the Abyss', 1.2, 'bludgeoning', 2),
+    save('redBreath', 'Red Breath', 1, 'fire', 'dex', 'all', 1.4, { telegraph: true }),
+    save('blueBreath', 'Blue Breath', 1.1, 'lightning', 'dex', 'back', 1.2, { telegraph: true }),
+    save('greenBreath', 'Green Breath', 0.9, 'poison', 'con', 'all', 1.2, { phase: 2 }),
+    save('whiteBreath', 'White Breath', 1.1, 'cold', 'con', 'front', 1.2, { phase: 2 }),
+    save('blackBreath', 'Black Breath', 1.15, 'acid', 'dex', 'all', 1.4, { phase: 3, telegraph: true }),
+    hex('dominion', 'Chromatic Dominion', 'curseFace', 1),
+    hex('hoard', 'Claim the Hoard', 'pilfer', 1),
+    hex('glare', 'Queen\'s Glare', 'jinx', 0.8),
+  ],
+  boss: { curse: 'chromatic', phases: 3, hpMult: 1.6, title: 'the Dragon Queen', intro: 'Five heads rise above the hoard. Each breathes a different death.' },
+  flavor: 'The five-headed Dragon Queen, sealed beyond the Fifth Door for an age, and awake again.',
+  look: 'Tiamat, a colossal five-headed chromatic dragon queen with red, blue, green, black and white heads, coiled atop a mountain of gold coins and dice, wings spread' });
+
 export const MONSTER_LIST = Object.values(MONSTERS);
 
 export function biomeMonsters(biome: BiomeId, bosses = false): MonsterDef[] {
-  return MONSTER_LIST.filter((m) => m.biome === biome && (bosses ? m.role === 'boss' : m.role !== 'boss'));
+  return MONSTER_LIST.filter((m) => m.biome === biome && !m.finale && (bosses ? m.role === 'boss' : m.role !== 'boss'));
 }
 
 export const TIER_TITLES = ['', 'Veteran ', 'Dread ', 'Mythic '];
