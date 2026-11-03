@@ -40,6 +40,8 @@ interface Step {
   done?: (g: GameState) => boolean;
   /** Non-blocking reminder parked in a corner while the player plays. */
   free?: boolean;
+  /** Becomes a small corner reminder (no ring) while this holds — e.g. when a window fills the screen. */
+  freeWhen?: (g: GameState) => boolean;
   /** Town tab the step lives on (a redirect bubble points there first). */
   tab?: string;
   enter?: (g: GameState) => void;
@@ -333,7 +335,10 @@ const STEPS: Step[] = [
   },
   {
     id: 'levelup', where: 'town', tab: 'guild', title: 'Level up',
-    target: () => app.ui.levelUp ? $('[data-key="confirm-level"]') : $('[data-tut="levelup"]'),
+    // Inside the wizard the choices fill the screen (on phones the confirm button is off-screen),
+    // so the bubble shrinks to a corner reminder instead of parking on top of the options.
+    freeWhen: () => !!app.ui.levelUp,
+    target: () => app.ui.levelUp ? null : $('[data-tut="levelup"]'),
     done: (g) => !g.roster.some((x) => x.status === 'alive' && x.pendingLevel),
     text: () => [P(app.ui.levelUp
       ? 'The level-up wizard lists the new features. When a level offers a choice (a fighting style, a feat…), pick it here. Then confirm.'
@@ -375,6 +380,8 @@ let tipHidden = false;
 // ── coach marks ─────────────────────────────────────────────────────────────
 
 let coach: { root: HTMLElement; raf: number; key: string; revealed: boolean } | null = null;
+/** Bubble the player minimised (by key), so re-renders keep it tucked away. */
+let collapsedKey: string | null = null;
 
 export function clearCoach() {
   if (!coach) return;
@@ -454,6 +461,7 @@ function tick() {
     const name = document.querySelector(`[data-key="tab-${st.tab}"]`)?.textContent?.trim() ?? st.tab;
     return show(g, { id: `go-${st.id}`, where: w, title: `Next: ${name}`, text: () => [P(`Click the `, B(name), ' tab to continue the tour.')], target: () => $(`[data-key="tab-${st.tab}"]`) });
   }
+  if (st.freeWhen?.(g)) return show(g, { ...st, id: `${st.id}~free`, free: true, target: undefined, dockTop: true });
   // A pop-up hides the step's target: wait until it closes (unless the target is inside it).
   if (modalOpen) {
     const els = targetsOf(st, g);
@@ -468,7 +476,7 @@ function targetsOf(st: { target?: (g: GameState) => Targets }, g: GameState): El
   return (Array.isArray(t) ? t : [t]).filter((el): el is Element => !!el && el.isConnected);
 }
 
-type Shown = Pick<Step, 'id' | 'where' | 'title' | 'text' | 'target' | 'next' | 'free' | 'last' | 'onNext'> & { tipOk?: boolean };
+type Shown = Pick<Step, 'id' | 'where' | 'title' | 'text' | 'target' | 'next' | 'free' | 'last' | 'onNext'> & { tipOk?: boolean; dockTop?: boolean };
 
 function show(g: GameState, st: Shown) {
   const tut = g.tutorial!;
@@ -480,7 +488,7 @@ function show(g: GameState, st: Shown) {
   }
   clearCoach();
   const isStep = !st.id.startsWith('tip-') && !st.id.startsWith('go-');
-  const idx = STEPS.findIndex((s) => s.id === st.id);
+  const idx = STEPS.findIndex((s) => s.id === st.id.replace(/~free$/, ''));
   const ring = h('div', { class: `coach-ring${st.next ? ' block' : ''}${st.free ? ' free' : ''}` });
   const next = () => {
     st.onNext?.();
@@ -490,9 +498,19 @@ function show(g: GameState, st: Shown) {
     tick();
   };
   const dismissTip = () => { tipHidden = true; tick(); };
+  // Non-blocking bubbles can be minimised to a small tab so they never hide what you're choosing.
+  const canCollapse = !st.next;
+  const setCollapsed = (on: boolean) => {
+    collapsedKey = on ? st.id : null;
+    bubble.classList.toggle('collapsed', on);
+    ring.classList.toggle('hidden', on);
+    toggle.textContent = on ? 'Show' : '–';
+    toggle.setAttribute('aria-label', on ? 'Show tutorial' : 'Minimise tutorial');
+  };
+  const toggle = h('button', { class: 'coach-min', on: { click: (e: Event) => { e.stopPropagation(); setCollapsed(!bubble.classList.contains('collapsed')); } } }, '–');
   const bubble = h('div', { class: `coach-bubble enter${st.free ? ' free' : ''}`, role: 'dialog', 'aria-label': st.title },
-    h('div', { class: 'coach-meta' }, isStep ? `Tutorial · ${idx + 1} of ${STEPS.length}` : st.tipOk ? 'Tip' : 'Tutorial'),
-    h('h4', null, st.title),
+    h('div', { class: 'coach-meta' }, isStep ? `Tutorial · ${idx + 1} of ${STEPS.length}` : st.tipOk ? 'Tip' : 'Tutorial', canCollapse ? toggle : null),
+    h('h4', { on: { click: () => { if (bubble.classList.contains('collapsed')) setCollapsed(false); } } }, st.title),
     h('div', { class: 'coach-text' }, ...st.text(g).filter((x): x is Node | string => x !== null)),
     h('div', { class: 'row', style: 'margin-top:10px' },
       h('button', { class: 'coach-skip', on: { click: () => { if (confirm('Skip the rest of the tutorial?')) finish(g, true); } } }, 'Skip tutorial'),
@@ -502,6 +520,7 @@ function show(g: GameState, st: Shown) {
   const root = h('div', { class: 'coach' }, st.next ? h('div', { class: 'coach-block' }) : null, ring, bubble);
   document.body.append(root);
   coach = { root, key: st.id, raf: 0, revealed: false };
+  if (canCollapse && collapsedKey === st.id) setCollapsed(true);
   const frame = () => {
     if (!coach || coach.root !== root) return;
     place(st, g, ring, bubble);
@@ -516,12 +535,18 @@ function place(st: Shown, g: GameState, ring: HTMLElement, bubble: HTMLElement) 
   const rects = targetsOf(st, g).map((el) => el.getBoundingClientRect()).filter((r) => r.width || r.height);
   const pad = 6, M = 10;
   const bw = bubble.offsetWidth, bh = bubble.offsetHeight;
+  if (bubble.classList.contains('collapsed')) {
+    bubble.style.left = `${M}px`;
+    bubble.style.top = `${innerHeight - bh - M}px`;
+    return;
+  }
   if (!rects.length) {
     ring.style.display = st.next ? 'block' : 'none';
     Object.assign(ring.style, { left: '50%', top: '50%', width: '0px', height: '0px' });
     if (st.free) {
       bubble.style.left = `${M}px`;
-      bubble.style.top = `${innerHeight - bh - M}px`;
+      // A window's choices sit at its bottom; on phones keep the reminder up top, over its header.
+      bubble.style.top = `${st.dockTop && innerWidth < 700 ? M : innerHeight - bh - M}px`;
     } else {
       bubble.style.left = `${Math.max(M, (innerWidth - bw) / 2)}px`;
       bubble.style.top = `${Math.max(M, (innerHeight - bh) / 2)}px`;

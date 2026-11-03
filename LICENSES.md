@@ -13,6 +13,7 @@ The Fortune Tray, charms, omens, curses, dice materials, monsters, biomes, event
 ## Fonts
 
 - Pixelify Sans — SIL Open Font License 1.1
+- VT323 — SIL Open Font License 1.1 (numerals only)
 - Alegreya — SIL Open Font License 1.1
 
 Both are bundled via `@fontsource` so the game works offline.

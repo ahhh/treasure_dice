@@ -3,7 +3,10 @@ import type { RelDir } from '../engine/types.ts';
 import { h, btn } from './dom.ts';
 import { app, run, render } from './app.ts';
 import { bgStyle, firstArt } from './art.ts';
-import { heroPortrait, hpBar, charmEl, doubloons, TOKEN_GLYPH, conds } from './widgets.ts';
+import { heroPortrait, hpBar, charmEl, doubloons, TOKEN_GLYPH, conds, itemIcon } from './widgets.ts';
+import { showTip } from './tips.ts';
+import { itemSummary } from './town.ts';
+import type { ItemInstance } from '../engine/types.ts';
 import { exitsView, mapView } from '../dungeon/explore.ts';
 import { BIOMES } from '../content/biomes.ts';
 import { DIRS, legacyRoomArt } from '../dungeon/generator.ts';
@@ -119,18 +122,42 @@ export function exploreScreen(): HTMLElement {
     ));
 }
 
+/** A carried item: tap for its details; usable consumables ask who should use them. */
+function carriedChip(it: ItemInstance, usable: boolean): HTMLElement {
+  const g = app.game!;
+  const exp = g.expedition!;
+  const def = ITEMS[it.defId];
+  const open = () => {
+    const c = def?.consumable;
+    if (!usable || !c) { showTip({ title: itemName(it), text: itemSummary(it.defId, it) }); return; }
+    const party = exp.partyIds.map((id) => g.roster.find((x) => x.id === id)!).filter(Boolean);
+    const use = (heroId: string) => { const r = run({ type: 'useItem', uid: it.uid, heroId }); if (r.ok) sfx.heal(); };
+    const drink = it.defId.startsWith('potion') || c.effect === 'elixir' || c.effect === 'cleanse';
+    const question = c.effect === 'camp' ? 'Make camp now?' : c.effect === 'revive' ? 'Who should it bring back?' : drink ? 'Who drinks it now?' : 'Use it now? On whom?';
+    const targets = c.effect === 'camp' ? party.filter((p) => p.status === 'alive').slice(0, 1)
+      : party.filter((p) => (c.effect === 'revive' ? p.status === 'dead' : p.status === 'alive'));
+    showTip({
+      title: itemName(it), text: `${itemSummary(it.defId, it)} ${question}`,
+      actions: c.effect === 'camp'
+        ? targets.map((p) => ({ label: 'Make camp', primary: true, run: () => use(p.id) }))
+        : targets.map((p) => ({ label: `${p.name.split(' ')[0]} (${p.hp}/${derive(p).maxHp})`, primary: true, run: () => use(p.id) })),
+    });
+  };
+  return h('button', { class: `carried-item ${usable ? 'usable' : ''}`, 'aria-label': itemName(it), on: { click: (e: Event) => { e.stopPropagation(); open(); } } },
+    itemIcon(it.defId), h('span', null, itemName(it)));
+}
+
 function suppliesWin(): HTMLElement {
   const g = app.game!;
   const exp = g.expedition!;
   const party = exp.partyIds.map((id) => g.roster.find((x) => x.id === id)!);
   const usable = exp.carriedItems.filter((i) => ITEMS[i.defId]?.consumable?.explore);
   const casters = party.filter((p) => p.status === 'alive').flatMap((p) => castableSpells(p).filter((s) => s.explore && ['heal', 'partyHeal', 'revive', 'aid'].includes(s.explore)).map((s) => ({ p, s })));
-  const [selItem, setItem] = [app.ui.modal?.kind === 'useItem' ? (app.ui.modal.data as string) : '', (v: string) => { app.ui.modal = v ? { kind: 'useItem', data: v } : undefined; render(); }];
   return h('div', { class: 'win' }, h('h3', null, 'Supplies & spells'),
-    exp.carriedItems.length ? h('div', { class: 'small muted' }, exp.carriedItems.map(itemName).join(', ')) : h('div', { class: 'small muted' }, 'Nothing carried.'),
-    usable.length ? h('div', { class: 'col', style: 'margin-top:6px' }, ...usable.map((it) => h('div', { class: 'row' },
-      btn(`Use ${itemName(it)}`, () => setItem(selItem === it.uid ? '' : it.uid), { cls: `small ${selItem === it.uid ? 'on' : ''}` }),
-      selItem === it.uid ? party.map((p) => btn(p.name, () => { const r = run({ type: 'useItem', uid: it.uid, heroId: p.id }); if (r.ok) { sfx.heal(); setItem(''); } }, { cls: 'small' })) : null))) : null,
+    exp.carriedItems.length
+      ? h('div', { class: 'carried' }, ...exp.carriedItems.map((it) => carriedChip(it, usable.includes(it))))
+      : h('div', { class: 'small muted' }, 'Nothing carried.'),
+    usable.length ? h('div', { class: 'small muted', style: 'margin-top:4px' }, 'Tap an item to see what it does; green ones can be used now.') : null,
     casters.length ? h('div', { class: 'col', style: 'margin-top:6px' }, ...casters.map(({ p, s }) => h('div', { class: 'row' },
       h('span', { class: 'small' }, `${p.name}: ${s.name}`),
       ...(s.target === 'allies' || s.explore === 'partyHeal' || s.explore === 'aid' ? [btn('Cast', () => run({ type: 'castExplore', heroId: p.id, spellId: s.id }), { cls: 'small' })]

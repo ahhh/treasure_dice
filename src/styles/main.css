@@ -4,6 +4,16 @@
 @import '@fontsource/alegreya/400-italic.css';
 @import '@fontsource/alegreya/700.css';
 
+/* Pixelify's 2, 5 and 8 blur together at small sizes. Digits alone come from
+   VT323 — still pixel-retro, but every numeral is distinct. */
+@font-face {
+  font-family: 'TD Digits';
+  src: url('../../node_modules/@fontsource/vt323/files/vt323-latin-400-normal.woff2') format('woff2');
+  unicode-range: U+0030-0039;
+  size-adjust: 135%;
+  font-display: swap;
+}
+
 :root {
   --night: #070b1a;
   --win-a: #1b2c63;
@@ -22,7 +32,7 @@
   --ward: #8fd3ff;
   --muted: #8a93b8;
   --danger: #ff6a5c;
-  --ui: 'Pixelify Sans', system-ui, sans-serif;
+  --ui: 'TD Digits', 'Pixelify Sans', system-ui, sans-serif;
   --prose: 'Alegreya', Georgia, serif;
   --r: 6px;
 }
@@ -86,6 +96,8 @@ img { display: block; }
 .btn.primary { background: linear-gradient(180deg, #c9a24a, #8d6a26); color: #1b1203; border-color: #f3dfa5; font-weight: 600; }
 .btn.primary:hover:not(:disabled) { background: linear-gradient(180deg, #e0bb5e, #a07a2d); }
 .btn.danger { border-color: var(--danger); color: #ffd3cd; }
+.btn.deadly { border-color: var(--danger); }
+.btn.deadly.on { background: #6a1f24; }
 .btn.small { padding: 4px 8px; font-size: 13px; }
 .btn.big { padding: 12px 18px; font-size: 18px; }
 .menu { display: flex; flex-direction: column; gap: 4px; padding-left: 16px; }
@@ -412,6 +424,27 @@ table.mini td, table.mini th { padding: 3px 6px; border-bottom: 1px solid rgba(2
 .coach-bubble .coach-faint { color: var(--muted); font-size: 13px; }
 .coach-list { margin: 0 0 6px; padding-left: 18px; font-family: var(--prose); font-size: 15px; line-height: 1.35; }
 .coach-meta { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+/* ── touch tip sheet ───────────────────────────────────────────────────────── */
+.tip-root { position: fixed; inset: 0; z-index: 70; }
+.tip-scrim { position: absolute; inset: 0; background: rgba(3, 6, 18, .35); }
+.tip-sheet { position: absolute; left: 50%; bottom: max(12px, env(safe-area-inset-bottom)); transform: translateX(-50%); width: min(420px, calc(100vw - 24px)); max-height: 60vh; overflow-y: auto; background: #10173a; border: 2px solid var(--brass); border-radius: 10px; padding: 10px 12px 12px; box-shadow: 0 14px 40px #000c; animation: coachIn .18s ease-out; }
+.tip-head b { color: var(--gold); font-size: 16px; }
+.tip-x { background: none; border: 1px solid #556; color: var(--bone); border-radius: 6px; min-width: 36px; min-height: 36px; font: inherit; cursor: pointer; }
+.tip-text { margin: 6px 0 0; font-family: var(--prose); font-size: 16px; line-height: 1.4; color: var(--bone); }
+.tip-actions { margin-top: 10px; flex-wrap: wrap; }
+.tip-actions .btn { min-height: 40px; }
+@media (hover: none), (pointer: coarse) { [title], [data-tip] { -webkit-touch-callout: none; } .charm, .token, .stat, .cond, .enemy, .meter-pill { -webkit-user-select: none; user-select: none; } }
+.carried { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.carried-item { display: inline-flex; align-items: center; gap: 6px; background: rgba(0, 0, 0, .3); border: 1px solid #556; border-radius: 6px; padding: 3px 8px 3px 3px; color: var(--bone); font: inherit; font-size: 13px; cursor: pointer; min-height: 36px; }
+.carried-item.usable { border-color: var(--hp); }
+.carried-item .icon { width: 28px; height: 28px; flex: none; }
+.carried-item .icon .art { object-fit: contain; }
+.coach-meta { display: flex; align-items: center; gap: 8px; }
+.coach-min { margin-left: auto; background: #1b2654; color: var(--bone); border: 1px solid #556; border-radius: 4px; font: inherit; font-size: 12px; min-width: 32px; min-height: 26px; padding: 2px 8px; cursor: pointer; text-transform: none; letter-spacing: 0; }
+.coach-bubble.collapsed { width: auto; max-width: calc(100vw - 20px); padding: 6px 10px; opacity: .95; }
+.coach-bubble.collapsed .coach-text, .coach-bubble.collapsed > .row { display: none; }
+.coach-bubble.collapsed h4 { margin: 2px 0 0; font-size: 14px; cursor: pointer; }
+.coach-ring.hidden { display: none !important; }
 .coach-skip { background: none; border: 0; padding: 4px 0; color: var(--muted); text-decoration: underline; cursor: pointer; font: inherit; font-size: 12px; }
 @media (prefers-reduced-motion: reduce) { .coach-ring { transition: none; } .coach-bubble.enter { animation: none; } }
 

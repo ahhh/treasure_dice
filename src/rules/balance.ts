@@ -38,11 +38,26 @@ export function depthScale(depth: number, level = 1): number {
   return Math.pow(base, depth);
 }
 
+/**
+ * Difficulty tiers. `rank` counts steps above Standard: each step adds one
+ * guaranteed magic item to the boss hoard and lifts the quality of every drop.
+ * Harder runs never grant extra levels — a clear is still one level.
+ */
 export const DIFFICULTY_MOD = {
-  explorer: { hp: 0.8, dmg: 0.8, gold: 0.8, enemies: 0 },
-  standard: { hp: 1, dmg: 1, gold: 1, enemies: 0 },
-  perilous: { hp: 1.12, dmg: 1.12, gold: 1.5, enemies: 1 },
+  explorer: { rank: 0, hp: 0.8, dmg: 0.8, gold: 0.8, enemies: 0, bossAdds: 0, eliteCurse: false },
+  standard: { rank: 0, hp: 1, dmg: 1, gold: 1, enemies: 0, bossAdds: 0, eliteCurse: false },
+  perilous: { rank: 1, hp: 1.12, dmg: 1.12, gold: 1.5, enemies: 1, bossAdds: 1, eliteCurse: true },
+  deadly: { rank: 2, hp: 1.3, dmg: 1.3, gold: 2, enemies: 1, bossAdds: 2, eliteCurse: true },
 } as const;
+
+export const DIFFICULTY_ORDER = ['explorer', 'standard', 'perilous', 'deadly'] as const;
+
+export const DIFFICULTY_INFO: Record<keyof typeof DIFFICULTY_MOD, string> = {
+  explorer: 'Fewer, softer foes; less gold.',
+  standard: 'The intended challenge.',
+  perilous: 'More foes, tougher fights, cursed elites, ×1.5 gold. Better loot, +1 bonus magic item for beating the boss.',
+  deadly: 'Brutal: much tougher foes, crowded boss lairs, cursed elites, ×2 gold. Much better loot, +2 bonus magic items for beating the boss. Expect funerals.',
+};
 
 export const ROLE_MOD: Record<string, { hp: number; dmg: number; ac: number; atk: number }> = {
   brute: { hp: 1.35, dmg: 1.25, ac: -1, atk: 0 },

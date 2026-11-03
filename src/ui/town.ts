@@ -15,6 +15,7 @@ import {
   shopItems, rosterCap, recruitCost, FACILITIES, facilityCost, enchantCost, trainingCap, trainingCost, partySuggestion, canEquip,
 } from '../meta/town.ts';
 import { randomSeed } from '../engine/rng.ts';
+import { DIFFICULTY_MOD, DIFFICULTY_ORDER, DIFFICULTY_INFO } from '../rules/balance.ts';
 import { exportSave } from '../persistence/save.ts';
 import { download } from './title.ts';
 import { saveGame } from '../persistence/save.ts';
@@ -157,10 +158,13 @@ function cartTab(): HTMLElement {
           h('p', { class: 'small muted' }, `${BIOMES[ui.biome as BiomeId].meter.icon} ${BIOMES[ui.biome as BiomeId].meter.name}: ${BIOMES[ui.biome as BiomeId].meter.text}`)),
       h('div', { class: 'row' },
         h('span', null, 'Difficulty'),
-        ...(['explorer', 'standard', 'perilous'] as const).map((d) => btn(d[0].toUpperCase() + d.slice(1), () => { ui.difficulty = d; render(); }, { cls: `small ${ui.difficulty === d ? 'on' : ''}`, title: d === 'perilous' ? 'More foes, tougher fights, elite curses, ×1.5 gold' : d === 'explorer' ? 'Fewer, softer foes; less gold' : 'The intended challenge' })),
-        h('span', { style: 'margin-left:12px' }, 'Length'),
+        ...DIFFICULTY_ORDER.map((d) => btn(d[0].toUpperCase() + d.slice(1), () => { ui.difficulty = d; render(); }, { cls: `small ${ui.difficulty === d ? 'on' : ''} ${d === 'deadly' ? 'deadly' : ''}`, title: DIFFICULTY_INFO[d] })),
+      ),
+      h('div', { class: 'row', style: 'margin-top:6px' },
+        h('span', null, 'Length'),
         ...(['short', 'normal', 'long'] as const).map((s) => btn(s[0].toUpperCase() + s.slice(1), () => { ui.size = s; render(); }, { cls: `small ${ui.size === s ? 'on' : ''}` })),
       ),
+      h('p', { class: `small ${DIFFICULTY_MOD[ui.difficulty].rank ? 'gold' : 'muted'}` }, `${ui.difficulty[0].toUpperCase() + ui.difficulty.slice(1)}: ${DIFFICULTY_INFO[ui.difficulty]}`),
       h('div', { class: 'row', style: 'margin-top:8px' },
         h('label', { for: 'seed' }, 'Seed'),
         h('input', { id: 'seed', value: ui.seed, style: 'background:#0b1230;color:inherit;border:1px solid #556;padding:6px;border-radius:4px;font:inherit;width:160px', on: { change: (e: Event) => { ui.seed = (e.target as HTMLInputElement).value.trim().toUpperCase() || randomSeed(); } } }),

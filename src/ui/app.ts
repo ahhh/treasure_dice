@@ -1,5 +1,5 @@
 /** App shell: owns the GameState, routes commands, autosaves, renders screens. */
-import type { GameState, ScoreReport } from '../engine/types.ts';
+import type { Difficulty, GameState, ScoreReport } from '../engine/types.ts';
 import { dispatch, type GameCmd, type DispatchResult } from '../app/commands.ts';
 import { saveGame } from '../persistence/save.ts';
 import { h, clear } from './dom.ts';
@@ -9,7 +9,7 @@ export interface UiState {
   townTab: string;
   party: string[];
   biome: string;
-  difficulty: 'explorer' | 'standard' | 'perilous';
+  difficulty: Difficulty;
   size: 'short' | 'normal' | 'long';
   seed: string;
   // combat

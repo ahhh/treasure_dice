@@ -180,7 +180,7 @@ export function startCombat(game: GameState, roomKey: string, entries: string[],
   } else if (kind === 'elite') {
     // Elites bring a lesser curse on perilous or deeper runs.
     const pool: CurseId[] = ['hunger', 'silence', 'oddDrown', 'evenMirror', 'ashen'];
-    if (exp.difficulty === 'perilous' || exp.depth >= 4) combat.curse = ctx.rng.pick(pool);
+    if (DIFFICULTY_MOD[exp.difficulty].eliteCurse || exp.depth >= 4) combat.curse = ctx.rng.pick(pool);
   }
   if (combat.curse) log(ctx, `Curse — ${CURSES[combat.curse].name}: ${CURSES[combat.curse].text}`, 'warn');
 

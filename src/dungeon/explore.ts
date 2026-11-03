@@ -20,7 +20,7 @@ import { startCombat, makeCtx, syncHeroes, hooks, heroOf, heroes as combatHeroes
 import { derive, fullRestore, shortRest, spendHitDice, SKILL_NAMES } from '../rules/character.ts';
 import { castableSpells, SPELLS } from '../content/spells.ts';
 import { goldReward, DOUBLOONS_PER_COMBAT, DIFFICULTY_MOD, VITALITY } from '../rules/balance.ts';
-import { rollItem, bossLootChoice } from '../meta/loot.ts';
+import { rollItem, rollMagicItem, bossLootChoice } from '../meta/loot.ts';
 import { makeItem } from '../rules/character.ts';
 import { buildTutorialMap, TUTORIAL_SEED } from './tutorial.ts';
 import { FINALE, CHAPTERS, EPILOGUE, finaleBlocked, storyOf } from '../content/story.ts';
@@ -521,7 +521,7 @@ export function takeLoot(g: GameState): string | null {
     xlog(exp, `+${n} gold.`, 'loot');
   }
   for (const _ of room.loot.items) {
-    const it = rollItem(loot, exp.partyLevel, exp.biome, { boost: room.secret ? 1 : 0 });
+    const it = rollItem(loot, exp.partyLevel, exp.biome, { boost: (room.secret ? 1 : 0) + DIFFICULTY_MOD[exp.difficulty].rank });
     exp.carriedItems.push(it);
     xlog(exp, `Found ${itemName(it)}.`, 'loot');
   }
@@ -589,7 +589,7 @@ function grantSpoils(g: GameState) {
   const items: string[] = [];
   const dropChance = kind === 'elite' ? 0.75 : kind === 'boss' ? 0 : 0.28;
   if (loot.chance(dropChance)) {
-    const it = rollItem(loot, exp.partyLevel, exp.biome, { boost: kind === 'elite' ? 1 : 0 });
+    const it = rollItem(loot, exp.partyLevel, exp.biome, { boost: (kind === 'elite' ? 1 : 0) + DIFFICULTY_MOD[exp.difficulty].rank });
     exp.carriedItems.push(it);
     items.push(itemName(it));
   }
@@ -608,7 +608,15 @@ function grantSpoils(g: GameState) {
   if (kind === 'boss') {
     exp.flags.bossRounds = combat.round;
     exp.bossDefeated = true;
-    exp.lootChoice = { items: bossLootChoice(loot, exp.partyLevel, exp.biome) };
+    const rank = exp.tutorial ? 0 : DIFFICULTY_MOD[exp.difficulty].rank;
+    exp.lootChoice = { items: bossLootChoice(loot, exp.partyLevel, exp.biome, rank) };
+    // Harder runs pay out: one bonus magic item per difficulty step above Standard.
+    for (let i = 0; i < rank; i++) {
+      const it = rollMagicItem(loot, exp.partyLevel, exp.biome, rank);
+      exp.carriedItems.push(it);
+      items.push(`✦ ${itemName(it)}`);
+      xlog(exp, `Bonus for braving a ${exp.difficulty} echo: ${itemName(it)}.`, 'loot');
+    }
     xlog(exp, `${exp.theme.boss} is defeated! The echo begins to fade.`, 'loot');
   }
   endCombatTray(exp.fortune);

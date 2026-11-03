@@ -7,6 +7,7 @@ import { exploreScreen, move } from './ui/explore.ts';
 import { combatScreen, combatKeys } from './ui/combat.ts';
 import { shareModal } from './ui/shareCard.ts';
 import { installTutorial, coachBlocking } from './ui/tutorial.ts';
+import { installTips } from './ui/tips.ts';
 import { heroSheet, levelUpModal, spoilsModal, boonsModal, lootChoiceModal, eventModal, shopModal, bagModal, resultScreen, helpModal } from './ui/modals.ts';
 
 app.root = document.getElementById('app')!;
@@ -55,6 +56,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 installTutorial();
+installTips();
 void loadManifest().then(render);
 render();
 

@@ -129,3 +129,42 @@ describe('saves', () => {
     expect(migrate(clone(g)).schemaVersion).toBe(1);
   });
 });
+
+describe('difficulty rewards', () => {
+  it('rollMagicItem at quality 2 is never a consumable and gear is at least +2 with an affix', async () => {
+    const { rollMagicItem } = await import('../src/meta/loot.ts');
+    const { ITEMS } = await import('../src/content/items.ts');
+    const rng = new Rng([9, 9, 9, 9]);
+    for (let i = 0; i < 200; i++) {
+      const it = rollMagicItem(rng, 3, 'cinder', 2);
+      const def = ITEMS[it.defId];
+      expect(def.kind).not.toBe('consumable');
+      if (def.kind !== 'trinket') { expect(it.plus).toBeGreaterThanOrEqual(2); expect(it.affixes.length).toBeGreaterThanOrEqual(1); }
+      else expect(['rare', 'veryRare', 'legendary']).toContain(def.rarity);
+    }
+  });
+
+  it('each step above standard adds one bonus magic item at the boss, and a clear is still one level', () => {
+    for (const [difficulty, bonus] of [['standard', 0], ['perilous', 1], ['deadly', 2]] as const) {
+      let checked = 0;
+      for (let i = 0; i < 40 && checked < 2; i++) {
+        const g = newGame(1, 'legacy', `D-${difficulty}-${i}`);
+        const r8 = new Rng([i + 1, 2, 3, 4]);
+        g.roster = (['fighter', 'cleric', 'wizard'] as const).map((c) => createHero(r8, c, 8));
+        g.roster.forEach(fullRestore);
+        expect(dispatch(g, { type: 'startExpedition', partyIds: g.roster.map((h) => h.id), biome: 'cinder', difficulty, seed: `DIFF-${i}` }).ok).toBe(true);
+        let seenBonus = -1;
+        for (let s = 0; g.expedition && s < 4000; s++) {
+          const exp = g.expedition;
+          if (exp.lootChoice && seenBonus < 0) seenBonus = exp.log.filter((l) => l.t.startsWith('Bonus for braving')).length;
+          if (exp.combat && exp.combat.status === 'active') { if (!autoCombatStep(g)) break; } else if (!autoExploreStep(g)) break;
+        }
+        if (g.lastResult?.kind !== 'won') continue;
+        checked++;
+        expect(seenBonus).toBe(bonus);
+        for (const h of g.roster.filter((x) => x.status === 'alive')) { expect(h.level).toBe(8); expect(h.pendingLevel).toBe(true); }
+      }
+      expect(checked).toBeGreaterThan(0);
+    }
+  });
+});

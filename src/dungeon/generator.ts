@@ -6,6 +6,7 @@
  */
 import type { BiomeId, Difficulty, Door, DungeonMap, Facing, Room, RoomType, Tier } from '../engine/types.ts';
 import { Rng } from '../engine/rng.ts';
+import { DIFFICULTY_MOD } from '../rules/balance.ts';
 import { BIOMES } from '../content/biomes.ts';
 import { biomeMonsters, MONSTERS, type MonsterDef } from '../content/monsters.ts';
 import { eventsFor } from '../content/events.ts';
@@ -244,7 +245,7 @@ function dirBetween(a: { x: number; y: number }, b: { x: number; y: number }): F
 }
 
 function bossAdds(rng: Rng, opts: GenOptions): string[] {
-  const n = (opts.level >= 11 ? 2 : opts.level >= 5 ? 1 : rng.chance(0.5) ? 1 : 0) + (opts.difficulty === 'perilous' ? 1 : 0);
+  const n = (opts.level >= 11 ? 2 : opts.level >= 5 ? 1 : rng.chance(0.5) ? 1 : 0) + DIFFICULTY_MOD[opts.difficulty].bossAdds;
   const pool = biomeMonsters(opts.biome).filter((m) => m.role !== 'brute');
   return Array.from({ length: n }, () => rng.pick(pool).id);
 }
@@ -255,7 +256,7 @@ export function rollEncounter(rng: Rng, biome: BiomeId, level: number, kind: 'no
   const back = pool.filter((m) => m.rank === 'back');
   let n = level >= 11 ? 3 : level >= 3 ? rng.int(2, 3) : rng.int(2, 3);
   if (kind === 'ambush') n = Math.max(1, n - 1);
-  if (difficulty === 'perilous') n += 1;
+  n += DIFFICULTY_MOD[difficulty].enemies;
   if (difficulty === 'explorer') n = Math.max(1, n - (rng.chance(0.5) ? 1 : 0));
   const out: MonsterDef[] = [];
   if (kind === 'elite') {

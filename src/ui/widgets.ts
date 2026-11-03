@@ -56,11 +56,29 @@ export function hpBar(hp: number, max: number, ward = 0): HTMLElement {
 const BAD = new Set(['blinded', 'charmed', 'frightened', 'incapacitated', 'paralyzed', 'poisoned', 'prone', 'restrained', 'stunned', 'unconscious', 'baned', 'marked', 'hexed', 'slowed', 'burning', 'faerieFire', 'weakened', 'noHeal', 'vulnerable', 'banished', 'staggered']);
 const COND_LABEL: Record<string, string> = { faerieFire: 'glowing', noHeal: 'no heal', spiritualWeapon: 'spirit weapon', deathWard: 'death ward', wildShape: 'beast form', innateSorcery: 'innate', sacredWeapon: 'sacred', superiorDefense: 'sup. defense', holyAura: 'holy aura' };
 
+/** Standard condition rules, for tooltips. */
+const COND_TEXT: Record<string, string> = {
+  blinded: 'Can\'t see: attacks against it have advantage, its attacks have disadvantage.',
+  charmed: 'Won\'t attack the one who charmed it.',
+  frightened: 'Disadvantage on attacks and checks while the source is in sight.',
+  incapacitated: 'Can\'t take actions or reactions.',
+  paralyzed: 'Can\'t act; attacks against it have advantage and close hits are critical.',
+  poisoned: 'Disadvantage on attack rolls and ability checks.',
+  prone: 'Melee attacks against it have advantage; ranged attacks have disadvantage.',
+  restrained: 'Attacks against it have advantage; its attacks have disadvantage.',
+  stunned: 'Can\'t act; attacks against it have advantage.',
+  unconscious: 'Down and helpless; close hits are critical.',
+  invisible: 'Its attacks have advantage; attacks against it have disadvantage.',
+};
+
 export function conds(list: Condition[], side: 'hero' | 'enemy'): HTMLElement {
   return h('div', { class: 'conds' }, ...list.map((c) => {
     const bad = BAD.has(c.id);
     const cls = side === 'hero' ? (bad ? 'bad' : 'good') : bad ? 'good' : 'bad';
-    return h('span', { class: `cond ${cls}`, title: c.id }, COND_LABEL[c.id] ?? c.id, c.rounds > 0 && c.rounds < 50 ? ` ${c.rounds}` : '');
+    const name = COND_LABEL[c.id] ?? c.id;
+    const left = c.rounds > 0 && c.rounds < 50 ? ` ${c.rounds} round${c.rounds === 1 ? '' : 's'} left.` : '';
+    const tip = `${name[0].toUpperCase()}${name.slice(1)} — ${COND_TEXT[c.id] ?? (bad ? 'A harmful effect.' : 'A helpful effect.')}${left}`;
+    return h('span', { class: `cond ${cls}`, title: tip }, name, c.rounds > 0 && c.rounds < 50 ? ` ${c.rounds}` : '');
   }));
 }
 

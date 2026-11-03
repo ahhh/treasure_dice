@@ -79,7 +79,7 @@ export function credits(): HTMLElement {
     h('h2', null, 'Credits & licences'),
     h('p', null, 'This work includes material from the System Reference Document 5.2.1 ("SRD 5.2.1") by Wizards of the Coast LLC, available at https://www.dndbeyond.com/srd. The SRD 5.2.1 is licensed under the Creative Commons Attribution 4.0 International License, available at https://creativecommons.org/licenses/by/4.0/legalcode.'),
     h('p', null, 'Class features, spells and rules are paraphrased and adapted to a rank-based, dice-tray game. Each feature on a hero sheet is tagged exact, adapted or narrative. Monsters, biomes, charms, curses, the Fortune Tray and all art are original to Treasure Dice.'),
-    h('p', null, 'Fonts: Pixelify Sans and Alegreya (SIL Open Font License).'),
+    h('p', null, 'Fonts: Pixelify Sans, VT323 and Alegreya (SIL Open Font License).'),
     btn('Back', () => { showCredits = false; render(); }),
   );
 }

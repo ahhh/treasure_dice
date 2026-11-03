@@ -54,7 +54,7 @@ export interface Condition {
   untilTurnStart?: boolean;
 }
 
-export type Difficulty = 'explorer' | 'standard' | 'perilous';
+export type Difficulty = 'explorer' | 'standard' | 'perilous' | 'deadly';
 export type Tier = 'novice' | 'veteran' | 'heroic' | 'mythic';
 
 // ── items ────────────────────────────────────────────────────────────────────

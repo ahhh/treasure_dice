@@ -17,6 +17,7 @@ import { METAMAGIC } from '../content/classes.ts';
 import { MONSTERS, tierIndex } from '../content/monsters.ts';
 import { BIOMES } from '../content/biomes.ts';
 import { Rng } from '../engine/rng.ts';
+import { showTip, touchUi } from './tips.ts';
 import { sfx } from './audio.ts';
 
 const MENU: [string, string][] = [['attack', 'Attack'], ['skill', 'Skills'], ['magic', 'Magic'], ['item', 'Items'], ['guard', 'Guard / Move']];
@@ -69,6 +70,16 @@ function act(opt: ActionOption, targets: string[]) {
     app.ui.selected = keep;
     render();
   }
+}
+
+/** Items are used up: on touch screens confirm first ("Potion of Healing — drink it now?"). */
+function pickOption(opt: ActionOption) {
+  if (opt.group === 'item' && opt.usable && touchUi()) {
+    const drink = /potion|elixir|antitoxin/i.test(opt.name);
+    showTip({ title: opt.name, text: `${opt.text} ${drink ? 'Drink it now?' : 'Use it now?'}`, actions: [{ label: drink ? 'Drink it' : 'Use it', primary: true, run: () => chooseOption(opt) }] });
+    return;
+  }
+  chooseOption(opt);
 }
 
 function chooseOption(opt: ActionOption) {
@@ -194,11 +205,16 @@ function trayEl(): HTMLElement {
     if (id === 'fateCoin' && app.ui.talent?.id === 'token:fateCoin') {
       return h('span', { class: 'row', style: 'gap:2px' }, ...[1, 2, 3, 4, 5, 6].map((v) => btn(String(v), () => { if (one === undefined) { toast('Select one die.'); return; } const r = run({ type: 'combat', cmd: { type: 'token', id, die: one, value: v } }); if (r.ok) { app.ui.talent = undefined; app.ui.selected = []; sfx.coin(); render(); } }, { cls: 'small' })));
     }
-    return h('button', { class: 'token', title: `${TOKENS[id].name}: ${TOKENS[id].text}`, 'aria-label': TOKENS[id].name, on: { click: () => {
-      if (!turn) return;
+    const spend = () => {
       if (id === 'fateCoin') { app.ui.talent = { id: 'token:fateCoin', needs: 'dieValue' }; render(); return; }
       const r = run({ type: 'combat', cmd: { type: 'token', id } });
       if (r.ok) { sfx.coin(); if (id === 'mulligan') { app.ui.rolling = new Set(f.tray.map((_, i) => i)); sfx.roll(7); } render(); }
+    };
+    return h('button', { class: 'token', title: `${TOKENS[id].name}: ${TOKENS[id].text}`, 'aria-label': TOKENS[id].name, on: { click: () => {
+      // Tokens are spent on use: on touch screens (no hover tooltips) say what it does and ask first.
+      if (touchUi()) { showTip({ title: TOKENS[id].name, text: `${TOKENS[id].text}${turn ? ' Use it now?' : ''}`, actions: turn ? [{ label: 'Use it', primary: true, run: spend }] : [] }); return; }
+      if (!turn) return;
+      spend();
     } } }, TOKEN_GLYPH[id] ?? '¤');
   };
   const curse = ctx.combat.curse ? CURSES[ctx.combat.curse] : undefined;
@@ -269,8 +285,8 @@ function commandEl(): HTMLElement {
   } else {
     const list = opts.filter((o) => o.group === menu);
     body = h('div', { class: 'col' },
-      h('div', { class: 'opt-list', role: 'menu' }, ...list.map((o) => btn([h('span', null, o.name), h('span', { class: 'cost' }, `${o.cost}${o.fortune !== 'none' ? ' · 🎲' : ''}`)], () => chooseOption(o), { disabled: !o.usable, title: o.usable ? o.text : `${o.reason} — ${o.text}`, key: `opt-${o.key}` }))),
-      h('div', { class: 'opt-detail' }, list.length ? 'Hover an option for details. 🎲 = uses your selected dice.' : 'Nothing here.'),
+      h('div', { class: 'opt-list', role: 'menu' }, ...list.map((o) => btn([h('span', null, o.name), h('span', { class: 'cost' }, `${o.cost}${o.fortune !== 'none' ? ' · 🎲' : ''}`)], () => pickOption(o), { disabled: !o.usable, title: o.usable ? o.text : `${o.reason} — ${o.text}`, key: `opt-${o.key}` }))),
+      h('div', { class: 'opt-detail' }, list.length ? `${touchUi() ? 'Long-press' : 'Hover'} an option for details. 🎲 = uses your selected dice.` : 'Nothing here.'),
       btn('Back', () => { app.ui.menu = 'root'; render(); }, { cls: 'small', key: 'menu-back' }));
   }
   const used = [actor.used.action ? 'action used' : 'action ready', actor.used.bonus ? 'bonus used' : 'bonus ready'].join(' · ');
