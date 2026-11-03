@@ -1,21 +1,16 @@
 // Fight through combats in the browser via the real UI, screenshotting key moments.
-import { chromium } from 'playwright';
-const OUT = process.env.SHOTS ?? 'test-results';
-const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: Number(process.env.W ?? 1400), height: Number(process.env.H ?? 950) } });
-const errors = [];
-page.on('pageerror', (e) => errors.push(String(e)));
-await page.goto(process.env.URL ?? 'http://localhost:5179/');
-await page.waitForTimeout(600);
-await page.getByRole('button', { name: 'New (Legacy)' }).nth(1).click();
+import { open, ready, newGameUI, OUT } from './ui-lib.mjs';
+const { page, check, done } = await open('ui-battle');
+await ready(page);
+await newGameUI(page, { slot: 1 });
 await page.locator('[data-key="tab-cartographer"]').click();
 await page.locator('[data-key="start-exp"]').click();
 let shots = 0;
 const snap = async (n) => { if (shots < 40) await page.screenshot({ path: `${OUT}/b${String(++shots).padStart(2, '0')}-${n}.png` }); };
-let fights = 0, scoredShot = false, boonShot = false, spoilShot = false;
+let fights = 0, attacks = 0, ended = false, scoredShot = false, boonShot = false, spoilShot = false;
 for (let step = 0; step < 500; step++) {
   if (step % 100 === 99) await snap(`step${step}`);
-  if (await page.locator('.result-big').count() && !(await page.locator('.modal-back').count())) { await snap('result'); break; }
+  if (await page.locator('.result-big').count() && !(await page.locator('.modal-back').count())) { await snap('result'); ended = true; break; }
   if (await page.locator('[data-key="claim"]').count()) { if (!spoilShot) { await snap('spoils'); spoilShot = true; } await page.locator('[data-key="claim"]').click(); fights++; continue; }
   if (await page.locator('.boon:not([disabled])').count() && await page.locator('.modal-back').count()) {
     if (!boonShot) { await snap('boons'); boonShot = true; }
@@ -34,13 +29,14 @@ for (let step = 0; step < 500; step++) {
     if (await page.locator('[data-key="menu-back"]').count()) await page.locator('[data-key="menu-back"]').click();
     if (await page.locator('.btn').filter({ hasText: 'Back' }).count() && await page.locator('.target-hint').count()) { await page.locator('.enemy.targetable').first().click(); await page.waitForTimeout(400); continue; }
     if (await page.locator('.die.sel').count()) await page.locator('.btn').filter({ hasText: 'Clear' }).click();
-    const free = page.locator('.dice-row .die:not(.jinx)');
-    const n = Math.min(5, await free.count());
-    for (let i = 0; i < n; i++) await free.nth(i).click();
+    // Let the autoplayer choose the hand (so the bot plays sensibly), then click it in through the UI.
+    const pick = await page.evaluate(() => { const g = window.__td.app.game; const t = g.expedition?.combat?.turn; return t ? window.__td.auto.bestDice(g, t.playLimit).dice : []; });
+    for (const i of pick) await page.locator(`[data-key="die${i}"]`).click();
     await page.locator('[data-key="menu-attack"]').click();
     const first = page.locator('.opt-list .btn:not([disabled])').first();
     if (await first.count()) {
       await first.click();
+      attacks++;
       await page.waitForTimeout(100);
       if (await page.locator('.enemy.targetable').count()) await page.locator('.enemy.targetable').first().click();
       await page.waitForTimeout(350);
@@ -62,5 +58,9 @@ for (let step = 0; step < 500; step++) {
   await page.waitForTimeout(60);
 }
 await snap('final');
-console.log('fights', fights, 'errors:', errors.length ? errors.join('\n') : 'none');
-await browser.close();
+// The bot only attacks (no heals), so a wipe is a legitimate outcome; what must hold is that
+// the combat UI keeps working: attacks go through, scoring plays, and the run reaches an end or a win.
+check(attacks >= 3, `only ${attacks} attacks went through the UI`);
+check(fights >= 1 || ended, 'neither won a fight nor reached a result screen');
+check(scoredShot, 'never saw the scoring overlay');
+await done(`attacks ${attacks}, fights ${fights}${ended ? ', reached result' : ''}`);

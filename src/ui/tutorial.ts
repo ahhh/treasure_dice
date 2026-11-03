@@ -293,9 +293,9 @@ const STEPS: Step[] = [
     text: (g) => moveText(g, TUT.kiln, [P('The Sigil Kiln (⚿) is past the fight room.')]),
   },
   {
-    id: 'sigil', where: 'dungeon', title: 'Take the sigil', target: () => $('[data-key="investigate"]') ?? $('[data-key="ev0"]'),
+    id: 'sigil', where: 'dungeon', title: 'Take the sigil', target: () => $('.modal-back .menu') ?? $('[data-key="investigate"]'),
     done: (g) => !!g.expedition?.keys.includes('sigil'),
-    text: () => [P('Rooms with ? or ⚿ hold events: choices, often with a skill check. Your best hero rolls, and the odds are shown before you choose.'), P(B('Investigate'), ' and take the sigil.')],
+    text: () => [P('Rooms with ? or ⚿ hold events: choices, often with a skill check. Your best hero rolls, and the odds are shown before you choose.'), $('.modal-back .menu') ? P(B('Pick a choice'), ' to take the sigil.') : P(B('Investigate'), ' and take the sigil.')],
   },
   {
     id: 'fortune', where: 'dungeon', next: true, title: 'This run\'s Fortune', target: () => $('.explore .felt'),
@@ -338,7 +338,7 @@ const STEPS: Step[] = [
     // Inside the wizard the choices fill the screen (on phones the confirm button is off-screen),
     // so the bubble shrinks to a corner reminder instead of parking on top of the options.
     freeWhen: () => !!app.ui.levelUp,
-    target: () => app.ui.levelUp ? null : $('[data-tut="levelup"]'),
+    target: () => app.ui.levelUp ? null : $('[data-tut="levelup"] button') ?? $('[data-tut="levelup"]'),
     done: (g) => !g.roster.some((x) => x.status === 'alive' && x.pendingLevel),
     text: () => [P(app.ui.levelUp
       ? 'The level-up wizard lists the new features. When a level offers a choice (a fighting style, a feat…), pick it here. Then confirm.'

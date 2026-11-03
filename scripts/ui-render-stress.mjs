@@ -1,18 +1,14 @@
 // Drive whole expeditions with the autoplayer inside the page, rendering every state.
-import { chromium } from 'playwright';
-const OUT = process.env.SHOTS ?? 'test-results';
-const browser = await chromium.launch();
-const page = await browser.newPage({ viewport: { width: 1400, height: 950 } });
-const errors = [];
-page.on('pageerror', (e) => errors.push(String(e)));
-await page.goto(process.env.URL ?? 'http://localhost:5179/');
-await page.waitForFunction(() => window.__td);
+import { open, ready } from './ui-lib.mjs';
+const { page, check, done } = await open('ui-render-stress');
+await ready(page);
 const kinds = await page.evaluate(async () => {
   const { app, newGame, dispatch, setGame, render, auto } = window.__td;
   const seen = {};
   const errs = [];
   for (let run = 0; run < 6; run++) {
     const g = newGame(1, 'legacy', `STRESS-${run}`);
+    g.tutorial = null;
     g.profile.unlockedBiomes = ['cinder', 'rootbound', 'drowned', 'mirror', 'starfall'];
     setGame(g);
     const biome = ['cinder', 'rootbound', 'drowned', 'mirror', 'starfall', 'cinder'][run];
@@ -31,7 +27,6 @@ const kinds = await page.evaluate(async () => {
   }
   return { seen, errs };
 });
-console.log(JSON.stringify(kinds.seen));
-console.log('render errors:', kinds.errs.length ? kinds.errs.slice(0, 10).join('\n') : 'none');
-console.log('page errors:', errors.length ? errors.slice(0, 10).join('\n') : 'none');
-await browser.close();
+check(!kinds.errs.length, `render errors:\n  ${kinds.errs.slice(0, 10).join('\n  ')}`);
+for (const k of ['explore', 'combat', 'spoils', 'boons', 'result']) check(kinds.seen[k] > 0, `never rendered a ${k} state`);
+await done(JSON.stringify(kinds.seen));

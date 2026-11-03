@@ -7,7 +7,9 @@ It's a static site (Vite + TypeScript, no backend) that works offline once loade
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm test           # 31 tests: rules, fortune scoring, Dice Path, skill tricks, 1,000-seed dungeon property test, runs, saves, tutorial, finale
+npm test           # 33 tests: rules, fortune scoring, Dice Path, skill tricks, 1,000-seed dungeon property test, runs, saves, tutorial, finale
+npm run test:ui    # browser checks (Playwright, starts its own dev server): smoke, full guided tour, screens, boss, battle, render stress
+npm run test:ui -- tutorial smoke   # ...or just some of them; screenshots land in test-results/
 npm run build      # dist/ for GitHub Pages (relative base, works at any project path)
 npm run sim -- 40 1 cinder standard   # Monte Carlo balance: runs, level, biome, difficulty
 npm run sim -- 24 20 finale standard  # ...or Tiamat's Dragon Throne
