@@ -3,18 +3,19 @@
  * Fortune Tray interactions (reroll, talents, tokens), and resolution of every
  * hero ability through the shared (base + chips) × mult pipeline.
  */
-import type { Combatant, Hero, HandType, ConditionId, DamageType, Rank } from '../engine/types.ts';
+import type { Combatant, Hero, HandType, ConditionId, DamageType, Rank, Material, FaceMod, Skill } from '../engine/types.ts';
 import { roll, rollD20, combineAdvantage, average } from '../engine/dice.ts';
 import {
   type Ctx, heroOf, log, fx, livingEnemies, livingHeroes, heroes, has, cond, addCondition, removeCondition,
   applyDamage, heal, savingThrow, endConcentration, advance, incapacitated, alive, kill, type DmgPart, enemies,
 } from './core.ts';
-import { derive, type Derived, type WeaponProfile } from '../rules/character.ts';
+import { derive, SKILL_NAMES, type Derived, type WeaponProfile } from '../rules/character.ts';
+import { SKILL_TRICKS } from '../content/skilltricks.ts';
 import { castableSpells, SPELLS, upcastDice, type SpellDef } from '../content/spells.ts';
 import { ITEMS } from '../content/items.ts';
 import { CLASS_MATERIAL } from '../fortune/materials.ts';
 import { scoreHand, previewHand, type ScoreOutput } from '../fortune/scoring.ts';
-import { reroll as trayReroll, spendDice, rerollsPerTurn, handSize, nudge, flip, forceValue, addGhostDie, faceValue, rollTrayDie } from '../fortune/tray.ts';
+import { reroll as trayReroll, spendDice, rerollsPerTurn, handSize, nudge, flip, forceValue, addGhostDie, faceValue, rollTrayDie, refill } from '../fortune/tray.ts';
 import { charmPassives } from '../fortune/charms.ts';
 import { CURSES } from '../fortune/curses.ts';
 import { HAND_RANK, handContains } from '../fortune/hands.ts';
@@ -434,7 +435,134 @@ export function doTalent(ctx: Ctx, cmd: { id: string; die?: number; value?: numb
       return { ok: true };
     }
   }
+  if (cmd.id.startsWith('trick:')) return doSkillTrick(ctx, a, cmd.id.slice(6) as Skill, die);
   return { ok: false, error: 'Unknown talent' };
+}
+
+function tricksUsed(ctx: Ctx, h: Hero): number {
+  return Object.keys(ctx.combat.once).filter((k) => k.startsWith(`${h.id}:trick:`)).length;
+}
+
+/** Swap a tray die for a ghost die (keeps the bag die safe in the discard). */
+function replaceWithGhost(ctx: Ctx, i: number, material: Material, value: number, mod: FaceMod | undefined, name: string) {
+  const run = ctx.exp.fortune;
+  const [td] = run.tray.splice(i, 1);
+  if (!td) return;
+  if (td.ghost) run.bag = run.bag.filter((x) => x.uid !== td.dieUid); else run.discard.push(td.dieUid);
+  addGhostDie(run, ctx.fortuneRng, material, value, mod, name);
+}
+
+function doSkillTrick(ctx: Ctx, a: { c: Combatant; h: Hero; d: Derived }, skill: Skill, die: number): CmdResult {
+  const { c, h, d } = a;
+  const trick = SKILL_TRICKS[skill];
+  if (!trick) return { ok: false, error: 'Unknown trick' };
+  if (!d.proficient.includes(skill)) return { ok: false, error: `Needs ${SKILL_NAMES[skill]} proficiency` };
+  const key = `${h.id}:trick:${skill}`;
+  if (ctx.combat.once[key]) return { ok: false, error: 'Used this fight' };
+  if (tricksUsed(ctx, h) >= d.tricks) return { ok: false, error: 'No skill tricks left this fight' };
+  const run = ctx.exp.fortune;
+  const t = ctx.combat.turn!;
+  const rng = ctx.fortuneRng;
+  const td = run.tray[die];
+  if (trick.needs === 'die' && !td) return { ok: false, error: 'Pick a die' };
+  const src = td ? run.bag.find((x) => x.uid === td.dieUid) : undefined;
+  const v = td ? faceValue(run, td) : 0;
+  let msg = '';
+  switch (skill) {
+    case 'athletics':
+      if (!nudge(run, die, 1)) return { ok: false, error: 'That die has no higher face' };
+      msg = `heaves a die up to ${faceValue(run, td)}`;
+      break;
+    case 'acrobatics':
+      if (!flip(run, die)) return { ok: false, error: 'That die has no opposite face' };
+      msg = `tumbles a die over to ${faceValue(run, td)}`;
+      break;
+    case 'sleightOfHand': {
+      const next = run.drawPile.pop();
+      if (!next) return { ok: false, error: 'The bag is empty' };
+      run.drawPile.push(td.dieUid);
+      const nd = { dieUid: next, face: 0 };
+      rollTrayDie(run, rng, nd);
+      run.tray[die] = nd;
+      msg = 'palms a die and swaps in a fresh one';
+      break;
+    }
+    case 'stealth':
+      rollTrayDie(run, rng, td);
+      msg = `quietly rerolls a die: ${faceValue(run, td)}`;
+      break;
+    case 'arcana':
+      replaceWithGhost(ctx, die, CLASS_MATERIAL[h.classId], v, undefined, 'Attuned');
+      msg = `attunes a ${v} to their colour`;
+      break;
+    case 'history': {
+      const counts = new Map<number, number>();
+      run.tray.forEach((x, i) => { if (i !== die) counts.set(faceValue(run, x), (counts.get(faceValue(run, x)) ?? 0) + 1); });
+      if (!counts.size) return { ok: false, error: 'No other dice on the tray' };
+      const want = [...counts.entries()].sort((p, q) => q[1] - p[1] || q[0] - p[0])[0][0];
+      if (!forceValue(run, die, want)) replaceWithGhost(ctx, die, src?.material ?? 'bone', want, undefined, 'Precedent');
+      msg = `recalls an old pattern: a die becomes ${want}`;
+      break;
+    }
+    case 'investigation': {
+      const peek = run.drawPile.slice(-3);
+      if (!peek.length) return { ok: false, error: 'The bag is empty' };
+      const rolled = peek.map((uid) => { const nd = { dieUid: uid, face: 0 }; rollTrayDie(run, rng, nd); return nd; });
+      const best = rolled.reduce((p, q) => (faceValue(run, q) > faceValue(run, p) ? q : p));
+      run.drawPile = run.drawPile.filter((u) => u !== best.dieUid);
+      run.drawPile.unshift(td.dieUid);
+      run.tray[die] = best;
+      msg = `deduces the best die in the bag: a ${faceValue(run, best)}`;
+      break;
+    }
+    case 'nature': {
+      let n = 0;
+      for (const x of run.tray) if (faceValue(run, x) <= 2) { rollTrayDie(run, rng, x); n++; }
+      if (!n) return { ok: false, error: 'No 1s or 2s on the tray' };
+      msg = `reads the weather and rerolls ${n} low ${n > 1 ? 'dice' : 'die'}`;
+      break;
+    }
+    case 'animalHandling': {
+      const before = run.tray.length;
+      refill(run, rng, before + 1);
+      if (run.tray.length === before) return { ok: false, error: 'The bag is empty' };
+      msg = 'whistles up an extra die';
+      break;
+    }
+    case 'insight':
+      run.rerollsLeft += 1;
+      msg = 'reads the room: +1 reroll';
+      break;
+    case 'medicine': {
+      run.tray.forEach((x) => { x.jinxed = false; });
+      for (const bd of run.bag) bd.faces = bd.faces.map((f) => (f.mod === 'cursed' ? { v: f.v } : f));
+      msg = 'mends the dice: jinxes and curses lifted';
+      break;
+    }
+    case 'perception':
+      replaceWithGhost(ctx, die, src?.material ?? 'bone', v, 'keen', 'Spotted');
+      msg = `spots an opening: the ${v} turns Keen`;
+      break;
+    case 'survival':
+      if (v > 2) return { ok: false, error: 'Pick a 1 or a 2' };
+      if (!forceValue(run, die, 5)) replaceWithGhost(ctx, die, src?.material ?? 'bone', 5, undefined, 'Make Do');
+      msg = `makes do: a ${v} becomes a 5`;
+      break;
+    case 'deception':
+      replaceWithGhost(ctx, die, src?.material ?? 'bone', v, 'wild', 'Bluff');
+      msg = 'bluffs: a die turns Wild';
+      break;
+    case 'persuasion':
+      addGhostDie(run, rng, src?.material ?? 'bone', v, undefined, 'Rally');
+      msg = `rallies a copy of the ${v}`;
+      break;
+    case 'religion': t.flags.prayer = true; msg = 'prays: +2 Mult on the next hand'; break;
+    case 'intimidation': t.flags.menace = true; msg = 'glares down the foes: +Mult per foe on the next hand'; break;
+    case 'performance': t.flags.showstopper = true; msg = 'readies a showstopper: ×1.5 on a Straight or better'; break;
+  }
+  ctx.combat.once[key] = true;
+  log(ctx, `${c.name} ${msg} (${SKILL_NAMES[skill]}: ${trick.name}).`, 'fortune');
+  return { ok: true };
 }
 
 export interface TalentOption { id: string; name: string; text: string; needs: 'none' | 'die' | 'dieValue' | 'dieDelta'; usable: boolean; reason?: string }
@@ -462,6 +590,14 @@ export function listTalents(ctx: Ctx): TalentOption[] {
       break;
   }
   if (h.feats.includes('lucky')) add('luck', 'Lucky', `Spend Luck for a reroll (${h.resources.luck ?? 0} left).`, 'none', (h.resources.luck ?? 0) < 1 ? 'None left' : null);
+  // Skill tricks from proficient skills.
+  const left = a.d.tricks - tricksUsed(ctx, h);
+  for (const s of a.d.proficient) {
+    const tr = SKILL_TRICKS[s];
+    if (!tr) continue;
+    add(`trick:${s}`, `${tr.name} (${SKILL_NAMES[s]})`, `${tr.text} Skill trick — ${Math.max(0, left)} left this fight.`, tr.needs,
+      once(`trick:${s}`) ? 'Used this fight' : left <= 0 ? 'No skill tricks left' : null);
+  }
   return out;
 }
 
@@ -556,13 +692,20 @@ function score(ctx: Ctx, base: number, label: string, p: PlayCtx): ScoreOutput {
   }
   return scoreHand({
     run, trayIndices: p.dice, base, baseLabel: label, rng: ctx.fortuneRng,
-    actor: { classId: a.h.classId, level: a.h.level, hpFrac: a.c.hp / a.c.maxHp, affinity: CLASS_MATERIAL[a.h.classId] },
+    actor: { classId: a.h.classId, level: a.h.level, hpFrac: a.c.hp / a.c.maxHp, affinity: CLASS_MATERIAL[a.h.classId], heroId: a.h.id, extraAffinity: a.d.diceGear.affinity },
     action: p.use === 'attack' ? 'attack' : p.use === 'heal' ? 'heal' : p.use === 'guard' ? 'guard' : 'spell',
     firstHand: ctx.combat.handsThisCombat === 0, marked, enemiesAlive: livingEnemies(ctx).length, curse,
     extraDie: biomeDie(ctx),
     extraHand: (hand: HandType) => {
       const out = extra.slice();
       if (quarry && handContains(hand, 'straight')) out.push({ label: 'Quarry', effect: { xmult: 2 } });
+      // Dice-touched gear.
+      for (const g of a.d.diceGear.hands) if (g.hands.includes(hand)) out.push({ label: g.name, effect: { mult: g.mult, xmult: g.xmult } });
+      // Pending skill tricks (spent when the play commits).
+      const f = ctx.combat.turn?.flags ?? {};
+      if (f.prayer) out.push({ label: 'Prayer', effect: { mult: 2 } });
+      if (f.menace) out.push({ label: 'Menace', effect: { mult: livingEnemies(ctx).length } });
+      if (f.showstopper && HAND_RANK[hand] >= HAND_RANK.straight) out.push({ label: 'Showstopper', effect: { xmult: 1.5 } });
       return out;
     },
   });
@@ -574,6 +717,7 @@ function commitPlay(ctx: Ctx, p: PlayCtx, s: ScoreOutput) {
   const run = ctx.exp.fortune;
   const t = ctx.combat.turn!;
   t.playsUsed += 1;
+  t.flags.prayer = t.flags.menace = t.flags.showstopper = false;
   ctx.combat.handsThisCombat += 1;
   run.handsPlayed[s.hand] = (run.handsPlayed[s.hand] ?? 0) + 1;
   run.lastHand = s.hand;

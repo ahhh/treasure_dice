@@ -101,6 +101,26 @@ export interface Hero {
   history: { expeditions: number; clears: number; kills: number; deathCause?: string };
   /** Pending level-up awaiting the wizard. */
   pendingLevel?: boolean;
+  /**
+   * Signature dice: the hero's own dice, carried into every expedition's bag
+   * and permanently shaped by Dice Path marks at each level-up. Absent on
+   * older saves; `heroDice()` supplies two plain class-coloured dice.
+   */
+  dice?: HeroDie[];
+}
+
+/** Permanent per-die traits from Dice Path milestones (levels 5, 10, 15, 20). */
+export type DieTrait =
+  | 'loaded'     // rolls twice, keeps the higher face
+  | 'kindred'    // +2 mult when its owner plays it
+  | 'echoing'    // retriggers when its owner scores it
+  | 'steadfast'  // can't be jinxed, pilfered or cursed
+  | 'eager';     // always in the opening tray
+
+export interface HeroDie {
+  material: Material;
+  faces: Face[];
+  trait?: DieTrait;
 }
 
 export type EquipSlot = 'mainHand' | 'offHand' | 'armor' | 'trinket1' | 'trinket2';
@@ -129,6 +149,9 @@ export interface FortuneDie {
   faces: Face[];
   /** Display name for special dice. */
   name?: string;
+  /** Hero id for signature dice (and dice added by a hero's gear). */
+  owner?: string;
+  trait?: DieTrait;
 }
 
 export interface TrayDie {

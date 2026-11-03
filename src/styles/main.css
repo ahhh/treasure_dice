@@ -433,3 +433,20 @@ table.mini td, table.mini th { padding: 3px 6px; border-bottom: 1px solid rgba(2
 .share-sheet { text-align: center; }
 .share-card { display: block; width: 100%; max-width: 420px; height: auto; margin: 0 auto 10px; border-radius: 12px; box-shadow: 0 8px 28px #000a; }
 .field { width: 100%; max-width: 420px; background: #0b1230; color: inherit; border: 1px solid #556; padding: 8px; border-radius: 4px; font: inherit; }
+
+/* Signature dice (Dice Path) */
+.sig-dice { display: flex; flex-wrap: wrap; gap: 10px 16px; }
+.sig-die { display: flex; flex-direction: column; gap: 4px; padding: 4px 6px; border-radius: 8px; }
+.sig-die.hi { outline: 2px solid var(--gold); }
+.sig-faces { display: flex; gap: 4px; flex-wrap: wrap; }
+.die.mini { width: 28px; height: 28px; min-width: 28px; font-size: 12px; border-radius: 6px; padding: 3px; cursor: default; }
+.die.mini:hover { transform: none; }
+.die.mini { box-shadow: inset 0 -2px 0 rgba(0, 0, 0, .25), 0 2px 0 rgba(0, 0, 0, .35); }
+.die.mini.sel { transform: none; box-shadow: 0 0 0 2px var(--gold); }
+.die.mini .mod { width: 14px; height: 14px; font-size: 9px; right: -4px; top: -5px; }
+.die.mini .pip { width: 4px; height: 4px; }
+.mark-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; }
+.mark-card { text-align: left; display: flex; flex-direction: column; gap: 4px; }
+
+/* Illustration banners (events, chronicle) */
+.art-banner { display: block; width: 100%; aspect-ratio: 16 / 7; object-fit: cover; border-radius: 8px; margin: 0 0 10px; border: 1px solid rgba(255, 255, 255, .12); }

@@ -10,7 +10,9 @@ import { BIOMES, BIOME_ORDER } from '../content/biomes.ts';
 import { EVENTS, type Outcome } from '../content/events.ts';
 import { MONSTERS, biomeMonsters } from '../content/monsters.ts';
 import { ITEMS, itemName } from '../content/items.ts';
-import { newFortuneRun, interest, endCombatTray } from '../fortune/tray.ts';
+import { newFortuneRun, interest, endCombatTray, MAX_TOKENS } from '../fortune/tray.ts';
+import { heroDice } from '../fortune/dicepath.ts';
+import { makeDie, SPECIAL_BY_ID } from '../fortune/materials.ts';
 import { rollBoons, rollShop, applyOffer, makeOffer, offerTitle, TOKENS } from '../fortune/boons.ts';
 import { CHARMS, CHARM_BY_ID, newCharm } from '../fortune/charms.ts';
 import { HANDS } from '../fortune/hands.ts';
@@ -64,9 +66,22 @@ export function startExpedition(g: GameState, o: StartOpts): string | null {
   const b = BIOMES[o.biome];
   const bossRoom = map.rooms[map.bossKey];
   const bossDef = MONSTERS[bossRoom.encounter!.monsters[0]];
-  const fortune = newFortuneRun(new Rng(rng.fortune), heroes.map((h) => h!.classId));
+  const fortuneRng = new Rng(rng.fortune);
+  const fortune = newFortuneRun(fortuneRng, heroes.map((h) => h!.classId), heroes.map((h) => ({ owner: h!.id, dice: heroDice(h!) })));
   // Humans are resourceful: an extra Mulligan coin.
   if (heroes.some((h) => h!.ancestry === 'human')) fortune.tokens.push('mulligan');
+  // Dice-touched gear: extra dice for the bag, starting tokens.
+  for (const h of heroes) {
+    const gear = derive(h!).diceGear;
+    for (const id of gear.startDice) {
+      const sd = SPECIAL_BY_ID[id];
+      if (!sd) continue;
+      const die = makeDie(fortuneRng, sd.material, sd.faces.map((f) => ({ ...f })), sd.name);
+      die.owner = h!.id;
+      fortune.bag.push(die);
+    }
+    for (const t of gear.tokens) if (fortune.tokens.length < MAX_TOKENS) fortune.tokens.push(t);
+  }
   for (const h of heroes) {
     if (h!.feats.includes('lucky')) h!.resources.luck = derive(h!).pb;
     h!.history.expeditions += 1;

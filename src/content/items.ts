@@ -1,5 +1,5 @@
 /** SRD-compatible base items plus original trinkets and affixes. */
-import type { Ability, DamageType, ItemInstance, ItemKind, Rarity } from '../engine/types.ts';
+import type { Ability, DamageType, HandType, ItemInstance, ItemKind, Material, Rarity, Skill } from '../engine/types.ts';
 
 export type WeaponProp = 'finesse' | 'light' | 'heavy' | 'twoHanded' | 'versatile' | 'reach' | 'thrown' | 'ranged' | 'loading' | 'monk';
 export type Mastery = 'cleave' | 'graze' | 'nick' | 'push' | 'sap' | 'slow' | 'topple' | 'vex';
@@ -36,6 +36,22 @@ export interface TrinketMods {
   slotRecover?: number;
   resist?: DamageType[];
   critRange?: number;
+  // ── dice hooks ──
+  /** Skill proficiency (and a flat bonus) — proficiency unlocks that skill's tray trick. */
+  skillProf?: Skill[];
+  skillBonus?: Partial<Record<Skill, number>>;
+  /** Extra skill tricks per fight. */
+  tricks?: number;
+  /** Special dice (SPECIAL_DICE ids) added to the bag each expedition. */
+  startDice?: string[];
+  /** Fortune tokens granted at the start of each expedition. */
+  tokens?: string[];
+  /** These materials also count as the wearer's colour (+1 Mult each). */
+  affinity?: Material[];
+  /** Bonus when the wearer plays one of these hands. */
+  hand?: { hands: HandType[]; mult?: number; xmult?: number };
+  /** Each fight opens with this many Wild ghost dice on the tray. */
+  openingWild?: number;
 }
 
 export interface ConsumableDef {
@@ -130,6 +146,26 @@ const T = (id: string, name: string, price: number, rarity: Rarity, trinket: Tri
   T('hawkEye', "Falconer's Eye", 700, 'rare', { critRange: 1 }, 'Critical hits on one lower d20 face.', 3, true),
   T('diceOfTheDoor', 'Bone of the Fifth Door', 1500, 'veryRare', { rerolls: 1, saves: 1, ac: 1 }, 'An old die-bone that hums near the door: +1 reroll, +1 AC, +1 saves.', 4, true),
   T('beltGiant', 'Belt of Hill Giant Strength', 2500, 'rare', { setAbility: { str: 21 } }, 'Strength becomes 21.', 4, true),
+  // Dice-touched trinkets: skills that unlock tray tricks, dice for the bag, hands and colours.
+  T('glovesThievery', 'Gloves of Thievery', 300, 'uncommon', { skillProf: ['sleightOfHand'], skillBonus: { sleightOfHand: 5 } }, '+5 Sleight of Hand, and its Palm trick: swap a tray die for the next one in the bag.', 1),
+  T('bootsElvenkind', 'Boots of Elvenkind', 300, 'uncommon', { skillProf: ['stealth'], skillBonus: { stealth: 5 } }, '+5 Stealth, and its Lurk trick: reroll one die for free.', 1),
+  T('eyesEagle', 'Eyes of the Eagle', 350, 'uncommon', { skillProf: ['perception'], skillBonus: { perception: 5 } }, '+5 Perception, and its Spot trick: a die\'s face turns Keen.', 1),
+  T('hatDisguise', 'Hat of Disguise', 350, 'uncommon', { skillProf: ['deception'], skillBonus: { deception: 5 } }, '+5 Deception, and its Bluff trick: a die turns Wild.', 2),
+  T('dossLute', 'Doss Lute', 450, 'uncommon', { skillProf: ['performance'], skillBonus: { performance: 5 }, tricks: 1 }, '+5 Performance and one extra skill trick each fight.', 2),
+  T('iounInsight', 'Ioun Stone of Insight', 800, 'rare', { skillProf: ['insight'], tricks: 1 }, 'Insight proficiency and one extra skill trick each fight.', 3),
+  T('bagTricks', 'Bag of Tricks', 450, 'uncommon', { openingWild: 1 }, 'Every fight starts with a Wild ghost die on the tray.', 2),
+  T('ivoryBones', 'Ivory Knucklebones', 350, 'uncommon', { startDice: ['loaded'] }, 'Adds a Loaded Die to the bag on every expedition.', 1),
+  T('goldbugLocket', 'Goldbug Locket', 250, 'uncommon', { startDice: ['goldbug'] }, 'Adds a Goldbug Die (three gilded faces) to the bag on every expedition.', 1),
+  T('glassEye', 'Glass Eye of Fortune', 600, 'rare', { startDice: ['glass'] }, 'Adds a Glass Die (×2 Mult, may shatter) to the bag on every expedition.', 2),
+  T('prismShard', 'Prism Shard Pendant', 900, 'rare', { startDice: ['prism'] }, 'Adds a Prism Die (counts as every material) to the bag on every expedition.', 3),
+  T('gamblersPurse', "Gambler's Purse", 150, 'common', { tokens: ['fateCoin'] }, 'Start every expedition with a Fate Coin.', 1),
+  T('encoreHourglass', 'Hourglass of Encores', 700, 'rare', { tokens: ['encore'] }, 'Start every expedition with an Encore token.', 3),
+  T('boneCirclet', 'Circlet of Bone', 150, 'common', { affinity: ['bone'] }, 'Bone dice count as your colour (+1 Mult each).', 1),
+  T('fourWinds', 'Band of the Four Winds', 700, 'rare', { affinity: ['ember', 'frost', 'storm'] }, 'Ember, Frost and Storm dice count as your colour.', 2),
+  T('twinRing', 'Ring of Twin Fortune', 400, 'uncommon', { hand: { hands: ['pair', 'twoPair'], mult: 3 } }, 'Your Pairs and Two Pairs gain +3 Mult.', 1),
+  T('threesBracelet', 'Bracelet of Threes', 450, 'uncommon', { hand: { hands: ['three', 'fullHouse'], mult: 4 } }, 'Your Three of a Kinds and Full Houses gain +4 Mult.', 2),
+  T('starweave', 'Starweave Mantle', 1000, 'rare', { hand: { hands: ['straight', 'straightSet'], xmult: 1.5 } }, 'Your Straights and Straight Sets gain ×1.5 Mult.', 3),
+  T('hoardTorc', 'Torc of the Hoard', 2400, 'veryRare', { hand: { hands: ['set', 'fullSet', 'hoard'], xmult: 2 } }, 'Your Sets, Full Sets and Dragon Hoards gain ×2 Mult.', 4, true),
 ].forEach(add);
 
 // Consumables.

@@ -26,6 +26,16 @@ export function art(key: string, alt: string, cls = '', color = '#3a4a7a'): HTML
   return h('div', { class: `art placeholder ${cls}`, role: 'img', 'aria-label': alt, style: `--ph:${color}` }, initials || '?');
 }
 
+/** The first key we have art for (newer art falls back to older art until it is generated). */
+export function firstArt(...ks: (string | undefined)[]): string {
+  return ks.find((k) => k && keys.has(k)) ?? ks.find(Boolean) ?? '';
+}
+
+/** A wide illustration banner, or nothing if the art isn't there yet. */
+export function banner(key: string, alt: string): HTMLElement | null {
+  return keys.has(key) ? h('img', { class: 'art-banner', src: artUrl(key), alt, loading: 'lazy', draggable: 'false' }) : null;
+}
+
 export function bgStyle(key: string, fallback: string) {
   return keys.has(key) ? `background-image:linear-gradient(to bottom, rgba(6,10,24,.15), rgba(6,10,24,.75)), url(${artUrl(key)})` : `background:${fallback}`;
 }

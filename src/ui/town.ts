@@ -2,7 +2,7 @@
 import type { BiomeId, EquipSlot, Hero, ItemInstance } from '../engine/types.ts';
 import { h, btn, fmt } from './dom.ts';
 import { app, run, render, setGame, toast } from './app.ts';
-import { bgStyle, art } from './art.ts';
+import { bgStyle, art, banner } from './art.ts';
 import { heroPortrait, heroLine, hpBar, itemIcon, charmEl } from './widgets.ts';
 import { CLASSES } from '../content/classes.ts';
 import { ITEMS, itemName, sellValue, AFFIXES } from '../content/items.ts';
@@ -186,7 +186,7 @@ function chronicleTab(): HTMLElement {
   const para = (t: string) => h('p', { class: 'prose' }, t);
   return h('div', { class: 'col' },
     h('div', { class: 'win chronicle', 'data-tut': 'story' },
-      h('div', { class: 'chapter-head' }, PROLOGUE.head), h('h2', null, PROLOGUE.title), ...PROLOGUE.text.map(para),
+      banner(`story/${PROLOGUE.id}`, PROLOGUE.title), h('div', { class: 'chapter-head' }, PROLOGUE.head), h('h2', null, PROLOGUE.title), ...PROLOGUE.text.map(para),
       h('div', { class: 'heads' }, ...BIOME_ORDER.map((b) => {
         const broken = (g.profile.sigils[b] ?? 0) > 0;
         return h('div', { class: `head ${broken ? 'broken' : ''}`, style: `--hc:${HEADS[b].color}`, title: `${HEADS[b].name} (${HEADS[b].breath}) feeds ${BIOMES[b].name}${broken ? ' — broken' : ''}` },
@@ -197,16 +197,17 @@ function chronicleTab(): HTMLElement {
       const earned = (g.profile.sigils[b] ?? 0) > 0;
       return h('div', { class: `win chronicle ${earned ? '' : 'sealed'}` },
         h('div', { class: 'chapter-head' }, `${c.head} · ${BIOMES[b].name}`),
-        earned ? [h('h2', null, c.title), ...c.text.map(para)] : h('p', { class: 'muted' }, `Break ${BIOMES[b].name} to read this chapter.`));
+        earned ? [banner(`story/${c.id}`, c.title), h('h2', null, c.title), ...c.text.map(para)] : h('p', { class: 'muted' }, `Break ${BIOMES[b].name} to read this chapter.`));
     }),
     h('div', { class: 'win chronicle finale-win' },
       h('div', { class: 'chapter-head' }, 'The Final Stage'),
+      banner(`story/${FINALE.id}`, FINALE.name),
       h('h2', null, `👑 ${FINALE.name}`),
       para(FINALE.premise),
       h('p', { class: best >= FINALE_LEVEL ? 'gold' : 'muted' }, best >= FINALE_LEVEL
         ? 'You have a champion at the height of their power. Choose the Dragon Throne in the Cartographer.'
         : `Requires a level ${FINALE_LEVEL} hero in the party. Your strongest living hero is level ${best || '—'}.`),
-      story.tiamat ? [h('div', { class: 'chapter-head', style: 'margin-top:10px' }, EPILOGUE.head), h('h3', null, EPILOGUE.title), ...EPILOGUE.text.map(para), h('p', { class: 'gold' }, `Tiamat slain ×${story.tiamat}.`)] : null),
+      story.tiamat ? [banner(`story/${EPILOGUE.id}`, EPILOGUE.title), h('div', { class: 'chapter-head', style: 'margin-top:10px' }, EPILOGUE.head), h('h3', null, EPILOGUE.title), ...EPILOGUE.text.map(para), h('p', { class: 'gold' }, `Tiamat slain ×${story.tiamat}.`)] : null),
     h('div', { class: 'win' },
       h('h2', null, 'Share your legends'),
       h('p', { class: 'small muted' }, 'A card with your three best heroes, the echoes you have broken, and your record. Save it as an image or share it.'),

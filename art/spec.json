@@ -1,6 +1,6 @@
 {
  "game": "treasure_dice",
- "count": 264,
+ "count": 344,
  "entries": [
   {
    "key": "heroes/fighter_1",
@@ -943,7 +943,7 @@
    "kind": "icon",
    "group": "charm:uncommon",
    "name": "Weighted Fate",
-   "subject": "a magical trinket charm called \"Weighted Fate\". Its power: +2 to hit on all attack rolls.",
+   "subject": "a heavy grey lead die hanging from a silver chain, one corner drilled and plugged with a bead of blue enamel, a small silver weight swinging beneath it",
    "anchor": false
   },
   {
@@ -1095,7 +1095,7 @@
    "kind": "icon",
    "group": "charm:rare",
    "name": "Glass Heart",
-   "subject": "a magical trinket charm called \"Glass Heart\". Its power: ×3 Mult. The acting hero loses 5% max HP per hand.",
+   "subject": "a heart-shaped charm blown from clear, fragile glass, hollow and transparent with a faint pink glow inside and a hairline crack, hung on a thin gold chain",
    "anchor": false
   },
   {
@@ -1119,7 +1119,7 @@
    "kind": "icon",
    "group": "charm:rare",
    "name": "Pauper's Crown",
-   "subject": "a magical trinket charm called \"Pauper's Crown\". Its power: ×2.5 Mult while you hold fewer than 5 doubloons.",
+   "subject": "a tiny shabby crown made of dented tin and knotted twine, with chipped coloured-glass \"jewels\", hung on a frayed cord: a beggar-king's crown that is somehow precious",
    "anchor": false
   },
   {
@@ -1127,7 +1127,7 @@
    "kind": "icon",
    "group": "charm:rare",
    "name": "Monolith",
-   "subject": "a magical trinket charm called \"Monolith\". Its power: A single played die scores as Three of a Kind.",
+   "subject": "a tiny standing stone of dark granite, a single tall monolith with faint glowing carved bands and no markings that read as numbers, hung from a gold ring",
    "anchor": false
   },
   {
@@ -1151,7 +1151,7 @@
    "kind": "icon",
    "group": "charm:rare",
    "name": "Avalanche Idol",
-   "subject": "a magical trinket charm called \"Avalanche Idol\". Its power: Gains ×0.25 Mult each combat won without a hero falling. Resets if one falls. ",
+   "subject": "a small gold idol carved as a cascade of tumbling white stones and snow pouring down a mountainside, rubies set in the rocks",
    "anchor": false
   },
   {
@@ -1215,7 +1215,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Dawn Idol",
-   "subject": "a magical trinket charm called \"Dawn Idol\". Its power: Scored Sun dice give +4 Chips and +2 Mult.",
+   "subject": "a small gold idol of a radiant sun-faced figure holding up a yellow six-sided die marked only with pips, hung on a cord, no tags or letters",
    "anchor": false
   },
   {
@@ -1239,7 +1239,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Thorn Idol",
-   "subject": "a magical trinket charm called \"Thorn Idol\". Its power: Scored Verdant dice give +4 Chips and +2 Mult.",
+   "subject": "a small carved wooden idol of a sleeping forest spirit wrapped in leaves and moss, cradling a green six-sided die marked only with pips, hung on a cord",
    "anchor": false
   },
   {
@@ -1271,7 +1271,7 @@
    "kind": "icon",
    "group": "item:weapon",
    "name": "Club",
-   "subject": "Club (a melee weapon dealing bludgeoning damage)",
+   "subject": "a simple wooden cudgel of dark oak, thicker and knotted at the striking end, a leather thong at the grip",
    "anchor": true
   },
   {
@@ -1287,7 +1287,7 @@
    "kind": "icon",
    "group": "item:weapon",
    "name": "Greatclub",
-   "subject": "Greatclub (a melee weapon dealing bludgeoning damage)",
+   "subject": "a huge two-handed club: a rough-hewn length of knotted oak, swollen at the end and bound with iron bands, no metal head",
    "anchor": false
   },
   {
@@ -1303,7 +1303,7 @@
    "kind": "icon",
    "group": "item:weapon",
    "name": "Javelin",
-   "subject": "Javelin (a melee weapon dealing piercing damage)",
+   "subject": "a light throwing javelin: a slim shaft with a narrow barbed iron point and a leather throwing loop near its balance point",
    "anchor": false
   },
   {
@@ -1319,7 +1319,7 @@
    "kind": "icon",
    "group": "item:weapon",
    "name": "Quarterstaff",
-   "subject": "Quarterstaff (a melee weapon dealing bludgeoning damage)",
+   "subject": "a long plain wooden quarterstaff as tall as a person, smooth ash wood with iron caps at both ends and a cloth-wrapped middle grip, shown diagonally across the frame",
    "anchor": false
   },
   {
@@ -1327,7 +1327,7 @@
    "kind": "icon",
    "group": "item:weapon",
    "name": "Spear",
-   "subject": "Spear (a melee weapon dealing piercing damage)",
+   "subject": "a sturdy spear with a broad leaf-shaped steel head, a red tassel below the head, and a long ash shaft",
    "anchor": false
   },
   {
@@ -1391,7 +1391,7 @@
    "kind": "icon",
    "group": "item:weapon",
    "name": "Greatsword",
-   "subject": "Greatsword (a melee weapon dealing slashing damage)",
+   "subject": "a massive two-handed greatsword, a very long and broad blade, a long two-hand leather grip and a wide straight crossguard, clearly bigger than a longsword",
    "anchor": false
   },
   {
@@ -1423,7 +1423,7 @@
    "kind": "icon",
    "group": "item:weapon",
    "name": "Morningstar",
-   "subject": "Morningstar (a melee weapon dealing piercing damage)",
+   "subject": "a one-handed morningstar: a stout wooden haft topped directly by a heavy iron ball studded with long spikes, no chain at all",
    "anchor": false
   },
   {
@@ -1455,7 +1455,7 @@
    "kind": "icon",
    "group": "item:weapon",
    "name": "Warhammer",
-   "subject": "Warhammer (a melee weapon dealing bludgeoning damage)",
+   "subject": "a one-handed war hammer: a small square steel hammer head with a curved spike on the back, on a slim haft",
    "anchor": false
   },
   {
@@ -1471,7 +1471,7 @@
    "kind": "icon",
    "group": "item:weapon",
    "name": "Hand Crossbow",
-   "subject": "Hand Crossbow (a ranged weapon dealing piercing damage)",
+   "subject": "a tiny one-handed hand crossbow no bigger than a pistol, compact and elegant with a short curved grip",
    "anchor": false
   },
   {
@@ -1479,7 +1479,7 @@
    "kind": "icon",
    "group": "item:weapon",
    "name": "Heavy Crossbow",
-   "subject": "Heavy Crossbow (a ranged weapon dealing piercing damage)",
+   "subject": "a huge heavy crossbow with a thick steel prod, a long stock and a winding crank windlass at the back",
    "anchor": false
   },
   {
@@ -1495,7 +1495,7 @@
    "kind": "icon",
    "group": "item:armor",
    "name": "Padded Armor",
-   "subject": "Padded Armor",
+   "subject": "a quilted padded gambeson of off-white cloth with thick diamond stitching and no metal at all",
    "anchor": true
   },
   {
@@ -1503,7 +1503,7 @@
    "kind": "icon",
    "group": "item:armor",
    "name": "Leather Armor",
-   "subject": "Leather Armor",
+   "subject": "a simple jerkin of stiff boiled brown leather, laced up the front, no metal plates at all",
    "anchor": false
   },
   {
@@ -1519,7 +1519,7 @@
    "kind": "icon",
    "group": "item:armor",
    "name": "Hide Armor",
-   "subject": "Hide Armor",
+   "subject": "crude armour of thick animal hides and fur stitched together with sinew, a shaggy fur collar, no metal",
    "anchor": false
   },
   {
@@ -1543,7 +1543,7 @@
    "kind": "icon",
    "group": "item:armor",
    "name": "Breastplate",
-   "subject": "Breastplate",
+   "subject": "a single polished steel breastplate covering only the chest and belly, leather side straps, no sleeves or shoulders",
    "anchor": false
   },
   {
@@ -1551,7 +1551,7 @@
    "kind": "icon",
    "group": "item:armor",
    "name": "Half Plate",
-   "subject": "Half Plate",
+   "subject": "half plate armour: a steel breastplate, rounded pauldrons and hip tassets worn over a chain shirt, no leg armour",
    "anchor": false
   },
   {
@@ -1559,7 +1559,7 @@
    "kind": "icon",
    "group": "item:armor",
    "name": "Ring Mail",
-   "subject": "Ring Mail",
+   "subject": "a leather coat sewn all over with rows of large flat iron rings",
    "anchor": false
   },
   {
@@ -1567,7 +1567,7 @@
    "kind": "icon",
    "group": "item:armor",
    "name": "Chain Mail",
-   "subject": "Chain Mail",
+   "subject": "a long hauberk of fine interlocking chain mail reaching the knees, with a mail hood",
    "anchor": false
   },
   {
@@ -1575,7 +1575,7 @@
    "kind": "icon",
    "group": "item:armor",
    "name": "Splint Armor",
-   "subject": "Splint Armor",
+   "subject": "armour of narrow vertical steel strips riveted onto a leather backing, with shoulder guards",
    "anchor": false
   },
   {
@@ -1583,7 +1583,7 @@
    "kind": "icon",
    "group": "item:armor",
    "name": "Plate Armor",
-   "subject": "Plate Armor",
+   "subject": "a complete suit of gleaming steel full plate armour with helmet, gauntlets and greaves, standing upright as if on an armour stand",
    "anchor": false
   },
   {
@@ -1599,7 +1599,7 @@
    "kind": "icon",
    "group": "item:trinket",
    "name": "Thieves' Tools",
-   "subject": "a rolled-up leather locksmith's kit with fine brass picks, tension wrenches and a tiny mirror"
+   "subject": "a half-unrolled leather craftsman's pouch of small brass and steel tools: a tiny hammer, a file, tweezers and a little round mirror"
   },
   {
    "key": "items/trinket_ringProtection",
@@ -1743,6 +1743,158 @@
    "group": "item:trinket",
    "name": "Belt of Hill Giant Strength",
    "subject": "Belt of Hill Giant Strength — Strength becomes 21.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_glovesThievery",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Gloves of Thievery",
+   "subject": "Gloves of Thievery — +5 Sleight of Hand, and its Palm trick: swap a tray die for the next one in the bag.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_bootsElvenkind",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Boots of Elvenkind",
+   "subject": "Boots of Elvenkind — +5 Stealth, and its Lurk trick: reroll one die for free.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_eyesEagle",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Eyes of the Eagle",
+   "subject": "Eyes of the Eagle — +5 Perception, and its Spot trick: a die's face turns Keen.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_hatDisguise",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Hat of Disguise",
+   "subject": "Hat of Disguise — +5 Deception, and its Bluff trick: a die turns Wild.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_dossLute",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Doss Lute",
+   "subject": "Doss Lute — +5 Performance and one extra skill trick each fight.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_iounInsight",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Ioun Stone of Insight",
+   "subject": "Ioun Stone of Insight — Insight proficiency and one extra skill trick each fight.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_bagTricks",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Bag of Tricks",
+   "subject": "Bag of Tricks — Every fight starts with a Wild ghost die on the tray.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_ivoryBones",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Ivory Knucklebones",
+   "subject": "Ivory Knucklebones — Adds a Loaded Die to the bag on every expedition.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_goldbugLocket",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Goldbug Locket",
+   "subject": "Goldbug Locket — Adds a Goldbug Die (three gilded faces) to the bag on every expedition.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_glassEye",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Glass Eye of Fortune",
+   "subject": "Glass Eye of Fortune — Adds a Glass Die (×2 Mult, may shatter) to the bag on every expedition.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_prismShard",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Prism Shard Pendant",
+   "subject": "Prism Shard Pendant — Adds a Prism Die (counts as every material) to the bag on every expedition.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_gamblersPurse",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Gambler's Purse",
+   "subject": "Gambler's Purse — Start every expedition with a Fate Coin.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_encoreHourglass",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Hourglass of Encores",
+   "subject": "Hourglass of Encores — Start every expedition with an Encore token.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_boneCirclet",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Circlet of Bone",
+   "subject": "Circlet of Bone — Bone dice count as your colour (+1 Mult each).",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_fourWinds",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Band of the Four Winds",
+   "subject": "Band of the Four Winds — Ember, Frost and Storm dice count as your colour.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_twinRing",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Ring of Twin Fortune",
+   "subject": "Ring of Twin Fortune — Your Pairs and Two Pairs gain +3 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_threesBracelet",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Bracelet of Threes",
+   "subject": "Bracelet of Threes — Your Three of a Kinds and Full Houses gain +4 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_starweave",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Starweave Mantle",
+   "subject": "Starweave Mantle — Your Straights and Straight Sets gain ×1.5 Mult.",
+   "anchor": false
+  },
+  {
+   "key": "items/trinket_hoardTorc",
+   "kind": "icon",
+   "group": "item:trinket",
+   "name": "Torc of the Hoard",
+   "subject": "Torc of the Hoard — Your Sets, Full Sets and Dragon Hoards gain ×2 Mult.",
    "anchor": false
   },
   {
@@ -2039,6 +2191,464 @@
    "group": "scene:starfall",
    "name": "The Starfall Ossuary — boss",
    "subject": "the End of Ages: a ruined temple adrift in a nebula, a black hole swallowing the stars",
+   "anchor": false
+  },
+  {
+   "key": "scenes/cinder_entrance",
+   "kind": "scene",
+   "group": "scene:cinder",
+   "name": "The Cinder Vaults — entrance",
+   "subject": "the mouth of a dwarven mine cut into a mountainside, ash drifting over cart rails and a broken iron gate, a warm glow deep within"
+  },
+  {
+   "key": "scenes/cinder_camp",
+   "kind": "scene",
+   "group": "scene:cinder",
+   "name": "The Cinder Vaults — camp",
+   "subject": "a sheltered alcove off a mine tunnel with a small campfire and bedrolls, a cooled lava flow forming a bench"
+  },
+  {
+   "key": "scenes/cinder_shrine",
+   "kind": "scene",
+   "group": "scene:cinder",
+   "name": "The Cinder Vaults — shrine",
+   "subject": "a small dwarven shrine to a forge spirit carved into basalt, offering bowls of embers on an anvil altar"
+  },
+  {
+   "key": "scenes/cinder_peddler",
+   "kind": "scene",
+   "group": "scene:cinder",
+   "name": "The Cinder Vaults — peddler",
+   "subject": "a travelling merchant's covered cart parked at a mine junction, lanterns, crates of curios and dice, nobody in sight"
+  },
+  {
+   "key": "scenes/cinder_corridor2",
+   "kind": "scene",
+   "group": "scene:cinder",
+   "name": "The Cinder Vaults — corridor2",
+   "subject": "a narrow catwalk of iron grating over a slow glowing magma river"
+  },
+  {
+   "key": "scenes/cinder_corridor3",
+   "kind": "scene",
+   "group": "scene:cinder",
+   "name": "The Cinder Vaults — corridor3",
+   "subject": "a collapsed dwarven hall with toppled statues and drifts of ash lit by shafts of daylight from a cracked ceiling"
+  },
+  {
+   "key": "scenes/rootbound_entrance",
+   "kind": "scene",
+   "group": "scene:rootbound",
+   "name": "The Rootbound Halls — entrance",
+   "subject": "a moss-swallowed mausoleum gate in an old forest, roots prying the stones apart, light falling through leaves"
+  },
+  {
+   "key": "scenes/rootbound_camp",
+   "kind": "scene",
+   "group": "scene:rootbound",
+   "name": "The Rootbound Halls — camp",
+   "subject": "a dry hollow beneath a giant root arch with a small campfire and softly glowing mushrooms"
+  },
+  {
+   "key": "scenes/rootbound_shrine",
+   "kind": "scene",
+   "group": "scene:rootbound",
+   "name": "The Rootbound Halls — shrine",
+   "subject": "a forgotten ivy-covered shrine with a weathered stone guardian statue and flowers growing from its cracks"
+  },
+  {
+   "key": "scenes/rootbound_peddler",
+   "kind": "scene",
+   "group": "scene:rootbound",
+   "name": "The Rootbound Halls — peddler",
+   "subject": "a merchant's stall built into a hollow tree trunk inside a crypt, hanging lanterns and jars of seeds"
+  },
+  {
+   "key": "scenes/rootbound_corridor2",
+   "kind": "scene",
+   "group": "scene:rootbound",
+   "name": "The Rootbound Halls — corridor2",
+   "subject": "a crypt corridor whose floor has become a clear mossy stream with stepping stones"
+  },
+  {
+   "key": "scenes/rootbound_corridor3",
+   "kind": "scene",
+   "group": "scene:rootbound",
+   "name": "The Rootbound Halls — corridor3",
+   "subject": "a gallery of moss-covered sarcophagi under a canopy of roots, petals and spores drifting in light"
+  },
+  {
+   "key": "scenes/drowned_entrance",
+   "kind": "scene",
+   "group": "scene:drowned",
+   "name": "The Drowned Archive — entrance",
+   "subject": "the grand stair of a sunken library descending into still teal water between toppled columns"
+  },
+  {
+   "key": "scenes/drowned_camp",
+   "kind": "scene",
+   "group": "scene:drowned",
+   "name": "The Drowned Archive — camp",
+   "subject": "a dry reading nook on a balcony above flooded stacks, a small oil lamp and folded blankets"
+  },
+  {
+   "key": "scenes/drowned_shrine",
+   "kind": "scene",
+   "group": "scene:drowned",
+   "name": "The Drowned Archive — shrine",
+   "subject": "a small flooded chapel of the archivists with a stone lectern and candles floating on the water"
+  },
+  {
+   "key": "scenes/drowned_peddler",
+   "kind": "scene",
+   "group": "scene:drowned",
+   "name": "The Drowned Archive — peddler",
+   "subject": "a merchant's rowing boat moored among floating bookshelves, lanterns and crates aboard"
+  },
+  {
+   "key": "scenes/drowned_corridor2",
+   "kind": "scene",
+   "group": "scene:drowned",
+   "name": "The Drowned Archive — corridor2",
+   "subject": "a narrow aisle between towering flooded bookshelves, light rippling across the spines"
+  },
+  {
+   "key": "scenes/drowned_corridor3",
+   "kind": "scene",
+   "group": "scene:drowned",
+   "name": "The Drowned Archive — corridor3",
+   "subject": "a brass-piped passage with a soft waterfall of loose pages pouring from a broken ceiling"
+  },
+  {
+   "key": "scenes/mirror_entrance",
+   "kind": "scene",
+   "group": "scene:mirror",
+   "name": "The Mirror Reliquary — entrance",
+   "subject": "a pale crystalline portal in a ruined cloister, daylight refracting into soft rainbows"
+  },
+  {
+   "key": "scenes/mirror_camp",
+   "kind": "scene",
+   "group": "scene:mirror",
+   "name": "The Mirror Reliquary — camp",
+   "subject": "a quiet alcove in a glass cathedral, a small campfire reflected endlessly in the mirrored walls"
+  },
+  {
+   "key": "scenes/mirror_shrine",
+   "kind": "scene",
+   "group": "scene:mirror",
+   "name": "The Mirror Reliquary — shrine",
+   "subject": "a slender white altar holding a floating crystal, petals of light drifting down"
+  },
+  {
+   "key": "scenes/mirror_peddler",
+   "kind": "scene",
+   "group": "scene:mirror",
+   "name": "The Mirror Reliquary — peddler",
+   "subject": "a merchant's stall of hanging mirrors and lenses in a glass gallery"
+  },
+  {
+   "key": "scenes/mirror_corridor2",
+   "kind": "scene",
+   "group": "scene:mirror",
+   "name": "The Mirror Reliquary — corridor2",
+   "subject": "a hall of tall arched mirrors reflecting a sunlit meadow that is not there"
+  },
+  {
+   "key": "scenes/mirror_corridor3",
+   "kind": "scene",
+   "group": "scene:mirror",
+   "name": "The Mirror Reliquary — corridor3",
+   "subject": "a spiral staircase of stained glass rising into white light"
+  },
+  {
+   "key": "scenes/starfall_entrance",
+   "kind": "scene",
+   "group": "scene:starfall",
+   "name": "The Starfall Ossuary — entrance",
+   "subject": "a ruined stone archway on a floating island at the edge of a starfield, a path of drifting stepping stones"
+  },
+  {
+   "key": "scenes/starfall_camp",
+   "kind": "scene",
+   "group": "scene:starfall",
+   "name": "The Starfall Ossuary — camp",
+   "subject": "a small campfire on a floating island of gravestones beneath a vast sky of stars and aurora"
+  },
+  {
+   "key": "scenes/starfall_shrine",
+   "kind": "scene",
+   "group": "scene:starfall",
+   "name": "The Starfall Ossuary — shrine",
+   "subject": "a lonely observatory shrine with a brass astrolabe and a meteorite altar"
+  },
+  {
+   "key": "scenes/starfall_peddler",
+   "kind": "scene",
+   "group": "scene:starfall",
+   "name": "The Starfall Ossuary — peddler",
+   "subject": "a merchant's cart chained to a drifting rock, star maps and lanterns swaying"
+  },
+  {
+   "key": "scenes/starfall_corridor2",
+   "kind": "scene",
+   "group": "scene:starfall",
+   "name": "The Starfall Ossuary — corridor2",
+   "subject": "a narrow bridge of bone and starlight arcing over a sea of clouds"
+  },
+  {
+   "key": "scenes/starfall_corridor3",
+   "kind": "scene",
+   "group": "scene:starfall",
+   "name": "The Starfall Ossuary — corridor3",
+   "subject": "a cloister of floating tombs orbiting a dim dead star, constellations traced in light"
+  },
+  {
+   "key": "events/lockedChest",
+   "kind": "vignette",
+   "group": "event:any",
+   "name": "A Locked Chest",
+   "subject": "A Locked Chest. An iron-banded chest squats in an alcove. The lock is old but stubborn, and there are scratches around the keyhole — someone tried before you.",
+   "anchor": true
+  },
+  {
+   "key": "events/woundedStranger",
+   "kind": "vignette",
+   "group": "event:any",
+   "name": "A Wounded Adventurer",
+   "subject": "A Wounded Adventurer. A stranger in a rival guild's colours slumps against the wall, bleeding. \"They took my dice,\" she gasps. \"All of them.\"",
+   "anchor": false
+  },
+  {
+   "key": "events/dicingGhost",
+   "kind": "vignette",
+   "group": "event:any",
+   "name": "The Dicing Ghost",
+   "subject": "The Dicing Ghost. The translucent ghost of an old riverboat gambler, a stout grey-whiskered man in a tattered frock coat and battered hat, sits at a table of bone in a candlelit vault, grinning as he rattles a dice cup.",
+   "anchor": false
+  },
+  {
+   "key": "events/wheelOfFate",
+   "kind": "vignette",
+   "group": "event:any",
+   "name": "The Wheel of Fate",
+   "subject": "The Wheel of Fate. A great wheel of brass and bone stands in the centre of the room, studded with pictures: a crown, a skull, a coin, a die. A slot waits for a coin.",
+   "anchor": false
+  },
+  {
+   "key": "events/diceAltar",
+   "kind": "vignette",
+   "group": "event:any",
+   "name": "Altar of Offerings",
+   "subject": "Altar of Offerings. Carved into the altar: a hand releasing a die. Below, a bowl worn smooth by countless sacrifices.",
+   "anchor": false
+  },
+  {
+   "key": "events/collapsedPassage",
+   "kind": "vignette",
+   "group": "event:any",
+   "name": "Collapsed Passage",
+   "subject": "Collapsed Passage. Rubble chokes the way. Beyond it you glimpse the glint of something valuable.",
+   "anchor": false
+  },
+  {
+   "key": "events/mysteriousPotion",
+   "kind": "vignette",
+   "group": "event:any",
+   "name": "A Bubbling Cauldron",
+   "subject": "A Bubbling Cauldron. An abandoned alchemist's camp. A cauldron still simmers with something purple and smug.",
+   "anchor": false
+  },
+  {
+   "key": "events/trapHall",
+   "kind": "vignette",
+   "group": "event:any",
+   "name": "Pressure Plates",
+   "subject": "Pressure Plates. The floor is a chessboard of pressure plates. Dark holes line the walls.",
+   "anchor": false
+  },
+  {
+   "key": "events/rivalParty",
+   "kind": "vignette",
+   "group": "event:any",
+   "name": "A Rival Party",
+   "subject": "A Rival Party. Three adventurers from the Copper Lantern guild block the corridor. \"This dungeon's ours. Pay the toll or turn around.\"",
+   "anchor": false
+  },
+  {
+   "key": "events/oldShrine",
+   "kind": "vignette",
+   "group": "event:any",
+   "name": "Forgotten Shrine",
+   "subject": "Forgotten Shrine. A small shrine to a god of travellers. Candle stubs. A cracked offering bowl.",
+   "anchor": false
+  },
+  {
+   "key": "events/cursedIdol",
+   "kind": "vignette",
+   "group": "event:any",
+   "name": "The Grinning Idol",
+   "subject": "The Grinning Idol. A small golden idol grins on a pedestal. It practically begs to be taken. The room is suspiciously clean.",
+   "anchor": false
+  },
+  {
+   "key": "events/sigilKey",
+   "kind": "vignette",
+   "group": "event:any",
+   "name": "The Boss Sigil",
+   "subject": "The Boss Sigil. A sigil-key rests on a plinth, humming. Wards flicker around it.",
+   "anchor": false
+  },
+  {
+   "key": "events/meterReset",
+   "kind": "vignette",
+   "group": "event:any",
+   "name": "Mechanism",
+   "subject": "Mechanism. A lever, worn smooth by many hands.",
+   "anchor": false
+  },
+  {
+   "key": "events/valveChamber",
+   "kind": "vignette",
+   "group": "event:cinder",
+   "name": "Valve Chamber",
+   "subject": "Valve Chamber. Pipes hiss. A great wheel-valve could vent the heat — or blow the room apart.",
+   "anchor": true
+  },
+  {
+   "key": "events/foundry",
+   "kind": "vignette",
+   "group": "event:cinder",
+   "name": "The Abandoned Foundry",
+   "subject": "The Abandoned Foundry. Moulds for weapons line the walls. The crucible is still hot.",
+   "anchor": false
+  },
+  {
+   "key": "events/whisperingTree",
+   "kind": "vignette",
+   "group": "event:rootbound",
+   "name": "The Whispering Tree",
+   "subject": "The Whispering Tree. An ancient tree grows through the crypt roof. Its leaves whisper names of the dead.",
+   "anchor": true
+  },
+  {
+   "key": "events/sarcophagus",
+   "kind": "vignette",
+   "group": "event:rootbound",
+   "name": "Sealed Sarcophagus",
+   "subject": "Sealed Sarcophagus. Roots have cracked the lid. Something inside is wrapped in golden thread.",
+   "anchor": false
+  },
+  {
+   "key": "events/cipherDoor",
+   "kind": "vignette",
+   "group": "event:drowned",
+   "name": "The Ciphered Door",
+   "subject": "The Ciphered Door. Three rings of glyphs turn on a bronze door. A riddle is etched above: \"I am read but never written.\"",
+   "anchor": true
+  },
+  {
+   "key": "events/observatory",
+   "kind": "vignette",
+   "group": "event:drowned",
+   "name": "Drowned Observatory",
+   "subject": "Drowned Observatory. A telescope pokes up through the water, aimed at a ceiling painted with stars.",
+   "anchor": false
+  },
+  {
+   "key": "events/talkingMirror",
+   "kind": "vignette",
+   "group": "event:mirror",
+   "name": "The Talking Mirror",
+   "subject": "The Talking Mirror. A tall ornate standing mirror in an empty glass cathedral; its surface ripples like water and glows softly, as if about to speak. Nobody stands before it.",
+   "anchor": true
+  },
+  {
+   "key": "events/confessional",
+   "kind": "vignette",
+   "group": "event:mirror",
+   "name": "The Confessional",
+   "subject": "The Confessional. A booth of black glass. A voice: \"Confess one sin, receive one blessing.\"",
+   "anchor": false
+  },
+  {
+   "key": "events/weighingScales",
+   "kind": "vignette",
+   "group": "event:starfall",
+   "name": "The Weighing Scales",
+   "subject": "The Weighing Scales. Golden scales float in the void. One pan holds a feather. The other waits for you.",
+   "anchor": true
+  },
+  {
+   "key": "events/sleepingStar",
+   "kind": "vignette",
+   "group": "event:starfall",
+   "name": "A Sleeping Star",
+   "subject": "A Sleeping Star. A star the size of a fist hovers here, dimly pulsing, fast asleep.",
+   "anchor": false
+  },
+  {
+   "key": "story/prologue",
+   "kind": "vignette",
+   "group": "story:chronicle",
+   "name": "prologue",
+   "subject": "a hilltop town at dusk with a great lantern tower; far below in the cliff an ancient stone door with five faintly glowing seals; the faint shape of a five-headed dragon in the clouds",
+   "anchor": true
+  },
+  {
+   "key": "story/cinder",
+   "kind": "vignette",
+   "group": "story:chronicle",
+   "name": "cinder",
+   "subject": "a vast dwarven forge hall going cold, ash drifting up through a broken roof into a pale sky, a single lantern lit on a distant hill",
+   "anchor": false
+  },
+  {
+   "key": "story/rootbound",
+   "kind": "vignette",
+   "group": "story:chronicle",
+   "name": "rootbound",
+   "subject": "the giant hollow heart-tree of a forest necropolis withering, its spores dissolving into motes of light",
+   "anchor": false
+  },
+  {
+   "key": "story/drowned",
+   "kind": "vignette",
+   "group": "story:chronicle",
+   "name": "drowned",
+   "subject": "a drained archive vault, an old chart of a great stone door spread on a table, puddles reflecting the sky",
+   "anchor": false
+  },
+  {
+   "key": "story/mirror",
+   "kind": "vignette",
+   "group": "story:chronicle",
+   "name": "mirror",
+   "subject": "a shattered cathedral of mirrors, shards floating in the air, a white dragon's reflection fading from the glass",
+   "anchor": false
+  },
+  {
+   "key": "story/starfall",
+   "kind": "vignette",
+   "group": "story:chronicle",
+   "name": "starfall",
+   "subject": "the fifth lantern flaring on a hilltop keep's tower beneath a sky of falling stars",
+   "anchor": false
+  },
+  {
+   "key": "story/finale",
+   "kind": "vignette",
+   "group": "story:chronicle",
+   "name": "finale",
+   "subject": "beyond a colossal opened stone door, a mountain of treasure and the vast silhouette of a five-headed dragon, three tiny adventurers seen from behind",
+   "anchor": false
+  },
+  {
+   "key": "story/epilogue",
+   "kind": "vignette",
+   "group": "story:chronicle",
+   "name": "epilogue",
+   "subject": "a peaceful hilltop town at dawn with five lanterns burning, flower fields, travellers setting out on a long road",
    "anchor": false
   },
   {

@@ -281,7 +281,7 @@ function dressRoom(r: Room, rng: Rng, opts: GenOptions) {
   if (r.tags.includes(biome.tag.id)) parts.push(`(${biome.tag.label}.)`);
   if (r.tags.includes(biome.resetTag.id)) parts.push(`(${biome.resetTag.label}.)`);
   r.text = parts.join(' ');
-  r.art = `scenes/${opts.biome}_${sceneFor(r.type, biome.scenes)}`;
+  r.art = roomArt(r, opts.biome);
   switch (r.type) {
     case 'combat':
       r.encounter = { monsters: rollEncounter(rng, opts.biome, opts.level, 'normal', opts.difficulty), kind: 'normal', cleared: false };
@@ -312,6 +312,24 @@ function dressRoom(r: Room, rng: Rng, opts: GenOptions) {
       if (rng.chance(0.12)) r.encounter = { monsters: rollEncounter(rng, opts.biome, opts.level, 'ambush', opts.difficulty), kind: 'ambush', cleared: false };
       break;
   }
+}
+
+/** Room-specific scenes (newer art); `legacyRoomArt` is the fallback until they exist. */
+const ROOM_SCENE: Partial<Record<RoomType, string>> = { entrance: 'entrance', exit: 'entrance', camp: 'camp', shrine: 'shrine', peddler: 'peddler' };
+
+export function roomArt(r: Pick<Room, 'type' | 'x' | 'y'>, biome: BiomeId): string {
+  const s = ROOM_SCENE[r.type];
+  if (s) return `scenes/${biome}_${s}`;
+  if (r.type === 'corridor') {
+    // Vary long walks without touching the layout RNG.
+    const v = (r.x * 7 + r.y * 13) % 3;
+    if (v) return `scenes/${biome}_corridor${v + 1}`;
+  }
+  return legacyRoomArt(r.type, biome);
+}
+
+export function legacyRoomArt(type: RoomType, biome: BiomeId): string {
+  return `scenes/${biome}_${sceneFor(type, BIOMES[biome].scenes)}`;
 }
 
 function sceneFor(type: RoomType, scenes: string[]): string {
