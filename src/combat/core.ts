@@ -13,7 +13,7 @@ import {
   monsterHp, monsterDamage, monsterAttack, monsterAc, monsterDc, depthScale, DIFFICULTY_MOD, ROLE_MOD, ELITE_MOD, VITALITY, ECHO,
 } from '../rules/balance.ts';
 import { monsterIdOf } from '../dungeon/generator.ts';
-import { startCombatTray, handSize, endCombatTray } from '../fortune/tray.ts';
+import { startCombatTray, handSize, endCombatTray, addGhostDie } from '../fortune/tray.ts';
 import { CHARM_BY_ID } from '../fortune/charms.ts';
 import { CURSES, type CurseId } from '../fortune/curses.ts';
 import { BIOMES } from '../content/biomes.ts';
@@ -213,6 +213,10 @@ export function startCombat(game: GameState, roomKey: string, entries: string[],
     if (d.features.has('thiefsReflexes')) combat.extraTurns[c.id] = 1;
     if (d.features.has('archdruid')) h.resources.wildShape = Math.min(d.resources.wildShape, (h.resources.wildShape ?? 0) + 1);
     if (d.features.has('perfectFocus')) h.resources.focus = Math.max(h.resources.focus ?? 0, 4);
+    for (let i = 0; i < d.diceGear.openingWild; i++) {
+      addGhostDie(exp.fortune, ctx.fortuneRng, 'bone', 6, 'wild', 'Bag of Tricks');
+      log(ctx, `${c.name}'s Bag of Tricks spills a Wild die onto the tray.`, 'fortune');
+    }
     if (d.features.has('superiorInspiration')) h.resources.inspiration = Math.max(h.resources.inspiration ?? 0, 2);
     if (d.features.has('persistentRage') && (h.resources.rage ?? 0) === 0) h.resources.rage = 1;
     if (exp.flags[`blessed:${h.id}`]) { addCondition(ctx, c, { id: 'blessed', rounds: 3, value: 4 }); delete exp.flags[`blessed:${h.id}`]; }

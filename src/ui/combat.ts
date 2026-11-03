@@ -2,7 +2,8 @@
 import type { Combatant, ScoreReport } from '../engine/types.ts';
 import { h, btn, fmt } from './dom.ts';
 import { app, run, render, toast, afterRender, wait, resetCombatUi } from './app.ts';
-import { bgStyle } from './art.ts';
+import { bgStyle, firstArt } from './art.ts';
+import { legacyRoomArt } from '../dungeon/generator.ts';
 import { trayDie, charmEl, hpBar, conds, combatantArt, doubloons, TOKEN_GLYPH } from './widgets.ts';
 import { makeCtx, current, has } from '../combat/core.ts';
 import { listActions, listTalents, legalTargets, type ActionOption, nextBagDie } from '../combat/hero.ts';
@@ -300,7 +301,7 @@ export function combatScreen(): HTMLElement {
   const heroes = exp.partyIds.map((id) => combat.combatants[id]).filter(Boolean);
   const actor = current(ctx);
   const curse = combat.curse ? CURSES[combat.curse] : undefined;
-  const field = h('div', { class: 'battlefield', style: bgStyle(room?.art ?? '', `linear-gradient(160deg, ${BIOMES[exp.biome].color}44, #0b1230)`) },
+  const field = h('div', { class: 'battlefield', style: bgStyle(room ? firstArt(room.art, legacyRoomArt(room.type, exp.biome)) : '', `linear-gradient(160deg, ${BIOMES[exp.biome].color}44, #0b1230)`) },
     h('div', { class: 'col', style: 'align-items:center;gap:4px' },
       curse ? h('div', { class: 'curse-banner' }, `☠ ${curse.name}: ${curse.text}`) : null,
       combat.biomeNote ? h('div', { class: 'biome-note' }, combat.biomeNote) : null),

@@ -8,6 +8,7 @@ import { offerTitle, offerText, TOKENS } from '../fortune/boons.ts';
 import { CLASSES } from '../content/classes.ts';
 import { derive } from '../rules/character.ts';
 import { ITEMS } from '../content/items.ts';
+import { heroDice, dieLabel, TRAITS } from '../fortune/dicepath.ts';
 
 const PIP_LAYOUT: Record<number, number[]> = {
   1: [4], 2: [0, 8], 3: [0, 4, 8], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8],
@@ -127,3 +128,11 @@ export function itemIcon(defId: string): HTMLElement {
 }
 
 export { MATERIALS, TOKENS };
+
+/** A hero's signature dice, every face laid out, with traits. `hi` highlights one die/face. */
+export function signatureDice(hero: Hero, hi?: { die: number; face?: number }): HTMLElement {
+  return h('div', { class: 'sig-dice' }, ...heroDice(hero).map((d, di) =>
+    h('div', { class: `sig-die ${hi?.die === di && hi.face === undefined ? 'hi' : ''}` },
+      h('span', { class: 'small muted' }, dieLabel(hero, di), d.trait ? h('b', { class: 'gold', title: TRAITS[d.trait].text }, ` · ${TRAITS[d.trait].glyph} ${TRAITS[d.trait].name}`) : null),
+      h('div', { class: 'sig-faces' }, ...d.faces.map((f, fi) => dieFace(f.v, d.material, f.mod, { cls: `mini ${hi?.die === di && hi.face === fi ? 'sel' : ''}` }))))));
+}

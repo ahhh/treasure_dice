@@ -8,6 +8,7 @@ import { CLASSES, CLASS_IDS, FEATS } from '../content/classes.ts';
 import { ITEMS, sellValue, itemValue, isTwoHanded, itemName } from '../content/items.ts';
 import { createHero, derive, applyLevel, autoPrepare, fullRestore, makeItem, choiceOptions, maxPrepared } from '../rules/character.ts';
 import { spellsForClass } from '../content/spells.ts';
+import { markOffers, applyMark } from '../fortune/dicepath.ts';
 
 export const SCHEMA_VERSION = 1;
 export const CONTENT_REVISION = 'td-1.1';
@@ -292,6 +293,8 @@ export interface LevelChoices {
   asi?: { mode: 'plus2'; a: Ability } | { mode: 'split'; a: Ability; b: Ability } | { mode: 'feat'; feat: string };
   picks?: Record<string, string[]>;
   expertise?: string[];
+  /** Index into markOffers(hero, next): the Dice Path pick. Defaults to the first. */
+  mark?: number;
 }
 
 export function levelUpPreview(h: Hero) {
@@ -300,7 +303,7 @@ export function levelUpPreview(h: Hero) {
   const choices = feats.filter((f) => f.choice).map((f) => ({ feature: f, options: f.choice === 'asi' ? [] : choiceOptions({ ...h, level: next }, f.choice!) }));
   const before = spellsForClass(h).map((s) => s.id);
   const after = spellsForClass({ ...h, level: next }).map((s) => s.id).filter((id) => !before.includes(id));
-  return { next, features: feats, choices, newSpells: after, hpGain: Math.floor(CLASSES[h.classId].hitDie / 2) + 1 };
+  return { next, features: feats, choices, newSpells: after, hpGain: Math.floor(CLASSES[h.classId].hitDie / 2) + 1, marks: markOffers(h, next) };
 }
 
 export function levelUp(g: GameState, heroId: string, ch: LevelChoices): string | null {
@@ -326,6 +329,9 @@ export function levelUp(g: GameState, heroId: string, ch: LevelChoices): string 
       if (pick.length < Math.min(f.choiceCount ?? 1, opts.filter((o) => !have.includes(o)).length)) return `Choose ${f.name}.`;
     }
   }
+  const marks = markOffers(h, next);
+  const mark = marks[ch.mark ?? 0];
+  if (marks.length && !mark) return 'Choose a Dice Path mark.';
   const hpFracMissing = derive(h).maxHp - h.hp;
   applyLevel(h, new Rng(g.townRng), next, false);
   for (const f of feats) {
@@ -351,6 +357,7 @@ export function levelUp(g: GameState, heroId: string, ch: LevelChoices): string 
       h.choices[f.choice] = [...have, ...pick];
     }
   }
+  if (mark) applyMark(h, mark);
   h.pendingLevel = false;
   autoPrepare(h);
   fullRestore(h);

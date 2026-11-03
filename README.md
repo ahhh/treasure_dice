@@ -7,7 +7,7 @@ It's a static site (Vite + TypeScript, no backend) that works offline once loade
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm test           # 24 tests: rules, fortune scoring, 1,000-seed dungeon property test, runs, saves, tutorial, finale
+npm test           # 31 tests: rules, fortune scoring, Dice Path, skill tricks, 1,000-seed dungeon property test, runs, saves, tutorial, finale
 npm run build      # dist/ for GitHub Pages (relative base, works at any project path)
 npm run sim -- 40 1 cinder standard   # Monte Carlo balance: runs, level, biome, difficulty
 npm run sim -- 24 20 finale standard  # ...or Tiamat's Dragon Throne
@@ -42,13 +42,37 @@ Every dungeon starts with a fresh **Dice Bag**: 6 colourless bone dice plus 2 di
 
 All of this resets when the run ends. What carries over is the heroes: their levels raise tray size and rerolls, their gear raises the base, and their class features add new ways to touch the dice.
 
+## The Dice Path (persistent dice progression)
+
+Each hero owns **signature dice**: two dice in their class colour that join the bag on every expedition. A second, one-click track runs beside the class levels. Every level-up also offers **three marks** for those dice, and you keep one forever (`src/fortune/dicepath.ts`):
+
+- **Engrave** a face: Keen, Fierce, Gilded or Lucky, then Savage from level 9 and Wild from 13. Up to 3 engraved faces per die.
+- **Hone** a die: raise its lowest face by 1 (up to 3), so pairs come easier.
+- **Trait milestones** at levels 5, 10, 15 and 20: *Loaded* (rolls twice, keeps the higher), *Kindred* (+2 Mult when its owner plays it), *Echoing* (scores twice for its owner), *Steadfast* (can't be jinxed, stolen or cursed), *Eager* (always in the opening tray).
+- A **new signature die** is offered at levels 8 and 16 (4 at most).
+
+Offers are seeded by hero and level, so they never change on reload. Recruits hired above level 1 have already walked their path. The hero sheet shows every face.
+
+## Skill tricks
+
+Every skill a hero is proficient in unlocks a small **tray trick** in combat (`src/content/skilltricks.ts`). A hero can use one trick per fight, two with any Expertise, and more from gear. Each trick works once per fight. Some examples: Athletics *Heave* (+1 to a die), Sleight of Hand *Palm* (swap with the next bag die), Arcana *Attune* (a die becomes your colour), History *Precedent* (match the tray's most common value), Deception *Bluff* (a die turns Wild), Religion *Prayer* (+2 Mult on your next hand), Performance *Showstopper* (×1.5 on a Straight or better). Tricks sit beside the class talents on the tray, and the sheet lists them.
+
+## Dice-touched magic items
+
+Trinkets can now reach into the Fortune layer:
+- **Skill items** grant a skill and its trick: Gloves of Thievery, Boots of Elvenkind, Eyes of the Eagle, Hat of Disguise. The Doss Lute and the Ioun Stone of Insight also add an extra trick per fight.
+- **Bag dice** add a special die to every expedition: Ivory Knucklebones (Loaded), Goldbug Locket, Glass Eye of Fortune, Prism Shard Pendant.
+- **Hand items** boost your own hands: Ring of Twin Fortune, Bracelet of Threes, Starweave Mantle, Torc of the Hoard.
+- **Colour items** make other dice count as yours: Circlet of Bone, Band of the Four Winds.
+- **Others:** the Bag of Tricks (a Wild die at the start of every fight), the Gambler's Purse and the Hourglass of Encores (starting tokens).
+
 ## Rules fidelity
 
 The rules kernel is SRD 5.2.1: d20 attacks against AC, saving throws, advantage and disadvantage, conditions, concentration, death saves, weapon mastery, spell slots (full, half and pact), short and long rests, and the class progression tables for 12 classes and their SRD subclasses through level 20, with feats, fighting styles, metamagic, invocations and epic boons. Ranges and positions become **front and back ranks**. Every feature on a hero sheet is tagged *exact*, *adapted* or *narrative*. The full list is in [`docs/rules-coverage.json`](docs/rules-coverage.json) (`node scripts/coverage.ts`).
 
 ## Balance
 
-Hero HP and healing use a ×2.5 vitality scale. Monster HP follows level and role and compounds with dungeon depth, like Balatro's ante. That is tuned so a well-built Fortune engine is what carries a run. Calibration figures come from `scripts/sim.ts`, a headless autoplayer that uses the same commands as the UI. At the last calibration it won about 75–90% of standard runs at levels 1, 5, 11, 17 and 20, with 3–4 rounds per fight. Perilous difficulty adds a foe per fight and elite curses.
+Hero HP and healing use a ×2.5 vitality scale. Monster HP follows level and role (its level slope was raised from 0.15 to 0.17 to absorb part of the Dice Path) and compounds with dungeon depth, like Balatro's ante. That is tuned so a well-built Fortune engine is what carries a run. Calibration figures come from `scripts/sim.ts`, a headless autoplayer that uses the same commands as the UI. At the last calibration it won about 75–90% of standard runs at levels 1, 5, 11, 17 and 20, with 3–4 rounds per fight. Perilous difficulty adds a foe per fight and elite curses.
 
 ## Code map
 
@@ -69,7 +93,9 @@ Every state change is a command (`src/app/commands.ts`). The UI, keyboard, tests
 
 ## Art
 
-All 263 images (48 hero portraits, 45 monsters, 64 charms, 77 items, 29 scenes) come from `~/Programming/image_gen_pipeline/generate_treasure_art.py`. That script uses the same house-style technique as the other pipelines there: a shared style block, then a per-group identity (class, biome, charm rarity, item category, or location), then the subject, with each group's anchor image attached as a style reference. To regenerate:
+The spec lists 344 images: 48 hero portraits, 45 monsters, 64 charms, 96 items, 59 scenes (four plus six room scenes per biome, and the Keep), 23 event vignettes and 8 chronicle illustrations. They all come from `~/Programming/image_gen_pipeline/generate_treasure_art.py`. That script uses the same house-style technique as the other pipelines there: a shared style block, then a per-group identity (class, biome, charm rarity, item category, or location), then the subject, with each group's anchor image attached as a style reference.
+
+There are two house styles. **storybook** (the default) is a soft, luminous, anime-influenced painterly look: thin linework, watercolour gradients, pastel light, quiet melancholy wonder. **classic** is the original dark-fantasy gouache. The pipeline records which style painted each master and only uses same-style anchors as references. `generate --restyle` repaints anything not yet in the current style. One lesson from the storybook repaint: an attached anchor locks in composition as well as style (every charm of a rarity became the same pendant, every room in a biome the same hall). So everything except monster sprites was painted text-only (`regen --no-ref`). The storybook prompt alone keeps the set consistent, and portrait variants `_2`–`_4` each get their own pose. New art that isn't generated yet falls back to the older scene, and event and chronicle banners only appear once their image exists. To regenerate:
 
 ```bash
 node scripts/export-art-spec.ts                     # game content -> art/spec.json

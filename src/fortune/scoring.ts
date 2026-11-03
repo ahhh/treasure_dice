@@ -41,9 +41,9 @@ export interface ScoreOutput extends ScoreReport {
 
 export function trayFace(run: FortuneRun, td: TrayDie) {
   const die = run.bag.find((d) => d.uid === td.dieUid);
-  if (!die) return { v: 0, material: 'bone' as Material, mod: undefined };
+  if (!die) return { v: 0, material: 'bone' as Material, mod: undefined, owner: undefined, trait: undefined };
   const f = die.faces[td.face] ?? die.faces[0];
-  return { v: f.v, material: die.material, mod: f.mod };
+  return { v: f.v, material: die.material, mod: f.mod, owner: die.owner, trait: die.trait };
 }
 
 export function playedDice(run: FortuneRun, trayIndices: number[]): PlayedDie[] {
@@ -53,7 +53,7 @@ export function playedDice(run: FortuneRun, trayIndices: number[]): PlayedDie[] 
     .map((ti) => {
       const td = run.tray[ti];
       const f = trayFace(run, td);
-      return { value: f.v, material: f.material, mod: f.mod, trayIndex: ti };
+      return { value: f.v, material: f.material, mod: f.mod, trayIndex: ti, owner: f.owner, trait: f.trait };
     });
 }
 
@@ -123,7 +123,10 @@ export function scoreHand(inp: ScoreInput): ScoreOutput {
     }
     apply({ chips: d.value }, `${d.value}`, { dieIndex: di });
     // Material.
-    if (d.material === inp.actor.affinity || d.material === 'prism') apply({ mult: 1 }, 'Affinity', { dieIndex: di });
+    if (d.material === inp.actor.affinity || d.material === 'prism' || inp.actor.extraAffinity?.includes(d.material)) apply({ mult: 1 }, 'Affinity', { dieIndex: di });
+    // Signature-die traits only wake for their owner.
+    const own = !!d.owner && d.owner === inp.actor.heroId;
+    if (own && d.trait === 'kindred') apply({ mult: 2 }, 'Kindred', { dieIndex: di });
     if (d.material === 'frost') apply({ chips: 8 }, 'Frost', { dieIndex: di });
     if (d.material === 'gold') apply({ doubloons: 1 }, 'Gold', { dieIndex: di });
     if (d.material === 'glass') {
@@ -143,7 +146,7 @@ export function scoreHand(inp: ScoreInput): ScoreOutput {
         if (!inp.preview && inp.rng.chance(1 / 3)) apply({ mult: 6 }, 'Lucky!', { dieIndex: di });
         break;
     }
-    let retrigger = false;
+    let retrigger = own && d.trait === 'echoing';
     for (const { inst, def } of charms) {
       if (!def.onDie) continue;
       if (inp.preview && def.id === 'fortuneWheel') continue;

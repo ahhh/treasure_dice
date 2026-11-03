@@ -3,8 +3,10 @@ import type { Ability, EquipSlot, Hero, BoonOffer } from '../engine/types.ts';
 import { ABILITIES, EQUIP_SLOTS } from '../engine/types.ts';
 import { h, btn, fmt } from './dom.ts';
 import { app, run, render, toast } from './app.ts';
-import { art, bgStyle } from './art.ts';
-import { heroPortrait, heroLine, hpBar, boonCard, bagView, itemIcon, doubloons, charmEl, dieFace } from './widgets.ts';
+import { art, bgStyle, banner } from './art.ts';
+import { heroPortrait, heroLine, hpBar, boonCard, bagView, itemIcon, doubloons, charmEl, dieFace, signatureDice } from './widgets.ts';
+import { heroDice, markTitle, markText, TRAIT_LEVELS } from '../fortune/dicepath.ts';
+import { SKILL_TRICKS } from '../content/skilltricks.ts';
 import { CLASSES, featuresUpTo, FEATS, FIGHTING_STYLES, METAMAGIC, INVOCATIONS, EPIC_BOONS } from '../content/classes.ts';
 import { ITEMS, itemName } from '../content/items.ts';
 import { SPECIES, BACKGROUNDS } from '../content/origins.ts';
@@ -63,8 +65,10 @@ export function heroSheet(id: string): HTMLElement {
         h('div', { class: 'abil' }, ...ABILITIES.map((a) => h('div', { title: ABILITY_NAMES[a] }, a.toUpperCase(), h('b', null, d.abilities[a]), h('span', { class: 'small muted' }, `${mod(d.mods[a])} · save ${mod(d.saves[a])}${d.saveProf.includes(a) ? '●' : ''}`)))),
         h('div', { class: 'small' }, h('b', null, 'Attack: '), `${d.main.name} — ${d.attacks}× +${d.main.toHit} to hit, ${d.main.dice}${mod(d.main.bonus)} ${d.main.type}${d.main.mastery ? ` (mastery: ${d.main.mastery})` : ''}`),
         h('div', { class: 'small' }, h('b', null, 'Fortune talent: '), `${cls.fortuneTalent.name} — ${cls.fortuneTalent.text}`, h('span', { class: 'impl adapted' }, 'adapted')),
-        h('div', { class: 'small' }, h('b', null, 'Dice: '), `brings two ${MATERIALS[CLASS_MATERIAL[hero.classId]].name} dice to the bag; scores +1 Mult per matching die.`, d.rerollBonus ? ` +${d.rerollBonus} reroll on their turns.` : ''),
-        h('div', { class: 'small' }, h('b', null, 'Skills: '), hero.skillProfs.map((s) => `${SKILL_NAMES[s]} ${mod(d.skills[s])}${hero.expertise.includes(s) ? '★' : ''}`).join(', ')),
+        h('div', { class: 'small' }, h('b', null, 'Dice: '), `brings ${heroDice(hero).length} signature dice to the bag; ${MATERIALS[CLASS_MATERIAL[hero.classId]].name}${d.diceGear.affinity.length ? `, ${[...new Set(d.diceGear.affinity)].map((m) => MATERIALS[m].name).join(', ')}` : ''} dice score +1 Mult for them.`, d.rerollBonus ? ` +${d.rerollBonus} reroll on their turns.` : ''),
+        signatureDice(hero),
+        h('div', { class: 'small' }, h('b', null, 'Skills: '), d.proficient.map((s) => `${SKILL_NAMES[s]} ${mod(d.skills[s])}${hero.expertise.includes(s) ? '★' : ''}`).join(', ')),
+        h('div', { class: 'small' }, h('b', null, `Skill tricks (${d.tricks} per fight): `), d.proficient.map((s) => `${SKILL_TRICKS[s].name} — ${SKILL_TRICKS[s].text}`).join(' · ')),
         hero.feats.length ? h('div', { class: 'small' }, h('b', null, 'Feats: '), hero.feats.map((f) => FEATS[f]?.name ?? f).join(', ')) : null,
         Object.keys(hero.choices).length ? h('div', { class: 'small' }, h('b', null, 'Choices: '), Object.values(hero.choices).flat().map((c) => FIGHTING_STYLES[c]?.name ?? METAMAGIC[c]?.name ?? INVOCATIONS[c]?.name ?? EPIC_BOONS[c]?.name ?? c).join(', ')) : null,
       )),
@@ -99,7 +103,7 @@ export function heroSheet(id: string): HTMLElement {
 
 // ── level-up wizard ─────────────────────────────────────────────────────────
 
-let lvl: { hero: string; asiMode: 'plus2' | 'split' | 'feat'; a: Ability; b: Ability; feat: string; picks: Record<string, string[]>; expertise: string[] } | null = null;
+let lvl: { hero: string; asiMode: 'plus2' | 'split' | 'feat'; a: Ability; b: Ability; feat: string; picks: Record<string, string[]>; expertise: string[]; mark: number } | null = null;
 
 export function levelUpModal(id: string): HTMLElement {
   const g = app.game!;
@@ -108,7 +112,7 @@ export function levelUpModal(id: string): HTMLElement {
   if (!hero || !hero.pendingLevel) { app.ui.levelUp = undefined; return h('div'); }
   const pv = levelUpPreview(hero);
   const cls = CLASSES[hero.classId];
-  if (!lvl || lvl.hero !== id) lvl = { hero: id, asiMode: 'plus2', a: cls.arrayOrder[0], b: cls.arrayOrder[1], feat: 'tough', picks: {}, expertise: [] };
+  if (!lvl || lvl.hero !== id) lvl = { hero: id, asiMode: 'plus2', a: cls.arrayOrder[0], b: cls.arrayOrder[1], feat: 'tough', picks: {}, expertise: [], mark: 0 };
   const st = lvl;
   const sel = (key: string, opt: string, max: number) => {
     const cur = st.picks[key] ?? [];
@@ -119,7 +123,7 @@ export function levelUpModal(id: string): HTMLElement {
   const choiceText = (o: string) => FIGHTING_STYLES[o]?.text ?? METAMAGIC[o]?.text ?? INVOCATIONS[o]?.text ?? EPIC_BOONS[o]?.text ?? '';
   const sheetSelect = (val: string, on: (v: string) => void, opts: [string, string][]) => h('select', { style: 'background:#0b1230;color:inherit;border:1px solid #556;border-radius:4px;padding:4px', on: { change: (e: Event) => on((e.target as HTMLSelectElement).value) } }, ...opts.map(([v, l]) => h('option', { value: v, selected: v === val }, l)));
   const confirmLevel = () => {
-    const ch: LevelChoices = { picks: st.picks, expertise: st.expertise };
+    const ch: LevelChoices = { picks: st.picks, expertise: st.expertise, mark: st.mark };
     if (pv.choices.some((c) => c.feature.choice === 'asi')) ch.asi = st.asiMode === 'plus2' ? { mode: 'plus2', a: st.a } : st.asiMode === 'split' ? { mode: 'split', a: st.a, b: st.b } : { mode: 'feat', feat: st.feat };
     const r = run({ type: 'levelUp', heroId: hero.id, choices: ch });
     if (r.ok) { sfx.fanfare(); toast(`${hero.name} reached level ${pv.next}!`, true); close(); }
@@ -147,6 +151,11 @@ export function levelUpModal(id: string): HTMLElement {
           if (key === 'expertise') { st.expertise = st.expertise.includes(o) ? st.expertise.filter((x) => x !== o) : [...st.expertise, o].slice(-max); render(); } else sel(key, o, max);
         }, { cls: `small ${cur.includes(o) ? 'on' : ''}` }))));
     }),
+    pv.marks.length ? h('div', { class: 'win', style: 'margin-top:8px', 'data-tut': 'dicepath' },
+      h('h3', null, `Dice Path — ${TRAIT_LEVELS.includes(pv.next) ? 'a trait milestone! ' : ''}choose one mark`),
+      h('p', { class: 'small muted' }, 'Permanent changes to this hero\'s signature dice, which join the bag on every expedition.'),
+      signatureDice(hero, (() => { const m = pv.marks[st.mark]; return m && m.kind !== 'newDie' ? { die: m.die, face: m.kind === 'engrave' ? m.face : undefined } : undefined; })()),
+      h('div', { class: 'mark-cards', style: 'margin-top:8px' }, ...pv.marks.map((m, i) => btn([h('b', null, markTitle(hero, m)), h('span', { class: 'small muted' }, markText(hero, m))], () => { st.mark = i; render(); }, { cls: `small mark-card ${st.mark === i ? 'on' : ''}`, key: `mark-${i}` })))) : null,
     h('div', { class: 'row', style: 'margin-top:12px' }, h('span', { class: 'spacer' }), btn('Later', close), btn(`Become level ${pv.next}`, confirmLevel, { cls: 'primary', key: 'confirm-level' })),
   ], { label: 'Level up', onClose: close });
   void choiceOptions;
@@ -263,11 +272,12 @@ export function eventModal(): HTMLElement {
     return bagPickModal();
   }
   if (exp.event!.stage === 'result') {
-    return modal([h('h2', null, ev.title), h('div', { class: 'col prose' }, ...(exp.event!.result ?? []).map((l) => h('p', { style: 'margin:0' }, l))),
+    return modal([banner(`events/${ev.id}`, ev.title), h('h2', null, ev.title), h('div', { class: 'col prose' }, ...(exp.event!.result ?? []).map((l) => h('p', { style: 'margin:0' }, l))),
       h('div', { class: 'row', style: 'margin-top:10px' }, h('span', { class: 'spacer' }), btn('Continue', () => run({ type: 'eventClose' }), { cls: 'primary', key: 'ev-continue' }))], { narrow: true, label: ev.title });
   }
   const opts = eventOptions(app.game!);
   return modal([
+    banner(`events/${ev.id}`, ev.title),
     h('h2', null, ev.title),
     h('p', { class: 'prose' }, ev.text),
     h('div', { class: 'menu' }, ...opts.map((o, i) => {
@@ -315,7 +325,7 @@ export function resultScreen(): HTMLElement {
       h('div', { class: 'win', style: 'width:min(640px,100%)' },
         h('h1', { class: `result-big ${r.kind === 'wiped' ? 'danger' : 'gold'}` }, title),
         h('p', { class: 'prose', style: 'text-align:center;margin:8px auto' }, `${r.finale ? 'The Dragon Throne' : r.tutorial ? 'The Training Cellar' : BIOMES[r.biome].name} — ${r.fights} fights, best hand ${fmt(r.score)}.`),
-        chapter ? h('div', { class: 'chronicle story-beat' }, h('div', { class: 'chapter-head' }, chapter.head), h('h2', null, chapter.title), ...chapter.text.map((t) => h('p', { class: 'prose' }, t))) : null,
+        chapter ? h('div', { class: 'chronicle story-beat' }, banner(`story/${chapter.id}`, chapter.title), h('div', { class: 'chapter-head' }, chapter.head), h('h2', null, chapter.title), ...chapter.text.map((t) => h('p', { class: 'prose' }, t))) : null,
         r.tutorial && r.kind !== 'won' ? h('p', { class: 'prose', style: 'text-align:center' }, 'Practice makes perfect. Nobody died, and the Training Cellar is still open in the Cartographer.') : null,
         h('table', { class: 'mini' },
           h('tr', null, h('th', null, 'Gold banked'), h('td', { class: 'gold' }, r.gold)),

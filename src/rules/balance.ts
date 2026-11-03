@@ -15,7 +15,8 @@ export const HEAL_MULT_SLOPE = 0.5;
 
 /** Monster stat curves by effective level (1–20). */
 export function monsterHp(level: number): number {
-  return Math.round(220 * (1 + 0.15 * (level - 1)));
+  // Slope 0.17 (was 0.15) absorbs part of the Dice Path: heroes still grow, fights stay fights.
+  return Math.round(220 * (1 + 0.17 * (level - 1)));
 }
 export function monsterDamage(level: number): number {
   return Math.round(8.2 + 2.45 * (level - 1));

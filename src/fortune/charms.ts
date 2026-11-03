@@ -14,6 +14,8 @@ export interface PlayedDie {
   material: Material;
   mod?: string;
   trayIndex: number;
+  owner?: string;
+  trait?: string;
 }
 
 export interface ScoreCtx {
@@ -23,7 +25,7 @@ export interface ScoreCtx {
   played: PlayedDie[];
   /** Indices into `played` that score. */
   scoring: number[];
-  actor: { classId: string; level: number; hpFrac: number; affinity: Material };
+  actor: { classId: string; level: number; hpFrac: number; affinity: Material; heroId?: string; extraAffinity?: Material[] };
   action: 'attack' | 'spell' | 'heal' | 'guard';
   rerollsLeft: number;
   firstHand: boolean;

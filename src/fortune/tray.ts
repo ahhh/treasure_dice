@@ -1,7 +1,7 @@
 /** Fortune run lifecycle and tray operations (draw, reroll, play, hexes). */
-import type { ClassId, FortuneRun, HexId, TrayDie } from '../engine/types.ts';
+import type { ClassId, FaceMod, FortuneRun, HexId, TrayDie } from '../engine/types.ts';
 import type { Rng } from '../engine/rng.ts';
-import { buildStartingBag, rollFace, makeDie } from './materials.ts';
+import { buildStartingBag, rollFace, makeDie, type SignatureSet } from './materials.ts';
 import { charmPassives, CHARM_BY_ID } from './charms.ts';
 
 export const PLAY_LIMIT = 5;
@@ -12,9 +12,9 @@ export const MAX_TOKENS = 3;
 export const INTEREST_STEP = 5;
 export const INTEREST_CAP = 5;
 
-export function newFortuneRun(rng: Rng, classes: ClassId[]): FortuneRun {
+export function newFortuneRun(rng: Rng, classes: ClassId[], signature?: SignatureSet[]): FortuneRun {
   return {
-    bag: buildStartingBag(rng, classes),
+    bag: buildStartingBag(rng, classes, signature),
     drawPile: [],
     discard: [],
     tray: [],
@@ -66,6 +66,9 @@ export function startCombatTray(run: FortuneRun, rng: Rng, size: number): void {
   run.tray = [];
   run.discard = [];
   run.drawPile = rng.shuffle(run.bag.map((d) => d.uid));
+  // Eager dice go on top of the pile (draws pop from the end).
+  const eager = new Set(run.bag.filter((d) => d.trait === 'eager').map((d) => d.uid));
+  if (eager.size) run.drawPile = [...run.drawPile.filter((u) => !eager.has(u)), ...run.drawPile.filter((u) => eager.has(u))];
   refill(run, rng, size);
 }
 
@@ -137,8 +140,8 @@ export function interest(run: FortuneRun): number {
 }
 
 /** Add a temporary die straight onto the tray (Bardic Inspiration, Overgrowth). */
-export function addGhostDie(run: FortuneRun, rng: Rng, material: FortuneRun['bag'][number]['material'], value: number): void {
-  const die = makeDie(rng, material, [{ v: value }, { v: value }, { v: value }, { v: value }, { v: value }, { v: value }], 'Inspiration');
+export function addGhostDie(run: FortuneRun, rng: Rng, material: FortuneRun['bag'][number]['material'], value: number, mod?: FaceMod, name = 'Inspiration'): void {
+  const die = makeDie(rng, material, Array.from({ length: 6 }, () => (mod ? { v: value, mod } : { v: value })), name);
   die.uid = `ghost${die.uid}`;
   run.bag.push(die);
   run.tray.push({ dieUid: die.uid, face: 0, ghost: true });
@@ -149,17 +152,19 @@ export interface HexResult { text: string }
 /** Enemy hexes that bend the tray. Returns a log line, or null if nothing happened. */
 export function applyHex(run: FortuneRun, rng: Rng, hex: HexId, size: number): string | null {
   const faceVal = (td: TrayDie) => dieOf(run, td.dieUid)?.faces[td.face]?.v ?? 0;
+  const steadfast = (td: TrayDie) => dieOf(run, td.dieUid)?.trait === 'steadfast';
   switch (hex) {
     case 'jinx': {
-      const cands = run.tray.filter((t) => !t.jinxed);
+      const cands = run.tray.filter((t) => !t.jinxed && !steadfast(t));
       if (!cands.length) return null;
       const best = cands.reduce((a, b) => (faceVal(b) > faceVal(a) ? b : a));
       best.jinxed = true;
       return `jinxes your ${faceVal(best)} — it can't be played until rerolled!`;
     }
     case 'pilfer': {
-      if (run.tray.length <= 2) return null;
-      const i = rng.int(0, run.tray.length - 1);
+      const loose = run.tray.map((t, i) => i).filter((i) => !steadfast(run.tray[i]));
+      if (run.tray.length <= 2 || !loose.length) return null;
+      const i = rng.pick(loose);
       const [td] = run.tray.splice(i, 1);
       if (td.ghost) run.bag = run.bag.filter((d) => d.uid !== td.dieUid);
       else run.discard.push(td.dieUid);
@@ -167,8 +172,9 @@ export function applyHex(run: FortuneRun, rng: Rng, hex: HexId, size: number): s
       return `snatches a die from your tray!`;
     }
     case 'curseFace': {
-      const die = rng.pick(run.bag.filter((d) => !d.uid.startsWith('ghost')));
-      if (!die) return null;
+      const pool = run.bag.filter((d) => !d.uid.startsWith('ghost') && d.trait !== 'steadfast');
+      if (!pool.length) return null;
+      const die = rng.pick(pool);
       const fi = rng.int(0, die.faces.length - 1);
       die.faces[fi] = { v: die.faces[fi].v, mod: 'cursed' };
       return `curses a face of one of your dice for this fight.`;

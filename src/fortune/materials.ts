@@ -1,5 +1,5 @@
 /** Fortune die materials, special dice, and bag construction. */
-import type { ClassId, Face, FaceMod, FortuneDie, Material } from '../engine/types.ts';
+import type { ClassId, Face, FaceMod, FortuneDie, HeroDie, Material } from '../engine/types.ts';
 import type { Rng } from '../engine/rng.ts';
 
 export interface MaterialInfo {
@@ -83,9 +83,26 @@ export const SPECIAL_DICE: SpecialDie[] = [
 
 export const SPECIAL_BY_ID: Record<string, SpecialDie> = Object.fromEntries(SPECIAL_DICE.map((d) => [d.id, d]));
 
-export function buildStartingBag(rng: Rng, classes: ClassId[]): FortuneDie[] {
+export interface SignatureSet { owner: string; dice: HeroDie[] }
+
+/**
+ * Six bone dice plus each hero's signature dice. Without signature sets
+ * (tests, old callers) every class brings two plain dice in its colour.
+ */
+export function buildStartingBag(rng: Rng, classes: ClassId[], signature?: SignatureSet[]): FortuneDie[] {
   const bag: FortuneDie[] = [];
   for (let i = 0; i < 6; i++) bag.push(makeDie(rng, 'bone'));
+  if (signature) {
+    for (const s of signature) {
+      for (const d of s.dice) {
+        const die = makeDie(rng, d.material, d.faces.map((f) => ({ ...f })));
+        die.owner = s.owner;
+        if (d.trait) die.trait = d.trait;
+        bag.push(die);
+      }
+    }
+    return bag;
+  }
   for (const c of classes) {
     bag.push(makeDie(rng, CLASS_MATERIAL[c]));
     bag.push(makeDie(rng, CLASS_MATERIAL[c]));
@@ -96,7 +113,7 @@ export function buildStartingBag(rng: Rng, classes: ClassId[]): FortuneDie[] {
 /** Roll a die: returns a face index. Lead dice roll twice and keep the higher. */
 export function rollFace(rng: Rng, die: FortuneDie): number {
   const a = rng.int(0, die.faces.length - 1);
-  if (die.material !== 'lead') return a;
+  if (die.material !== 'lead' && die.trait !== 'loaded') return a;
   const b = rng.int(0, die.faces.length - 1);
   return die.faces[b].v > die.faces[a].v ? b : a;
 }

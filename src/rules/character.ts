@@ -2,7 +2,7 @@
  * The single stat resolver (plan §3.1): character state in, derived numbers
  * out. UI never hand-computes AC or damage; it calls derive().
  */
-import type { Ability, ClassId, DamageType, Hero, ItemInstance, Skill } from '../engine/types.ts';
+import type { Ability, ClassId, DamageType, HandType, Hero, ItemInstance, Material, Skill } from '../engine/types.ts';
 import { ABILITIES } from '../engine/types.ts';
 import type { Rng } from '../engine/rng.ts';
 import { CLASSES, maxSlots, proficiency, featuresUpTo, FIGHTING_STYLES, METAMAGIC, INVOCATIONS, EPIC_BOONS } from '../content/classes.ts';
@@ -11,6 +11,7 @@ import { SPECIES, BACKGROUNDS, uniqueName } from '../content/origins.ts';
 import { portraitsFor } from '../content/portraits.ts';
 import { VITALITY } from './balance.ts';
 import { SPELLS, spellsForClass } from '../content/spells.ts';
+import { markOffers, applyMark } from '../fortune/dicepath.ts';
 
 export const SKILL_ABILITY: Record<Skill, Ability> = {
   athletics: 'str', acrobatics: 'dex', sleightOfHand: 'dex', stealth: 'dex',
@@ -80,6 +81,18 @@ export interface Derived {
   hasShield: boolean;
   lifesteal: number;
   doubloonOnKill: number;
+  /** Skills the hero is proficient in (own + from gear): each unlocks a tray trick. */
+  proficient: Skill[];
+  /** Skill tricks usable per fight. */
+  tricks: number;
+  /** Dice hooks from gear. */
+  diceGear: {
+    affinity: Material[];
+    hands: { name: string; hands: HandType[]; mult?: number; xmult?: number }[];
+    startDice: string[];
+    tokens: string[];
+    openingWild: number;
+  };
 }
 
 function equipped(hero: Hero): ItemInstance[] {
@@ -167,11 +180,28 @@ export function derive(hero: Hero): Derived {
 
   // Skills
   const jack = hero.classId === 'bard' && L >= 2;
+  const proficient = new Set<Skill>(hero.skillProfs);
+  const diceGear: Derived['diceGear'] = { affinity: [], hands: [], startDice: [], tokens: [], openingWild: 0 };
+  let tricks = 1 + (hero.expertise.length ? 1 : 0);
+  const skillBonus: Partial<Record<Skill, number>> = {};
+  for (const inst of items) {
+    const def = ITEMS[inst.defId];
+    const t = def?.trinket;
+    if (!t) continue;
+    for (const s of t.skillProf ?? []) proficient.add(s);
+    for (const [k, v] of Object.entries(t.skillBonus ?? {})) skillBonus[k as Skill] = (skillBonus[k as Skill] ?? 0) + v!;
+    tricks += t.tricks ?? 0;
+    diceGear.affinity.push(...(t.affinity ?? []));
+    if (t.hand) diceGear.hands.push({ name: def.name, ...t.hand });
+    diceGear.startDice.push(...(t.startDice ?? []));
+    diceGear.tokens.push(...(t.tokens ?? []));
+    diceGear.openingWild += t.openingWild ?? 0;
+  }
   const skills = {} as Record<Skill, number>;
   for (const s of Object.keys(SKILL_ABILITY) as Skill[]) {
-    const prof = hero.skillProfs.includes(s);
+    const prof = proficient.has(s);
     const exp = hero.expertise.includes(s);
-    skills[s] = mods[SKILL_ABILITY[s]] + (exp ? pb * 2 : prof ? pb : jack ? Math.floor(pb / 2) : 0);
+    skills[s] = mods[SKILL_ABILITY[s]] + (exp ? pb * 2 : prof ? pb : jack ? Math.floor(pb / 2) : 0) + (skillBonus[s] ?? 0);
   }
 
   // Initiative
@@ -253,6 +283,7 @@ export function derive(hero: Hero): Derived {
     armored: !!armor,
     hasShield: !!shieldInst,
     lifesteal, doubloonOnKill,
+    proficient: [...proficient], tricks, diceGear,
   };
 }
 
@@ -446,7 +477,11 @@ export function applyLevel(hero: Hero, rng: Rng, newLevel: number, auto: boolean
   const cls = CLASSES[hero.classId];
   hero.level = newLevel;
   hero.hpRolls.push(Math.floor(cls.hitDie / 2) + 1); // fixed average per SRD
-  if (auto) autoChoices(hero, rng, newLevel);
+  if (auto) {
+    autoChoices(hero, rng, newLevel);
+    const offer = markOffers(hero, newLevel)[0];
+    if (offer) applyMark(hero, offer);
+  }
 }
 
 export function fullRestore(hero: Hero) {

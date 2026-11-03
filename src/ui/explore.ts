@@ -2,11 +2,11 @@
 import type { RelDir } from '../engine/types.ts';
 import { h, btn } from './dom.ts';
 import { app, run, render } from './app.ts';
-import { bgStyle } from './art.ts';
+import { bgStyle, firstArt } from './art.ts';
 import { heroPortrait, hpBar, charmEl, doubloons, TOKEN_GLYPH, conds } from './widgets.ts';
 import { exitsView, mapView } from '../dungeon/explore.ts';
 import { BIOMES } from '../content/biomes.ts';
-import { DIRS } from '../dungeon/generator.ts';
+import { DIRS, legacyRoomArt } from '../dungeon/generator.ts';
 import { ITEMS, itemName } from '../content/items.ts';
 import { castableSpells, SPELLS } from '../content/spells.ts';
 import { derive } from '../rules/character.ts';
@@ -100,7 +100,7 @@ export function exploreScreen(): HTMLElement {
       btn(g.settings.fast ? 'Fast: on' : 'Fast: off', () => { g.settings.fast = !g.settings.fast; render(); }, { cls: 'small' })),
     h('div', { class: 'explore' },
       h('div', { class: 'col' },
-        h('div', { class: 'room-view', style: bgStyle(room.art ?? '', `linear-gradient(160deg, ${biome.color}55, #0b1230)`) },
+        h('div', { class: 'room-view', style: bgStyle(firstArt(room.art, legacyRoomArt(room.type, exp.biome)), `linear-gradient(160deg, ${biome.color}55, #0b1230)`) },
           h('span', { class: 'meter-pill', title: biome.meter.text }, `${biome.meter.icon} ${biome.meter.name} ${exp.biome === 'drowned' ? (exp.meter ? 'high' : 'low') : `${exp.meter}/${biome.meter.max}`}`),
           h('span', { class: 'compass', 'aria-label': `Facing ${exp.facing}` }, ARROW[exp.facing], h('span', { class: 'small', style: 'position:absolute;bottom:2px' }, exp.facing)),
           h('h1', null, room.name),
