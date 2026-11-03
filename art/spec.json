@@ -1,6 +1,6 @@
 {
  "game": "treasure_dice",
- "count": 344,
+ "count": 361,
  "entries": [
   {
    "key": "heroes/fighter_1",
@@ -1678,7 +1678,7 @@
    "kind": "icon",
    "group": "item:trinket",
    "name": "Luckstone",
-   "subject": "Luckstone — +1 to saves and +1 reroll on your turns.",
+   "subject": "a smooth, polished river agate stone with a natural pale ring around it, warm to the eye, hung on a leather thong",
    "anchor": false
   },
   {
@@ -1702,7 +1702,7 @@
    "kind": "icon",
    "group": "item:trinket",
    "name": "Grave Ward",
-   "subject": "Grave Ward — Resistance to necrotic and poison.",
+   "subject": "a small bone-white charm carved like a tiny gravestone, wrapped in black ribbon with a sprig of dried violets",
    "anchor": false
   },
   {
@@ -1726,7 +1726,7 @@
    "kind": "icon",
    "group": "item:trinket",
    "name": "Falconer's Eye",
-   "subject": "Falconer's Eye — Critical hits on one lower d20 face.",
+   "subject": "a falcon-feather brooch with an amber gem set in it like a hawk's golden eye, a tiny hooded falcon head carved in silver above it",
    "anchor": false
   },
   {
@@ -1734,7 +1734,7 @@
    "kind": "icon",
    "group": "item:trinket",
    "name": "Bone of the Fifth Door",
-   "subject": "Bone of the Fifth Door — An old die-bone that hums near the door: +1 reroll, +1 AC, +1 saves.",
+   "subject": "an ancient yellowed bone die, worn smooth, its faces marked only with tiny carved door-shaped arches instead of pips, faintly glowing from inside, hung on an old cord",
    "anchor": false
   },
   {
@@ -1822,7 +1822,7 @@
    "kind": "icon",
    "group": "item:trinket",
    "name": "Glass Eye of Fortune",
-   "subject": "Glass Eye of Fortune — Adds a Glass Die (×2 Mult, may shatter) to the bag on every expedition.",
+   "subject": "a clear glass orb shaped like an eye with a pale blue iris, held in a silver claw pendant, light refracting through it, no numbers or writing",
    "anchor": false
   },
   {
@@ -1894,7 +1894,7 @@
    "kind": "icon",
    "group": "item:trinket",
    "name": "Torc of the Hoard",
-   "subject": "Torc of the Hoard — Your Sets, Full Sets and Dragon Hoards gain ×2 Mult.",
+   "subject": "a heavy open-ended gold neck torc whose two ends are dragon heads clutching rubies, tiny gold coins clinking from it",
    "anchor": false
   },
   {
@@ -1910,7 +1910,7 @@
    "kind": "icon",
    "group": "item:consumable",
    "name": "Potion of Greater Healing",
-   "subject": "Potion of Greater Healing — Restore 4d4+4 HP (× vitality).",
+   "subject": "a tall teardrop-shaped bottle of glowing crimson healing potion, bigger than a common potion, with a brass collar",
    "anchor": false
   },
   {
@@ -1918,7 +1918,7 @@
    "kind": "icon",
    "group": "item:consumable",
    "name": "Potion of Superior Healing",
-   "subject": "Potion of Superior Healing — Restore 8d4+8 HP (× vitality).",
+   "subject": "an ornate faceted crystal flask of radiant ruby-red healing potion inside a gold filigree cage",
    "anchor": false
   },
   {
@@ -1926,7 +1926,7 @@
    "kind": "icon",
    "group": "item:consumable",
    "name": "Potion of Supreme Healing",
-   "subject": "Potion of Supreme Healing — Restore 10d4+20 HP (× vitality).",
+   "subject": "a magnificent gold-and-crystal reliquary bottle of brilliant scarlet healing elixir glowing with inner light, a winged gold stopper",
    "anchor": false
   },
   {
@@ -1934,7 +1934,7 @@
    "kind": "icon",
    "group": "item:consumable",
    "name": "Antitoxin",
-   "subject": "Antitoxin — End poisoned and similar ailments.",
+   "subject": "a small square vial of milky pale-green antidote with a bundle of dried herbs tied around its neck",
    "anchor": false
   },
   {
@@ -1958,7 +1958,7 @@
    "kind": "icon",
    "group": "item:consumable",
    "name": "Potion of Heroism",
-   "subject": "Potion of Heroism — 10 temp HP (× vitality) and Bless for the fight.",
+   "subject": "a slim bottle of shimmering golden potion with a tiny embossed lion crest on the glass and a red ribbon at the neck",
    "anchor": false
   },
   {
@@ -1966,7 +1966,7 @@
    "kind": "icon",
    "group": "item:consumable",
    "name": "Smoke Bomb",
-   "subject": "Smoke Bomb — Escape from a non-boss fight (lose this room's rewards).",
+   "subject": "a round grey clay smoke bomb with a short twisted fuse, wisps of grey smoke curling from it",
    "anchor": false
   },
   {
@@ -1974,7 +1974,7 @@
    "kind": "icon",
    "group": "item:consumable",
    "name": "Elixir of Health",
-   "subject": "Elixir of Health — Cure all conditions and heal 25%.",
+   "subject": "a small round flask of luminous pale-violet elixir with a silver stopper and flower petals floating inside",
    "anchor": false
   },
   {
@@ -2194,6 +2194,27 @@
    "anchor": false
   },
   {
+   "key": "scenes/cinder_treasure",
+   "kind": "scene",
+   "group": "scene:cinder",
+   "name": "The Cinder Vaults — treasure",
+   "subject": "a dwarven strongroom carved into black basalt: an open iron-bound chest spilling gold coins and ingots, lit by a glowing lava seam in the wall"
+  },
+  {
+   "key": "scenes/cinder_elite",
+   "kind": "scene",
+   "group": "scene:cinder",
+   "name": "The Cinder Vaults — elite",
+   "subject": "a scorched duelling pit ringed by cooling lava, a giant cracked anvil in the centre and broken chains hanging from the dark, ominous red light"
+  },
+  {
+   "key": "scenes/cinder_arena2",
+   "kind": "scene",
+   "group": "scene:cinder",
+   "name": "The Cinder Vaults — arena2",
+   "subject": "an abandoned ore-sorting hall with huge iron buckets on chains, stone ramps and glowing slag heaps, wide open floor"
+  },
+  {
    "key": "scenes/cinder_entrance",
    "kind": "scene",
    "group": "scene:cinder",
@@ -2234,6 +2255,27 @@
    "group": "scene:cinder",
    "name": "The Cinder Vaults — corridor3",
    "subject": "a collapsed dwarven hall with toppled statues and drifts of ash lit by shafts of daylight from a cracked ceiling"
+  },
+  {
+   "key": "scenes/rootbound_treasure",
+   "kind": "scene",
+   "group": "scene:rootbound",
+   "name": "The Rootbound Halls — treasure",
+   "subject": "a forgotten tomb-hoard cradled in tree roots: an open stone coffer of gold and jewelled grave-goods glowing under shafts of green light"
+  },
+  {
+   "key": "scenes/rootbound_elite",
+   "kind": "scene",
+   "group": "scene:rootbound",
+   "name": "The Rootbound Halls — elite",
+   "subject": "a dark round crypt chamber where a single colossal thorned root coils around the walls, toppled grave statues and sickly green spore-light"
+  },
+  {
+   "key": "scenes/rootbound_arena2",
+   "kind": "scene",
+   "group": "scene:rootbound",
+   "name": "The Rootbound Halls — arena2",
+   "subject": "a wide burial nave carpeted with moss and white flowers, roots arching overhead like ribs, cracked tombstones scattered across the floor"
   },
   {
    "key": "scenes/rootbound_entrance",
@@ -2278,6 +2320,27 @@
    "subject": "a gallery of moss-covered sarcophagi under a canopy of roots, petals and spores drifting in light"
   },
   {
+   "key": "scenes/drowned_treasure",
+   "kind": "scene",
+   "group": "scene:drowned",
+   "name": "The Drowned Archive — treasure",
+   "subject": "a dry archive alcove above the floodwater: an open brass-bound chest of gold, scroll cases and pearls on a stone shelf, ripples of teal light"
+  },
+  {
+   "key": "scenes/drowned_elite",
+   "kind": "scene",
+   "group": "scene:drowned",
+   "name": "The Drowned Archive — elite",
+   "subject": "a flooded circular reading room with a huge broken chandelier half-sunk in black water, shelves leaning inward, cold menacing light from below"
+  },
+  {
+   "key": "scenes/drowned_arena2",
+   "kind": "scene",
+   "group": "scene:drowned",
+   "name": "The Drowned Archive — arena2",
+   "subject": "a shallow flooded atrium with drowned reading desks, pillars and a long stone balcony, still water reflecting a glass ceiling"
+  },
+  {
    "key": "scenes/drowned_entrance",
    "kind": "scene",
    "group": "scene:drowned",
@@ -2320,6 +2383,27 @@
    "subject": "a brass-piped passage with a soft waterfall of loose pages pouring from a broken ceiling"
   },
   {
+   "key": "scenes/mirror_treasure",
+   "kind": "scene",
+   "group": "scene:mirror",
+   "name": "The Mirror Reliquary — treasure",
+   "subject": "a glass reliquary: a crystal chest overflowing with gold and prismatic gems on a pedestal, reflected endlessly in surrounding mirrors"
+  },
+  {
+   "key": "scenes/mirror_elite",
+   "kind": "scene",
+   "group": "scene:mirror",
+   "name": "The Mirror Reliquary — elite",
+   "subject": "a dusky twilight hall of tall smoky grey-violet mirrors, softly painted, lit mainly by a cold violet glow spilling from one huge cracked mirror at the far end, shards of broken glass scattered across the floor, an uneasy hushed mood but still clearly visible"
+  },
+  {
+   "key": "scenes/mirror_arena2",
+   "kind": "scene",
+   "group": "scene:mirror",
+   "name": "The Mirror Reliquary — arena2",
+   "subject": "a sunlit glass cloister with tall stained-glass panes casting coloured light across an open marble floor, a few shattered panes"
+  },
+  {
    "key": "scenes/mirror_entrance",
    "kind": "scene",
    "group": "scene:mirror",
@@ -2360,6 +2444,27 @@
    "group": "scene:mirror",
    "name": "The Mirror Reliquary — corridor3",
    "subject": "a spiral staircase of stained glass rising into white light"
+  },
+  {
+   "key": "scenes/starfall_treasure",
+   "kind": "scene",
+   "group": "scene:starfall",
+   "name": "The Starfall Ossuary — treasure",
+   "subject": "a meteorite hoard on a drifting rock: an open star-iron chest of gold and glowing star fragments under a dense field of stars"
+  },
+  {
+   "key": "scenes/starfall_elite",
+   "kind": "scene",
+   "group": "scene:starfall",
+   "name": "The Starfall Ossuary — elite",
+   "subject": "a broken ring-shaped platform floating in the void, a huge cracked dark star looming behind it, shards of bone and rock orbiting, ominous light"
+  },
+  {
+   "key": "scenes/starfall_arena2",
+   "kind": "scene",
+   "group": "scene:starfall",
+   "name": "The Starfall Ossuary — arena2",
+   "subject": "a wide floating plaza of pale stone tiles adrift among clouds, broken columns and a soft violet nebula overhead"
   },
   {
    "key": "scenes/starfall_entrance",
@@ -2416,7 +2521,7 @@
    "kind": "vignette",
    "group": "event:any",
    "name": "A Wounded Adventurer",
-   "subject": "A Wounded Adventurer. A stranger in a rival guild's colours slumps against the wall, bleeding. \"They took my dice,\" she gasps. \"All of them.\"",
+   "subject": "A Wounded Adventurer. A stocky middle-aged dwarf woman with short grey-streaked hair, in a rival guild's red-and-gold tabard, slumps against a dungeon wall clutching a wound; beside her an empty, torn dice pouch lies open on the floor.",
    "anchor": false
   },
   {
@@ -2464,7 +2569,7 @@
    "kind": "vignette",
    "group": "event:any",
    "name": "Pressure Plates",
-   "subject": "Pressure Plates. The floor is a chessboard of pressure plates. Dark holes line the walls.",
+   "subject": "Pressure Plates. An empty stone hall whose floor is a chessboard of square pressure plates, rows of small dark dart holes in both walls, a few old darts and a dropped lantern on the tiles. No people.",
    "anchor": false
   },
   {
@@ -2568,7 +2673,7 @@
    "kind": "vignette",
    "group": "event:mirror",
    "name": "The Confessional",
-   "subject": "The Confessional. A booth of black glass. A voice: \"Confess one sin, receive one blessing.\"",
+   "subject": "The Confessional. An empty confessional booth made of black glass standing alone in a white crystal cathedral, a faint violet light glowing behind its lattice, its little door ajar. Nobody inside or nearby.",
    "anchor": false
   },
   {
@@ -2625,6 +2730,22 @@
    "group": "story:chronicle",
    "name": "mirror",
    "subject": "a shattered cathedral of mirrors, shards floating in the air, a white dragon's reflection fading from the glass",
+   "anchor": false
+  },
+  {
+   "key": "story/retreat",
+   "kind": "vignette",
+   "group": "story:chronicle",
+   "name": "retreat",
+   "subject": "a winding road at dusk leading back to a small hilltop keep with warm lit windows, a dropped lantern and scattered dice beside the road, nobody in sight",
+   "anchor": false
+  },
+  {
+   "key": "story/wipe",
+   "kind": "vignette",
+   "group": "story:chronicle",
+   "name": "wipe",
+   "subject": "an empty dungeon hall at night, a single guttering lantern on the stone floor beside a broken shield and spilled dice, dust in a shaft of pale light, nobody in sight",
    "anchor": false
   },
   {

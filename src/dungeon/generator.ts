@@ -315,7 +315,7 @@ function dressRoom(r: Room, rng: Rng, opts: GenOptions) {
 }
 
 /** Room-specific scenes (newer art); `legacyRoomArt` is the fallback until they exist. */
-const ROOM_SCENE: Partial<Record<RoomType, string>> = { entrance: 'entrance', exit: 'entrance', camp: 'camp', shrine: 'shrine', peddler: 'peddler' };
+const ROOM_SCENE: Partial<Record<RoomType, string>> = { entrance: 'entrance', exit: 'entrance', camp: 'camp', shrine: 'shrine', peddler: 'peddler', treasure: 'treasure', elite: 'elite' };
 
 export function roomArt(r: Pick<Room, 'type' | 'x' | 'y'>, biome: BiomeId): string {
   const s = ROOM_SCENE[r.type];
@@ -325,6 +325,8 @@ export function roomArt(r: Pick<Room, 'type' | 'x' | 'y'>, biome: BiomeId): stri
     const v = (r.x * 7 + r.y * 13) % 3;
     if (v) return `scenes/${biome}_corridor${v + 1}`;
   }
+  // Half the ordinary fights get the second arena.
+  if (r.type === 'combat' && (r.x * 7 + r.y * 13) % 2) return `scenes/${biome}_arena2`;
   return legacyRoomArt(r.type, biome);
 }
 

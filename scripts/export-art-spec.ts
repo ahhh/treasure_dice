@@ -65,6 +65,19 @@ const ITEM_ART: Record<string, string> = {
   plate: 'a complete suit of gleaming steel full plate armour with helmet, gauntlets and greaves, standing upright as if on an armour stand',
   breastplate: 'a single polished steel breastplate covering only the chest and belly, leather side straps, no sleeves or shoulders',
   halfPlate: 'half plate armour: a steel breastplate, rounded pauldrons and hip tassets worn over a chain shirt, no leg armour',
+  luckstone: 'a smooth, polished river agate stone with a natural pale ring around it, warm to the eye, hung on a leather thong',
+  graveCharm: 'a small bone-white charm carved like a tiny gravestone, wrapped in black ribbon with a sprig of dried violets',
+  diceOfTheDoor: 'an ancient yellowed bone die, worn smooth, its faces marked only with tiny carved door-shaped arches instead of pips, faintly glowing from inside, hung on an old cord',
+  hawkEye: 'a falcon-feather brooch with an amber gem set in it like a hawk\'s golden eye, a tiny hooded falcon head carved in silver above it',
+  glassEye: 'a clear glass orb shaped like an eye with a pale blue iris, held in a silver claw pendant, light refracting through it, no numbers or writing',
+  antitoxin: 'a small square vial of milky pale-green antidote with a bundle of dried herbs tied around its neck',
+  potionGreater: 'a tall teardrop-shaped bottle of glowing crimson healing potion, bigger than a common potion, with a brass collar',
+  potionSuperior: 'an ornate faceted crystal flask of radiant ruby-red healing potion inside a gold filigree cage',
+  potionSupreme: 'a magnificent gold-and-crystal reliquary bottle of brilliant scarlet healing elixir glowing with inner light, a winged gold stopper',
+  hoardTorc: 'a heavy open-ended gold neck torc whose two ends are dragon heads clutching rubies, tiny gold coins clinking from it',
+  potionHeroism: 'a slim bottle of shimmering golden potion with a tiny embossed lion crest on the glass and a red ribbon at the neck',
+  elixirHealth: 'a small round flask of luminous pale-violet elixir with a silver stopper and flower petals floating inside',
+  smokeBomb: 'a round grey clay smoke bomb with a short twisted fuse, wisps of grey smoke curling from it',
   spear: 'a sturdy spear with a broad leaf-shaped steel head, a red tassel below the head, and a long ash shaft',
 };
 const cat = (k: string, id: string) => k === 'weapon' ? 'weapon' : k === 'armor' || k === 'shield' ? 'armor' : k === 'consumable' ? (id.startsWith('scroll') ? 'scroll' : 'consumable') : 'trinket';
@@ -92,6 +105,9 @@ for (const [b, scenes] of Object.entries(SCENE_TEXT)) {
 // Room-specific scenes and corridor variants (newer art; the game falls back to the four above).
 const ROOM_TEXT: Record<string, Record<string, string>> = {
   cinder: {
+    treasure: 'a dwarven strongroom carved into black basalt: an open iron-bound chest spilling gold coins and ingots, lit by a glowing lava seam in the wall',
+    elite: 'a scorched duelling pit ringed by cooling lava, a giant cracked anvil in the centre and broken chains hanging from the dark, ominous red light',
+    arena2: 'an abandoned ore-sorting hall with huge iron buckets on chains, stone ramps and glowing slag heaps, wide open floor',
     entrance: 'the mouth of a dwarven mine cut into a mountainside, ash drifting over cart rails and a broken iron gate, a warm glow deep within',
     camp: 'a sheltered alcove off a mine tunnel with a small campfire and bedrolls, a cooled lava flow forming a bench',
     shrine: 'a small dwarven shrine to a forge spirit carved into basalt, offering bowls of embers on an anvil altar',
@@ -100,6 +116,9 @@ const ROOM_TEXT: Record<string, Record<string, string>> = {
     corridor3: 'a collapsed dwarven hall with toppled statues and drifts of ash lit by shafts of daylight from a cracked ceiling',
   },
   rootbound: {
+    treasure: 'a forgotten tomb-hoard cradled in tree roots: an open stone coffer of gold and jewelled grave-goods glowing under shafts of green light',
+    elite: 'a dark round crypt chamber where a single colossal thorned root coils around the walls, toppled grave statues and sickly green spore-light',
+    arena2: 'a wide burial nave carpeted with moss and white flowers, roots arching overhead like ribs, cracked tombstones scattered across the floor',
     entrance: 'a moss-swallowed mausoleum gate in an old forest, roots prying the stones apart, light falling through leaves',
     camp: 'a dry hollow beneath a giant root arch with a small campfire and softly glowing mushrooms',
     shrine: 'a forgotten ivy-covered shrine with a weathered stone guardian statue and flowers growing from its cracks',
@@ -108,6 +127,9 @@ const ROOM_TEXT: Record<string, Record<string, string>> = {
     corridor3: 'a gallery of moss-covered sarcophagi under a canopy of roots, petals and spores drifting in light',
   },
   drowned: {
+    treasure: 'a dry archive alcove above the floodwater: an open brass-bound chest of gold, scroll cases and pearls on a stone shelf, ripples of teal light',
+    elite: 'a flooded circular reading room with a huge broken chandelier half-sunk in black water, shelves leaning inward, cold menacing light from below',
+    arena2: 'a shallow flooded atrium with drowned reading desks, pillars and a long stone balcony, still water reflecting a glass ceiling',
     entrance: 'the grand stair of a sunken library descending into still teal water between toppled columns',
     camp: 'a dry reading nook on a balcony above flooded stacks, a small oil lamp and folded blankets',
     shrine: 'a small flooded chapel of the archivists with a stone lectern and candles floating on the water',
@@ -116,6 +138,9 @@ const ROOM_TEXT: Record<string, Record<string, string>> = {
     corridor3: 'a brass-piped passage with a soft waterfall of loose pages pouring from a broken ceiling',
   },
   mirror: {
+    treasure: 'a glass reliquary: a crystal chest overflowing with gold and prismatic gems on a pedestal, reflected endlessly in surrounding mirrors',
+    elite: 'a dusky twilight hall of tall smoky grey-violet mirrors, softly painted, lit mainly by a cold violet glow spilling from one huge cracked mirror at the far end, shards of broken glass scattered across the floor, an uneasy hushed mood but still clearly visible',
+    arena2: 'a sunlit glass cloister with tall stained-glass panes casting coloured light across an open marble floor, a few shattered panes',
     entrance: 'a pale crystalline portal in a ruined cloister, daylight refracting into soft rainbows',
     camp: 'a quiet alcove in a glass cathedral, a small campfire reflected endlessly in the mirrored walls',
     shrine: 'a slender white altar holding a floating crystal, petals of light drifting down',
@@ -124,6 +149,9 @@ const ROOM_TEXT: Record<string, Record<string, string>> = {
     corridor3: 'a spiral staircase of stained glass rising into white light',
   },
   starfall: {
+    treasure: 'a meteorite hoard on a drifting rock: an open star-iron chest of gold and glowing star fragments under a dense field of stars',
+    elite: 'a broken ring-shaped platform floating in the void, a huge cracked dark star looming behind it, shards of bone and rock orbiting, ominous light',
+    arena2: 'a wide floating plaza of pale stone tiles adrift among clouds, broken columns and a soft violet nebula overhead',
     entrance: 'a ruined stone archway on a floating island at the edge of a starfield, a path of drifting stepping stones',
     camp: 'a small campfire on a floating island of gravestones beneath a vast sky of stars and aurora',
     shrine: 'a lonely observatory shrine with a brass astrolabe and a meteorite altar',
@@ -141,6 +169,9 @@ for (const [b, scenes] of Object.entries(ROOM_TEXT)) {
 // Event vignettes: the event's own text is the brief, unless it implies a viewer in frame.
 const EVENT_ART: Record<string, string> = {
   dicingGhost: 'The Dicing Ghost. The translucent ghost of an old riverboat gambler, a stout grey-whiskered man in a tattered frock coat and battered hat, sits at a table of bone in a candlelit vault, grinning as he rattles a dice cup.',
+  woundedStranger: 'A Wounded Adventurer. A stocky middle-aged dwarf woman with short grey-streaked hair, in a rival guild\'s red-and-gold tabard, slumps against a dungeon wall clutching a wound; beside her an empty, torn dice pouch lies open on the floor.',
+  trapHall: 'Pressure Plates. An empty stone hall whose floor is a chessboard of square pressure plates, rows of small dark dart holes in both walls, a few old darts and a dropped lantern on the tiles. No people.',
+  confessional: 'The Confessional. An empty confessional booth made of black glass standing alone in a white crystal cathedral, a faint violet light glowing behind its lattice, its little door ajar. Nobody inside or nearby.',
   talkingMirror: 'The Talking Mirror. A tall ornate standing mirror in an empty glass cathedral; its surface ripples like water and glows softly, as if about to speak. Nobody stands before it.',
 };
 const seenEvent = new Set<string>();
@@ -158,6 +189,8 @@ const STORY_TEXT: Record<string, string> = {
   rootbound: 'the giant hollow heart-tree of a forest necropolis withering, its spores dissolving into motes of light',
   drowned: 'a drained archive vault, an old chart of a great stone door spread on a table, puddles reflecting the sky',
   mirror: "a shattered cathedral of mirrors, shards floating in the air, a white dragon's reflection fading from the glass",
+  retreat: "a winding road at dusk leading back to a small hilltop keep with warm lit windows, a dropped lantern and scattered dice beside the road, nobody in sight",
+  wipe: "an empty dungeon hall at night, a single guttering lantern on the stone floor beside a broken shield and spilled dice, dust in a shaft of pale light, nobody in sight",
   starfall: "the fifth lantern flaring on a hilltop keep's tower beneath a sky of falling stars",
   finale: 'beyond a colossal opened stone door, a mountain of treasure and the vast silhouette of a five-headed dragon, three tiny adventurers seen from behind',
   epilogue: 'a peaceful hilltop town at dawn with five lanterns burning, flower fields, travellers setting out on a long road',

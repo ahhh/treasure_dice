@@ -3,7 +3,7 @@ import type { Ability, EquipSlot, Hero, BoonOffer } from '../engine/types.ts';
 import { ABILITIES, EQUIP_SLOTS } from '../engine/types.ts';
 import { h, btn, fmt } from './dom.ts';
 import { app, run, render, toast } from './app.ts';
-import { art, bgStyle, banner } from './art.ts';
+import { art, bgStyle, banner, firstArt } from './art.ts';
 import { heroPortrait, heroLine, hpBar, boonCard, bagView, itemIcon, doubloons, charmEl, dieFace, signatureDice } from './widgets.ts';
 import { heroDice, markTitle, markText, TRAIT_LEVELS } from '../fortune/dicepath.ts';
 import { SKILL_TRICKS } from '../content/skilltricks.ts';
@@ -320,7 +320,7 @@ export function resultScreen(): HTMLElement {
   const r = g.lastResult!;
   const title = r.finale && r.kind === 'won' ? 'The Dragon Queen falls!' : r.tutorial && r.kind === 'won' ? 'Practice complete' : r.kind === 'won' ? 'The echo is broken' : r.kind === 'retreated' ? 'A tactical retreat' : 'The party has fallen';
   const chapter: Chapter | undefined = r.chapter === EPILOGUE.id ? EPILOGUE : r.chapter ? CHAPTERS[r.chapter as keyof typeof CHAPTERS] : undefined;
-  return h('div', { class: 'title-screen', style: bgStyle(r.kind === 'won' ? `scenes/${r.biome}_boss` : 'town/keep', '#0b1230') + ';background-size:cover;background-position:center' },
+  return h('div', { class: 'title-screen', style: bgStyle(r.kind === 'won' ? `scenes/${r.biome}_boss` : firstArt(`story/${r.kind === 'retreated' ? 'retreat' : 'wipe'}`, 'town/keep'), '#0b1230') + ';background-size:cover;background-position:center' },
     h('div', { class: 'title-inner' },
       h('div', { class: 'win', style: 'width:min(640px,100%)' },
         h('h1', { class: `result-big ${r.kind === 'wiped' ? 'danger' : 'gold'}` }, title),
