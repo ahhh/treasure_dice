@@ -40,11 +40,12 @@ function importInto(slot: number) {
 
 export function titleScreen(): HTMLElement {
   if (!slots) void refreshSlots();
-  const seal = [5, 5, 5, 5, 5];
+  // Six dice, each showing a 6: the Sixth Door.
+  const seal = ['ember', 'sun', 'verdant', 'steel', 'arcane', 'shadow'] as const;
   return h('div', { class: 'title-screen', style: bgStyle('town/door', 'radial-gradient(circle at 50% 30%, #2a2050, #070b1a)') + ';background-size:cover;background-position:center' },
     h('div', { class: 'title-inner' },
       h('h1', { class: 'logo' }, 'Treasure Dice', h('small', null, 'Echoes of the Sixth Door')),
-      h('div', { class: 'title-dice', 'aria-hidden': 'true' }, ...seal.map((v, i) => dieFace(v, (['steel', 'sun', 'shadow', 'arcane', 'ember'] as const)[i], undefined, { cls: 'rolling' }))),
+      h('div', { class: 'title-dice', 'aria-hidden': 'true' }, ...seal.map((m) => dieFace(6, m, undefined, { cls: 'rolling' }))),
       showCredits ? credits() : h('div', { class: 'win slots' },
         h('h2', null, 'Choose a save slot'),
         ...(slots ?? []).map((s) => h('div', { class: 'slot' },
