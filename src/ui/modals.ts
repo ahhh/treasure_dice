@@ -349,7 +349,7 @@ export function helpModal(): HTMLElement {
     p('Pick three heroes and an echo in the Cartographer and open its door. Explore with Forward, Left, Right and Back. Find the Boss Sigil, kill the boss, and walk out alive. Every survivor gains a level. Dead heroes stay dead in Legacy mode.'),
     h('h3', null, 'The Fortune Tray'),
     h('div', { class: 'row', style: 'gap:6px' }, dieFace(6, 'steel'), dieFace(6, 'steel'), dieFace(6, 'bone'), dieFace(3, 'sun'), dieFace(2, 'shadow')),
-    p('Each fight deals dice from your bag onto a shared felt tray. On a hero\'s turn, select dice and reroll them (2 rerolls a turn), then choose an action. Up to five selected dice ride along as a poker-dice hand: Pair, Straight, Set (five dice of one colour), Full House, Five of a Kind…'),
+    p('Each fight deals dice from your bag onto a shared felt tray. On a hero\'s turn, select dice and reroll them (1 reroll a turn, more from skills, items and charms), then choose an action. Up to five selected dice ride along as a poker-dice hand: Pair, Straight, Set (five dice of one colour), Full House, Five of a Kind…'),
     p('Damage = (your action\'s real dice + the hand\'s chips + the pips) × mult. Dice matching the acting hero\'s colour add +1 mult. Dice you don\'t play stay on the tray for the next hero. If you miss, your dice come back.'),
     h('h3', null, 'Getting lucky'),
     p('After every fight your Fortune Rank rises: choose a charm, an omen (levels up a hand), a new die, a face enchantment, or a token. Charms score left to right, so order matters (rearrange them in the Dice bag). Doubloons earn interest; spend them at the Peddler. It all vanishes when the dungeon ends, so go big.'),

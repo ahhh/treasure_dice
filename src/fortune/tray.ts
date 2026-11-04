@@ -6,7 +6,7 @@ import { charmPassives, CHARM_BY_ID } from './charms.ts';
 
 export const PLAY_LIMIT = 5;
 export const BASE_HAND_SIZE = 7;
-export const BASE_REROLLS = 2;
+export const BASE_REROLLS = 1;
 export const BASE_CHARM_SLOTS = 5;
 export const MAX_TOKENS = 3;
 export const INTEREST_STEP = 5;

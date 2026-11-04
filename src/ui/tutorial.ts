@@ -246,7 +246,7 @@ const STEPS: Step[] = [
   },
   {
     id: 'reroll', where: 'combat', next: true, title: 'Rerolls', target: () => $('[data-key="reroll"]'),
-    text: () => [P('Not happy with a die? Select it and ', B('Reroll'), ' (R). You get 2 rerolls per turn, and more as heroes level up.'),
+    text: () => [P('Not happy with a die? Select it and ', B('Reroll'), ' (R). You get 1 reroll per turn; skills, items and charms can give more.'),
       P('The buttons beside it are class talents. A fighter can nudge a die ±1, a cleric can turn one into a Sun 6, and so on. Tokens (coins) are one-shot tricks.')],
   },
   {
