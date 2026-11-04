@@ -48,11 +48,14 @@ export function bestDice(g: GameState, limit = 5, base = 8): { dice: number[]; s
   return best;
 }
 
+/** Options this hero already took this turn (so free/bonus openers don't repeat). */
+const tookThisTurn = { stamp: '', keys: new Set<string>() };
+
 function pickAction(g: GameState): { opt: ActionOption; targets: string[]; slot?: number } | null {
   const ctx = makeCtx(g);
   const c = current(ctx)!;
   const h = heroOf(ctx, c)!;
-  const opts = listActions(ctx).filter((o) => o.usable);
+  const opts = listActions(ctx).filter((o) => o.usable && !tookThisTurn.keys.has(o.key));
   const enemies = livingEnemies(ctx);
   const allies = livingHeroes(ctx);
   const weakest = allies.slice().sort((a, b) => a.hp / a.maxHp - b.hp / b.maxHp)[0];
@@ -110,6 +113,7 @@ export function autoCombatStep(g: GameState): boolean {
   // Shape the tray: reroll the non-scoring dice while the hand is weak.
   let guard = 0;
   while (run.rerollsLeft > 0 && guard++ < 4) {
+    if (g.expedition?.combat?.status !== 'active') return true;
     const b = bestDice(g);
     if (b.rank >= HAND_RANK.three) break;
     const keep = new Set(b.dice);
@@ -118,7 +122,9 @@ export function autoCombatStep(g: GameState): boolean {
     const r = dispatch(g, { type: 'combat', cmd: { type: 'reroll', dice: toss } });
     if (!r.ok) break;
   }
-  const turnStamp = `${ctx.combat.round}:${ctx.combat.turnIndex}`;
+  if (g.expedition?.combat?.status !== 'active' || !ctx.combat.turn) return true;
+  const turnStamp = `${ctx.combat.id}:${ctx.combat.round}:${ctx.combat.turnIndex}`;
+  if (tookThisTurn.stamp !== turnStamp) { tookThisTurn.stamp = turnStamp; tookThisTurn.keys.clear(); }
   const pick = pickAction(g);
   if (!pick) { dispatch(g, { type: 'combat', cmd: { type: 'endTurn' } }); return true; }
   const t = ctx.combat.turn;
@@ -132,7 +138,12 @@ export function autoCombatStep(g: GameState): boolean {
   }
   // Keep going if the turn is still ours (bonus actions etc.), else end.
   const ctx2 = g.expedition?.combat ? makeCtx(g) : null;
-  const sameTurn = (x: typeof ctx2) => !!x && x.combat.status === 'active' && x.combat.turn?.actorId === c.id && `${x.combat.round}:${x.combat.turnIndex}` === turnStamp;
+  const sameTurn = (x: typeof ctx2) => !!x && x.combat.status === 'active' && x.combat.turn?.actorId === c.id && `${x.combat.id}:${x.combat.round}:${x.combat.turnIndex}` === turnStamp;
+  // A free or bonus opener (Rage, Reckless, Hunter's Mark...) leaves the action: pick again.
+  if (ctx2 && sameTurn(ctx2) && pick.opt.cost !== 'action' && !ctx2.combat.combatants[c.id].used.action) {
+    tookThisTurn.keys.add(pick.opt.key);
+    return true;
+  }
   if (ctx2 && sameTurn(ctx2)) {
     const more = listActions(ctx2).filter((o) => o.usable && o.cost === 'bonus' && (o.fortune === 'attack' || o.fortune === 'heal') && o.key !== 'rank');
     if (more.length && !(more[0].fortune === 'heal' && c.hp > c.maxHp * 0.6)) {

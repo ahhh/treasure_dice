@@ -1,4 +1,4 @@
-/** The five echoes beyond the Fifth Door (plan §6). */
+/** The five echoes, each behind its own door (plan §6); Tiamat waits behind the sixth. */
 import type { BiomeId, RoomType } from '../engine/types.ts';
 
 export interface BiomeDef {

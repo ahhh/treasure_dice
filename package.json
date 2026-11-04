@@ -11,6 +11,7 @@
     "test:ui": "node scripts/ui-all.mjs",
     "typecheck": "tsc --noEmit",
     "sim": "node scripts/sim.ts",
+    "playtest": "node scripts/playtest.ts",
     "art-spec": "node scripts/export-art-spec.ts"
   },
   "devDependencies": {

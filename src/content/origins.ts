@@ -71,5 +71,5 @@ export function uniqueName(rng: Rng, taken: Iterable<string>): string {
 
 export const EPITHETS = [
   'the Bold', 'Ashborn', 'of the Lantern', 'Dicehand', 'the Quiet', 'Coinsworn', 'the Unlucky', 'Thrice-Risen',
-  'Stormcalled', 'of Five Doors', 'the Gilded', 'Bonecaster', 'Lightfoot', 'the Grey', 'Oathbound', 'the Sly',
+  'Stormcalled', 'of Six Doors', 'the Gilded', 'Bonecaster', 'Lightfoot', 'the Grey', 'Oathbound', 'the Sly',
 ];

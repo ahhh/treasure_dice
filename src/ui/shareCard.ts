@@ -22,7 +22,7 @@ interface RankDef { n: string; sub: string; a: string; b: string }
 const RANKS: RankDef[] = [
   { n: 'Lantern-Bearer', sub: 'A Keep just finding its feet', a: '#c9a24a', b: '#7a5a1a' },
   { n: 'Echo-Breaker', sub: 'Heroes the echoes have learned to fear', a: '#8fd3ff', b: '#3d6bff' },
-  { n: 'Doorwarden', sub: 'Keepers of the Fifth Door', a: '#c8e070', b: '#3f8f4a' },
+  { n: 'Doorwarden', sub: 'Keepers of the Sixth Door', a: '#c8e070', b: '#3f8f4a' },
   { n: 'Mythic Keeper', sub: 'Legends in the making', a: '#ffb347', b: '#e2403a' },
   { n: 'Champion of the Keep', sub: 'Ready to face the Dragon Queen', a: '#f2c14e', b: '#b3233a' },
   { n: 'Dragonslayer', sub: 'Tiamat has fallen', a: '#ffe08a', b: '#ff6bd5' },
@@ -209,7 +209,7 @@ export async function renderShareCard(game: GameState, canvas: HTMLCanvasElement
 
   // Header.
   text(g, 'TREASURE DICE', W / 2, 112, { font: `600 70px ${HEAD}`, spacing: 6, fill: grad(g, 0, 60, 0, 120, ['#ffe9a8', '#c9a24a']), glow: '#000', blur: 16 });
-  text(g, 'ECHOES OF THE FIFTH DOOR · KEEPER\'S RECORD', W / 2, 150, { font: `600 20px ${HEAD}`, spacing: 4, fill: R.a });
+  text(g, 'ECHOES OF THE SIXTH DOOR · KEEPER\'S RECORD', W / 2, 150, { font: `600 20px ${HEAD}`, spacing: 4, fill: R.a });
   if (game.profile.keeperName) text(g, game.profile.keeperName.toUpperCase(), W / 2, 210, { font: `700 30px ${BODY}`, spacing: 4, fill: '#ffffff', maxW: 900 });
   const rankFill = tier >= 5 ? grad(g, 160, 0, W - 160, 0, PRISM) : grad(g, 0, 220, 0, 280, [R.a, R.b]);
   text(g, R.n.toUpperCase(), W / 2, 272, { font: `600 64px ${HEAD}`, spacing: 3, fill: rankFill, glow: tier ? R.b : '#000', blur: 8 + tier * 5, maxW: 960 });

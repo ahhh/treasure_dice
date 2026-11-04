@@ -14,7 +14,7 @@ import { charmSlots } from '../fortune/tray.ts';
 import { CURSES } from '../fortune/curses.ts';
 import { TOKENS } from '../fortune/boons.ts';
 import { METAMAGIC } from '../content/classes.ts';
-import { MONSTERS, tierIndex } from '../content/monsters.ts';
+import { MONSTERS, tierIndex, TRAIT_INFO, type MonsterTrait } from '../content/monsters.ts';
 import { BIOMES } from '../content/biomes.ts';
 import { Rng } from '../engine/rng.ts';
 import { showTip, touchUi } from './tips.ts';
@@ -125,7 +125,7 @@ function enemyEl(c: Combatant, targetable: boolean): HTMLElement {
     class: `enemy ${c.mon?.boss ? 'boss' : ''} ${c.mon?.elite ? 'elite' : ''} tier${tier} ${targetable ? 'targetable' : ''} ${c.dead ? 'dead' : ''}`,
     'data-cid': c.id, tabindex: targetable ? 0 : -1, role: targetable ? 'button' : undefined,
     'aria-label': `${c.name}, ${c.hp} of ${c.maxHp} HP${targetable ? ' — target' : ''}`,
-    title: `${c.name} — AC ${c.ac}. ${def?.flavor ?? ''}${c.mon?.resist.length ? ` Resists ${c.mon.resist.join(', ')}.` : ''}${c.mon?.vuln.length ? ` Weak to ${c.mon.vuln.join(', ')}.` : ''}`,
+    title: `${c.name} — AC ${c.ac}. ${def?.flavor ?? ''}${c.mon?.resist.length ? ` Resists ${c.mon.resist.join(', ')}.` : ''}${c.mon?.vuln.length ? ` Weak to ${c.mon.vuln.join(', ')}.` : ''}${c.mon?.traits?.length ? ` ${c.mon.traits.map((t) => { const i = TRAIT_INFO[t as MonsterTrait]; return i ? `${i.name}: ${i.text}` : ''; }).join(' ')}` : ''}`,
     on: targetable ? { click: () => clickTarget(c), keydown: (e: Event) => { if ((e as KeyboardEvent).key === 'Enter') clickTarget(c); } } : undefined,
   },
     tele ? h('span', { class: 'tele' }, `⚠ ${tele}`) : null,

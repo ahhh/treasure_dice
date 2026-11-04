@@ -20,7 +20,7 @@ import { exportSave } from '../persistence/save.ts';
 import { download } from './title.ts';
 import { saveGame } from '../persistence/save.ts';
 import { sfx } from './audio.ts';
-import { PROLOGUE, CHAPTERS, HEADS, FINALE, FINALE_LEVEL, EPILOGUE, finaleBlocked, storyOf } from '../content/story.ts';
+import { PROLOGUE, CHAPTERS, HEADS, FINALE, FINALE_LEVEL, EPILOGUE, finaleBlocked, storyOf, doorName } from '../content/story.ts';
 import { openShareCard } from './shareCard.ts';
 
 const TABS: [string, string, string][] = [
@@ -170,7 +170,7 @@ function cartTab(): HTMLElement {
         h('input', { id: 'seed', value: ui.seed, style: 'background:#0b1230;color:inherit;border:1px solid #556;padding:6px;border-radius:4px;font:inherit;width:160px', on: { change: (e: Event) => { ui.seed = (e.target as HTMLInputElement).value.trim().toUpperCase() || randomSeed(); } } }),
         btn('Random', () => { ui.seed = randomSeed(); render(); }, { cls: 'small' }),
         h('span', { class: 'spacer' }),
-        btn(finale ? 'Face the Dragon Queen' : 'Open the Fifth Door', () => {
+        btn(finale ? 'Open the Sixth Door' : `Open the ${doorName(ui.biome as BiomeId)}`, () => {
           const r = run(finale
             ? { type: 'startExpedition', partyIds: ui.party, biome: 'starfall', difficulty: ui.difficulty, seed: ui.seed, finale: true }
             : { type: 'startExpedition', partyIds: ui.party, biome: ui.biome as BiomeId, difficulty: ui.difficulty, seed: ui.seed, size: ui.size });

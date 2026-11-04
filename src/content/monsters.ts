@@ -22,6 +22,14 @@ export interface MonsterDef {
   boss?: { curse: CurseId; phases: number; title: string; intro: string; hpMult?: number };
   /** Final-stage boss: never rolled into an ordinary echo. */
   finale?: boolean;
+  /** Party level band in which it is rolled into encounters (like a CR band). Summons ignore this. */
+  minLevel?: number;
+  maxLevel?: number;
+  /** Signature traits it always has, on top of its role's tier traits. */
+  traits?: MonsterTrait[];
+  /** Extra actions it learns at heroic (party level 11+) and mythic (17+) tiers. */
+  heroic?: MonsterAction[];
+  mythic?: MonsterAction[];
   flavor: string;
   /** Visual description for the art pipeline. */
   look: string;
@@ -32,11 +40,73 @@ const save = (id: string, name: string, dmg: number, type: DamageType, ability: 
 const hex = (id: string, name: string, h: HexId, weight = 1.5, text?: string): MonsterAction => ({ id, name, kind: 'hex', hex: h, target: 'self', weight, text });
 const heal = (id: string, name: string, dmg: number, weight = 2): MonsterAction => ({ id, name, kind: 'heal', dmg, target: 'ally', weight });
 
+/**
+ * Passive monster traits. Every role picks some up as the party climbs tiers
+ * (ROLE_TRAITS), so a level-15 Slag Hound fights differently from a level-3
+ * one instead of only having bigger numbers.
+ */
+export type MonsterTrait =
+  | 'multiattack'   // attack actions strike 2× (heroic) or 3× (mythic) at reduced damage each
+  | 'uncannyDodge'  // halves the first hero hit it takes each round
+  | 'magicResist'   // advantage on saving throws
+  | 'retaliate'     // melee attackers take a counter-blow
+  | 'deathburst'    // explodes on death, hitting the front rank
+  | 'massMend'      // its healing spreads to every ally
+  | 'frenzy'        // +30% damage while bloodied (below half HP)
+  | 'pack'          // advantage on attacks while an ally shares its rank
+  | 'lair'          // boss: a lair action at the top of every round
+  | 'relentless';   // boss: may strike again even in phase 1
+
+export const TRAIT_INFO: Record<MonsterTrait, { name: string; text: string }> = {
+  multiattack: { name: 'Multiattack', text: 'Its attacks strike several times.' },
+  uncannyDodge: { name: 'Uncanny Dodge', text: 'Halves the first hit it takes each round.' },
+  magicResist: { name: 'Magic Resistance', text: 'Advantage on saving throws.' },
+  retaliate: { name: 'Retaliation', text: 'Strikes back at anyone who hits it in melee.' },
+  deathburst: { name: 'Death Burst', text: 'Explodes when it dies, hurting the front rank.' },
+  massMend: { name: 'Mass Mending', text: 'Its healing reaches every ally.' },
+  frenzy: { name: 'Frenzy', text: 'Hits 30% harder while bloodied.' },
+  pack: { name: 'Pack Tactics', text: 'Advantage on attacks while an ally stands in its rank.' },
+  lair: { name: 'Lair Actions', text: 'The lair itself strikes at the top of every round.' },
+  relentless: { name: 'Relentless', text: 'Often strikes twice in a turn.' },
+};
+
+/** Traits each role gains at heroic (index 2: level 11+) and mythic (index 3: level 17+). */
+export const ROLE_TRAITS: Record<Role, [MonsterTrait[], MonsterTrait[]]> = {
+  brute: [['multiattack'], ['multiattack', 'frenzy']],
+  skirmisher: [['uncannyDodge'], ['uncannyDodge', 'pack']],
+  controller: [['magicResist'], ['magicResist', 'uncannyDodge']],
+  artillery: [[], ['magicResist']],
+  healer: [['massMend'], ['massMend', 'magicResist']],
+  defender: [['retaliate'], ['retaliate', 'magicResist']],
+  minion: [['deathburst'], ['deathburst', 'pack']],
+  boss: [['relentless'], ['relentless', 'lair', 'magicResist']],
+};
+
+export function monsterTraits(def: MonsterDef, level: number): MonsterTrait[] {
+  const t = tierIndex(level);
+  const out = new Set<MonsterTrait>(def.traits ?? []);
+  if (t >= 2) for (const x of ROLE_TRAITS[def.role][t - 2]) out.add(x);
+  return [...out];
+}
+
+/** Actions at this level: base kit, tier-unlocked moves, and an artillery barrage from heroic on. */
+export function monsterActions(def: MonsterDef, level: number): MonsterAction[] {
+  const t = tierIndex(level);
+  const out = def.actions.slice();
+  if (t >= 2) out.push(...(def.heroic ?? []));
+  if (t >= 3) out.push(...(def.mythic ?? []));
+  if (t >= 2 && def.role === 'artillery' && !out.some((a) => a.kind === 'save' && a.target === 'all')) {
+    const main = def.actions.find((a) => a.kind === 'attack');
+    out.push({ id: 'barrage', name: 'Barrage', kind: 'save', dmg: 0.55, damageType: main?.damageType ?? 'force', save: 'dex', halfOnSave: true, target: 'all', weight: 1.6 });
+  }
+  return out;
+}
+
 export const MONSTERS: Record<string, MonsterDef> = {};
 const M = (d: MonsterDef) => { MONSTERS[d.id] = d; };
 
 // ── 1. Cinder Vaults ─────────────────────────────────────────────────────────
-M({ id: 'sootGoblin', name: 'Soot Goblin', biome: 'cinder', role: 'skirmisher', rank: 'front', tags: ['humanoid', 'goblinoid'],
+M({ id: 'sootGoblin', name: 'Soot Goblin', biome: 'cinder', role: 'skirmisher', rank: 'front', tags: ['humanoid', 'goblinoid'], maxLevel: 14,
   actions: [atk('shiv', 'Soot Shiv', 1, 'slashing'), hex('pilfer', 'Pilfer', 'pilfer', 1.2)],
   flavor: 'Quick hands, sooty grins, and a nose for your dice.', look: 'a wiry soot-blackened goblin miner with a jagged knife, ember-lit eyes and a sack of stolen dice' });
 M({ id: 'emberImp', name: 'Ember Imp', biome: 'cinder', role: 'artillery', rank: 'back', tags: ['fiend'], resist: ['fire'], immune: ['fire'], vuln: ['cold'],
@@ -63,12 +133,12 @@ M({ id: 'ashHydra', name: 'Ash Hydra', biome: 'cinder', role: 'boss', rank: 'fro
   boss: { curse: 'ashen', phases: 2, title: 'The Many-Throated', intro: 'Five necks of cinder rise from the ash pit.' },
   flavor: 'Every head you cut grows back hotter.', look: 'a five-headed hydra of charcoal scales and glowing ember throats rising from an ash pit' });
 M({ id: 'boundEmber', name: 'The Bound Ember', biome: 'cinder', role: 'boss', rank: 'back', tags: ['elemental'], immune: ['fire', 'poison'], vuln: ['cold'],
-  actions: [atk('flare', 'Solar Flare', 1.1, 'fire', 3, { ranged: true }), save('nova', 'Nova', 1.0, 'fire', 'dex', 'all', 2, { telegraph: true }), hex('thorns', 'Searing Grip', 'drain', 1.5)],
+  actions: [atk('flare', 'Solar Flare', 1.2, 'fire', 3, { ranged: true }), save('nova', 'Nova', 1.1, 'fire', 'dex', 'all', 2, { telegraph: true }), hex('thorns', 'Searing Grip', 'drain', 1.5)],
   boss: { curse: 'thorns', phases: 2, title: 'Fire in Chains', intro: 'Chained in runes, a living star strains against its prison.' },
   flavor: 'A fire elemental chained beneath the vaults for an age.', look: 'a blazing fire elemental bound by glowing runic chains, a white-hot core and a crown of flame' });
 
 // ── 2. Rootbound Halls ───────────────────────────────────────────────────────
-M({ id: 'sporeling', name: 'Sporeling', biome: 'rootbound', role: 'minion', rank: 'front', tags: ['plant'], resist: ['poison'],
+M({ id: 'sporeling', name: 'Sporeling', biome: 'rootbound', role: 'minion', rank: 'front', tags: ['plant'], resist: ['poison'], maxLevel: 14,
   actions: [atk('headbutt', 'Cap Bash', 1, 'bludgeoning', 3), { id: 'puff', name: 'Spore Puff', kind: 'condition', dmg: 0.4, damageType: 'poison', target: 'single', weight: 1.5, save: 'con', condition: { id: 'poisoned', rounds: 2 } }],
   flavor: 'Waddling mushrooms with a toxic sneeze.', look: 'a waddling knee-high mushroom creature with a spotted cap, puffing a cloud of glowing spores' });
 M({ id: 'mossWight', name: 'Moss Wight', biome: 'rootbound', role: 'brute', rank: 'front', tags: ['undead'], resist: ['necrotic', 'poison'], vuln: ['radiant', 'fire'],
@@ -87,7 +157,7 @@ M({ id: 'barkGolem', name: 'Bark Golem', biome: 'rootbound', role: 'defender', r
   actions: [atk('slam', 'Trunk Slam', 1, 'bludgeoning', 3), { id: 'bark', name: 'Barkskin Grove', kind: 'buff', target: 'allies', weight: 1, condition: { id: 'shielded', rounds: 1, value: 2 } }],
   flavor: 'Old oak shaped into a guardian by forgotten druids.', look: 'a massive golem of living oak bark and roots, moss beard, glowing amber sap eyes' });
 M({ id: 'mycelialMonarch', name: 'The Mycelial Monarch', biome: 'rootbound', role: 'boss', rank: 'back', tags: ['plant'], resist: ['poison', 'necrotic'], vuln: ['fire'],
-  actions: [save('sporestorm', 'Sporestorm', 0.8, 'poison', 'con', 'all', 2, { telegraph: true, condition: { id: 'poisoned', rounds: 2 } }), atk('tendril', 'Tendril', 1, 'bludgeoning', 3), { id: 'summon', name: 'Spawn Sporelings', kind: 'summon', summon: 'sporeling', target: 'self', weight: 1.2 }],
+  actions: [save('sporestorm', 'Sporestorm', 0.8, 'poison', 'con', 'all', 2, { telegraph: true, condition: { id: 'poisoned', rounds: 2 } }), atk('tendril', 'Tendril', 1, 'bludgeoning', 3), { id: 'summon', name: 'Spawn Sporelings', kind: 'summon', summon: 'sporeling', target: 'self', weight: 0.9 }],
   boss: { curse: 'barren', phases: 2, title: 'Crown of the Undergrowth', intro: 'The whole hall breathes spores. Something vast is thinking.' },
   flavor: 'A fungal intelligence that rules the halls from a throne of caps.', look: 'a colossal regal fungus monarch on a throne of mushrooms, a crown of glowing caps and a veil of drifting spores' });
 M({ id: 'thornKnight', name: 'The Thorn Knight', biome: 'rootbound', role: 'boss', rank: 'front', tags: ['fey', 'humanoid'], resist: ['piercing'],
@@ -113,7 +183,7 @@ M({ id: 'tideCultist', name: 'Tide Cultist', biome: 'drowned', role: 'healer', r
   actions: [atk('trident', 'Coral Trident', 0.9, 'piercing', 2), heal('tide', 'Tidal Blessing', 1.5), hex('drain', 'Undertow', 'drain', 1)],
   flavor: 'Eel-cult priests who sing to the inverted tide.', look: 'a scaled tide cultist with a coral trident, eel-skin robes and a conch' });
 M({ id: 'glyphWisp', name: 'Glyph Wisp', biome: 'drowned', role: 'artillery', rank: 'back', tags: ['elemental'], immune: ['lightning'],
-  actions: [atk('zap', 'Glyph Bolt', 1.1, 'lightning', 3, { ranged: true }), save('arc', 'Arc Discharge', 0.7, 'lightning', 'dex', 'back', 1.5)],
+  actions: [atk('zap', 'Glyph Bolt', 1.0, 'lightning', 3, { ranged: true }), save('arc', 'Arc Discharge', 0.7, 'lightning', 'dex', 'back', 1.5)],
   flavor: 'A loose letter of power, crackling between the shelves.', look: 'a floating crackling ball of blue lightning shaped like a glowing rune' });
 M({ id: 'deepLurker', name: 'Deep Lurker', biome: 'drowned', role: 'brute', rank: 'front', tags: ['monstrosity'], resist: ['cold'],
   actions: [atk('tentacle', 'Crushing Tentacle', 1.25, 'bludgeoning', 3), { id: 'drag', name: 'Drag Under', kind: 'condition', dmg: 0.7, damageType: 'bludgeoning', target: 'single', weight: 1.5, save: 'str', condition: { id: 'restrained', rounds: 1 } }],
@@ -123,11 +193,11 @@ M({ id: 'drownedArchivist', name: 'The Drowned Archivist', biome: 'drowned', rol
   boss: { curse: 'void', phases: 2, title: 'Keeper of Unwritten Things', intro: 'Pages swirl in the black water. The Archivist turns to your chapter.' },
   flavor: 'It has catalogued every death in the archive. Yours is next.', look: 'a towering drowned lich-librarian with a hood of floating pages, chained tomes and a lantern of drowned starlight' });
 M({ id: 'tideOracle', name: 'The Tide Oracle', biome: 'drowned', role: 'boss', rank: 'back', tags: ['monstrosity'], resist: ['cold', 'lightning'],
-  actions: [atk('waterLance', 'Water Lance', 1, 'cold', 3, { ranged: true }), save('wave', 'Inverted Tide', 1, 'bludgeoning', 'str', 'all', 2, { telegraph: true, condition: { id: 'prone', rounds: 1 } }), heal('pool', 'Healing Pool', 1.5)],
+  actions: [atk('waterLance', 'Water Lance', 1, 'cold', 3, { ranged: true }), save('wave', 'Inverted Tide', 1, 'bludgeoning', 'str', 'all', 2, { telegraph: true, condition: { id: 'prone', rounds: 1 } }), heal('pool', 'Healing Pool', 1.1, 1.4)],
   boss: { curse: 'oddDrown', phases: 2, title: 'She Who Reads the Tide', intro: 'The water rises upward. A blind oracle smiles at you.' },
   flavor: 'A sea-witch who sees futures in reversed tides.', look: 'a blindfolded sea oracle with a fishtail of glowing scales, floating in an upward-falling column of water' });
-M({ id: 'armoredLeviathan', name: 'The Armored Leviathan', biome: 'drowned', role: 'boss', rank: 'front', tags: ['construct', 'beast'], resist: ['piercing', 'slashing', 'cold'], vuln: ['lightning'],
-  actions: [atk('ram', 'Brass Ram', 1.3, 'bludgeoning', 3), save('surge', 'Pressure Surge', 1, 'bludgeoning', 'con', 'all', 2, { telegraph: true }), { id: 'plates', name: 'Seal Plates', kind: 'buff', target: 'self', weight: 1, condition: { id: 'shielded', rounds: 2, value: 4 } }],
+M({ id: 'armoredLeviathan', name: 'The Armored Leviathan', biome: 'drowned', role: 'boss', rank: 'front', tags: ['construct', 'beast'], resist: ['piercing', 'cold'], vuln: ['lightning'],
+  actions: [atk('ram', 'Brass Ram', 1.15, 'bludgeoning', 3), save('surge', 'Pressure Surge', 0.9, 'bludgeoning', 'con', 'all', 2, { telegraph: true }), { id: 'plates', name: 'Seal Plates', kind: 'buff', target: 'self', weight: 1, condition: { id: 'shielded', rounds: 2, value: 3 } }],
   boss: { curse: 'tide', phases: 2, title: 'The Pump-Heart Beast', intro: 'Pistons thunder. A whale of brass and barnacles surfaces.' },
   flavor: 'A great beast caged in brass to drive the archive\'s pumps.', look: 'an enormous armored leviathan encased in brass plating and pistons, barnacled, porthole eyes glowing' });
 
@@ -137,6 +207,7 @@ M({ id: 'shardStalker', name: 'Shard Stalker', biome: 'mirror', role: 'skirmishe
   flavor: 'A predator of broken glass that moves between reflections.', look: 'a lean predator made of jagged mirror shards, reflecting distorted faces' });
 M({ id: 'mirrorMimic', name: 'Mirror Mimic', biome: 'mirror', role: 'controller', rank: 'front', tags: ['monstrosity'],
   actions: [atk('bite', 'Glass Maw', 1, 'piercing', 3), hex('invert', 'Reversal', 'invert', 1.5)],
+  heroic: [{ id: 'swallow', name: 'Swallow Whole', kind: 'condition', dmg: 1.2, damageType: 'piercing', target: 'single', weight: 2, save: 'str', condition: { id: 'restrained', rounds: 2, saveEnds: true } }],
   flavor: 'It looks like you. Then it opens its mouth.', look: 'an ornate standing mirror whose frame is splitting into a toothy maw with a long tongue' });
 M({ id: 'prismWisp', name: 'Prism Wisp', biome: 'mirror', role: 'artillery', rank: 'back', tags: ['elemental'], resist: ['radiant'],
   actions: [atk('ray', 'Prism Ray', 1.1, 'radiant', 3, { ranged: true }), { id: 'dazzle', name: 'Dazzle', kind: 'condition', target: 'single', weight: 1.2, save: 'con', condition: { id: 'blinded', rounds: 1 } }],
@@ -195,6 +266,43 @@ M({ id: 'epochDevourer', name: 'The Epoch Devourer', biome: 'starfall', role: 'b
   boss: { curse: 'void', phases: 3, title: 'That Which Ends Ages', intro: 'Time goes thin. Something that eats eras uncurls.' },
   flavor: 'It ate the civilisation that built the ossuary. It is still hungry.', look: 'a vast cosmic serpent-worm of void with clock-faces dissolving in its maw and nebula-filled eyes' });
 
+// ── Greater foes (higher "CR": they join encounters as the party levels) ─────
+M({ id: 'cinderGiant', name: 'Cinder Giant', biome: 'cinder', role: 'brute', rank: 'front', tags: ['giant'], resist: ['fire'], vuln: ['cold'], minLevel: 9,
+  actions: [atk('maul', 'Furnace Maul', 1.25, 'bludgeoning', 3), save('quake', 'Ember Quake', 0.8, 'fire', 'dex', 'front', 1.5, { condition: { id: 'prone', rounds: 1 } })],
+  mythic: [atk('hurl', 'Hurl Slag', 1, 'fire', 1.5, { ranged: true, target: 'single' })],
+  flavor: 'The forge-tenders the smiths were afraid of.', look: 'a hulking giant with skin like cooling basalt, magma veins, a soot beard and an enormous furnace-iron maul' });
+M({ id: 'pyreDrake', name: 'Pyre Drake', biome: 'cinder', role: 'artillery', rank: 'back', tags: ['dragon'], immune: ['fire'], vuln: ['cold'], minLevel: 13, traits: ['magicResist'],
+  actions: [atk('spit', 'Firespit', 1.1, 'fire', 3, { ranged: true }), save('breath', 'Pyre Breath', 0.85, 'fire', 'dex', 'all', 1.6, { condition: { id: 'burning', rounds: 2, value: 4 } })],
+  flavor: 'A lean drake that nests in the bellows and breathes the forge\'s heat.', look: 'a lean wingspread fire drake with ember-red scales, smoke curling from its nostrils, perched on a chain over a forge' });
+M({ id: 'blightTreant', name: 'Blight Treant', biome: 'rootbound', role: 'defender', rank: 'front', tags: ['plant'], resist: ['bludgeoning', 'piercing', 'poison'], vuln: ['fire'], minLevel: 9,
+  actions: [atk('crush', 'Root Crush', 1.1, 'bludgeoning', 3), { id: 'roots', name: 'Grasping Roots', kind: 'condition', dmg: 0.5, damageType: 'bludgeoning', target: 'single', weight: 1.5, save: 'str', condition: { id: 'restrained', rounds: 2, saveEnds: true } }, { id: 'grove', name: 'Blighted Grove', kind: 'buff', target: 'allies', weight: 1, condition: { id: 'shielded', rounds: 2, value: 3 } }],
+  flavor: 'A rotting oak-warden that still remembers its oath.', look: 'a towering rotting treant with grey blighted bark, glowing fungal growths and roots tearing up the flagstones' });
+M({ id: 'briarHag', name: 'Briar Hag', biome: 'rootbound', role: 'controller', rank: 'back', tags: ['fey'], resist: ['poison'], minLevel: 13,
+  actions: [atk('claws', 'Thorn Claws', 1, 'slashing', 2), save('bramble', 'Bramble Curse', 0.7, 'piercing', 'str', 'front', 2, { condition: { id: 'restrained', rounds: 1, saveEnds: true } }), hex('jinx', 'Crooked Luck', 'jinx', 1.4)],
+  heroic: [{ id: 'sleepSong', name: 'Lullaby of Rot', kind: 'condition', target: 'single', weight: 1, save: 'wis', condition: { id: 'incapacitated', rounds: 1 } }],
+  flavor: 'She trades in luck and pays in thorns.', look: 'a stooped fey hag with bark-like skin, a cloak of brambles and roses, long thorn fingers and one glowing green eye' });
+M({ id: 'krakenSpawn', name: 'Kraken Spawn', biome: 'drowned', role: 'brute', rank: 'front', tags: ['monstrosity'], resist: ['cold'], vuln: ['lightning'], minLevel: 9,
+  actions: [atk('tentacles', 'Lashing Tentacles', 1.15, 'bludgeoning', 3, { target: 'front' }), { id: 'crush', name: 'Constrict', kind: 'condition', dmg: 0.8, damageType: 'bludgeoning', target: 'single', weight: 1.5, save: 'str', condition: { id: 'restrained', rounds: 2, saveEnds: true } }],
+  flavor: 'Young, hungry, and already too big for the reading pool.', look: 'a young kraken with a beaked maw and a dozen barnacled tentacles bursting up through flooded library shelves' });
+M({ id: 'sunkenLich', name: 'Sunken Lich', biome: 'drowned', role: 'controller', rank: 'back', tags: ['undead'], resist: ['necrotic', 'cold', 'poison'], vuln: ['radiant'], minLevel: 13, traits: ['magicResist'],
+  actions: [atk('touch', 'Drowning Touch', 0.95, 'cold', 3, { ranged: true }), save('wave', 'Black Tide', 0.7, 'necrotic', 'con', 'all', 1.4), { id: 'word', name: 'Word of Stillness', kind: 'condition', target: 'single', weight: 1, save: 'wis', condition: { id: 'incapacitated', rounds: 1 } }],
+  mythic: [hex('erase', 'Unwrite', 'invert', 1)],
+  flavor: 'A scholar who chose the water over forgetting.', look: 'a gaunt drowned lich in waterlogged scholar robes, kelp in its crown, a phylactery lantern and pages swirling around it' });
+M({ id: 'mirrorKnight', name: 'Mirror Knight', biome: 'mirror', role: 'brute', rank: 'front', tags: ['construct'], resist: ['radiant', 'slashing'], vuln: ['thunder', 'bludgeoning'], minLevel: 9,
+  actions: [atk('blade', 'Reflected Blade', 1.2, 'slashing', 3), { id: 'mirror', name: 'Mirror Stance', kind: 'buff', target: 'self', weight: 1, condition: { id: 'shielded', rounds: 1, value: 4 } }],
+  heroic: [hex('reverse', 'Turn the Blade', 'invert', 1)],
+  flavor: 'Armour polished so long it forgot there was a knight inside.', look: 'a tall knight of polished mirror-plate with no one inside, its silvered greatsword reflecting the viewer' });
+M({ id: 'facetArchon', name: 'Facet Archon', biome: 'mirror', role: 'healer', rank: 'back', tags: ['celestial'], resist: ['radiant'], minLevel: 13,
+  actions: [atk('beam', 'Refracted Beam', 1, 'radiant', 3, { ranged: true }), heal('light', 'Prismatic Renewal', 1.4), { id: 'blind', name: 'Blinding Facet', kind: 'condition', target: 'single', weight: 1.2, save: 'con', condition: { id: 'blinded', rounds: 1 } }],
+  flavor: 'An angel of the reliquary, cut like a jewel.', look: 'a floating crystalline angel made of cut gemstone facets with wings of split rainbow light' });
+M({ id: 'nebulaWraith', name: 'Nebula Wraith', biome: 'starfall', role: 'skirmisher', rank: 'front', tags: ['undead'], resist: ['necrotic', 'cold', 'force'], vuln: ['radiant'], minLevel: 9,
+  actions: [atk('touch', 'Starless Touch', 1.1, 'necrotic', 3), { id: 'chill', name: 'Void Chill', kind: 'condition', dmg: 0.5, damageType: 'cold', target: 'single', weight: 1.5, save: 'con', condition: { id: 'frightened', rounds: 1 } }],
+  mythic: [hex('drain', 'Drink the Light', 'drain', 1)],
+  flavor: 'A dead astronomer, now mostly the dark between stars.', look: 'a tattered wraith whose body is a swirling violet nebula with pinprick stars, reaching with long shadow claws' });
+M({ id: 'starwyrm', name: 'Starwyrm', biome: 'starfall', role: 'artillery', rank: 'back', tags: ['dragon'], resist: ['force', 'radiant', 'cold'], minLevel: 13, traits: ['magicResist'],
+  actions: [atk('bite', 'Comet Bite', 1.15, 'piercing', 2), atk('bolt', 'Starbolt', 1.1, 'radiant', 3, { ranged: true }), save('breath', 'Gravity Breath', 0.8, 'force', 'str', 'all', 1.3, { condition: { id: 'prone', rounds: 1 } })],
+  flavor: 'A serpent that coils in orbit and breathes falling stars.', look: 'a long serpentine dragon with deep-blue scales dusted with constellations and a mane of trailing comet-light' });
+
 // ── The finale ───────────────────────────────────────────────────────────────
 M({ id: 'tiamat', name: 'Tiamat', biome: 'starfall', role: 'boss', rank: 'front', tags: ['dragon', 'fiend'], finale: true,
   resist: ['fire', 'cold', 'lightning', 'acid', 'poison'],
@@ -211,13 +319,15 @@ M({ id: 'tiamat', name: 'Tiamat', biome: 'starfall', role: 'boss', rank: 'front'
     hex('glare', 'Queen\'s Glare', 'jinx', 0.8),
   ],
   boss: { curse: 'chromatic', phases: 3, hpMult: 1.6, title: 'the Dragon Queen', intro: 'Five heads rise above the hoard. Each breathes a different death.' },
-  flavor: 'The five-headed Dragon Queen, sealed beyond the Fifth Door for an age, and awake again.',
+  flavor: 'The five-headed Dragon Queen, sealed behind the Sixth Door for an age, and awake again.',
   look: 'Tiamat, a colossal five-headed chromatic dragon queen with red, blue, green, black and white heads, coiled atop a mountain of gold coins and dice, wings spread' });
 
 export const MONSTER_LIST = Object.values(MONSTERS);
 
-export function biomeMonsters(biome: BiomeId, bosses = false): MonsterDef[] {
-  return MONSTER_LIST.filter((m) => m.biome === biome && !m.finale && (bosses ? m.role === 'boss' : m.role !== 'boss'));
+/** A biome's monsters; with `level`, only those whose level band fits. */
+export function biomeMonsters(biome: BiomeId, bosses = false, level?: number): MonsterDef[] {
+  return MONSTER_LIST.filter((m) => m.biome === biome && !m.finale && (bosses ? m.role === 'boss' : m.role !== 'boss')
+    && (level === undefined || ((m.minLevel ?? 1) <= level && level <= (m.maxLevel ?? 20))));
 }
 
 export const TIER_TITLES = ['', 'Veteran ', 'Dread ', 'Mythic '];

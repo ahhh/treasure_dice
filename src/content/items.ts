@@ -144,7 +144,7 @@ const T = (id: string, name: string, price: number, rarity: Rarity, trinket: Tri
   T('rodPact', 'Rod of the Pact Keeper', 600, 'rare', { spellDc: 1 }, '+1 spell save DC and spell attacks.', 2),
   T('wandWar', "Wand of the War Mage", 600, 'rare', { spellDc: 1 }, '+1 spell attack rolls and save DC.', 2),
   T('hawkEye', "Falconer's Eye", 700, 'rare', { critRange: 1 }, 'Critical hits on one lower d20 face.', 3, true),
-  T('diceOfTheDoor', 'Bone of the Fifth Door', 1500, 'veryRare', { rerolls: 1, saves: 1, ac: 1 }, 'An old die-bone that hums near the door: +1 reroll, +1 AC, +1 saves.', 4, true),
+  T('diceOfTheDoor', 'Bone of the Sixth Door', 1500, 'veryRare', { rerolls: 1, saves: 1, ac: 1 }, 'An old die-bone that hums near the door: +1 reroll, +1 AC, +1 saves.', 4, true),
   T('beltGiant', 'Belt of Hill Giant Strength', 2500, 'rare', { setAbility: { str: 21 } }, 'Strength becomes 21.', 4, true),
   // Dice-touched trinkets: skills that unlock tray tricks, dice for the bag, hands and colours.
   T('glovesThievery', 'Gloves of Thievery', 300, 'uncommon', { skillProf: ['sleightOfHand'], skillBonus: { sleightOfHand: 5 } }, '+5 Sleight of Hand, and its Palm trick: swap a tray die for the next one in the bag.', 1),

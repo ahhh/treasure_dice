@@ -7,10 +7,10 @@ import type {
 } from '../engine/types.ts';
 import { Rng } from '../engine/rng.ts';
 import { rollD20, combineAdvantage, roll, type Advantage } from '../engine/dice.ts';
-import { MONSTERS, TIER_TITLES, tierIndex } from '../content/monsters.ts';
+import { MONSTERS, TIER_TITLES, tierIndex, monsterActions, monsterTraits } from '../content/monsters.ts';
 import { derive, mod } from '../rules/character.ts';
 import {
-  monsterHp, monsterDamage, monsterAttack, monsterAc, monsterDc, depthScale, DIFFICULTY_MOD, ROLE_MOD, ELITE_MOD, VITALITY, ECHO,
+  monsterHp, monsterDamage, monsterAttack, monsterAc, monsterDc, depthScale, levelPressure, DIFFICULTY_MOD, ROLE_MOD, ELITE_MOD, VITALITY, ECHO,
 } from '../rules/balance.ts';
 import { monsterIdOf } from '../dungeon/generator.ts';
 import { startCombatTray, handSize, endCombatTray, addGhostDie } from '../fortune/tray.ts';
@@ -26,6 +26,22 @@ export interface Ctx {
   fortuneRng: Rng;
   aiRng: Rng;
 }
+
+/**
+ * Optional observer for offline playtesting (scripts/playtest.ts). The game
+ * never sets it; when unset every call site is a no-op.
+ */
+export interface TelemetrySink {
+  damage?(ctx: Ctx, e: { target: Combatant; attacker?: Combatant; source: string; amount: number; overkill: number }): void;
+  down?(ctx: Ctx, e: { target: Combatant; attacker?: Combatant; source: string }): void;
+  kill?(ctx: Ctx, e: { target: Combatant; attacker?: Combatant; source: string }): void;
+  heroAction?(ctx: Ctx, e: { actor: Combatant; key: string; label: string }): void;
+  monsterAction?(ctx: Ctx, e: { actor: Combatant; actionId: string; name: string }): void;
+  heal?(ctx: Ctx, e: { target: Combatant; amount: number; source: string }): void;
+  /** Damage lost to overkill on an attack that does not carry over. */
+  wasted?(ctx: Ctx, e: { attacker: Combatant; amount: number }): void;
+}
+export const telemetry: { sink?: TelemetrySink } = {};
 
 export function makeCtx(game: GameState): Ctx {
   const exp = game.expedition!;
@@ -101,8 +117,9 @@ export function scaledMonster(ctx: { exp: Expedition }, entry: string, idx: numb
   const role = ROLE_MOD[def.role] ?? ROLE_MOD.brute;
   const diff = DIFFICULTY_MOD[ctx.exp.difficulty];
   const depth = depthScale(ctx.exp.depth, L);
-  let hp = monsterHp(L) * role.hp * diff.hp * depth;
-  let dmg = monsterDamage(L) * role.dmg * diff.dmg * (1 + 0.04 * ctx.exp.depth);
+  const press = levelPressure(L);
+  let hp = monsterHp(L) * role.hp * diff.hp * press.hp * depth;
+  let dmg = monsterDamage(L) * role.dmg * diff.dmg * press.dmg * (1 + 0.04 * ctx.exp.depth);
   let ac = monsterAc(L) + role.ac;
   let atk = monsterAttack(L) + role.atk;
   if (elite) { hp *= ELITE_MOD.hp; dmg *= ELITE_MOD.dmg; ac += ELITE_MOD.ac; atk += ELITE_MOD.atk; }
@@ -124,8 +141,8 @@ export function scaledMonster(ctx: { exp: Expedition }, entry: string, idx: numb
     used: { action: false, bonus: false, reaction: false, fortune: false, extraFortune: 0 },
     mon: {
       role: def.role, attackBonus: atk, saveDc: dc, dmgBase: Math.max(2, Math.round(dmg)), saves,
-      resist: def.resist ?? [], immune: def.immune ?? [], vuln: def.vuln ?? [], actions: def.actions, recharge: {},
-      tags: def.tags, boss: def.role === 'boss', phase: 1, phases: def.boss?.phases ?? 1, elite,
+      resist: def.resist ?? [], immune: def.immune ?? [], vuln: def.vuln ?? [], actions: monsterActions(def, L), recharge: {},
+      tags: def.tags, boss: def.role === 'boss', phase: 1, phases: def.boss?.phases ?? 1, elite, traits: monsterTraits(def, L),
     },
   };
 }
@@ -177,7 +194,11 @@ export function startCombat(game: GameState, roomKey: string, entries: string[],
       ctx.combat.legendary[b.id] = exp.partyLevel >= 11 ? 3 : 2;
       log(ctx, `${def.name}, ${def.boss?.title}! ${def.boss?.intro}`, 'warn');
     }
-  } else if (kind === 'elite') {
+  }
+  // From heroic tier on, elites shrug off a crippling effect or two.
+  const eliteResist = exp.partyLevel >= 17 ? 2 : exp.partyLevel >= 11 ? 1 : 0;
+  if (eliteResist) for (const e of enemies(ctx)) if (e.mon?.elite) ctx.combat.legendary[e.id] = eliteResist;
+  if (kind === 'elite') {
     // Elites bring a lesser curse on perilous or deeper runs.
     const pool: CurseId[] = ['hunger', 'silence', 'oddDrown', 'evenMirror', 'ashen'];
     if (DIFFICULTY_MOD[exp.difficulty].eliteCurse || exp.depth >= 4) combat.curse = ctx.rng.pick(pool);
@@ -275,6 +296,8 @@ export function current(ctx: Ctx): Combatant | undefined {
 export const hooks = {
   heroTurnStart: (_ctx: Ctx, _c: Combatant) => {},
   enemyTurn: (_ctx: Ctx, _c: Combatant) => {},
+  /** Lair actions and other top-of-round effects. */
+  roundStart: (_ctx: Ctx) => {},
   victory: (_ctx: Ctx) => {},
 };
 
@@ -326,7 +349,10 @@ export function advance(ctx: Ctx) {
 
 function startRound(ctx: Ctx) {
   log(ctx, `— Round ${ctx.combat.round} —`, 'info');
+  hooks.roundStart(ctx);
 }
+
+export const hasTrait = (c: Combatant, t: string) => !!c.mon?.traits?.includes(t);
 
 export function startOfTurn(ctx: Ctx, c: Combatant) {
   // Conditions that act at turn start.
@@ -414,6 +440,7 @@ export function savingThrow(ctx: Ctx, c: Combatant, ability: Ability, dc: number
     if (has(c, 'staggered')) { dis++; removeCondition(c, 'staggered'); }
     const bane = cond(c, 'baned');
     if (bane) bonus -= roll(ctx.rng, '1d4').total;
+    if (hasTrait(c, 'magicResist')) adv++;
   } else {
     const h = heroOf(ctx, c)!;
     bonus = heroSave(ctx, c, ability);
@@ -481,6 +508,17 @@ export function applyDamage(ctx: Ctx, target: Combatant, parts: DmgPart[], opts:
     if (parts.some((p) => p.amount > 0)) log(ctx, `${target.name} is unharmed.`, 'info');
     return 0;
   }
+  const heroHit = target.side === 'enemy' && opts.attacker?.side === 'hero' && !opts.noFortune;
+  if (heroHit && hasTrait(target, 'uncannyDodge') && !target.used.reaction && !target.downed) {
+    target.used.reaction = true;
+    total = Math.round(total / 2);
+    log(ctx, `${target.name} twists away — Uncanny Dodge halves the hit.`, 'info');
+  }
+  if (heroHit && opts.melee && hasTrait(target, 'retaliate') && opts.attacker && !opts.attacker.dead && !opts.attacker.downed) {
+    const back = Math.round(target.mon!.dmgBase * 0.35);
+    log(ctx, `${target.name} retaliates against ${opts.attacker.name}!`, 'enemy');
+    applyDamage(ctx, opts.attacker, [{ type: 'force', amount: back }], { source: `${target.name} (Retaliation)`, attacker: target, noFortune: true });
+  }
   // Downed hero hit → death save failure.
   if (target.side === 'hero' && target.downed) {
     target.deathSaves.f += opts.crit ? 2 : 1;
@@ -503,6 +541,7 @@ export function applyDamage(ctx: Ctx, target: Combatant, parts: DmgPart[], opts:
   target.hp = Math.max(0, target.hp - rem);
   const lost = before - target.hp;
   fx(ctx, { kind: opts.crit ? 'crit' : 'dmg', target: target.id, amount: total, actor: opts.attacker?.id });
+  telemetry.sink?.damage?.(ctx, { target, attacker: opts.attacker, source: opts.source, amount: lost + (total - rem), overkill: Math.max(0, rem - before) });
 
   // Sleep/hypnotic break on damage.
   for (const id of ['unconscious', 'incapacitated'] as ConditionId[]) {
@@ -577,6 +616,7 @@ function dropToZero(ctx: Ctx, target: Combatant, opts: DmgOpts) {
   target.deathSaves = { s: 0, f: 0 };
   target.conditions = target.conditions.filter((c) => ['blessed'].includes(c.id));
   if (target.concentration) endConcentration(ctx, target);
+  telemetry.sink?.down?.(ctx, { target, attacker: opts.attacker, source: opts.source });
   log(ctx, `${target.name} falls unconscious!`, 'death');
   fx(ctx, { kind: 'down', target: target.id });
   // Periapt: auto-stabilise.
@@ -593,6 +633,7 @@ export function kill(ctx: Ctx, target: Combatant, source: string, attacker?: Com
   target.downed = false;
   target.hp = 0;
   if (target.concentration) endConcentration(ctx, target);
+  telemetry.sink?.kill?.(ctx, { target, attacker, source });
   if (target.side === 'enemy') {
     ctx.combat.kills += 1;
     log(ctx, `${target.name} is destroyed!`, 'death');
@@ -600,6 +641,15 @@ export function kill(ctx: Ctx, target: Combatant, source: string, attacker?: Com
     for (const ch of ctx.exp.fortune.charms) CHARM_BY_ID[ch.id]?.onKill?.(ch, ctx.exp.fortune);
     // Remove zones targeting it.
     ctx.combat.zones = ctx.combat.zones.filter((z) => z.targetId !== target.id || z.target !== 'enemy');
+    if (hasTrait(target, 'deathburst')) {
+      const front = livingHeroes(ctx).filter((h) => h.rank === 'front');
+      const type = target.mon!.actions.find((a) => a.damageType)?.damageType ?? 'force';
+      log(ctx, `${target.name} bursts as it dies!`, 'enemy');
+      for (const h of front) {
+        const ok = savingThrow(ctx, h, 'dex', target.mon!.saveDc);
+        applyDamage(ctx, h, [{ type, amount: target.mon!.dmgBase * (ok ? 0.25 : 0.5) }], { source: `${target.name} (Death Burst)`, attacker: target });
+      }
+    }
     if (attacker?.side === 'hero') {
       const h = heroOf(ctx, attacker)!;
       h.history.kills += 1;
@@ -635,6 +685,7 @@ export function heal(ctx: Ctx, target: Combatant, amount: number, source: string
     log(ctx, `${target.name} is back on their feet!`, 'heal');
   }
   const gained = target.hp - before;
+  if (gained > 0) telemetry.sink?.heal?.(ctx, { target, amount: gained, source });
   if (gained > 0) {
     log(ctx, `${target.name} recovers ${gained} HP (${source}).`, 'heal');
     fx(ctx, { kind: 'heal', target: target.id, amount: gained });

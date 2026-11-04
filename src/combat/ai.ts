@@ -6,7 +6,9 @@ import type { Combatant, MonsterAction } from '../engine/types.ts';
 import { roll, rollD20, combineAdvantage } from '../engine/dice.ts';
 import {
   type Ctx, log, fx, livingHeroes, livingEnemies, has, cond, addCondition, applyDamage, heal, savingThrow, heroOf, removeCondition, scaledMonster, enemies,
+  hasTrait, telemetry,
 } from './core.ts';
+import { tierIndex } from '../content/monsters.ts';
 import { effectiveAc } from './hero.ts';
 import { applyHex, handSize } from '../fortune/tray.ts';
 import { derive } from '../rules/character.ts';
@@ -65,8 +67,9 @@ export function enemyTurn(ctx: Ctx, c: Combatant) {
   const pool = actions.filter((a) => !a.telegraph && (a.kind !== 'heal' || hurt.length) && (a.kind !== 'summon' || livingEnemies(ctx).length < 5));
   const a = ctx.aiRng.weighted(pool.length ? pool : actions, (x) => x.weight);
   perform(ctx, c, a);
-  // Bosses and elites in later phases act twice sometimes (legendary-like).
-  if (m.boss && m.phase >= 2 && ctx.aiRng.chance(0.35) && livingHeroes(ctx).length) {
+  // Bosses in later phases (or relentless ones) act twice sometimes (legendary-like).
+  const again = m.phase >= 2 ? (hasTrait(c, 'relentless') ? 0.5 : 0.35) : hasTrait(c, 'relentless') ? 0.3 : 0;
+  if (m.boss && again && ctx.aiRng.chance(again) && livingHeroes(ctx).length) {
     const extra = actions.filter((x) => x.kind === 'attack' && !x.telegraph);
     if (extra.length) { log(ctx, `${c.name} strikes again!`, 'warn'); perform(ctx, c, ctx.aiRng.pick(extra)); }
   }
@@ -79,15 +82,38 @@ function dmgRoll(ctx: Ctx, c: Combatant, a: MonsterAction, crit = false): number
   if (has(c, 'weakened')) { v *= 0.75; removeCondition(c, 'weakened'); }
   if (has(c, 'frightened')) v *= 0.85;
   if (has(c, 'slowed')) v *= 0.85;
+  if (hasTrait(c, 'frenzy') && c.hp < c.maxHp / 2) v *= 1.3;
   return Math.max(1, Math.round(v));
+}
+
+/** Multiattack: how many swings an attack action makes, and the damage share of each. */
+function swings(ctx: Ctx, c: Combatant): { n: number; each: number } {
+  if (!hasTrait(c, 'multiattack')) return { n: 1, each: 1 };
+  return tierIndex(ctx.exp.partyLevel) >= 3 ? { n: 3, each: 0.45 } : { n: 2, each: 0.6 };
+}
+
+/** Lair actions: at the top of each round, a mythic boss's lair lashes the party. */
+export function lairActions(ctx: Ctx) {
+  if (ctx.combat.round < 2) return;
+  for (const b of livingEnemies(ctx).filter((e) => hasTrait(e, 'lair'))) {
+    const a = b.mon!.actions.find((x) => x.kind === 'save' && x.target === 'all') ?? b.mon!.actions.find((x) => x.kind === 'save');
+    if (!a) continue;
+    log(ctx, `The lair answers ${b.name}: ${a.name} ripples through the room!`, 'warn');
+    perform(ctx, b, { ...a, id: `lair:${a.id}`, name: `Lair — ${a.name}`, dmg: (a.dmg ?? 1) * 0.45, condition: undefined, telegraph: false });
+  }
 }
 
 function perform(ctx: Ctx, c: Combatant, a: MonsterAction) {
   const m = c.mon!;
+  telemetry.sink?.monsterAction?.(ctx, { actor: c, actionId: a.id, name: a.name });
   switch (a.kind) {
     case 'attack': {
-      const targets = a.target === 'front' ? livingHeroes(ctx).filter((h) => h.rank === 'front') : [pickTarget(ctx, c, a)].filter(Boolean) as Combatant[];
-      for (const t of targets.length ? targets : livingHeroes(ctx).slice(0, 1)) attack(ctx, c, t, a);
+      const multi = swings(ctx, c);
+      const swing = multi.n > 1 ? { ...a, dmg: (a.dmg ?? 1) * multi.each } : a;
+      for (let i = 0; i < multi.n && livingHeroes(ctx).length && !c.dead; i++) {
+        const targets = a.target === 'front' ? livingHeroes(ctx).filter((h) => h.rank === 'front') : [pickTarget(ctx, c, a)].filter(Boolean) as Combatant[];
+        for (const t of targets.length ? targets : livingHeroes(ctx).slice(0, 1)) attack(ctx, c, t, swing);
+      }
       return;
     }
     case 'save': {
@@ -129,6 +155,10 @@ function perform(ctx: Ctx, c: Combatant, a: MonsterAction) {
       const t = list[0];
       if (!t) return;
       log(ctx, `${c.name} uses ${a.name}.`, 'enemy');
+      if (a.target !== 'self' && hasTrait(c, 'massMend')) {
+        for (const x of list) heal(ctx, x, m.dmgBase * (a.dmg ?? 1) * (x === t ? 1.6 : 0.6), a.name);
+        return;
+      }
       heal(ctx, t, m.dmgBase * (a.dmg ?? 1) * 1.6, a.name);
       return;
     }
@@ -179,6 +209,7 @@ function attack(ctx: Ctx, c: Combatant, t: Combatant, a: MonsterAction) {
   if (has(t, 'dodging') || has(t, 'blurred') || has(t, 'invisible') || has(t, 'holyAura')) dis++;
   if (has(c, 'poisoned') || has(c, 'frightened') || has(c, 'blinded') || has(c, 'restrained') || has(c, 'prone')) dis++;
   if (has(c, 'faerieFire')) dis += 0;
+  if (hasTrait(c, 'pack') && livingEnemies(ctx).some((e) => e.id !== c.id && e.rank === c.rank)) adv++;
   const th = heroOf(ctx, t)!;
   if (th.classId === 'rogue' && th.level >= 18) adv = 0;
   // Protection fighting style: an adjacent shield-bearing ally imposes disadvantage.

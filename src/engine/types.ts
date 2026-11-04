@@ -264,6 +264,8 @@ export interface Combatant {
     actions: MonsterAction[];
     recharge: Record<string, boolean>;
     tags: string[];
+    /** Passive traits (content/monsters.ts MonsterTrait), from its kit and its tier. */
+    traits?: string[];
     boss?: boolean;
     phase: number;
     phases?: number;
@@ -457,7 +459,7 @@ export interface Expedition {
   journal: string[];
   /** The scripted first dungeon (guided tutorial). */
   tutorial?: boolean;
-  /** The final stage: Tiamat's throne beyond the Fifth Door. */
+  /** The final stage: Tiamat's throne behind the Sixth Door. */
   finale?: boolean;
 }
 

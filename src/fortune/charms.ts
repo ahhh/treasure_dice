@@ -61,6 +61,8 @@ export interface CharmDef {
     guardMult?: number;
     hitBonus?: number;
     charmSlots?: number;
+    /** Overkill from any single-target hit carries half into the next foe. */
+    overkill?: boolean;
   };
   onDie?: (ctx: ScoreCtx, die: PlayedDie, self: CharmInstance) => Effect | null;
   onHand?: (ctx: ScoreCtx, self: CharmInstance) => Effect | null;
@@ -125,6 +127,7 @@ export const CHARMS: CharmDef[] = [
   { id: 'crookedLadder', name: 'Crooked Ladder', rarity: 'uncommon', theme: 'dice', text: 'Straights and Sets can be made with 4 dice.', passive: { rules: { fourFingers: true } } },
   { id: 'gapTooth', name: 'Gap-Tooth Grin', rarity: 'uncommon', theme: 'dice', text: 'Straights may skip one number.', passive: { rules: { gapStraight: true } } },
   { id: 'weightedFate', name: 'Weighted Fate', rarity: 'uncommon', theme: 'utility', text: '+2 to hit on all attack rolls.', passive: { hitBonus: 2 } },
+  { id: 'butchersHook', name: "Butcher's Hook", rarity: 'uncommon', theme: 'utility', text: 'Overkill from a single-target hit carries half into the next foe.', passive: { overkill: true } },
   { id: 'hawkMonocle', name: "Hawk's Monocle", rarity: 'uncommon', theme: 'utility', text: 'Critical hits on one lower d20 face.', passive: { critRange: 1 } },
   { id: 'stoicShield', name: 'Stoic Shield', rarity: 'uncommon', theme: 'utility', text: 'Guard grants double Ward.', passive: { guardMult: 2 } },
   { id: 'mendersThread', name: "Mender's Thread", rarity: 'uncommon', theme: 'utility', text: 'Healing is 50% stronger.', passive: { healMult: 1.5 } },
@@ -183,7 +186,7 @@ export const CHARMS: CharmDef[] = [
     onHand: (c) => { const x = 1 + 0.2 * Math.floor(c.run.doubloons / 5); return x > 1 ? { xmult: Math.round(x * 10) / 10 } : null; } },
   { id: 'crownOfAges', name: 'Crown of Ages', rarity: 'legendary', theme: 'xmult', text: '×3 Mult. -1 reroll every turn.',
     passive: { rerolls: -1 }, onHand: () => ({ xmult: 3 }) },
-  { id: 'fifthDoor', name: 'Key of the Fifth Door', rarity: 'legendary', theme: 'dice', text: '+1 tray size, +1 reroll, +1 Charm slot.',
+  { id: 'fifthDoor', name: 'Key of the Sixth Door', rarity: 'legendary', theme: 'dice', text: '+1 tray size, +1 reroll, +1 Charm slot.',
     passive: { handSize: 1, rerolls: 1, charmSlots: 1 } },
   { id: 'starEater', name: 'Star-Eater Fang', rarity: 'legendary', theme: 'xmult', text: 'Scored dice of 5 or higher give ×1.25 Mult.',
     onDie: (_c, d) => (d.value >= 5 ? { xmult: 1.25 } : null) },
@@ -217,7 +220,7 @@ export function newCharm(id: string): CharmInstance {
 
 /** Aggregate passive modifiers across owned charms (Mimic copies passives too). */
 export function charmPassives(run: FortuneRun) {
-  const out = { handSize: 0, rerolls: 0, interestCap: 0, critRange: 0, healMult: 1, guardMult: 1, hitBonus: 0, charmSlots: 0, rules: {} as EvalRules };
+  const out = { handSize: 0, rerolls: 0, interestCap: 0, critRange: 0, healMult: 1, guardMult: 1, hitBonus: 0, charmSlots: 0, overkill: false, rules: {} as EvalRules };
   const list = effectiveCharms(run);
   for (const { def } of list) {
     const p = def.passive;
@@ -228,6 +231,7 @@ export function charmPassives(run: FortuneRun) {
     out.critRange += p.critRange ?? 0;
     out.hitBonus += p.hitBonus ?? 0;
     out.charmSlots += p.charmSlots ?? 0;
+    if (p.overkill) out.overkill = true;
     if (p.healMult) out.healMult *= p.healMult;
     if (p.guardMult) out.guardMult *= p.guardMult;
     if (p.rules) Object.assign(out.rules, p.rules);

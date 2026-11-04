@@ -30,6 +30,7 @@ for (const m of MONSTER_LIST) {
 
 // Charms whose names the model kept overriding with the rarity's gold-and-gem look.
 const CHARM_ART: Record<string, string> = {
+  butchersHook: 'a small heavy iron butcher\'s meat hook charm, dark and notched along its curve, hung from a short loop of chain with a red thread wound at the top',
   glassHeart: 'a heart-shaped charm blown from clear, fragile glass, hollow and transparent with a faint pink glow inside and a hairline crack, hung on a thin gold chain',
   paupersCrown: 'a tiny shabby crown made of dented tin and knotted twine, with chipped coloured-glass "jewels", hung on a frayed cord: a beggar-king\'s crown that is somehow precious',
   monolith: 'a tiny standing stone of dark granite, a single tall monolith with faint glowing carved bands and no markings that read as numbers, hung from a gold ring',
@@ -206,7 +207,7 @@ const TOWN: Record<string, string> = {
   training: 'an outdoor training yard with practice dummies, an archery range and sparring ring at sunset',
   cartographer: 'a cartographer\'s map room with a huge table map, compasses, candles and five glowing doorways painted on the wall',
   vault: 'an underground bank vault with heavy iron doors, chests of gold and guarded lockboxes',
-  door: 'the Fifth Door: a colossal ancient stone door in a cavern, five glowing seals, dice-shaped runes, light spilling through the crack',
+  door: 'the Sixth Door: a colossal ancient stone door in a cavern, five glowing seals (one for each lesser door), dice-shaped runes, light spilling through the crack',
 };
 for (const [k, t] of Object.entries(TOWN)) out.push({ key: `town/${k}`, kind: 'scene', group: 'scene:town', name: k, subject: t, anchor: k === 'keep' });
 

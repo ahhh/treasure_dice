@@ -13,9 +13,9 @@ export const PROLOGUE: Chapter = {
   title: 'The Queen Stirs',
   head: 'Prologue',
   text: [
-    'Long ago five heroes sealed Tiamat, the five-headed Dragon Queen, behind the Fifth Door. They hid the Door beneath the Lantern Keep and lit a lantern for every head she bore.',
-    'The lanterns are guttering. Beyond the Door the Queen dreams, and her dreams leak into the world as echoes: drowned libraries, burning forges, cathedrals of glass. A chromatic head feeds each one, and each grows stronger while it stands.',
-    'Break the echoes. Raise heroes worthy of legend. When one of them stands at the height of their power, carry the last lantern through the Door and end her reign before she wakes.',
+    'Long ago five heroes sealed Tiamat, the five-headed Dragon Queen, behind the Sixth Door. In front of it they set five lesser doors, one to bind each of her heads. They hid all six beneath the Lantern Keep and lit a lantern for every head she bore.',
+    'The lanterns are guttering. Behind the Sixth Door the Queen dreams, and each head\'s dreams seep out through its own door as an echo: drowned libraries, burning forges, cathedrals of glass. Each echo grows stronger while it stands.',
+    'Break the echoes and the five doors with them. Raise heroes worthy of legend. When one of them stands at the height of their power, carry the last lantern through the Sixth Door and end her reign before she wakes.',
   ],
 };
 
@@ -39,7 +39,7 @@ export const CHAPTERS: Record<BiomeId, Chapter> = {
   },
   drowned: {
     id: 'drowned', head: 'Chapter III', title: 'Ink and Acid',
-    text: ['The Drowned Archive drains. In its last flooded vault you find a chart of the Fifth Door, drawn by the heroes who first sealed it.', 'Their margin notes say the same thing in five hands: "Only a champion at the height of their power can stand before her."'],
+    text: ['The Drowned Archive drains. In its last flooded vault you find a chart of all six doors, drawn by the heroes who first sealed them.', 'Their margin notes say the same thing in five hands: "Only a champion at the height of their power can stand before her."'],
   },
   mirror: {
     id: 'mirror', head: 'Chapter IV', title: 'The White Reflection',
@@ -47,16 +47,16 @@ export const CHAPTERS: Record<BiomeId, Chapter> = {
   },
   starfall: {
     id: 'starfall', head: 'Chapter V', title: 'The Last Lantern',
-    text: ['The stars stop falling. All five echoes are broken, and the Queen has no more dreams to hide behind.', 'The Fifth Door stands open. One lantern is left, and a champion of the twentieth level must carry it.'],
+    text: ['The stars stop falling. All five echoes are broken, all five doors are dark, and the Queen has no more dreams to hide behind.', 'Only the Sixth Door remains, and it stands open. One lantern is left, and a champion of the twentieth level must carry it.'],
   },
 };
 
 export const FINALE = {
   id: 'finale',
   name: 'The Dragon Throne',
-  tagline: 'Tiamat\'s hoard beyond the Fifth Door.',
+  tagline: 'Tiamat\'s hoard behind the Sixth Door.',
   premise: 'The last echo is no dream. Tiamat waits on a throne of stolen gold, her five heads breathing fire, poison, acid, frost and lightning. Every die in her presence bends to her will.',
-  bossRoom: 'The Throne Beyond the Fifth Door',
+  bossRoom: 'The Throne Behind the Sixth Door',
   bossText: 'A mountain of coins shifts. Five heads rise, each a different colour, and every one of them is looking at you.',
 };
 
@@ -65,9 +65,17 @@ export const EPILOGUE: Chapter = {
   text: [
     'Tiamat falls. Her five heads breathe one last time, and then her hoard goes dark.',
     'In the Lantern Keep every lantern blazes at once. The echoes fade into ordinary dungeons with ordinary monsters and plenty of treasure.',
-    'The Fifth Door still stands. Legends say she will rise again. When she does, the Keep will be ready.',
+    'The Sixth Door still stands. Legends say she will rise again. When she does, the Keep will be ready.',
   ],
 };
+
+/** Each echo sits behind its own door, one per head; Tiamat waits behind the sixth. */
+const DOOR_ORDINALS = ['First', 'Second', 'Third', 'Fourth', 'Fifth'];
+const BIOME_DOORS: BiomeId[] = ['cinder', 'rootbound', 'drowned', 'mirror', 'starfall'];
+export function doorName(biome: BiomeId | undefined): string {
+  const i = biome ? BIOME_DOORS.indexOf(biome) : -1;
+  return i >= 0 ? `${DOOR_ORDINALS[i]} Door` : 'Door';
+}
 
 export const FINALE_LEVEL = 20;
 

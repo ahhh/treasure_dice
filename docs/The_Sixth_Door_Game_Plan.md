@@ -1,7 +1,7 @@
-# THE FIFTH DOOR
+# THE SIXTH DOOR
 ## Game Design & Technical Implementation Plan
 
-**Working title:** *The Fifth Door: Echoes of the Labyrinth*  
+**Working title:** *Treasure Dice: Echoes of the Sixth Door* (originally *The Fifth Door: Echoes of the Labyrinth*)  
 **Document version:** 1.0 — November 2, 2026  
 **Target:** Single-player, turn-based, browser-native dungeon roguelite for GitHub Pages  
 **Technology:** HTML, CSS, JavaScript/TypeScript compiled to static JavaScript  
@@ -14,7 +14,7 @@
 
 An old-school, menu-driven, three-hero fantasy RPG where every expedition enters a newly generated, text-forward labyrinth. Exploration feels like a graphical MUD: choose **forward / left / right / back**; uncover rooms, make skill checks, find allies and secrets, and work toward a boss. Combat looks and feels like classic console-era Final Fantasy, but the heroes are recognizable fifth-edition fantasy classes with real statistics, spell slots, class features, feats, equipment, tactical choices, and advancement from levels **1–20**.
 
-**The hook:** There are five unstable worlds beyond a mysterious fifth door. Every dungeon is a different *echo* of a fallen civilization. The dungeon remembers choices from the current expedition and changes its threats, routes, and rewards in response. Surviving adventurers return to a persistent town, level up after clearing a dungeon, spend loot, recruit new heroes, and venture out again. Dead heroes are lost; the town's progress endures.
+**The hook:** There are five unstable worlds behind five sealed doors, one for each of Tiamat's heads, and the Dragon Queen herself waits behind a sixth. Every dungeon is a different *echo* of a fallen civilization. The dungeon remembers choices from the current expedition and changes its threats, routes, and rewards in response. Surviving adventurers return to a persistent town, level up after clearing a dungeon, spend loot, recruit new heroes, and venture out again. Dead heroes are lost; the town's progress endures.
 
 ### Design pillars
 
@@ -500,7 +500,7 @@ Use the **SRD 5.2.1** under **CC BY 4.0** with the required attribution. The SRD
 ### 9.3 Proposed repository tree
 
 ```text
-fifth-door/
+sixth-door/
 ├── index.html
 ├── package.json
 ├── vite.config.ts
@@ -562,7 +562,7 @@ This is a **shape illustration**. Exact feature wording, exceptions, recharge co
 {
   "schemaVersion": 1,
   "contentRevision": "core-0.1",
-  "seed": "FIFTH-DOOR-9184",
+  "seed": "SIXTH-DOOR-9184",
   "biome": "rootbound",
   "tier": "novice",
   "partyIds": ["hero_1", "hero_2", "hero_3"],

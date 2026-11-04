@@ -246,32 +246,35 @@ function dirBetween(a: { x: number; y: number }, b: { x: number; y: number }): F
 
 function bossAdds(rng: Rng, opts: GenOptions): string[] {
   const n = (opts.level >= 11 ? 2 : opts.level >= 5 ? 1 : rng.chance(0.5) ? 1 : 0) + DIFFICULTY_MOD[opts.difficulty].bossAdds;
-  const pool = biomeMonsters(opts.biome).filter((m) => m.role !== 'brute');
-  return Array.from({ length: n }, () => rng.pick(pool).id);
+  const pool = biomeMonsters(opts.biome, false, opts.level).filter((m) => m.role !== 'brute');
+  return Array.from({ length: n }, () => rng.weighted(pool, encounterWeight).id);
 }
 
 export function rollEncounter(rng: Rng, biome: BiomeId, level: number, kind: 'normal' | 'elite' | 'ambush', difficulty: Difficulty): string[] {
-  const pool = biomeMonsters(biome);
+  const pool = biomeMonsters(biome, false, level);
   const front = pool.filter((m) => m.rank === 'front');
   const back = pool.filter((m) => m.rank === 'back');
   let n = level >= 11 ? 3 : level >= 3 ? rng.int(2, 3) : rng.int(2, 3);
   if (kind === 'ambush') n = Math.max(1, n - 1);
-  n += DIFFICULTY_MOD[difficulty].enemies;
-  if (difficulty === 'explorer') n = Math.max(1, n - (rng.chance(0.5) ? 1 : 0));
+  const dm = DIFFICULTY_MOD[difficulty];
+  if (level >= dm.enemiesFrom) n += dm.enemies;
   const out: MonsterDef[] = [];
   if (kind === 'elite') {
-    out.push(rng.pick(front));
+    out.push(rng.weighted(front, encounterWeight));
     n = Math.max(1, n - 1);
   }
   for (let i = 0; i < n; i++) {
     const wantBack = out.filter((m) => m.rank === 'back').length < Math.floor((out.length + 1) / 2) && rng.chance(0.45);
-    out.push(rng.pick(wantBack && back.length ? back : front));
+    out.push(rng.weighted(wantBack && back.length ? back : front, encounterWeight));
   }
   // Sporelings come in swarms.
   const ids = out.map((m) => m.id);
   if (ids.includes('sporeling') && rng.chance(0.5)) ids.push('sporeling');
   return kind === 'elite' ? [`elite:${ids[0]}`, ...ids.slice(1)] : ids;
 }
+
+/** Greater foes (those with a level band) turn up more often once they qualify. */
+const encounterWeight = (m: MonsterDef) => (m.minLevel ? 1.6 : 1);
 
 function dressRoom(r: Room, rng: Rng, opts: GenOptions) {
   const biome = BIOMES[opts.biome];

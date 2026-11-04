@@ -6,7 +6,7 @@
 import type { Combatant, Hero, HandType, ConditionId, DamageType, Rank, Material, FaceMod, Skill } from '../engine/types.ts';
 import { roll, rollD20, combineAdvantage, average } from '../engine/dice.ts';
 import {
-  type Ctx, heroOf, log, fx, livingEnemies, livingHeroes, heroes, has, cond, addCondition, removeCondition,
+  type Ctx, telemetry, heroOf, log, fx, livingEnemies, livingHeroes, heroes, has, cond, addCondition, removeCondition,
   applyDamage, heal, savingThrow, endConcentration, advance, incapacitated, alive, kill, type DmgPart, enemies,
 } from './core.ts';
 import { derive, SKILL_NAMES, type Derived, type WeaponProfile } from '../rules/character.ts';
@@ -756,16 +756,28 @@ function dealScored(ctx: Ctx, attacker: Combatant, target: Combatant, parts: Dmg
   const scaled = parts.map((p) => ({ type: p.type, amount: (total * p.amount) / sum }));
   const hpBefore = target.hp + target.tempHp;
   const dealt = applyDamage(ctx, target, scaled, { source: opts.source, attacker, crit: opts.crit, melee: opts.melee });
-  // Overkill spills half into another foe — big numbers should feel big.
-  if (opts.spill !== false && target.dead) {
-    const over = Math.max(0, total - hpBefore);
-    const next = livingEnemies(ctx).sort((a, b) => (a.rank === target.rank ? -1 : 1) - (b.rank === target.rank ? -1 : 1))[0];
-    if (over > 4 && next) {
-      log(ctx, `Overkill! ${Math.round(over / 2)} spills into ${next.name}.`, 'hit');
-      applyDamage(ctx, next, [{ type: parts[0].type, amount: over / 2 }], { source: 'Overkill', attacker });
-    }
-  }
+  if (!target.dead) return dealt;
+  // Overkill only carries into another foe for attacks built to hit more than
+  // one (Cleave, Great Weapon Master, multi-bolt spells) or with the Butcher's
+  // Hook charm. Everything else stops at the body it kills.
+  const over = Math.max(0, total - hpBefore);
+  const carries = opts.spill === true || (opts.spill !== false && charmPassives(ctx.exp.fortune).overkill);
+  const next = livingEnemies(ctx).sort((a, b) => (a.rank === target.rank ? -1 : 1) - (b.rank === target.rank ? -1 : 1))[0];
+  if (carries && over > 4 && next) {
+    log(ctx, `Overkill! ${Math.round(over / 2)} carries into ${next.name}.`, 'hit');
+    applyDamage(ctx, next, [{ type: parts[0].type, amount: over / 2 }], { source: 'Overkill', attacker });
+  } else if (over > 0) telemetry.sink?.wasted?.(ctx, { attacker, amount: over });
   return dealt;
+}
+
+/** Spells whose damage is several bolts or beams: their overkill redirects. */
+const CARRY_SPELLS = new Set(['magicMissile', 'scorchingRay', 'eldritchBlast', 'chainLightning']);
+
+/** Does a weapon volley carry overkill? Cleave weapons and Great Weapon Master hits do. */
+function weaponCarries(h: Hero, w: WeaponProfile): boolean {
+  if (w.ranged) return false;
+  if (w.mastery === 'cleave' && ['barbarian', 'fighter', 'paladin', 'ranger', 'rogue'].includes(h.classId)) return true;
+  return h.feats.includes('greatWeaponMaster') && w.props.includes('heavy');
 }
 
 // ── attack resolution ───────────────────────────────────────────────────────
@@ -968,7 +980,7 @@ function weaponVolley(ctx: Ctx, dice: number[], tgt: Combatant, spec: AttackSpec
   const base = parts.reduce((x, p) => x + p.amount, 0);
   const s = score(ctx, base, spec.label, { dice, use: 'attack', target: tgt, extra: spec.extraHand });
   if (anyCrit) s.crit = true;
-  dealScored(ctx, c, tgt, parts, s.total, { crit: anyCrit, melee, source: spec.label });
+  dealScored(ctx, c, tgt, parts, s.total, { crit: anyCrit, melee, source: spec.label, spill: weaponCarries(h, spec.weapon) || undefined });
   if (d.lifesteal > 0) heal(ctx, c, s.total * d.lifesteal, 'Vampiric');
   spec.afterHit?.(tgt);
   commitPlay(ctx, { dice, use: 'attack', target: tgt }, s);
@@ -987,6 +999,7 @@ export function doAct(ctx: Ctx, cmd: Extract<CombatCmd, { type: 'act' }>): CmdRe
   const dice = opt.fortune === 'none' ? [] : cmd.dice;
   const playErr = canPlay(ctx, dice);
   if (playErr) return { ok: false, error: playErr };
+  telemetry.sink?.heroAction?.(ctx, { actor: c, key: opt.key, label: opt.name });
   if (opt.key === 'flurry' || cmd.key === 'feat:flurry') { /* handled below */ }
 
   // Targets.
@@ -1251,7 +1264,7 @@ export function castSpell(ctx: Ctx, spell: SpellDef, slotIn: number | undefined,
       }
       const base = parts.reduce((x, p) => x + p.amount, 0);
       const s = score(ctx, base, label, { dice, use: 'spell', target: tgt, extra });
-      dealScored(ctx, c, tgt, parts, s.total, { crit, source: spell.name, melee: !!spell.melee });
+      dealScored(ctx, c, tgt, parts, s.total, { crit, source: spell.name, melee: !!spell.melee, spill: CARRY_SPELLS.has(spell.id) || undefined });
       if (!tgt.dead && hits) {
         if (spell.condition) addCondition(ctx, tgt, { id: spell.condition.id, rounds: spell.condition.rounds, sourceId: c.id });
         if (spell.special === 'pull' && tgt.rank === 'back' && !tgt.mon?.boss) { tgt.rank = 'front'; log(ctx, `${tgt.name} is yanked forward!`, 'info'); }
@@ -1277,7 +1290,7 @@ export function castSpell(ctx: Ctx, spell: SpellDef, slotIn: number | undefined,
         if (ok) amt = spell.half ? Math.floor(amt / 2) : cantrip && d.features.has('potentCantrip') ? Math.floor(amt / 2) : 0;
         if (spell.id === 'disintegrate' && ok) amt = 0;
         log(ctx, `${x.name} ${ok ? 'saves' : 'fails'}.`, ok ? 'miss' : 'hit');
-        if (amt > 0) dealScored(ctx, c, x, [{ type: dmgType, amount: base }], amt, { source: spell.name, spill: tlist.length === 1 });
+        if (amt > 0) dealScored(ctx, c, x, [{ type: dmgType, amount: base }], amt, { source: spell.name, spill: tlist.length > 1 ? false : CARRY_SPELLS.has(spell.id) || undefined });
         if (!ok && !x.dead && spell.condition) addCondition(ctx, x, { id: spell.condition.id, rounds: spell.condition.rounds, sourceId: c.id });
         if (!ok && !x.dead && spell.special === 'push' && x.rank === 'front' && !x.mon?.boss) x.rank = 'back';
       }
@@ -1291,7 +1304,7 @@ export function castSpell(ctx: Ctx, spell: SpellDef, slotIn: number | undefined,
     case 'auto': {
       const base = rollDice(diceExpr) + dmgBonus(spell);
       const s = score(ctx, base, label, { dice, use: 'spell', target: tgt, extra });
-      dealScored(ctx, c, tgt, [{ type: dmgType, amount: base }], s.total, { source: spell.name });
+      dealScored(ctx, c, tgt, [{ type: dmgType, amount: base }], s.total, { source: spell.name, spill: CARRY_SPELLS.has(spell.id) || undefined });
       commitPlay(ctx, { dice, use: 'spell', target: tgt }, s);
       return { ok: true, score: s };
     }

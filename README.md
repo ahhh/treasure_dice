@@ -1,18 +1,20 @@
-# Treasure Dice — Echoes of the Fifth Door
+# Treasure Dice — Echoes of the Sixth Door
 
 A browser dungeon roguelite: three fifth-edition heroes, menu combat in the style of a console RPG, MUD-style procedural labyrinths, and a gambling layer on top that is built to make each dungeon run feel like a hot streak.
 
-It's a static site (Vite + TypeScript, no backend) that works offline once loaded and deploys to GitHub Pages. It implements `The_Fifth_Door_Game_Plan.md`, plus the Fortune system described below.
+It's a static site (Vite + TypeScript, no backend) that works offline once loaded and deploys to GitHub Pages. It implements `docs/The_Sixth_Door_Game_Plan.md`, plus the Fortune system described below.
 
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm test           # 33 tests: rules, fortune scoring, Dice Path, skill tricks, 1,000-seed dungeon property test, runs, saves, tutorial, finale
+npm test           # 39 tests: rules, fortune scoring, Dice Path, skill tricks, 1,000-seed dungeon property test, runs, saves, tutorial, finale, balance mechanics
 npm run test:ui    # browser checks (Playwright, starts its own dev server): smoke, full guided tour, screens, boss, battle, render stress
 npm run test:ui -- tutorial smoke   # ...or just some of them; screenshots land in test-results/
 npm run build      # dist/ for GitHub Pages (relative base, works at any project path)
-npm run sim -- 40 1 cinder standard   # Monte Carlo balance: runs, level, biome, difficulty
-npm run sim -- 24 20 finale standard  # ...or Tiamat's Dragon Throne
+npm run playtest                      # offline balance report: sweep + campaigns, all difficulties (~3 min)
+npm run playtest -- --mode campaign --campaigns 24 --difficulties standard
+npm run playtest -- --finale --runs 40   # Tiamat's Dragon Throne
+npm run sim -- 40 1 cinder standard   # quick single-cell Monte Carlo: runs, level, biome, difficulty
 ```
 
 ## The loop
@@ -23,7 +25,7 @@ npm run sim -- 24 20 finale standard  # ...or Tiamat's Dragon Throne
 
 ## Story, tutorial and sharing
 
-- **The story.** Tiamat, the five-headed Dragon Queen, is stirring beyond the Fifth Door, and each echo is fed by one of her heads. A new Keep opens on the prologue, and the first clear of each echo adds a chapter to the **Chronicle** tab (`src/content/story.ts`).
+- **The story.** Tiamat, the five-headed Dragon Queen, is stirring behind the Sixth Door. Each of her five heads feeds an echo behind a door of its own. A new Keep opens on the prologue, and the first clear of each echo adds a chapter to the **Chronicle** tab (`src/content/story.ts`).
 - **The finale.** The **Dragon Throne** in the Cartographer is a long Starfall dungeon with Tiamat (3 phases, ×1.6 HP, the *Chromatic Dominion* curse) in place of its boss. The party needs at least one level-20 hero to enter.
 - **The guided tour.** A new Keep starts a coach-mark tutorial (`src/ui/tutorial.ts`) that can be skipped at any step. It covers the Keep's menus and hero sheets, then runs the hand-built **Training Cellar** (`src/dungeon/tutorial.ts`): movement, one fight with recommended dice, treasure, the Boss Sigil and a gentle boss. Nobody can die there, it earns no sigil, and it takes level-1 heroes to level 2. *How to play* can restart the tour.
 - **Share card.** The Chronicle tab (and the result screen after a win) makes a PNG of your three best heroes, the echoes you've broken and your record (`src/ui/shareCard.ts`). The frame and title improve as you progress, up to *Dragonslayer*.
@@ -74,7 +76,16 @@ The rules kernel is SRD 5.2.1: d20 attacks against AC, saving throws, advantage 
 
 ## Balance
 
-Hero HP and healing use a ×2.5 vitality scale. Monster HP follows level and role (its level slope was raised from 0.15 to 0.17 to absorb part of the Dice Path) and compounds with dungeon depth, like Balatro's ante. That is tuned so a well-built Fortune engine is what carries a run. Calibration figures come from `scripts/sim.ts`, a headless autoplayer that uses the same commands as the UI. At the last calibration it won about 75–90% of standard runs at levels 1, 5, 11, 17 and 20, with 3–4 rounds per fight. Perilous difficulty adds a foe per fight and elite curses.
+Hero HP and healing use a ×2.5 vitality scale. Monster HP and damage follow level and role, a per-level **pressure** curve (`levelPressure` in `src/rules/balance.ts`) and dungeon depth, like Balatro's ante. The pressure curve is highest in the mid levels, where class features, Dice Path marks and loot outgrow the raw curve fastest. From level 11 on, monsters also gain **tier traits** by role (multiattack, Uncanny Dodge, Magic Resistance, retaliation, death bursts, mass healing, pack tactics, and lair actions for mythic bosses). Each echo also has two **greater foes** that only join encounters from level 9 and 13, the way CR climbs in fifth edition. Elites gain legendary resistance at heroic and mythic tiers.
+
+Overkill does not carry over by default. Cleave weapons, Great Weapon Master hits, multi-bolt spells (Magic Missile, Scorching Ray, Eldritch Blast, Chain Lightning) and the Butcher's Hook charm still carry half the excess into the next foe.
+
+Calibration comes from `scripts/playtest.ts`, a parallel headless harness that uses the same commands as the UI. It writes `playtest-results/<stamp>/report.md` (with flagged outliers) and `data.json`. It runs two modes:
+
+- **sweep**: fresh parties at each level, with the loot a campaign would have earned by then.
+- **campaign**: one party levelled from 1 to 20 and then sent to Tiamat, through real loot, level-ups and recruits.
+
+At the last calibration (2026-11-04) the sweep won about 96% of runs on explorer, 84% on standard (78–88% at every level from 1 to 20), 63% on perilous and 49% on deadly. Campaigns beat Tiamat 100% of the time on explorer and standard, and about 40% on perilous and deadly. The target bands are `TARGETS` in the script.
 
 ## Code map
 

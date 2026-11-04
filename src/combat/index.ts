@@ -2,11 +2,12 @@
 import type { GameState } from '../engine/types.ts';
 import { hooks, makeCtx, endOfTurn, current, syncHeroes, type Ctx } from './core.ts';
 import { heroTurnStart, doReroll, doAct, doTalent, doToken, endHeroTurn, setEndOfTurnHook, turnExhausted, type CombatCmd, type CmdResult } from './hero.ts';
-import { enemyTurn } from './ai.ts';
+import { enemyTurn, lairActions } from './ai.ts';
 import { afterCombat } from '../dungeon/explore.ts';
 
 hooks.heroTurnStart = heroTurnStart;
 hooks.enemyTurn = enemyTurn;
+hooks.roundStart = lairActions;
 setEndOfTurnHook(endOfTurn);
 
 export function combatDispatch(g: GameState, cmd: CombatCmd): CmdResult {

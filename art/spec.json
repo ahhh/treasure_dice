@@ -1,6 +1,6 @@
 {
  "game": "treasure_dice",
- "count": 361,
+ "count": 372,
  "entries": [
   {
    "key": "heroes/fighter_1",
@@ -747,11 +747,91 @@
    "anchor": false
   },
   {
+   "key": "monsters/cinder_cinderGiant",
+   "kind": "sprite",
+   "group": "biome:cinder",
+   "name": "Cinder Giant",
+   "subject": "a hulking giant with skin like cooling basalt, magma veins, a soot beard and an enormous furnace-iron maul. The forge-tenders the smiths were afraid of.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/cinder_pyreDrake",
+   "kind": "sprite",
+   "group": "biome:cinder",
+   "name": "Pyre Drake",
+   "subject": "a lean wingspread fire drake with ember-red scales, smoke curling from its nostrils, perched on a chain over a forge. A lean drake that nests in the bellows and breathes the forge's heat.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/rootbound_blightTreant",
+   "kind": "sprite",
+   "group": "biome:rootbound",
+   "name": "Blight Treant",
+   "subject": "a towering rotting treant with grey blighted bark, glowing fungal growths and roots tearing up the flagstones. A rotting oak-warden that still remembers its oath.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/rootbound_briarHag",
+   "kind": "sprite",
+   "group": "biome:rootbound",
+   "name": "Briar Hag",
+   "subject": "a stooped fey hag with bark-like skin, a cloak of brambles and roses, long thorn fingers and one glowing green eye. She trades in luck and pays in thorns.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/drowned_krakenSpawn",
+   "kind": "sprite",
+   "group": "biome:drowned",
+   "name": "Kraken Spawn",
+   "subject": "a young kraken with a beaked maw and a dozen barnacled tentacles bursting up through flooded library shelves. Young, hungry, and already too big for the reading pool.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/drowned_sunkenLich",
+   "kind": "sprite",
+   "group": "biome:drowned",
+   "name": "Sunken Lich",
+   "subject": "a gaunt drowned lich in waterlogged scholar robes, kelp in its crown, a phylactery lantern and pages swirling around it. A scholar who chose the water over forgetting.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/mirror_mirrorKnight",
+   "kind": "sprite",
+   "group": "biome:mirror",
+   "name": "Mirror Knight",
+   "subject": "a tall knight of polished mirror-plate with no one inside, its silvered greatsword reflecting the viewer. Armour polished so long it forgot there was a knight inside.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/mirror_facetArchon",
+   "kind": "sprite",
+   "group": "biome:mirror",
+   "name": "Facet Archon",
+   "subject": "a floating crystalline angel made of cut gemstone facets with wings of split rainbow light. An angel of the reliquary, cut like a jewel.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/starfall_nebulaWraith",
+   "kind": "sprite",
+   "group": "biome:starfall",
+   "name": "Nebula Wraith",
+   "subject": "a tattered wraith whose body is a swirling violet nebula with pinprick stars, reaching with long shadow claws. A dead astronomer, now mostly the dark between stars.",
+   "anchor": false
+  },
+  {
+   "key": "monsters/starfall_starwyrm",
+   "kind": "sprite",
+   "group": "biome:starfall",
+   "name": "Starwyrm",
+   "subject": "a long serpentine dragon with deep-blue scales dusted with constellations and a mane of trailing comet-light. A serpent that coils in orbit and breathes falling stars.",
+   "anchor": false
+  },
+  {
    "key": "monsters/starfall_tiamat",
    "kind": "sprite",
    "group": "biome:starfall",
    "name": "Tiamat",
-   "subject": "Tiamat, a colossal five-headed chromatic dragon queen with red, blue, green, black and white heads, coiled atop a mountain of gold coins and dice, wings spread. The five-headed Dragon Queen, sealed beyond the Fifth Door for an age, and awake again. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "subject": "Tiamat, a colossal five-headed chromatic dragon queen with red, blue, green, black and white heads, coiled atop a mountain of gold coins and dice, wings spread. The five-headed Dragon Queen, sealed behind the Sixth Door for an age, and awake again. It is a towering BOSS: monumental, imposing, filling the frame.",
    "anchor": false
   },
   {
@@ -944,6 +1024,14 @@
    "group": "charm:uncommon",
    "name": "Weighted Fate",
    "subject": "a heavy grey lead die hanging from a silver chain, one corner drilled and plugged with a bead of blue enamel, a small silver weight swinging beneath it",
+   "anchor": false
+  },
+  {
+   "key": "charms/butchersHook",
+   "kind": "icon",
+   "group": "charm:uncommon",
+   "name": "Butcher's Hook",
+   "subject": "a small heavy iron butcher's meat hook charm, dark and notched along its curve, hung from a short loop of chain with a red thread wound at the top",
    "anchor": false
   },
   {
@@ -1190,8 +1278,8 @@
    "key": "charms/fifthDoor",
    "kind": "icon",
    "group": "charm:legendary",
-   "name": "Key of the Fifth Door",
-   "subject": "a magical trinket charm called \"Key of the Fifth Door\". Its power: +1 tray size, +1 reroll, +1 Charm slot.",
+   "name": "Key of the Sixth Door",
+   "subject": "a magical trinket charm called \"Key of the Sixth Door\". Its power: +1 tray size, +1 reroll, +1 Charm slot.",
    "anchor": false
   },
   {
@@ -1733,7 +1821,7 @@
    "key": "items/trinket_diceOfTheDoor",
    "kind": "icon",
    "group": "item:trinket",
-   "name": "Bone of the Fifth Door",
+   "name": "Bone of the Sixth Door",
    "subject": "an ancient yellowed bone die, worn smooth, its faces marked only with tiny carved door-shaped arches instead of pips, faintly glowing from inside, hung on an old cord",
    "anchor": false
   },
@@ -2841,7 +2929,7 @@
    "kind": "scene",
    "group": "scene:town",
    "name": "door",
-   "subject": "the Fifth Door: a colossal ancient stone door in a cavern, five glowing seals, dice-shaped runes, light spilling through the crack",
+   "subject": "the Sixth Door: a colossal ancient stone door in a cavern, five glowing seals (one for each lesser door), dice-shaped runes, light spilling through the crack",
    "anchor": false
   }
  ]

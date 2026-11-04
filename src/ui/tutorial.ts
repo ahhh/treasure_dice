@@ -174,7 +174,7 @@ const STEPS: Step[] = [
   },
   {
     id: 'chronicle', where: 'town', tab: 'chronicle', next: true, title: 'The Chronicle', target: () => $('[data-tut="story"]'),
-    text: () => [P('Your story. Tiamat the Dragon Queen is stirring beyond the Fifth Door. Each echo you break tells the next chapter.'),
+    text: () => [P('Your story. Tiamat the Dragon Queen is stirring behind the Sixth Door, and each of her heads feeds an echo behind a door of its own. Each echo you break tells the next chapter.'),
       P(`To face her you need at least one hero at `, B(`level ${FINALE_LEVEL}`), '. Heroes gain one level for every dungeon they clear and survive.')],
   },
   {
@@ -350,7 +350,7 @@ const STEPS: Step[] = [
   },
   {
     id: 'ready', where: 'town', tab: 'cartographer', next: true, last: true, title: 'The real thing', target: () => $('[data-tut="biomes"]'),
-    text: () => [P('That\'s the tour. Now pick an echo and open the Fifth Door for real. Each echo you break unlocks the next and tells the next chapter of the story.'),
+    text: () => [P('That\'s the tour. Now pick an echo and open its door for real. Each echo you break unlocks the next and tells the next chapter of the story.'),
       P(`Reach level ${FINALE_LEVEL} and the Dragon Throne opens. `, B('How to play'), ' in the top bar has the rules whenever you need them.')],
   },
 ];
@@ -402,7 +402,7 @@ function finish(g: GameState, skipped: boolean) {
   tipHidden = false;
   save();
   clearCoach();
-  toast(skipped ? 'Tutorial skipped. "How to play" in the top bar has the rules, and can restart the tour.' : 'Tutorial complete. Good luck beyond the Fifth Door!', true);
+  toast(skipped ? 'Tutorial skipped. "How to play" in the top bar has the rules, and can restart the tour.' : 'Tutorial complete. Good luck beyond the doors!', true);
 }
 
 /** Restart the tour from the top (from the How to play window). */

@@ -346,7 +346,7 @@ export function helpModal(): HTMLElement {
   return modal([
     h('h2', null, 'How to play'),
     h('h3', null, 'The loop'),
-    p('Pick three heroes in the Cartographer and open the Fifth Door. Explore with Forward, Left, Right and Back. Find the Boss Sigil, kill the boss, and walk out alive. Every survivor gains a level. Dead heroes stay dead in Legacy mode.'),
+    p('Pick three heroes and an echo in the Cartographer and open its door. Explore with Forward, Left, Right and Back. Find the Boss Sigil, kill the boss, and walk out alive. Every survivor gains a level. Dead heroes stay dead in Legacy mode.'),
     h('h3', null, 'The Fortune Tray'),
     h('div', { class: 'row', style: 'gap:6px' }, dieFace(6, 'steel'), dieFace(6, 'steel'), dieFace(6, 'bone'), dieFace(3, 'sun'), dieFace(2, 'shadow')),
     p('Each fight deals dice from your bag onto a shared felt tray. On a hero\'s turn, select dice and reroll them (2 rerolls a turn), then choose an action. Up to five selected dice ride along as a poker-dice hand: Pair, Straight, Set (five dice of one colour), Full House, Five of a Kind…'),
@@ -356,7 +356,7 @@ export function helpModal(): HTMLElement {
     h('h3', null, 'Watch out'),
     p('Enemies hex your tray: they steal dice, jinx your best face, or flip everything. Bosses bring a curse that changes the rules for the fight. Each echo has its own meter, like Heat or Gravity, that bends both the map and the dice.'),
     h('h3', null, 'The story'),
-    p('Tiamat, the five-headed Dragon Queen, stirs beyond the Fifth Door. Each echo you break tells the next chapter (see the Chronicle). Once a hero reaches level 20, take them to the Dragon Throne in the Cartographer and end her reign.'),
+    p('Tiamat, the five-headed Dragon Queen, stirs behind the Sixth Door. Each of her five heads feeds an echo behind a door of its own. Each echo you break tells the next chapter (see the Chronicle). Once a hero reaches level 20, take them to the Dragon Throne in the Cartographer and end her reign.'),
     h('p', { class: 'small muted' }, 'Keys: 1–9 select dice · R reroll · A/B/C/D/G menus · E end turn · Esc back · arrows to explore.'),
     h('div', { class: 'row' },
       app.game && !app.game.expedition && !app.game.tutorial ? btn('Restart the guided tour', () => { restartTutorial(app.game!); app.ui.townTab = 'guild'; close(); }, { cls: 'small' }) : null,
