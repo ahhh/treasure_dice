@@ -76,7 +76,9 @@ function tryGenerate(rng: Rng, opts: GenOptions): DungeonMap | null {
     const [x, y] = path[path.length - 1];
     const dirs = rng.shuffle(DIRS.slice());
     // Bias away from the start edge so maps feel like a descent.
-    dirs.sort((a, b) => (a === 'N' ? -1 : 0) - (b === 'N' ? -1 : 0) + (rng.chance(0.5) ? 0 : 0));
+    // The comparator must stay pure: how often sort() calls it is engine-specific,
+    // so drawing from the RNG here made seeded maps differ between Node/browser versions.
+    dirs.sort((a, b) => (a === 'N' ? -1 : 0) - (b === 'N' ? -1 : 0));
     for (const d of dirs) {
       const [dx, dy] = DELTA[d];
       const nx = x + dx, ny = y + dy;

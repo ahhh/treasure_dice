@@ -37,4 +37,12 @@ describe('dungeon generator (property)', () => {
     const b = generateDungeon(new Rng(seedState('SAME')), { seed: 'SAME', biome: 'mirror', level: 4, difficulty: 'perilous' });
     expect(JSON.stringify(a)).toBe(JSON.stringify(b));
   });
+  // Golden value: catches RNG use that depends on the JS engine (e.g. a sort comparator
+  // drawing random numbers), which a same-process comparison cannot see. If this fails
+  // after an intentional generator change, re-record it — but confirm it matches on Node 22 (CI) too.
+  it('produces the same map for a seed on every JS engine', () => {
+    const m = generateDungeon(new Rng(seedState('GOLDEN-2')), { seed: 'GOLDEN-2', biome: 'cinder', level: 3, difficulty: 'standard' });
+    expect(m.criticalPath.join(' ')).toBe('3,8 3,7 3,6 3,5 3,4 3,3 3,2 3,1 3,0 4,0');
+    expect(m.rooms[m.bossKey].encounter?.monsters).toEqual(['boundEmber']);
+  });
 });
