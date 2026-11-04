@@ -211,7 +211,7 @@ M({ id: 'mirrorMimic', name: 'Mirror Mimic', biome: 'mirror', role: 'controller'
   flavor: 'It looks like you. Then it opens its mouth.', look: 'an ornate standing mirror whose frame is splitting into a toothy maw with a long tongue' });
 M({ id: 'prismWisp', name: 'Prism Wisp', biome: 'mirror', role: 'artillery', rank: 'back', tags: ['elemental'], resist: ['radiant'],
   actions: [atk('ray', 'Prism Ray', 1.1, 'radiant', 3, { ranged: true }), { id: 'dazzle', name: 'Dazzle', kind: 'condition', target: 'single', weight: 1.2, save: 'con', condition: { id: 'blinded', rounds: 1 } }],
-  flavor: 'Light, split and angry.', look: 'a floating crystal prism splitting light into rainbow beams' });
+  flavor: 'Light, split and angry.', look: 'a small floating triangular glass prism with no body, no legs and no animal shape, a bright spark of light burning at its core, fanning sharp rainbow beams out of its faces, tiny glass shards orbiting it like moths' });
 M({ id: 'glassGolem', name: 'Glass Golem', biome: 'mirror', role: 'defender', rank: 'front', tags: ['construct'], resist: ['slashing', 'piercing', 'radiant'], vuln: ['thunder', 'bludgeoning'],
   actions: [atk('fist', 'Crystal Fist', 1, 'bludgeoning', 3), { id: 'reflect', name: 'Mirror Guard', kind: 'buff', target: 'allies', weight: 1, condition: { id: 'shielded', rounds: 1, value: 2 } }],
   flavor: 'A cathedral window that got up and walked.', look: 'a hulking golem made of stained-glass panels with lead seams and a glowing rose window chest' });
@@ -256,7 +256,7 @@ M({ id: 'orbitWarden', name: 'Orbit Warden', biome: 'starfall', role: 'controlle
 M({ id: 'astralJudge', name: 'The Astral Judge', biome: 'starfall', role: 'boss', rank: 'back', tags: ['celestial', 'undead'], resist: ['radiant', 'necrotic'],
   actions: [atk('gavel', 'Gavel of Stars', 1.1, 'force', 3, { ranged: true }), save('verdict', 'Verdict', 1, 'radiant', 'wis', 'all', 2, { telegraph: true }), hex('drain', 'Sentence', 'drain', 1.2)],
   boss: { curse: 'judgement', phases: 2, title: 'Arbiter of the Fallen Sky', intro: 'A skeletal judge in robes of night raises a gavel of starlight.' },
-  flavor: 'It weighs every soul that falls from the sky.', look: 'a robed skeletal judge with a crown of orbiting stars, scales of balance and a gavel of starlight' });
+  flavor: 'It weighs every soul that falls from the sky.', look: 'a colossal judge seated on a floating throne of meteorite stone, its deep hood empty except for a single blazing white star where the face should be, flowing robes of living night sky, holding up enormous golden balance scales whose two pans each cradle a tiny glowing planet; no skull, no armour, no staff' });
 M({ id: 'fallenComet', name: 'The Fallen Comet', biome: 'starfall', role: 'boss', rank: 'front', tags: ['elemental'], immune: ['fire'], resist: ['force'],
   actions: [atk('impact', 'Impact', 1.3, 'fire', 3), save('debris', 'Debris Field', 1, 'bludgeoning', 'dex', 'all', 2, { telegraph: true }), hex('jinx', 'Tidal Gravity', 'jinx', 1)],
   boss: { curse: 'gravity', phases: 2, title: 'The Burning Visitor', intro: 'The ceiling is gone. A comet with a mind stares down.' },
@@ -287,18 +287,18 @@ M({ id: 'krakenSpawn', name: 'Kraken Spawn', biome: 'drowned', role: 'brute', ra
 M({ id: 'sunkenLich', name: 'Sunken Lich', biome: 'drowned', role: 'controller', rank: 'back', tags: ['undead'], resist: ['necrotic', 'cold', 'poison'], vuln: ['radiant'], minLevel: 13, traits: ['magicResist'],
   actions: [atk('touch', 'Drowning Touch', 0.95, 'cold', 3, { ranged: true }), save('wave', 'Black Tide', 0.7, 'necrotic', 'con', 'all', 1.4), { id: 'word', name: 'Word of Stillness', kind: 'condition', target: 'single', weight: 1, save: 'wis', condition: { id: 'incapacitated', rounds: 1 } }],
   mythic: [hex('erase', 'Unwrite', 'invert', 1)],
-  flavor: 'A scholar who chose the water over forgetting.', look: 'a gaunt drowned lich in waterlogged scholar robes, kelp in its crown, a phylactery lantern and pages swirling around it' });
+  flavor: 'A scholar who chose the water over forgetting.', look: 'a skeletal lich crowned with coral and kelp, levitating cross-legged inside a floating sphere of clear seawater, long drifting drowned hair, a glowing sea-glass phylactery on a chain at its ribs, bony hands weaving a small whirlpool; bare-headed, no hood, no lantern, no books or paper' });
 M({ id: 'mirrorKnight', name: 'Mirror Knight', biome: 'mirror', role: 'brute', rank: 'front', tags: ['construct'], resist: ['radiant', 'slashing'], vuln: ['thunder', 'bludgeoning'], minLevel: 9,
   actions: [atk('blade', 'Reflected Blade', 1.2, 'slashing', 3), { id: 'mirror', name: 'Mirror Stance', kind: 'buff', target: 'self', weight: 1, condition: { id: 'shielded', rounds: 1, value: 4 } }],
   heroic: [hex('reverse', 'Turn the Blade', 'invert', 1)],
   flavor: 'Armour polished so long it forgot there was a knight inside.', look: 'a tall knight of polished mirror-plate with no one inside, its silvered greatsword reflecting the viewer' });
 M({ id: 'facetArchon', name: 'Facet Archon', biome: 'mirror', role: 'healer', rank: 'back', tags: ['celestial'], resist: ['radiant'], minLevel: 13,
   actions: [atk('beam', 'Refracted Beam', 1, 'radiant', 3, { ranged: true }), heal('light', 'Prismatic Renewal', 1.4), { id: 'blind', name: 'Blinding Facet', kind: 'condition', target: 'single', weight: 1.2, save: 'con', condition: { id: 'blinded', rounds: 1 } }],
-  flavor: 'An angel of the reliquary, cut like a jewel.', look: 'a floating crystalline angel made of cut gemstone facets with wings of split rainbow light' });
+  flavor: 'An angel of the reliquary, cut like a jewel.', look: 'a floating wingless celestial shaped like a huge cut diamond, a calm serene mask-face set into its central facet, four slender crystal arms holding shards of prismatic light, rings of rainbow light orbiting it; abstract and geometric, not a woman, no feathers, no halo' });
 M({ id: 'nebulaWraith', name: 'Nebula Wraith', biome: 'starfall', role: 'skirmisher', rank: 'front', tags: ['undead'], resist: ['necrotic', 'cold', 'force'], vuln: ['radiant'], minLevel: 9,
   actions: [atk('touch', 'Starless Touch', 1.1, 'necrotic', 3), { id: 'chill', name: 'Void Chill', kind: 'condition', dmg: 0.5, damageType: 'cold', target: 'single', weight: 1.5, save: 'con', condition: { id: 'frightened', rounds: 1 } }],
   mythic: [hex('drain', 'Drink the Light', 'drain', 1)],
-  flavor: 'A dead astronomer, now mostly the dark between stars.', look: 'a tattered wraith whose body is a swirling violet nebula with pinprick stars, reaching with long shadow claws' });
+  flavor: 'A dead astronomer, now mostly the dark between stars.', look: 'a faceless drifting wraith made of swirling violet and pink nebula gas, an old cracked brass telescope eyepiece glowing where its face should be, a long tail of stardust instead of legs, reaching forward with long shadow claws; no skull, no hood, no robe' });
 M({ id: 'starwyrm', name: 'Starwyrm', biome: 'starfall', role: 'artillery', rank: 'back', tags: ['dragon'], resist: ['force', 'radiant', 'cold'], minLevel: 13, traits: ['magicResist'],
   actions: [atk('bite', 'Comet Bite', 1.15, 'piercing', 2), atk('bolt', 'Starbolt', 1.1, 'radiant', 3, { ranged: true }), save('breath', 'Gravity Breath', 0.8, 'force', 'str', 'all', 1.3, { condition: { id: 'prone', rounds: 1 } })],
   flavor: 'A serpent that coils in orbit and breathes falling stars.', look: 'a long serpentine dragon with deep-blue scales dusted with constellations and a mane of trailing comet-light' });

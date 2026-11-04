@@ -623,7 +623,7 @@
    "kind": "sprite",
    "group": "biome:mirror",
    "name": "Prism Wisp",
-   "subject": "a floating crystal prism splitting light into rainbow beams. Light, split and angry.",
+   "subject": "a small floating triangular glass prism with no body, no legs and no animal shape, a bright spark of light burning at its core, fanning sharp rainbow beams out of its faces, tiny glass shards orbiting it like moths. Light, split and angry.",
    "anchor": false
   },
   {
@@ -727,7 +727,7 @@
    "kind": "sprite",
    "group": "biome:starfall",
    "name": "The Astral Judge",
-   "subject": "a robed skeletal judge with a crown of orbiting stars, scales of balance and a gavel of starlight. It weighs every soul that falls from the sky. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "subject": "a colossal judge seated on a floating throne of meteorite stone, its deep hood empty except for a single blazing white star where the face should be, flowing robes of living night sky, holding up enormous golden balance scales whose two pans each cradle a tiny glowing planet; no skull, no armour, no staff. It weighs every soul that falls from the sky. It is a towering BOSS: monumental, imposing, filling the frame.",
    "anchor": false
   },
   {
@@ -791,7 +791,7 @@
    "kind": "sprite",
    "group": "biome:drowned",
    "name": "Sunken Lich",
-   "subject": "a gaunt drowned lich in waterlogged scholar robes, kelp in its crown, a phylactery lantern and pages swirling around it. A scholar who chose the water over forgetting.",
+   "subject": "a skeletal lich crowned with coral and kelp, levitating cross-legged inside a floating sphere of clear seawater, long drifting drowned hair, a glowing sea-glass phylactery on a chain at its ribs, bony hands weaving a small whirlpool; bare-headed, no hood, no lantern, no books or paper. A scholar who chose the water over forgetting.",
    "anchor": false
   },
   {
@@ -807,7 +807,7 @@
    "kind": "sprite",
    "group": "biome:mirror",
    "name": "Facet Archon",
-   "subject": "a floating crystalline angel made of cut gemstone facets with wings of split rainbow light. An angel of the reliquary, cut like a jewel.",
+   "subject": "a floating wingless celestial shaped like a huge cut diamond, a calm serene mask-face set into its central facet, four slender crystal arms holding shards of prismatic light, rings of rainbow light orbiting it; abstract and geometric, not a woman, no feathers, no halo. An angel of the reliquary, cut like a jewel.",
    "anchor": false
   },
   {
@@ -815,7 +815,7 @@
    "kind": "sprite",
    "group": "biome:starfall",
    "name": "Nebula Wraith",
-   "subject": "a tattered wraith whose body is a swirling violet nebula with pinprick stars, reaching with long shadow claws. A dead astronomer, now mostly the dark between stars.",
+   "subject": "a faceless drifting wraith made of swirling violet and pink nebula gas, an old cracked brass telescope eyepiece glowing where its face should be, a long tail of stardust instead of legs, reaching forward with long shadow claws; no skull, no hood, no robe. A dead astronomer, now mostly the dark between stars.",
    "anchor": false
   },
   {
