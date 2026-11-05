@@ -79,8 +79,24 @@ export function doorName(biome: BiomeId | undefined): string {
 
 export const FINALE_LEVEL = 20;
 
-/** The finale needs at least one level-20 hero in the chosen party. */
-export function finaleBlocked(party: Hero[]): string | null {
+/** Echoes whose doors are still unbroken (the Sixth Door stays sealed until all five fall). */
+export function echoesUncleared(g: GameState): BiomeId[] {
+  return BIOME_DOORS.filter((b) => !((g.profile.sigils[b] ?? 0) > 0));
+}
+
+/** Why the Sixth Door is still sealed for the whole Keep, or null once all five echoes are cleared and a level-20 hero lives. */
+export function finaleSealed(g: GameState): string | null {
+  const left = echoesUncleared(g).length;
+  const champion = g.roster.some((h) => h.status === 'alive' && h.level >= FINALE_LEVEL);
+  if (left && !champion) return `Sealed — clear the other ${left} echo${left > 1 ? 'es' : ''} and raise a level ${FINALE_LEVEL} hero`;
+  if (left) return `Sealed — clear the other ${left} echo${left > 1 ? 'es' : ''} first`;
+  if (!champion) return `Sealed — needs a level ${FINALE_LEVEL} hero`;
+  return null;
+}
+
+/** The finale needs all five echoes cleared and at least one level-20 hero in the chosen party. */
+export function finaleBlocked(party: Hero[], g?: GameState): string | null {
+  if (g && echoesUncleared(g).length) return 'The Sixth Door stays sealed until all five other echoes are cleared.';
   if (!party.some((h) => h.level >= FINALE_LEVEL)) return `Tiamat can only be faced with a level ${FINALE_LEVEL} hero in the party.`;
   return null;
 }

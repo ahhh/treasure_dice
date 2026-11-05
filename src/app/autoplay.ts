@@ -9,6 +9,7 @@ import { listActions, legalTargets, type ActionOption } from '../combat/hero.ts'
 import { previewHand } from '../fortune/scoring.ts';
 import { HAND_RANK } from '../fortune/hands.ts';
 import { CLASS_MATERIAL } from '../fortune/materials.ts';
+import { heroColour } from '../fortune/dicepath.ts';
 import { exitsView, eventOptions, absoluteDir } from '../dungeon/explore.ts';
 import { DIRS, DELTA } from '../dungeon/generator.ts';
 import { derive, choiceOptions } from '../rules/character.ts';
@@ -38,7 +39,7 @@ export function bestDice(g: GameState, limit = 5, base = 8): { dice: number[]; s
   };
   for (let k = 1; k <= Math.min(limit, idx.length); k++) {
     for (const s of subsets(idx, k)) {
-      const p = previewHand({ run, trayIndices: s, actor: { classId: h?.classId ?? 'fighter', level: h?.level ?? 1, hpFrac: 1, affinity: CLASS_MATERIAL[h?.classId ?? 'fighter'] }, action: 'attack', base, baseLabel: '', rng, firstHand: false, marked: false, enemiesAlive: 2, curse: exp.combat?.curse });
+      const p = previewHand({ run, trayIndices: s, actor: { classId: h?.classId ?? 'fighter', level: h?.level ?? 1, hpFrac: 1, affinity: h ? heroColour(h) : CLASS_MATERIAL.fighter }, action: 'attack', base, baseLabel: '', rng, firstHand: false, marked: false, enemiesAlive: 2, curse: exp.combat?.curse });
       // Only commit the scoring dice: unscored dice stay on the tray for allies.
       const scoringOnly = p.scoringDice.length === s.length;
       const val = p.total - (scoringOnly ? 0 : 1);

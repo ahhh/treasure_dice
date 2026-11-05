@@ -14,6 +14,7 @@ import { SKILL_TRICKS } from '../content/skilltricks.ts';
 import { castableSpells, SPELLS, upcastDice, type SpellDef } from '../content/spells.ts';
 import { ITEMS } from '../content/items.ts';
 import { CLASS_MATERIAL } from '../fortune/materials.ts';
+import { heroColour } from '../fortune/dicepath.ts';
 import { scoreHand, previewHand, type ScoreOutput } from '../fortune/scoring.ts';
 import { reroll as trayReroll, spendDice, rerollsPerTurn, handSize, nudge, flip, forceValue, addGhostDie, faceValue, rollTrayDie, refill } from '../fortune/tray.ts';
 import { charmPassives } from '../fortune/charms.ts';
@@ -492,7 +493,7 @@ function doSkillTrick(ctx: Ctx, a: { c: Combatant; h: Hero; d: Derived }, skill:
       msg = `quietly rerolls a die: ${faceValue(run, td)}`;
       break;
     case 'arcana':
-      replaceWithGhost(ctx, die, CLASS_MATERIAL[h.classId], v, undefined, 'Attuned');
+      replaceWithGhost(ctx, die, heroColour(h), v, undefined, 'Attuned');
       msg = `attunes a ${v} to their colour`;
       break;
     case 'history': {
@@ -692,7 +693,7 @@ function score(ctx: Ctx, base: number, label: string, p: PlayCtx): ScoreOutput {
   }
   return scoreHand({
     run, trayIndices: p.dice, base, baseLabel: label, rng: ctx.fortuneRng,
-    actor: { classId: a.h.classId, level: a.h.level, hpFrac: a.c.hp / a.c.maxHp, affinity: CLASS_MATERIAL[a.h.classId], heroId: a.h.id, extraAffinity: a.d.diceGear.affinity },
+    actor: { classId: a.h.classId, level: a.h.level, hpFrac: a.c.hp / a.c.maxHp, affinity: heroColour(a.h), heroId: a.h.id, extraAffinity: a.d.diceGear.affinity },
     action: p.use === 'attack' ? 'attack' : p.use === 'heal' ? 'heal' : p.use === 'guard' ? 'guard' : 'spell',
     firstHand: ctx.combat.handsThisCombat === 0, marked, enemiesAlive: livingEnemies(ctx).length, curse,
     extraDie: biomeDie(ctx),
@@ -742,7 +743,9 @@ function handName(h: HandType) {
 
 function healAmount(base: number, s: ScoreOutput, ctx: Ctx): number {
   const hm = charmPassives(ctx.exp.fortune).healMult;
-  return Math.round(base * VITALITY * (1 + (s.mult - 1) * HEAL_MULT_SLOPE * 0.5) * hm);
+  const giver = actor(ctx);
+  const lg = giver ? 1 + giver.d.legend.healPct : 1;
+  return Math.round(base * VITALITY * (1 + (s.mult - 1) * HEAL_MULT_SLOPE * 0.5) * hm * lg);
 }
 
 function dcBonus(s: ScoreOutput, played: boolean): number {
@@ -752,6 +755,7 @@ function dcBonus(s: ScoreOutput, played: boolean): number {
 
 /** Split a scored total across typed components and deal it. */
 function dealScored(ctx: Ctx, attacker: Combatant, target: Combatant, parts: DmgPart[], total: number, opts: { crit?: boolean; melee?: boolean; source: string; spill?: boolean }): number {
+  total = Math.round(total * legendDamageFactor(ctx, attacker, target));
   const sum = parts.reduce((a, p) => a + p.amount, 0) || 1;
   const scaled = parts.map((p) => ({ type: p.type, amount: (total * p.amount) / sum }));
   const hpBefore = target.hp + target.tempHp;
@@ -770,12 +774,24 @@ function dealScored(ctx: Ctx, attacker: Combatant, target: Combatant, parts: Dmg
   return dealt;
 }
 
+/** Legendary damage scaling: flat %, bloodied fury, and elite/boss bane. */
+function legendDamageFactor(ctx: Ctx, attacker: Combatant, target: Combatant): number {
+  const h = heroOf(ctx, attacker);
+  if (!h) return 1;
+  const L = derive(h).legend;
+  let f = 1 + L.dmgPct;
+  if (L.bloodied && attacker.hp <= attacker.maxHp / 2) f *= 1 + L.bloodied;
+  if (L.bossDmgPct && (target.mon?.boss || target.mon?.elite)) f *= 1 + L.bossDmgPct;
+  return Math.max(0.1, f);
+}
+
 /** Spells whose damage is several bolts or beams: their overkill redirects. */
 const CARRY_SPELLS = new Set(['magicMissile', 'scorchingRay', 'eldritchBlast', 'chainLightning']);
 
 /** Does a weapon volley carry overkill? Cleave weapons and Great Weapon Master hits do. */
 function weaponCarries(h: Hero, w: WeaponProfile): boolean {
   if (w.ranged) return false;
+  if (derive(h).legend.spill) return true;
   if (w.mastery === 'cleave' && ['barbarian', 'fighter', 'paladin', 'ranger', 'rogue'].includes(h.classId)) return true;
   return h.feats.includes('greatWeaponMaster') && w.props.includes('heavy');
 }
@@ -982,6 +998,11 @@ function weaponVolley(ctx: Ctx, dice: number[], tgt: Combatant, spec: AttackSpec
   if (anyCrit) s.crit = true;
   dealScored(ctx, c, tgt, parts, s.total, { crit: anyCrit, melee, source: spec.label, spill: weaponCarries(h, spec.weapon) || undefined });
   if (d.lifesteal > 0) heal(ctx, c, s.total * d.lifesteal, 'Vampiric');
+  // Vorpal: a crit finishes off a badly wounded foe.
+  if (anyCrit && d.legend.execute && !tgt.dead && !tgt.mon?.boss && tgt.hp <= tgt.maxHp * 0.25) {
+    log(ctx, `Snicker-snack! ${c.name}'s vorpal blade finishes ${tgt.name}.`, 'crit');
+    kill(ctx, tgt, 'Vorpal Sword', c);
+  }
   spec.afterHit?.(tgt);
   commitPlay(ctx, { dice, use: 'attack', target: tgt }, s);
   return { ok: true, score: s };
@@ -1205,6 +1226,7 @@ export function castSpell(ctx: Ctx, spell: SpellDef, slotIn: number | undefined,
   const dmgBonus = (spellDef: SpellDef) => {
     let b = 0;
     if (cantrip && d.features.has('elementalFury')) b += d.mods.wis;
+    b += d.legend.spellDmg;
     if (spellDef.school === 'evocation' && d.features.has('empoweredEvocation')) b += d.mods.int;
     if (spellDef.dmgType === 'fire' && h.classId === 'sorcerer' && h.level >= 6) b += d.mods.cha;
     return b;

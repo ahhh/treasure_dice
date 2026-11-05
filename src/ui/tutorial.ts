@@ -21,6 +21,7 @@ import { makeCtx, current } from '../combat/core.ts';
 import { HAND_BY_ID } from '../fortune/hands.ts';
 import { previewHand } from '../fortune/scoring.ts';
 import { CLASS_MATERIAL } from '../fortune/materials.ts';
+import { heroColour } from '../fortune/dicepath.ts';
 import { Rng } from '../engine/rng.ts';
 import { PROLOGUE, FINALE_LEVEL } from '../content/story.ts';
 
@@ -120,7 +121,7 @@ function recHandName(g: GameState, dice: number[]): string {
   const actor = current(ctx);
   const hero = actor && g.roster.find((x) => x.id === actor.refId);
   if (!hero || !dice.length) return 'a hand';
-  const p = previewHand({ run: g.expedition!.fortune, trayIndices: dice, actor: { classId: hero.classId, level: hero.level, hpFrac: 1, affinity: CLASS_MATERIAL[hero.classId] }, action: 'attack', base: 0, baseLabel: '', rng: new Rng([1, 2, 3, 4]), firstHand: false, marked: false, enemiesAlive: 2, curse: ctx.combat.curse });
+  const p = previewHand({ run: g.expedition!.fortune, trayIndices: dice, actor: { classId: hero.classId, level: hero.level, hpFrac: 1, affinity: heroColour(hero) }, action: 'attack', base: 0, baseLabel: '', rng: new Rng([1, 2, 3, 4]), firstHand: false, marked: false, enemiesAlive: 2, curse: ctx.combat.curse });
   return HAND_BY_ID[p.hand].name;
 }
 

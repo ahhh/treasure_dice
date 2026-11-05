@@ -6,7 +6,7 @@ import type { Ability, ClassId, DamageType, HandType, Hero, ItemInstance, Materi
 import { ABILITIES } from '../engine/types.ts';
 import type { Rng } from '../engine/rng.ts';
 import { CLASSES, maxSlots, proficiency, featuresUpTo, FIGHTING_STYLES, METAMAGIC, INVOCATIONS, EPIC_BOONS } from '../content/classes.ts';
-import { ITEMS, AFFIXES, type Mastery, type WeaponProp } from '../content/items.ts';
+import { ITEMS, AFFIXES, type LegendMods, type Mastery, type WeaponProp } from '../content/items.ts';
 import { SPECIES, BACKGROUNDS, uniqueName } from '../content/origins.ts';
 import { portraitsFor } from '../content/portraits.ts';
 import { VITALITY } from './balance.ts';
@@ -85,6 +85,8 @@ export interface Derived {
   proficient: Skill[];
   /** Skill tricks usable per fight. */
   tricks: number;
+  /** Legendary hooks, summed over equipped gear. */
+  legend: LegendTotals;
   /** Dice hooks from gear. */
   diceGear: {
     affinity: Material[];
@@ -93,6 +95,33 @@ export interface Derived {
     tokens: string[];
     openingWild: number;
   };
+}
+
+export interface LegendTotals {
+  dmgPct: number; bloodied: number; bossDmgPct: number; healPct: number; healTakenPct: number; regen: number; thorns: number; spellDmg: number;
+  spill: boolean; execute: boolean; firstHitImmune: boolean; deathWard: boolean; openingHidden: boolean;
+  onKill: { healPct: number; rerolls: number };
+}
+
+/** Stat mods an equipped item grants from any slot: a legendary's hooks, or a trinket's mods. */
+export function gearMods(inst: ItemInstance): LegendMods | undefined {
+  const def = ITEMS[inst.defId];
+  return def?.legend?.mods ?? def?.trinket;
+}
+
+function legendTotals(items: ItemInstance[]): LegendTotals {
+  const t: LegendTotals = { dmgPct: 0, bloodied: 0, bossDmgPct: 0, healPct: 0, healTakenPct: 0, regen: 0, thorns: 0, spellDmg: 0, spill: false, execute: false, firstHitImmune: false, deathWard: false, openingHidden: false, onKill: { healPct: 0, rerolls: 0 } };
+  for (const inst of items) {
+    const m = ITEMS[inst.defId]?.legend?.mods;
+    if (!m) continue;
+    t.dmgPct += m.dmgPct ?? 0; t.bloodied += m.bloodied ?? 0; t.bossDmgPct += m.bossDmgPct ?? 0;
+    t.healPct += m.healPct ?? 0; t.healTakenPct += m.healTakenPct ?? 0; t.regen += m.regen ?? 0; t.thorns += m.thorns ?? 0; t.spellDmg += m.spellDmg ?? 0;
+    t.spill ||= !!m.spill; t.execute ||= !!m.execute; t.openingHidden ||= !!m.openingHidden;
+    t.firstHitImmune ||= !!m.firstHitImmune;
+    t.deathWard ||= !!m.deathWard;
+    t.onKill.healPct += m.onKill?.healPct ?? 0; t.onKill.rerolls += m.onKill?.rerolls ?? 0;
+  }
+  return t;
 }
 
 function equipped(hero: Hero): ItemInstance[] {
@@ -104,7 +133,7 @@ export function effectiveAbilities(hero: Hero): Record<Ability, number> {
   if (hero.level >= 20 && hero.classId === 'barbarian') { a.str = Math.min(25, a.str + 4); a.con = Math.min(25, a.con + 4); }
   if (hero.level >= 20 && hero.classId === 'monk') { a.dex = Math.min(25, a.dex + 4); a.wis = Math.min(25, a.wis + 4); }
   for (const inst of equipped(hero)) {
-    const t = ITEMS[inst.defId]?.trinket;
+    const t = gearMods(inst);
     if (!t) continue;
     if (t.setAbility) for (const [k, v] of Object.entries(t.setAbility)) a[k as Ability] = Math.max(a[k as Ability], v!);
     if (t.ability) for (const [k, v] of Object.entries(t.ability)) a[k as Ability] += v!;
@@ -144,7 +173,7 @@ export function derive(hero: Hero): Derived {
   if (choice(hero, 'epicBoon').includes('fortitude')) maxHp += 40;
   let hpPct = 0;
   for (const inst of items) {
-    hpPct += ITEMS[inst.defId]?.trinket?.hpPct ?? 0;
+    hpPct += gearMods(inst)?.hpPct ?? 0;
     for (const a of inst.affixes) hpPct += AFFIXES[a]?.hpPct ?? 0;
   }
   maxHp = Math.round(Math.max(1, maxHp) * VITALITY * (1 + hpPct));
@@ -159,10 +188,13 @@ export function derive(hero: Hero): Derived {
   else if (hero.classId === 'sorcerer' && L >= 3) ac = 10 + mods.dex + mods.cha;
   else if (invocations.includes('armorOfShadows')) ac = 13 + mods.dex;
   else ac = 10 + mods.dex;
+  const robe = Math.max(0, ...items.map((i) => gearMods(i)?.unarmoredBase ?? 0));
+  if (!armor && robe) ac = Math.max(ac, robe + mods.dex);
   if (shieldInst) ac += 2 + shieldInst.plus;
   if (armor && styles.includes('defense')) ac += 1;
   for (const inst of items) {
-    const t = ITEMS[inst.defId]?.trinket;
+    const t = gearMods(inst);
+    if (t?.acNoShield && !shieldInst) ac += t.acNoShield;
     if (t?.ac) {
       if (inst.defId === 'bracersDefense') { if (!armor && !shieldInst) ac += t.ac; } else ac += t.ac;
     }
@@ -175,7 +207,7 @@ export function derive(hero: Hero): Derived {
   if (L >= 15 && hero.classId === 'rogue') { saveProf.add('wis'); saveProf.add('cha'); }
   if (hasFeat(hero, 'resilient')) saveProf.add('con');
   let saveBonus = 0;
-  for (const inst of items) saveBonus += ITEMS[inst.defId]?.trinket?.saves ?? 0;
+  for (const inst of items) saveBonus += gearMods(inst)?.saves ?? 0;
   const saves = Object.fromEntries(ABILITIES.map((a) => [a, mods[a] + (saveProf.has(a) ? pb : 0) + saveBonus])) as Record<Ability, number>;
 
   // Skills
@@ -186,7 +218,7 @@ export function derive(hero: Hero): Derived {
   const skillBonus: Partial<Record<Skill, number>> = {};
   for (const inst of items) {
     const def = ITEMS[inst.defId];
-    const t = def?.trinket;
+    const t = gearMods(inst);
     if (!t) continue;
     for (const s of t.skillProf ?? []) proficient.add(s);
     for (const [k, v] of Object.entries(t.skillBonus ?? {})) skillBonus[k as Skill] = (skillBonus[k as Skill] ?? 0) + v!;
@@ -208,14 +240,14 @@ export function derive(hero: Hero): Derived {
   let init = mods.dex;
   if (hasFeat(hero, 'alert')) init += pb;
   for (const inst of items) {
-    init += ITEMS[inst.defId]?.trinket?.init ?? 0;
+    init += gearMods(inst)?.init ?? 0;
     for (const a of inst.affixes) init += AFFIXES[a]?.init ?? 0;
   }
 
   // Spellcasting
   const spellAbility = cls.caster?.ability ?? (hero.feats.includes('magicInitiate') ? 'wis' : undefined);
   let spellBonus = 0;
-  for (const inst of items) spellBonus += ITEMS[inst.defId]?.trinket?.spellDc ?? 0;
+  for (const inst of items) spellBonus += gearMods(inst)?.spellDc ?? 0;
   const spellDc = 8 + pb + (spellAbility ? mods[spellAbility] : 0) + spellBonus;
   const spellAttack = pb + (spellAbility ? mods[spellAbility] : 0) + spellBonus;
 
@@ -229,18 +261,19 @@ export function derive(hero: Hero): Derived {
   if (feats.has('extraAttack') || (invocations.includes('thirstingBlade') && L >= 5)) attacks = 2;
   if (feats.has('extraAttack2')) attacks = 3;
   if (feats.has('extraAttack3')) attacks = 4;
+  for (const inst of items) attacks = Math.max(attacks, gearMods(inst)?.minAttacks ?? 0);
 
   let critMin = 20;
   if (feats.has('improvedCritical')) critMin = 19;
   if (feats.has('superiorCritical')) critMin = 18;
   for (const inst of items) {
-    critMin -= ITEMS[inst.defId]?.trinket?.critRange ?? 0;
+    critMin -= gearMods(inst)?.critRange ?? 0;
     for (const a of inst.affixes) critMin -= AFFIXES[a]?.critRange ?? 0;
   }
 
   const resist = new Set<DamageType>(species?.resist ?? []);
   for (const inst of items) {
-    for (const r of ITEMS[inst.defId]?.trinket?.resist ?? []) resist.add(r);
+    for (const r of gearMods(inst)?.resist ?? []) resist.add(r);
     for (const a of inst.affixes) for (const r of AFFIXES[a]?.resist ?? []) resist.add(r);
   }
   if (hero.classId === 'sorcerer' && L >= 6) resist.add('fire');
@@ -252,11 +285,12 @@ export function derive(hero: Hero): Derived {
   if (feats.has('heroicWarrior')) rerollBonus += 1;
   if (choice(hero, 'epicBoon').includes('fate')) rerollBonus += 1;
   for (const inst of items) {
-    rerollBonus += ITEMS[inst.defId]?.trinket?.rerolls ?? 0;
+    rerollBonus += gearMods(inst)?.rerolls ?? 0;
     for (const a of inst.affixes) rerollBonus += AFFIXES[a]?.rerolls ?? 0;
   }
   let lifesteal = 0;
   let doubloonOnKill = 0;
+  if (hero.equipment.mainHand) lifesteal += ITEMS[hero.equipment.mainHand.defId]?.legend?.mods.lifesteal ?? 0;
   for (const a of hero.equipment.mainHand?.affixes ?? []) {
     lifesteal += AFFIXES[a]?.lifesteal ?? 0;
     doubloonOnKill += AFFIXES[a]?.doubloonOnKill ?? 0;
@@ -268,6 +302,13 @@ export function derive(hero: Hero): Derived {
   if (hero.ancestry === 'goliath') resources.stonesEndurance = pb;
   if (hero.ancestry === 'orc') resources.relentless = 1;
   if (hero.ancestry === 'dragonborn') resources.breath = pb;
+  // Legendary gear: extra uses of resources the hero already has, and extra slots for casters.
+  const slots = maxSlots(hero.classId, L);
+  for (const inst of items) {
+    const m = gearMods(inst);
+    for (const [k, v] of Object.entries(m?.resources ?? {})) if (k in resources) resources[k] += v;
+    if (m?.bonusSlots && slots.some((n) => n > 0)) for (const [lv, n] of Object.entries(m.bonusSlots)) slots[Number(lv)] = (slots[Number(lv)] ?? 0) + (n ?? 0);
+  }
 
   return {
     abilities, mods, pb, maxHp, ac, init, saves, saveProf: [...saveProf], skills,
@@ -276,7 +317,7 @@ export function derive(hero: Hero): Derived {
     sneakDice: hero.classId === 'rogue' ? Math.ceil(L / 2) : 0,
     rageDamage: L >= 16 ? 4 : L >= 9 ? 3 : 2,
     cantripDice: L >= 17 ? 4 : L >= 11 ? 3 : L >= 5 ? 2 : 1,
-    slots: maxSlots(hero.classId, L),
+    slots,
     resources,
     features: feats,
     inspirationDie: L >= 15 ? 12 : L >= 10 ? 10 : L >= 5 ? 8 : 6,
@@ -284,6 +325,7 @@ export function derive(hero: Hero): Derived {
     hasShield: !!shieldInst,
     lifesteal, doubloonOnKill,
     proficient: [...proficient], tricks, diceGear,
+    legend: legendTotals(items),
   };
 }
 
@@ -295,12 +337,16 @@ function weaponProfile(
   const w = def?.weapon;
   const monk = hero.classId === 'monk';
   const wildShaped = false;
+  const gear = equipped(hero).map(gearMods);
   if (!w || wildShaped) {
-    // Unarmed strike.
+    // Unarmed strike. Demon Armor claws and fist gauntlets raise the die for anyone.
     const ability: Ability = monk && mods.dex > mods.str ? 'dex' : 'str';
+    const gearDie = Math.max(0, ...gear.map((m) => m?.unarmedDie ?? 0));
+    const die = Math.max(monk ? maDie : 0, gearDie);
+    const claws = equipped(hero).some((i) => i.defId === 'demonArmor');
     return {
-      name: 'Unarmed Strike', toHit: mods[ability] + pb, dice: monk ? `1d${maDie}` : '1', bonus: mods[ability],
-      type: monk && hero.level >= 6 ? 'force' : 'bludgeoning', ranged: false, reach: false, props: [], ability,
+      name: 'Unarmed Strike', toHit: mods[ability] + pb + (claws ? 1 : 0), dice: die ? `1d${die}` : '1', bonus: mods[ability] + (claws ? 1 : 0),
+      type: monk && hero.level >= 6 ? 'force' : claws && gearDie >= die ? 'slashing' : 'bludgeoning', ranged: false, reach: false, props: [], ability,
       onHit: [], heavy: false, light: true, plus: 0,
     };
   }
@@ -309,6 +355,10 @@ function weaponProfile(
   else if (w.props.includes('finesse') && mods.dex > mods.str) ability = 'dex';
   if (monk && (w.props.includes('monk') || w.props.includes('light')) && mods.dex > mods[ability]) ability = 'dex';
   if (invocations.includes('pactOfTheBlade') && !w.props.includes('ranged') && mods.cha > mods[ability]) ability = 'cha';
+  // Spellthief's Kris and the like: fight with the mind.
+  const legendAbility = def?.legend?.mods.attackAbility;
+  const alt: Ability | undefined = legendAbility === 'spell' ? CLASSES[hero.classId].caster?.ability : legendAbility;
+  if (alt && mods[alt] > mods[ability]) ability = alt;
   const proficient = w.martial ? CLASSES[hero.classId].martial || (hero.classId === 'cleric' && choice(hero, 'divineOrder').includes('protector')) || (hero.classId === 'druid' && choice(hero, 'primalOrder').includes('warden')) || invocations.includes('pactOfTheBlade') || (hero.classId === 'rogue' && (w.props.includes('finesse') || w.props.includes('light'))) || (hero.classId === 'bard' && w.props.includes('finesse')) || (monk && w.props.includes('monk')) : true;
   const plus = inst?.plus ?? 0;
   let toHit = mods[ability] + (proficient ? pb : 0) + plus;
@@ -324,6 +374,7 @@ function weaponProfile(
   if (styles.includes('dueling') && !w.props.includes('twoHanded') && !w.props.includes('ranged') && !offhand) bonus += 2;
   if (hasFeat(hero, 'greatWeaponMaster') && w.props.includes('heavy')) bonus += pb;
   const onHit = (inst?.affixes ?? []).map((a) => AFFIXES[a]?.onHit).filter(Boolean) as { dice: string; type: DamageType }[];
+  onHit.push(...(def?.legend?.mods.onHit ?? []));
   if (invocations.includes('lifedrinker') && invocations.includes('pactOfTheBlade')) onHit.push({ dice: '1d6', type: 'necrotic' });
   return {
     name: def!.name + (plus ? ` +${plus}` : ''), toHit, dice, bonus, type: monk && hero.level >= 6 && w.props.includes('monk') ? 'force' : w.type,

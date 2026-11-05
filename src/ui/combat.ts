@@ -10,6 +10,7 @@ import { listActions, listTalents, legalTargets, type ActionOption, nextBagDie }
 import { previewHand } from '../fortune/scoring.ts';
 import { HAND_BY_ID } from '../fortune/hands.ts';
 import { CLASS_MATERIAL, MATERIALS } from '../fortune/materials.ts';
+import { heroColour } from '../fortune/dicepath.ts';
 import { charmSlots } from '../fortune/tray.ts';
 import { CURSES } from '../fortune/curses.ts';
 import { TOKENS } from '../fortune/boons.ts';
@@ -181,7 +182,7 @@ function trayEl(): HTMLElement {
   app.ui.rolling = new Set();
   let preview: ReturnType<typeof previewHand> | null = null;
   if (sel.length && hero) {
-    preview = previewHand({ run: f, trayIndices: sel.slice(0, 5), actor: { classId: hero.classId, level: hero.level, hpFrac: actor!.hp / actor!.maxHp, affinity: CLASS_MATERIAL[hero.classId] }, action: 'attack', base: 0, baseLabel: 'Action', rng: new Rng([1, 2, 3, 4]), firstHand: ctx.combat.handsThisCombat === 0, marked: false, enemiesAlive: 2, curse: ctx.combat.curse });
+    preview = previewHand({ run: f, trayIndices: sel.slice(0, 5), actor: { classId: hero.classId, level: hero.level, hpFrac: actor!.hp / actor!.maxHp, affinity: heroColour(hero) }, action: 'attack', base: 0, baseLabel: 'Action', rng: new Rng([1, 2, 3, 4]), firstHand: ctx.combat.handsThisCombat === 0, marked: false, enemiesAlive: 2, curse: ctx.combat.curse });
   }
   const talents = turn ? listTalents(ctx) : [];
   const playsLeft = turn ? turn.plays - turn.playsUsed : 0;

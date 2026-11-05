@@ -4,7 +4,7 @@ import { dispatch } from '../src/app/commands.ts';
 import { autoExploreStep, autoCombatStep } from '../src/app/autoplay.ts';
 import { createHero, derive, makeItem } from '../src/rules/character.ts';
 import { Rng } from '../src/engine/rng.ts';
-import { markOffers, applyMark, heroDice, TRAIT_LEVELS } from '../src/fortune/dicepath.ts';
+import { markOffers, applyMark, heroDice, heroColour, TRAIT_LEVELS, RECOLOUR_LEVEL, DICE_COLOURS } from '../src/fortune/dicepath.ts';
 import { newFortuneRun, startCombatTray, applyHex } from '../src/fortune/tray.ts';
 import { scoreHand } from '../src/fortune/scoring.ts';
 import type { GameState, Hero } from '../src/engine/types.ts';
@@ -30,6 +30,26 @@ describe('dice path', () => {
     expect(markOffers(h, 3).length).toBe(3);
     for (const l of TRAIT_LEVELS) expect(markOffers(h, l).every((m) => m.kind === 'trait')).toBe(true);
     expect(markOffers(h, 8).some((m) => m.kind === 'newDie')).toBe(true);
+  });
+
+  it('level 3 offers: keep your colour, or one of two other dice colours', () => {
+    const h = hero();
+    const offers = markOffers(h, RECOLOUR_LEVEL);
+    expect(offers.map((m) => m.kind)).toEqual(['recolour', 'recolour', 'recolour']);
+    const mats = offers.map((m) => (m.kind === 'recolour' ? m.material : null));
+    expect(mats[0]).toBe(heroColour(h));
+    expect(new Set(mats).size).toBe(3);
+    for (const m of mats) expect(DICE_COLOURS).toContain(m);
+    // Taking a new colour repaints the signature dice and moves the affinity.
+    applyMark(h, offers[1]);
+    expect(heroColour(h)).toBe(mats[1]);
+    expect(heroDice(h).every((d) => d.material === mats[1])).toBe(true);
+    applyMark(h, { kind: 'newDie' });
+    expect(heroDice(h)[2].material).toBe(mats[1]);
+    // Keeping your colour changes nothing.
+    const k = hero();
+    applyMark(k, markOffers(k, RECOLOUR_LEVEL)[0]);
+    expect(k.colour).toBeUndefined();
   });
 
   it('marks permanently reshape signature dice', () => {

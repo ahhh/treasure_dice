@@ -20,7 +20,7 @@ import { startCombat, makeCtx, syncHeroes, hooks, heroOf, heroes as combatHeroes
 import { derive, fullRestore, shortRest, spendHitDice, SKILL_NAMES } from '../rules/character.ts';
 import { castableSpells, SPELLS } from '../content/spells.ts';
 import { goldReward, DOUBLOONS_PER_COMBAT, DIFFICULTY_MOD, VITALITY } from '../rules/balance.ts';
-import { rollItem, rollMagicItem, bossLootChoice } from '../meta/loot.ts';
+import { rollItem, rollMagicItem, bossLootChoice, rollLegendary, ownedLegends, LEGEND_CHANCE } from '../meta/loot.ts';
 import { makeItem } from '../rules/character.ts';
 import { buildTutorialMap, TUTORIAL_SEED } from './tutorial.ts';
 import { FINALE, CHAPTERS, EPILOGUE, finaleBlocked, storyOf } from '../content/story.ts';
@@ -45,7 +45,7 @@ export function startExpedition(g: GameState, o: StartOpts): string | null {
   if (o.tutorial && o.finale) return 'Pick one: the tutorial or the finale.';
   if (o.tutorial) { o = { ...o, biome: 'cinder', difficulty: 'explorer', seed: TUTORIAL_SEED, size: 'short' }; }
   if (o.finale) {
-    const blocked = finaleBlocked(heroes as Hero[]);
+    const blocked = finaleBlocked(heroes as Hero[], g);
     if (blocked) return blocked;
     o = { ...o, biome: 'starfall', size: 'long' };
   } else if (!o.tutorial && !g.profile.unlockedBiomes.includes(o.biome)) return 'That echo is still sealed.';
@@ -525,6 +525,10 @@ export function takeLoot(g: GameState): string | null {
     exp.carriedItems.push(it);
     xlog(exp, `Found ${itemName(it)}.`, 'loot');
   }
+  if (!exp.tutorial && loot.chance(room.secret ? LEGEND_CHANCE.secret : LEGEND_CHANCE.treasure)) {
+    const lg = rollLegendary(loot, exp.partyLevel, ownedLegends(g));
+    if (lg) { exp.carriedItems.push(lg); xlog(exp, `✦ A legend lies in the hoard: ${itemName(lg)}!`, 'loot'); }
+  }
   if (room.loot.charm) exp.boons = { offers: rollBoons(loot, exp.fortune, 'treasure'), source: 'treasure', picks: 1 };
   return null;
 }
@@ -593,6 +597,10 @@ function grantSpoils(g: GameState) {
     exp.carriedItems.push(it);
     items.push(itemName(it));
   }
+  if (kind === 'elite' && !exp.tutorial && loot.chance(LEGEND_CHANCE.elite)) {
+    const lg = rollLegendary(loot, exp.partyLevel, ownedLegends(g));
+    if (lg) { exp.carriedItems.push(lg); items.push(`✦ ${itemName(lg)}`); xlog(exp, `✦ The elite carried a legend: ${itemName(lg)}!`, 'loot'); }
+  }
   exp.depth += 1;
   exp.fortune.rank += 1;
   // Downed heroes get up; stabilise the unconscious.
@@ -610,6 +618,11 @@ function grantSpoils(g: GameState) {
     exp.bossDefeated = true;
     const rank = exp.tutorial ? 0 : DIFFICULTY_MOD[exp.difficulty].rank;
     exp.lootChoice = { items: bossLootChoice(loot, exp.partyLevel, exp.biome, rank) };
+    // Boss hoards are where legends turn up: one of the three may be one-of-a-kind.
+    if (!exp.tutorial && loot.chance(LEGEND_CHANCE.boss + LEGEND_CHANCE.bossPerRank * rank)) {
+      const lg = rollLegendary(loot, exp.partyLevel, ownedLegends(g));
+      if (lg) exp.lootChoice.items.splice(Math.max(0, exp.lootChoice.items.length - 1), 1, lg);
+    }
     // Harder runs pay out: one bonus magic item per difficulty step above Standard.
     for (let i = 0; i < rank; i++) {
       const it = rollMagicItem(loot, exp.partyLevel, exp.biome, rank);

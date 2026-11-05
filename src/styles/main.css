@@ -483,3 +483,6 @@ table.mini td, table.mini th { padding: 3px 6px; border-bottom: 1px solid rgba(2
 
 /* Illustration banners (events, chronicle) */
 .art-banner { display: block; width: 100%; aspect-ratio: 16 / 7; object-fit: cover; border-radius: 8px; margin: 0 0 10px; border: 1px solid rgba(255, 255, 255, .12); }
+
+/* Legendary items: a prismatic ring around the icon. */
+.icon.legend { border-radius: 8px; box-shadow: 0 0 0 2px #f2c14e, 0 0 10px 2px rgba(181, 123, 255, 0.55); }

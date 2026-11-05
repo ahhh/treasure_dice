@@ -107,6 +107,8 @@ export interface Hero {
    * older saves; `heroDice()` supplies two plain class-coloured dice.
    */
   dice?: HeroDie[];
+  /** Dice colour chosen on the Dice Path (level 3). Absent = the class colour. */
+  colour?: Material;
 }
 
 /** Permanent per-die traits from Dice Path milestones (levels 5, 10, 15, 20). */

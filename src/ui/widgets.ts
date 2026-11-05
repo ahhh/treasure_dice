@@ -142,7 +142,7 @@ export function bagView(run: FortuneRun, onPick: (uid: string, face?: number) =>
 
 export function itemIcon(defId: string): HTMLElement {
   const d = ITEMS[defId];
-  return h('div', { class: 'icon' }, art(d?.art ?? 'x', d?.name ?? defId, '', '#4a4a5a'));
+  return h('div', { class: d?.legend ? 'icon legend' : 'icon', title: d?.legend ? `Legendary — ${d.legend.lore}` : undefined }, art(d?.art ?? 'x', d?.name ?? defId, '', '#4a4a5a'));
 }
 
 export { MATERIALS, TOKENS };

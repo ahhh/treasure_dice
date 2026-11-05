@@ -20,7 +20,7 @@ import { exportSave } from '../persistence/save.ts';
 import { download } from './title.ts';
 import { saveGame } from '../persistence/save.ts';
 import { sfx } from './audio.ts';
-import { PROLOGUE, CHAPTERS, HEADS, FINALE, FINALE_LEVEL, EPILOGUE, finaleBlocked, storyOf, doorName } from '../content/story.ts';
+import { PROLOGUE, CHAPTERS, HEADS, FINALE, FINALE_LEVEL, EPILOGUE, finaleBlocked, finaleSealed, echoesUncleared, storyOf, doorName } from '../content/story.ts';
 import { openShareCard } from './shareCard.ts';
 
 const TABS: [string, string, string][] = [
@@ -121,7 +121,8 @@ function cartTab(): HTMLElement {
   };
   const finale = ui.biome === 'finale';
   const partyHeroes = ui.party.map((id) => g.roster.find((x) => x.id === id)!);
-  const hasChampion = alive.some((x) => x.level >= FINALE_LEVEL);
+  const sealed = finaleSealed(g);
+  const hasChampion = !sealed;
   if (finale && !hasChampion) ui.biome = 'cinder';
   const tutorialOn = !!g.tutorial;
   const levels = partyHeroes.map((x) => x.level);
@@ -147,12 +148,12 @@ function cartTab(): HTMLElement {
         const open = g.profile.unlockedBiomes.includes(b);
         return h('button', { class: `biome-card ${ui.biome === b ? 'sel' : ''} ${open ? '' : 'locked'}`, style: bgStyle(`scenes/${b}_corridor`, `linear-gradient(135deg, ${def.color}, #0b1230)`), disabled: !open, on: { click: () => { ui.biome = b; render(); } } },
           h('b', null, def.name), h('span', { class: 'small' }, open ? def.tagline : 'Sealed — clear the previous echo'), open && g.profile.sigils[b] ? h('span', { class: 'small gold' }, `Cleared ×${g.profile.sigils[b]}`) : null);
-      }), h('button', { class: `biome-card finale ${finale ? 'sel' : ''} ${hasChampion ? '' : 'locked'}`, style: bgStyle('monsters/starfall_tiamat', 'linear-gradient(135deg, #7a1f2b, #2b1550 55%, #0b1230)'), disabled: !hasChampion, 'data-key': 'biome-finale', title: hasChampion ? FINALE.tagline : `Needs a level ${FINALE_LEVEL} hero`, on: { click: () => { ui.biome = 'finale'; render(); } } },
-        h('b', null, `👑 ${FINALE.name}`), h('span', { class: 'small' }, hasChampion ? FINALE.tagline : `Sealed — needs a level ${FINALE_LEVEL} hero`), storyOf(g).tiamat ? h('span', { class: 'small gold' }, `Tiamat slain ×${storyOf(g).tiamat}`) : null)),
+      }), h('button', { class: `biome-card finale ${finale ? 'sel' : ''} ${hasChampion ? '' : 'locked'}`, style: bgStyle('monsters/starfall_tiamat', 'linear-gradient(135deg, #7a1f2b, #2b1550 55%, #0b1230)'), disabled: !hasChampion, 'data-key': 'biome-finale', title: sealed ?? FINALE.tagline, on: { click: () => { ui.biome = 'finale'; render(); } } },
+        h('b', null, `👑 ${FINALE.name}`), h('span', { class: 'small' }, sealed ?? FINALE.tagline), storyOf(g).tiamat ? h('span', { class: 'small gold' }, `Tiamat slain ×${storyOf(g).tiamat}`) : null)),
       finale
         ? h('div', null, h('p', { class: 'prose' }, FINALE.premise),
           h('p', { class: 'small muted' }, 'Final stage: a long Starfall dungeon, and Tiamat on her throne in place of its boss. Her Chromatic Dominion curse debuffs Ember, Verdant, Shadow, Frost and Storm dice and cuts Mult to ×0.75.'),
-          finaleBlocked(partyHeroes) ? h('p', { class: 'small danger' }, finaleBlocked(partyHeroes)) : null)
+          finaleBlocked(partyHeroes, g) ? h('p', { class: 'small danger' }, finaleBlocked(partyHeroes, g)) : null)
         : h('div', null,
           h('p', { class: 'prose' }, BIOMES[ui.biome as BiomeId].premise),
           h('p', { class: 'small muted' }, `${BIOMES[ui.biome as BiomeId].meter.icon} ${BIOMES[ui.biome as BiomeId].meter.name}: ${BIOMES[ui.biome as BiomeId].meter.text}`)),
@@ -175,7 +176,7 @@ function cartTab(): HTMLElement {
             ? { type: 'startExpedition', partyIds: ui.party, biome: 'starfall', difficulty: ui.difficulty, seed: ui.seed, finale: true }
             : { type: 'startExpedition', partyIds: ui.party, biome: ui.biome as BiomeId, difficulty: ui.difficulty, seed: ui.seed, size: ui.size });
           if (r.ok) { ui.seed = ''; sfx.fanfare(); }
-        }, { cls: 'primary big', disabled: ui.party.length !== 3 || (finale && !!finaleBlocked(partyHeroes)), key: 'start-exp' }),
+        }, { cls: 'primary big', disabled: ui.party.length !== 3 || (finale && !!finaleBlocked(partyHeroes, g)), key: 'start-exp' }),
       ),
       h('p', { class: 'small muted' }, 'Consumables in the Vault (up to six stacks) are packed automatically. Your Fortune — dice bag, charms, omens, doubloons — starts fresh in every echo.'),
     ),
@@ -208,9 +209,9 @@ function chronicleTab(): HTMLElement {
       banner(`story/${FINALE.id}`, FINALE.name),
       h('h2', null, `👑 ${FINALE.name}`),
       para(FINALE.premise),
-      h('p', { class: best >= FINALE_LEVEL ? 'gold' : 'muted' }, best >= FINALE_LEVEL
-        ? 'You have a champion at the height of their power. Choose the Dragon Throne in the Cartographer.'
-        : `Requires a level ${FINALE_LEVEL} hero in the party. Your strongest living hero is level ${best || '—'}.`),
+      h('p', { class: finaleSealed(g) ? 'muted' : 'gold' }, !finaleSealed(g)
+        ? 'All five echoes are broken and you have a champion at the height of their power. Choose the Dragon Throne in the Cartographer.'
+        : `Requires all five echoes cleared (${5 - echoesUncleared(g).length}/5) and a level ${FINALE_LEVEL} hero in the party. Your strongest living hero is level ${best || '—'}.`),
       story.tiamat ? [banner(`story/${EPILOGUE.id}`, EPILOGUE.title), h('div', { class: 'chapter-head', style: 'margin-top:10px' }, EPILOGUE.head), h('h3', null, EPILOGUE.title), ...EPILOGUE.text.map(para), h('p', { class: 'gold' }, `Tiamat slain ×${story.tiamat}.`)] : null),
     h('div', { class: 'win' },
       h('h2', null, 'Share your legends'),
@@ -240,11 +241,13 @@ export function itemSummary(defId: string, inst?: ItemInstance): string {
   const d = ITEMS[defId];
   if (!d) return '';
   const bits: string[] = [];
+  if (d.legend) bits.push('✦ Legendary');
   if (d.weapon) bits.push(`${d.weapon.dice}${d.weapon.versatile ? ` (${d.weapon.versatile})` : ''} ${d.weapon.type}`, d.weapon.props.join(', '), `mastery: ${d.weapon.mastery}`, d.weapon.martial ? 'martial' : 'simple');
   if (d.armor) bits.push(`AC ${d.armor.base}${d.armor.type === 'heavy' ? '' : d.armor.dexCap !== undefined ? ' + DEX (max 2)' : ' + DEX'}`, d.armor.type, d.armor.str ? `STR ${d.armor.str}` : '');
   if (d.shield) bits.push('+2 AC');
   if (d.text) bits.push(d.text);
   if (inst) for (const a of inst.affixes) bits.push(AFFIXES[a]?.text ?? a);
+  if (d.legend) bits.push(`“${d.legend.lore}”`);
   return bits.filter(Boolean).join(' · ');
 }
 

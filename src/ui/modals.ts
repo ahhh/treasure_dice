@@ -5,7 +5,7 @@ import { h, btn, fmt } from './dom.ts';
 import { app, run, render, toast } from './app.ts';
 import { art, bgStyle, banner, firstArt } from './art.ts';
 import { heroPortrait, heroLine, hpBar, boonCard, bagView, itemIcon, doubloons, charmEl, dieFace, signatureDice } from './widgets.ts';
-import { heroDice, markTitle, markText, TRAIT_LEVELS } from '../fortune/dicepath.ts';
+import { heroDice, heroColour, markTitle, markText, TRAIT_LEVELS, RECOLOUR_LEVEL } from '../fortune/dicepath.ts';
 import { SKILL_TRICKS } from '../content/skilltricks.ts';
 import { CLASSES, featuresUpTo, FEATS, FIGHTING_STYLES, METAMAGIC, INVOCATIONS, EPIC_BOONS } from '../content/classes.ts';
 import { ITEMS, itemName } from '../content/items.ts';
@@ -65,7 +65,7 @@ export function heroSheet(id: string): HTMLElement {
         h('div', { class: 'abil' }, ...ABILITIES.map((a) => h('div', { title: ABILITY_NAMES[a] }, a.toUpperCase(), h('b', null, d.abilities[a]), h('span', { class: 'small muted' }, `${mod(d.mods[a])} · save ${mod(d.saves[a])}${d.saveProf.includes(a) ? '●' : ''}`)))),
         h('div', { class: 'small' }, h('b', null, 'Attack: '), `${d.main.name} — ${d.attacks}× +${d.main.toHit} to hit, ${d.main.dice}${mod(d.main.bonus)} ${d.main.type}${d.main.mastery ? ` (mastery: ${d.main.mastery})` : ''}`),
         h('div', { class: 'small' }, h('b', null, 'Fortune talent: '), `${cls.fortuneTalent.name} — ${cls.fortuneTalent.text}`, h('span', { class: 'impl adapted' }, 'adapted')),
-        h('div', { class: 'small' }, h('b', null, 'Dice: '), `brings ${heroDice(hero).length} signature dice to the bag; ${MATERIALS[CLASS_MATERIAL[hero.classId]].name}${d.diceGear.affinity.length ? `, ${[...new Set(d.diceGear.affinity)].map((m) => MATERIALS[m].name).join(', ')}` : ''} dice score +1 Mult for them.`, d.rerollBonus ? ` +${d.rerollBonus} reroll on their turns.` : ''),
+        h('div', { class: 'small' }, h('b', null, 'Dice: '), `brings ${heroDice(hero).length} signature dice to the bag; ${MATERIALS[heroColour(hero)].name}${d.diceGear.affinity.length ? `, ${[...new Set(d.diceGear.affinity)].map((m) => MATERIALS[m].name).join(', ')}` : ''} dice score +1 Mult for them.`, d.rerollBonus ? ` +${d.rerollBonus} reroll on their turns.` : ''),
         signatureDice(hero),
         h('div', { class: 'small' }, h('b', null, 'Skills: '), d.proficient.map((s) => `${SKILL_NAMES[s]} ${mod(d.skills[s])}${hero.expertise.includes(s) ? '★' : ''}`).join(', ')),
         h('div', { class: 'small' }, h('b', null, `Skill tricks (${d.tricks} per fight): `), d.proficient.map((s) => `${SKILL_TRICKS[s].name} — ${SKILL_TRICKS[s].text}`).join(' · ')),
@@ -152,10 +152,10 @@ export function levelUpModal(id: string): HTMLElement {
         }, { cls: `small ${cur.includes(o) ? 'on' : ''}` }))));
     }),
     pv.marks.length ? h('div', { class: 'win', style: 'margin-top:8px', 'data-tut': 'dicepath' },
-      h('h3', null, `Dice Path — ${TRAIT_LEVELS.includes(pv.next) ? 'a trait milestone! ' : ''}choose one mark`),
+      h('h3', null, pv.next === RECOLOUR_LEVEL ? 'Dice Path — choose your colour' : `Dice Path — ${TRAIT_LEVELS.includes(pv.next) ? 'a trait milestone! ' : ''}choose one mark`),
       h('p', { class: 'small muted' }, 'Permanent changes to this hero\'s signature dice, which join the bag on every expedition.'),
-      signatureDice(hero, (() => { const m = pv.marks[st.mark]; return m && m.kind !== 'newDie' ? { die: m.die, face: m.kind === 'engrave' ? m.face : undefined } : undefined; })()),
-      h('div', { class: 'mark-cards', style: 'margin-top:8px' }, ...pv.marks.map((m, i) => btn([h('b', null, markTitle(hero, m)), h('span', { class: 'small muted' }, markText(hero, m))], () => { st.mark = i; render(); }, { cls: `small mark-card ${st.mark === i ? 'on' : ''}`, key: `mark-${i}` })))) : null,
+      signatureDice(hero, (() => { const m = pv.marks[st.mark]; return m && m.kind !== 'newDie' && m.kind !== 'recolour' ? { die: m.die, face: m.kind === 'engrave' ? m.face : undefined } : undefined; })()),
+      h('div', { class: 'mark-cards', style: 'margin-top:8px' }, ...pv.marks.map((m, i) => btn([h('b', null, m.kind === 'recolour' ? h('span', { class: 'swatch', style: `display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:${MATERIALS[m.material].color}` }) : null, markTitle(hero, m)), h('span', { class: 'small muted' }, markText(hero, m))], () => { st.mark = i; render(); }, { cls: `small mark-card ${st.mark === i ? 'on' : ''}`, key: `mark-${i}` })))) : null,
     h('div', { class: 'row', style: 'margin-top:12px' }, h('span', { class: 'spacer' }), btn('Later', close), btn(`Become level ${pv.next}`, confirmLevel, { cls: 'primary', key: 'confirm-level' })),
   ], { label: 'Level up', onClose: close });
   void choiceOptions;
@@ -356,7 +356,7 @@ export function helpModal(): HTMLElement {
     h('h3', null, 'Watch out'),
     p('Enemies hex your tray: they steal dice, jinx your best face, or flip everything. Bosses bring a curse that changes the rules for the fight. Each echo has its own meter, like Heat or Gravity, that bends both the map and the dice.'),
     h('h3', null, 'The story'),
-    p('Tiamat, the five-headed Dragon Queen, stirs behind the Sixth Door. Each of her five heads feeds an echo behind a door of its own. Each echo you break tells the next chapter (see the Chronicle). Once a hero reaches level 20, take them to the Dragon Throne in the Cartographer and end her reign.'),
+    p('Tiamat, the five-headed Dragon Queen, stirs behind the Sixth Door. Each of her five heads feeds an echo behind a door of its own. Each echo you break tells the next chapter (see the Chronicle). Once all five echoes are broken and a hero reaches level 20, take them to the Dragon Throne in the Cartographer and end her reign.'),
     h('p', { class: 'small muted' }, 'Keys: 1–9 select dice · R reroll · A/B/C/D/G menus · E end turn · Esc back · arrows to explore.'),
     h('div', { class: 'row' },
       app.game && !app.game.expedition && !app.game.tutorial ? btn('Restart the guided tour', () => { restartTutorial(app.game!); app.ui.townTab = 'guild'; close(); }, { cls: 'small' }) : null,

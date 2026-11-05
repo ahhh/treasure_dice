@@ -1,6 +1,6 @@
 {
  "game": "treasure_dice",
- "count": 372,
+ "count": 408,
  "entries": [
   {
    "key": "heroes/fighter_1",
@@ -839,7 +839,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Copper Tooth",
-   "subject": "a magical trinket charm called \"Copper Tooth\". Its power: +4 Mult.",
+   "subject": "a magical trinket charm called \"Copper Tooth\". Its power: +3 Mult.",
    "anchor": true
   },
   {
@@ -847,7 +847,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Twin Fang",
-   "subject": "a magical trinket charm called \"Twin Fang\". Its power: +6 Mult if the hand contains a Pair.",
+   "subject": "a magical trinket charm called \"Twin Fang\". Its power: +5 Mult if the hand contains a Pair.",
    "anchor": false
   },
   {
@@ -855,7 +855,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Triple Crown",
-   "subject": "a magical trinket charm called \"Triple Crown\". Its power: +10 Mult if the hand contains Three of a Kind.",
+   "subject": "a magical trinket charm called \"Triple Crown\". Its power: +8 Mult if the hand contains Three of a Kind.",
    "anchor": false
   },
   {
@@ -863,7 +863,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Ladder of Bones",
-   "subject": "a magical trinket charm called \"Ladder of Bones\". Its power: +10 Mult if the hand contains a Straight.",
+   "subject": "a magical trinket charm called \"Ladder of Bones\". Its power: +8 Mult if the hand contains a Straight.",
    "anchor": false
   },
   {
@@ -871,7 +871,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Guildmark",
-   "subject": "a magical trinket charm called \"Guildmark\". Its power: +8 Mult if the hand contains a Set.",
+   "subject": "a magical trinket charm called \"Guildmark\". Its power: +7 Mult if the hand contains a Set.",
    "anchor": false
   },
   {
@@ -879,7 +879,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Pebble Pouch",
-   "subject": "a magical trinket charm called \"Pebble Pouch\". Its power: +20 Chips if the hand contains Two Pair.",
+   "subject": "a magical trinket charm called \"Pebble Pouch\". Its power: +16 Chips if the hand contains Two Pair.",
    "anchor": false
   },
   {
@@ -895,7 +895,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Even Keel",
-   "subject": "a magical trinket charm called \"Even Keel\". Its power: Scored even dice give +5 Chips.",
+   "subject": "a magical trinket charm called \"Even Keel\". Its power: Scored even dice give +4 Chips.",
    "anchor": false
   },
   {
@@ -903,7 +903,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Snake-Eye Locket",
-   "subject": "a magical trinket charm called \"Snake-Eye Locket\". Its power: Scored 1s give +6 Mult.",
+   "subject": "a magical trinket charm called \"Snake-Eye Locket\". Its power: Scored 1s give +5 Mult.",
    "anchor": false
   },
   {
@@ -911,7 +911,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Hexagon Spur",
-   "subject": "a magical trinket charm called \"Hexagon Spur\". Its power: Scored 6s give +8 Chips and +1 Mult.",
+   "subject": "a magical trinket charm called \"Hexagon Spur\". Its power: Scored 6s give +6 Chips and +1 Mult.",
    "anchor": false
   },
   {
@@ -919,7 +919,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Whetstone",
-   "subject": "a magical trinket charm called \"Whetstone\". Its power: +25 Chips if 3 or fewer dice are played.",
+   "subject": "a magical trinket charm called \"Whetstone\". Its power: +20 Chips if 3 or fewer dice are played.",
    "anchor": false
   },
   {
@@ -927,7 +927,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Gambler's Grin",
-   "subject": "a magical trinket charm called \"Gambler's Grin\". Its power: +3 Mult per unused reroll.",
+   "subject": "a magical trinket charm called \"Gambler's Grin\". Its power: +3 Mult per unused reroll (up to +9).",
    "anchor": false
   },
   {
@@ -935,7 +935,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Last Laugh",
-   "subject": "a magical trinket charm called \"Last Laugh\". Its power: +12 Mult if the acting hero is below half HP.",
+   "subject": "a magical trinket charm called \"Last Laugh\". Its power: +10 Mult if the acting hero is below half HP.",
    "anchor": false
   },
   {
@@ -959,7 +959,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Lantern Moth",
-   "subject": "a magical trinket charm called \"Lantern Moth\". Its power: +15 Chips on spells.",
+   "subject": "a magical trinket charm called \"Lantern Moth\". Its power: +12 Chips on spells.",
    "anchor": false
   },
   {
@@ -967,7 +967,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Brawler's Knuckle",
-   "subject": "a magical trinket charm called \"Brawler's Knuckle\". Its power: +5 Mult on weapon attacks.",
+   "subject": "a magical trinket charm called \"Brawler's Knuckle\". Its power: +4 Mult on weapon attacks.",
    "anchor": false
   },
   {
@@ -1295,7 +1295,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Anvil Idol",
-   "subject": "a magical trinket charm called \"Anvil Idol\". Its power: Scored Steel dice give +4 Chips and +2 Mult.",
+   "subject": "a magical trinket charm called \"Anvil Idol\". Its power: Scored Steel dice give +3 Chips and +2 Mult.",
    "anchor": false
   },
   {
@@ -1311,7 +1311,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Dusk Idol",
-   "subject": "a magical trinket charm called \"Dusk Idol\". Its power: Scored Shadow dice give +4 Chips and +2 Mult.",
+   "subject": "a magical trinket charm called \"Dusk Idol\". Its power: Scored Shadow dice give +3 Chips and +2 Mult.",
    "anchor": false
   },
   {
@@ -1319,7 +1319,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Pyre Idol",
-   "subject": "a magical trinket charm called \"Pyre Idol\". Its power: Scored Ember dice give +4 Chips and +2 Mult.",
+   "subject": "a magical trinket charm called \"Pyre Idol\". Its power: Scored Ember dice give +3 Chips and +2 Mult.",
    "anchor": false
   },
   {
@@ -1335,7 +1335,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Sigil Idol",
-   "subject": "a magical trinket charm called \"Sigil Idol\". Its power: Scored Arcane dice give +4 Chips and +2 Mult.",
+   "subject": "a magical trinket charm called \"Sigil Idol\". Its power: Scored Arcane dice give +3 Chips and +2 Mult.",
    "anchor": false
   },
   {
@@ -1343,7 +1343,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Fury Idol",
-   "subject": "a magical trinket charm called \"Fury Idol\". Its power: Scored Blood dice give +4 Chips and +2 Mult.",
+   "subject": "a magical trinket charm called \"Fury Idol\". Its power: Scored Blood dice give +3 Chips and +2 Mult.",
    "anchor": false
   },
   {
@@ -1351,7 +1351,7 @@
    "kind": "icon",
    "group": "charm:common",
    "name": "Gale Idol",
-   "subject": "a magical trinket charm called \"Gale Idol\". Its power: Scored Storm dice give +4 Chips and +2 Mult.",
+   "subject": "a magical trinket charm called \"Gale Idol\". Its power: Scored Storm dice give +3 Chips and +2 Mult.",
    "anchor": false
   },
   {
@@ -2119,6 +2119,294 @@
    "group": "item:scroll",
    "name": "Scroll of Revivify",
    "subject": "Scroll of Revivify — Cast Revivify on an ally who fell this fight.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_ladyLuck",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Lady Luck's Rapier",
+   "subject": "a slender rapier with a swept gold hilt shaped like a coiled ribbon, a single ivory six-sided die set into the pommel, a red tassel. A one-of-a-kind legendary weapon, clearly finer and more storied than ordinary gear.",
+   "anchor": true
+  },
+  {
+   "key": "items/legend_spellthiefKris",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Spellthief's Kris",
+   "subject": "a wavy-bladed kris dagger whose flame-shaped blade is etched with faintly glowing violet arcane circles, a silver hilt wrapped in indigo cord. A one-of-a-kind legendary weapon, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_bloodCleaver",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Bloodthirst Cleaver",
+   "subject": "a huge, crude two-handed cleaver-axe of black iron, a single broad slab of a blade with a jagged edge and red veins glowing in the metal, a long bandaged grip. A one-of-a-kind legendary weapon, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_frostbrand",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Frost Brand",
+   "subject": "a straight longsword whose blade is clear blue ice-crystal with frost creeping along the edge, a silver crossguard shaped like snowflake points, cold mist trailing from it. A one-of-a-kind legendary weapon, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_starshotBow",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Starshot Longbow",
+   "subject": "an elegant white-wood longbow with golden tips curled like crescent moons, a string of faint starlight, tiny stars dotted along the limbs. A one-of-a-kind legendary weapon, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_twinGale",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Twin Gale Blade",
+   "subject": "a single clearly visible curved scimitar shown whole and diagonally: a broad, strongly curved pale jade-green steel blade, a gold crossguard and a wrapped grip, a short green ribbon at the pommel, with a faint translucent after-image of the same blade offset just behind it like a gust of wind. A one-of-a-kind legendary weapon, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_dragonfang",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Dragonfang Greatsword",
+   "subject": "an enormous, absurdly broad and thick greatsword taller than a man, a plain heavy slab of dark iron with a dragon tooth set into the guard, worn leather grip. A one-of-a-kind legendary weapon, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_earthshaker",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Earthshaker Maul",
+   "subject": "a colossal two-handed maul whose head is a block of rough grey mountain stone bound in bronze bands, cracks in the stone glowing amber. A one-of-a-kind legendary weapon, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_stormcaller",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Stormcaller Hammer",
+   "subject": "a short heavy war hammer with a squat rectangular silver-blue head crackling with small lightning arcs, a short leather-wrapped haft with a wrist strap. A one-of-a-kind legendary weapon, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_moonreaper",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Moonreaper Glaive",
+   "subject": "a tall glaive with a wide crescent-moon blade of pale silver like a scythe, a black shaft, wisps of violet-black mist curling from the edge. A one-of-a-kind legendary weapon, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_ninelives",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Nine Lives Stealer",
+   "subject": "a black-steel rapier with a cage-like basket hilt bearing nine small notches, a faint green ghostly glow running down the narrow blade. A one-of-a-kind legendary weapon, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_vorpal",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Vorpal Sword",
+   "subject": "a gleaming longsword with an impossibly thin, mirror-bright blade that seems to cut the air itself, a simple silver crossguard and a pale blue gem in the pommel. A one-of-a-kind legendary weapon, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_staffMagi",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Staff of the Magi",
+   "subject": "a tall ancient staff of dark twisted wood crowned by a ring of floating crystal shards orbiting a glowing white orb, silver bands up the shaft. A one-of-a-kind legendary weapon, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_starcleaver",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Starcleaver",
+   "subject": "a radiant longsword whose blade is deep night-blue metal filled with tiny shining stars and a nebula swirl, a golden crossguard shaped like spread wings. A one-of-a-kind legendary weapon, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_glamouredLeather",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Glamoured Studded Leather",
+   "subject": "an elegant fitted coat of dark studded leather that shimmers between plain armour and a fancy embroidered burgundy doublet, silver studs. A one-of-a-kind legendary suit of armour, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_mithralShirt",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Mithral Shirt",
+   "subject": "a shirt of very fine bright silvery mithral chain links that drapes like cloth, gleaming almost white. A one-of-a-kind legendary suit of armour, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_sentinelShield",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Sentinel Shield",
+   "subject": "a round wooden shield with a bronze rim, a large watchful painted eye in the centre that glows faintly gold. A one-of-a-kind legendary shield, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_dragonscale",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Red Dragon Scale Mail",
+   "subject": "a coat of overlapping large crimson dragon scales with a dark leather lining and a high scaled collar, glinting like embers. A one-of-a-kind legendary suit of armour, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_demonArmor",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Demon Armor",
+   "subject": "a suit of black spiked full plate armour with horned helmet, the gauntlets ending in long curved claws, faint red light from the visor slits. A one-of-a-kind legendary suit of armour, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_invulnerable",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Armor of Invulnerability",
+   "subject": "a suit of pale grey full plate with smooth flawless rounded plates like polished river stone, a faint protective shimmer over the surface. A one-of-a-kind legendary suit of armour, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_wolfPelt",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Wolfmother's Pelt",
+   "subject": "a huge white wolf pelt worn as a hooded mantle over hide armour, the wolf's head forming the hood, bone toggles and blue war-paint marks. A one-of-a-kind legendary suit of armour, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_efreetiChain",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Efreeti Chain",
+   "subject": "a hauberk of glowing brass-gold chain mail with small flames licking between the links, an ornate brass collar. A one-of-a-kind legendary suit of armour, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_dawnPlate",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Plate of the Unbroken Oath",
+   "subject": "a suit of white-and-gold full plate with a sunburst on the breastplate, a long white tabard and small gold wings on the helmet. A one-of-a-kind legendary suit of armour, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_dragonboneAegis",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Dragonbone Aegis",
+   "subject": "a large kite shield carved from a single pale dragon skull-plate, five small coloured gems (red, green, blue, white, black) set in a ring. A one-of-a-kind legendary shield, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_foxMask",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Fox Spirit Mask",
+   "subject": "a white lacquered fox-face mask with red swirling markings and gold-tipped ears, a red cord tied at the back. A one-of-a-kind legendary wondrous item, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_ringSpellStoring",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Ring of Spell Storing",
+   "subject": "a thick silver ring set with a large sapphire in which tiny swirling sparks of magic are trapped. A one-of-a-kind legendary wondrous item, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_robeStars",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Robe of Stars",
+   "subject": "a folded deep-blue velvet wizard's robe embroidered with silver stars and constellations that twinkle. A one-of-a-kind legendary wondrous item, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_capeMountebank",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Cape of the Mountebank",
+   "subject": "a flamboyant short cape, black outside and bright crimson inside, a puff of purple smoke curling from its hem, a gold clasp. A one-of-a-kind legendary wondrous item, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_animatedShield",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Animated Shield",
+   "subject": "a round steel shield floating in the air by itself, faint blue magic glow around its rim, a stylised wing emblem. A one-of-a-kind legendary wondrous item, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_ringRegeneration",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Ring of Regeneration",
+   "subject": "a gold ring shaped like a green vine wrapped around the finger, a small emerald bud with a glowing green leaf. A one-of-a-kind legendary wondrous item, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_hundredFists",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Gauntlets of the Hundred Fists",
+   "subject": "a pair of red cloth hand-wraps with steel knuckle plates, wisps of white ki energy and blurred after-images of fists around them. A one-of-a-kind legendary wondrous item, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_saintRosary",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Rosary of the Dawn Saint",
+   "subject": "a long string of pearl prayer beads with a small golden sunburst pendant glowing softly. A one-of-a-kind legendary wondrous item, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_hellfireContract",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Hellfire Contract",
+   "subject": "a rolled black parchment contract sealed with a red wax seal shaped like a horned skull, edges smouldering with tiny flames, abstract marks only. A one-of-a-kind legendary wondrous item, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_hollowEye",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Eye of the Hollow King",
+   "subject": "a withered amber-gold eyeball set in a black iron claw pendant, its slit pupil glowing violet. A one-of-a-kind legendary wondrous item, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_robeArchmagi",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Robe of the Archmagi",
+   "subject": "a folded flowing robe of white and silver silk with glowing arcane sigil embroidery along the hems, faint light rising from it. A one-of-a-kind legendary wondrous item, clearly finer and more storied than ordinary gear.",
+   "anchor": false
+  },
+  {
+   "key": "items/legend_dragonOrb",
+   "kind": "icon",
+   "group": "item:legendary",
+   "name": "Orb of Dragonkind",
+   "subject": "a crystal orb held in a gold dragon-claw stand, five swirling coloured mists inside it: red, green, black, white and blue. A one-of-a-kind legendary wondrous item, clearly finer and more storied than ordinary gear.",
    "anchor": false
   },
   {

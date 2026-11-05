@@ -6,7 +6,7 @@ import { createHero } from '../src/rules/character.ts';
 import { Rng } from '../src/engine/rng.ts';
 import { TUT } from '../src/dungeon/tutorial.ts';
 import { MONSTERS, biomeMonsters } from '../src/content/monsters.ts';
-import { CHAPTERS } from '../src/content/story.ts';
+import { CHAPTERS, finaleSealed } from '../src/content/story.ts';
 
 describe('new keep', () => {
   it('starts poor, with a pending tour', () => {
@@ -66,14 +66,23 @@ describe('Tiamat', () => {
     expect(biomeMonsters('starfall', true).some((m) => m.id === 'tiamat')).toBe(false);
   });
 
-  it('needs a level 20 hero in the party', () => {
+  it('needs all five echoes cleared and a level 20 hero in the party', () => {
     const g = newGame(1, 'story', 'FIN');
     const ids = g.roster.map((h) => h.id);
+    const champ = createHero(new Rng([9, 9, 9, 9]), 'fighter', 20, { name: 'Champion Test' });
+    g.roster.push(champ);
+    // A champion alone is not enough: the Sixth Door waits on the other five.
+    const sealed = dispatch(g, { type: 'startExpedition', partyIds: [champ.id, ids[1], ids[2]], biome: 'starfall', difficulty: 'standard', seed: 'F', finale: true });
+    expect(sealed.ok).toBe(false);
+    expect(sealed.error).toMatch(/five other echoes/);
+    expect(finaleSealed(g)).toMatch(/clear the other 5 echoes/);
+    for (const b of ['cinder', 'rootbound', 'drowned', 'mirror'] as const) g.profile.sigils[b] = 1;
+    expect(finaleSealed(g)).toMatch(/other 1 echo first/);
+    g.profile.sigils.starfall = 1;
+    expect(finaleSealed(g)).toBeNull();
+    // Every echo broken, but nobody level 20 in the chosen party.
     const r = dispatch(g, { type: 'startExpedition', partyIds: ids, biome: 'starfall', difficulty: 'standard', seed: 'F', finale: true });
     expect(r.ok).toBe(false);
-    expect(r.error).toMatch(/level 20/);
-    const champ = createHero(new Rng([9, 9, 9, 9]), 'fighter', 20, { name: 'Champion Test' });
-    g.roster[0] = champ;
     const ok = dispatch(g, { type: 'startExpedition', partyIds: [champ.id, ids[1], ids[2]], biome: 'cinder', difficulty: 'standard', seed: 'F', finale: true });
     expect(ok.ok).toBe(true);
     const exp = g.expedition!;

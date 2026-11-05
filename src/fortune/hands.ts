@@ -20,13 +20,13 @@ export interface HandInfo {
 
 /** Ordered weakest → strongest. */
 export const HANDS: HandInfo[] = [
-  { id: 'high', name: 'High Die', chips: 2, mult: 1, lvChips: 3, lvMult: 1, blurb: 'Your single best die.' },
+  { id: 'high', name: 'High Die', chips: 2, mult: 1, lvChips: 2, lvMult: 1, blurb: 'Your single best die.' },
   { id: 'pair', name: 'Pair', chips: 4, mult: 2, lvChips: 3, lvMult: 1, blurb: 'Two dice showing the same value.' },
-  { id: 'twoPair', name: 'Two Pair', chips: 6, mult: 2, lvChips: 4, lvMult: 1, blurb: 'Two different pairs.' },
-  { id: 'three', name: 'Three of a Kind', chips: 8, mult: 3, lvChips: 4, lvMult: 2, blurb: 'Three dice showing the same value.' },
-  { id: 'straight', name: 'Straight', chips: 10, mult: 4, lvChips: 5, lvMult: 2, blurb: 'Five dice in an unbroken run.' },
-  { id: 'set', name: 'Set', chips: 10, mult: 4, lvChips: 5, lvMult: 2, blurb: 'Five dice of the same material.' },
-  { id: 'fullHouse', name: 'Full House', chips: 12, mult: 4, lvChips: 5, lvMult: 2, blurb: 'A Three of a Kind and a Pair.' },
+  { id: 'twoPair', name: 'Two Pair', chips: 6, mult: 2, lvChips: 3, lvMult: 1, blurb: 'Two different pairs.' },
+  { id: 'three', name: 'Three of a Kind', chips: 8, mult: 3, lvChips: 3, lvMult: 2, blurb: 'Three dice showing the same value.' },
+  { id: 'straight', name: 'Straight', chips: 10, mult: 4, lvChips: 4, lvMult: 2, blurb: 'Five dice in an unbroken run.' },
+  { id: 'set', name: 'Set', chips: 10, mult: 4, lvChips: 4, lvMult: 2, blurb: 'Five dice of the same material.' },
+  { id: 'fullHouse', name: 'Full House', chips: 12, mult: 4, lvChips: 4, lvMult: 2, blurb: 'A Three of a Kind and a Pair.' },
   { id: 'four', name: 'Four of a Kind', chips: 16, mult: 6, lvChips: 6, lvMult: 3, blurb: 'Four dice showing the same value.' },
   { id: 'straightSet', name: 'Straight Set', chips: 24, mult: 8, lvChips: 8, lvMult: 3, blurb: 'A Straight made of one material.' },
   { id: 'five', name: 'Five of a Kind', chips: 30, mult: 10, lvChips: 8, lvMult: 3, blurb: 'All five dice the same. The Treasure.' },

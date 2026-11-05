@@ -34,7 +34,7 @@ export const UPGRADES: Record<string, { name: string; text: string }> = {
   handSize: { name: 'Wider Tray', text: '+1 tray size for the rest of this run.' },
   rerolls: { name: 'Steady Wrist', text: '+1 reroll every turn for the rest of this run.' },
   charmSlot: { name: 'Charm Hook', text: '+1 charm slot for the rest of this run.' },
-  chisel: { name: "Mason's Chisel", text: 'Raise every face of one die by 1 (max 9).' },
+  chisel: { name: "Mason's Chisel", text: 'Raise every face of one die by 1 except its highest (max 9).' },
 };
 
 function rollRarity(rng: Rng, rank: number, boost = 0): CharmRarity {
@@ -240,7 +240,9 @@ export function applyOffer(run: FortuneRun, o: BoonOffer, target?: { dieUid?: st
       else if (o.id === 'chisel') {
         const die = run.bag.find((d) => d.uid === target?.dieUid);
         if (!die) return { ok: false, reason: 'Pick a die to chisel.' };
-        die.faces = die.faces.map((f) => ({ ...f, v: Math.min(9, f.v + 1) }));
+        let top = 0;
+        die.faces.forEach((f, i) => { if (f.v > die.faces[top].v) top = i; });
+        die.faces = die.faces.map((f, i) => (i === top ? f : { ...f, v: Math.min(9, f.v + 1) }));
       }
       return { ok: true, text: `${UPGRADES[o.id].name}!` };
     default:

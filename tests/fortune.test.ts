@@ -52,8 +52,8 @@ describe('scoring', () => {
     expect(base.total).toBe(48);
     run.charms.push(newCharm('copperTooth'), newCharm('twinFang'));
     const boosted = scoreHand({ run, trayIndices: [0, 1], actor: { classId: 'fighter', level: 1, hpFrac: 1, affinity: 'steel' }, action: 'attack', base: 8, baseLabel: 'Sword', rng, firstHand: false, marked: false, enemiesAlive: 1 });
-    // mult 2 + 4 + 6 = 12 → 24 × 12
-    expect(boosted.total).toBe(288);
+    // mult 2 + 3 + 5 = 10 → 24 × 10
+    expect(boosted.total).toBe(240);
   });
   it('mimic tongue copies the charm to its right', () => {
     const run = newFortuneRun(rng, ['fighter']);
@@ -61,8 +61,8 @@ describe('scoring', () => {
     run.tray = [{ dieUid: bone[0].uid, face: 0 }];
     run.charms.push(newCharm('mimicTongue'), newCharm('copperTooth'));
     const r = scoreHand({ run, trayIndices: [0], actor: { classId: 'fighter', level: 1, hpFrac: 1, affinity: 'steel' }, action: 'attack', base: 0, baseLabel: 'x', rng, firstHand: false, marked: false, enemiesAlive: 1 });
-    // chips 2+1 = 3, mult 1 + 4 + 4 = 9
-    expect(r.total).toBe(27);
+    // chips 2+1 = 3, mult 1 + 3 + 3 = 7
+    expect(r.total).toBe(21);
   });
   it('curse debuffs dice', () => {
     const run = newFortuneRun(rng, ['fighter']);

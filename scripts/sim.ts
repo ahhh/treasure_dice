@@ -25,6 +25,7 @@ const t0 = Date.now();
 for (let i = 0; i < runs; i++) {
   const g = newGame(1, 'legacy', `SIM-${i}`);
   g.profile.unlockedBiomes = ['cinder', 'rootbound', 'drowned', 'mirror', 'starfall'];
+  if (finale) for (const b of g.profile.unlockedBiomes) g.profile.sigils[b] = 1;
   const comp = comps[i % comps.length];
   const rng = new Rng([i + 1, 7, 9, 11]);
   g.roster = comp.map((c) => createHero(rng, c, level));

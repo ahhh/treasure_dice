@@ -22,6 +22,66 @@ export interface ItemDef {
   lootOnly?: boolean;
   /** Facility level required to stock it. */
   shopTier?: number;
+  /** A one-of-a-kind legendary: never sold, never rolled as ordinary loot, at most one per Keep. */
+  legend?: LegendDef;
+}
+
+/** Hooks a legendary can carry on top of the trinket mods (which apply from any slot). */
+export interface LegendMods extends TrinketMods {
+  /** Weapon attacks may use this ability for attack and damage ('spell' = the spellcasting ability). */
+  attackAbility?: Ability | 'spell';
+  /** Unarmed strikes roll this die (and count as slashing claws with Demon Armor). */
+  unarmedDie?: number;
+  /** With no body armor: AC = this + DEX. */
+  unarmoredBase?: number;
+  /** AC bonus only while the off hand holds no shield. */
+  acNoShield?: number;
+  /** Weapon attacks hit at least this many times per attack action. */
+  minAttacks?: number;
+  onHit?: { dice: string; type: DamageType }[];
+  lifesteal?: number;
+  /** Outgoing damage ×(1 + n). */
+  dmgPct?: number;
+  /** Extra damage ×(1 + n) while at or below half HP. */
+  bloodied?: number;
+  /** Extra damage ×(1 + n) against elites and bosses. */
+  bossDmgPct?: number;
+  /** Weapon overkill carries into the next foe. */
+  spill?: boolean;
+  /** A crit leaves any non-boss foe at or below 25% HP dead. */
+  execute?: boolean;
+  /** On a kill: heal this fraction of max HP and/or gain rerolls this turn. */
+  onKill?: { healPct?: number; rerolls?: number };
+  /** Flat bonus to every spell damage roll. */
+  spellDmg?: number;
+  /** Extra spell slots by level. */
+  bonusSlots?: Partial<Record<number, number>>;
+  /** Extra uses of class resources (rage, focus, channel, sorcery…). */
+  resources?: Record<string, number>;
+  /** Healing you give ×(1 + n). */
+  healPct?: number;
+  /** Healing you receive ×(1 + n) (negative = less). */
+  healTakenPct?: number;
+  /** Heal this fraction of max HP at the start of each of your turns. */
+  regen?: number;
+  /** Melee attackers take this × your level in fire damage. */
+  thorns?: number;
+  /** The first hit you take each fight deals nothing. */
+  firstHitImmune?: boolean;
+  /** The first time you would drop to 0 HP each fight, you stay at 1. */
+  deathWard?: boolean;
+  /** Each fight you start hidden (advantage on your first attack). */
+  openingHidden?: boolean;
+}
+
+export interface LegendDef {
+  /** Party level from which it can turn up. */
+  level: number;
+  /** Where its legend comes from, for the item card. */
+  lore: string;
+  mods: LegendMods;
+  /** Art subject for the image pipeline. */
+  look: string;
 }
 
 export interface TrinketMods {
@@ -252,3 +312,141 @@ export function sellValue(inst: ItemInstance): number {
 export function isTwoHanded(inst?: ItemInstance): boolean {
   return !!inst && !!ITEMS[inst.defId]?.weapon?.props.includes('twoHanded');
 }
+
+// ── legendaries ─────────────────────────────────────────────────────────────
+// One-of-a-kind items that bend a build. Each turns up from its `level` on
+// (boss hoards mostly) and comes pre-enchanted for its tier. Inspired by
+// classic wondrous items and anime-style legendary gear; all names original or SRD.
+
+/** Enchantment a legendary carries when found. */
+export function legendPlus(def: ItemDef): number {
+  if (!def.legend || def.kind === 'trinket') return 0;
+  return def.legend.level >= 13 ? 3 : def.legend.level >= 7 ? 2 : 1;
+}
+
+const LG = (id: string, name: string, base: string | 'trinket', level: number, text: string, mods: LegendMods, lore: string, look: string, armor?: ItemDef['armor']): ItemDef => {
+  const b = base === 'trinket' ? undefined : ITEMS[base];
+  return {
+    id, name, kind: b ? b.kind : 'trinket', price: 400 + level * 300, rarity: 'legendary', art: `items/legend_${id}`, text,
+    weapon: b?.weapon, armor: armor ?? b?.armor, shield: b?.shield, trinket: b ? undefined : {}, lootOnly: true,
+    legend: { level, lore, mods, look },
+  };
+};
+
+[
+  // ── weapons ──
+  LG('ladyLuck', "Lady Luck's Rapier", 'rapier', 1, 'Your High Die plays gain +4 Mult: one die at a time is a strategy now.',
+    { hand: { hands: ['high'], mult: 4 } }, 'A riverboat gambler won it on a single die and never rolled two again.',
+    'a slender rapier with a swept gold hilt shaped like a coiled ribbon, a single ivory six-sided die set into the pommel, a red tassel'),
+  LG('spellthiefKris', "Spellthief's Kris", 'dagger', 2, 'Attack and damage with your spellcasting ability if it is higher. Casters can fight in melee.',
+    { attackAbility: 'spell' }, 'A blade-dancer\'s wavy dagger that answers to the mind rather than the arm.',
+    'a wavy-bladed kris dagger whose flame-shaped blade is etched with faintly glowing violet arcane circles, a silver hilt wrapped in indigo cord'),
+  LG('bloodCleaver', 'Bloodthirst Cleaver', 'greataxe', 4, '+30% damage while you are at or below half HP; heal 5% of damage dealt; −1 AC.',
+    { bloodied: 0.3, lifesteal: 0.05, ac: -1 }, 'An oversized black cleaver from a mercenary legend: it grows hungrier the more its wielder bleeds.',
+    'a huge, crude two-handed cleaver-axe of black iron, a single broad slab of a blade with a jagged edge and red veins glowing in the metal, a long bandaged grip'),
+  LG('frostbrand', 'Frost Brand', 'longsword', 6, '+1d6 cold on hit; resistance to fire; Frost dice count as your colour.',
+    { onHit: [{ dice: '1d6', type: 'cold' }], resist: ['fire'], affinity: ['frost'] }, 'Forged in a glacier\'s heart, it sheds pale light and puts out flames.',
+    'a straight longsword whose blade is clear blue ice-crystal with frost creeping along the edge, a silver crossguard shaped like snowflake points, cold mist trailing from it'),
+  LG('starshotBow', 'Starshot Longbow', 'longbow', 7, 'Your Straights and Straight Sets gain ×1.5 Mult; +2 initiative.',
+    { hand: { hands: ['straight', 'straightSet'], xmult: 1.5 }, init: 2 }, 'Each arrow loosed from it draws a line of stars, one point after the next.',
+    'an elegant white-wood longbow with golden tips curled like crescent moons, a string of faint starlight, tiny stars dotted along the limbs'),
+  LG('twinGale', 'Twin Gale Blade', 'scimitar', 8, 'Your attack action always strikes at least twice, but your weapon damage is 15% lower.',
+    { minAttacks: 2, dmgPct: -0.15 }, 'A wind-spirit\'s sword that cuts once and echoes once, whoever holds it.',
+    'a single clearly visible curved scimitar shown whole and diagonally: a broad, strongly curved pale jade-green steel blade, a gold crossguard and a wrapped grip, a short green ribbon at the pommel, with a faint translucent after-image of the same blade offset just behind it like a gust of wind'),
+  LG('dragonfang', 'Dragonfang Greatsword', 'greatsword', 9, '+25% damage against elites and bosses; −2 initiative.',
+    { bossDmgPct: 0.25, init: -2 }, 'Too big to be called a sword: a slab of iron hammered from a dragon\'s fallen tooth.',
+    'an enormous, absurdly broad and thick greatsword taller than a man, a plain heavy slab of dark iron with a dragon tooth set into the guard, worn leather grip'),
+  LG('earthshaker', 'Earthshaker Maul', 'maul', 10, '+1d6 thunder on hit; your overkill carries into the next foe.',
+    { onHit: [{ dice: '1d6', type: 'thunder' }], spill: true }, 'Giants used it to drive mountain roots. One swing never stops at one body.',
+    'a colossal two-handed maul whose head is a block of rough grey mountain stone bound in bronze bands, cracks in the stone glowing amber'),
+  LG('stormcaller', 'Stormcaller Hammer', 'warhammer', 11, '+1d8 lightning on hit; resistance to lightning; Storm dice count as your colour.',
+    { onHit: [{ dice: '1d8', type: 'lightning' }], resist: ['lightning'], affinity: ['storm'] }, 'A sky-god\'s hammer that only the worthy can lift.',
+    'a short heavy war hammer with a squat rectangular silver-blue head crackling with small lightning arcs, a short leather-wrapped haft with a wrist strap'),
+  LG('moonreaper', 'Moonreaper Glaive', 'glaive', 12, '+1d8 necrotic on hit; heal 12% of damage dealt; healing from others is halved on you.',
+    { onHit: [{ dice: '1d8', type: 'necrotic' }], lifesteal: 0.12, healTakenPct: -0.5 }, 'A reaper\'s polearm that feeds its bearer and nobody else.',
+    'a tall glaive with a wide crescent-moon blade of pale silver like a scythe, a black shaft, wisps of violet-black mist curling from the edge'),
+  LG('ninelives', 'Nine Lives Stealer', 'rapier', 14, 'When you kill a foe: heal 10% of max HP and gain a reroll; −10% max HP.',
+    { onKill: { healPct: 0.1, rerolls: 1 }, hpPct: -0.1 }, 'A duellist\'s blade with nine notches on the guard. It is always hungry for the tenth.',
+    'a black-steel rapier with a cage-like basket hilt bearing nine small notches, a faint green ghostly glow running down the narrow blade'),
+  LG('vorpal', 'Vorpal Sword', 'longsword', 17, 'Crits on one lower face; a crit kills any non-boss foe at or below 25% HP outright.',
+    { critRange: 1, execute: true }, 'Snicker-snack. The oldest legend in the Keep.',
+    'a gleaming longsword with an impossibly thin, mirror-bright blade that seems to cut the air itself, a simple silver crossguard and a pale blue gem in the pommel'),
+  LG('staffMagi', 'Staff of the Magi', 'quarterstaff', 19, '+1 spell save DC and attack; +4 damage on every spell; one extra 5th-level slot.',
+    { spellDc: 1, spellDmg: 4, bonusSlots: { 5: 1 } }, 'The staff of an archmage who outlived their own legend.',
+    'a tall ancient staff of dark twisted wood crowned by a ring of floating crystal shards orbiting a glowing white orb, silver bands up the shaft'),
+  LG('starcleaver', 'Starcleaver', 'longsword', 20, '+15% damage; every fight opens with a Wild ghost die on the tray.',
+    { dmgPct: 0.15, openingWild: 1 }, 'The hero\'s sword at the end of the story, made from the star that fell over the Keep.',
+    'a radiant longsword whose blade is deep night-blue metal filled with tiny shining stars and a nebula swirl, a golden crossguard shaped like spread wings'),
+
+  // ── armor and shields ──
+  LG('glamouredLeather', 'Glamoured Studded Leather', 'studdedLeather', 1, 'Deception proficiency (+3) and its Bluff trick; +1 initiative.',
+    { skillProf: ['deception'], skillBonus: { deception: 3 }, init: 1 }, 'Armor that looks like a fine coat until the knives come out.',
+    'an elegant fitted coat of dark studded leather that shimmers between plain armour and a fancy embroidered burgundy doublet, silver studs'),
+  LG('mithralShirt', 'Mithral Shirt', 'chainShirt', 3, 'A chain shirt that counts as LIGHT armor: AC 13 + full DEX. Any class trained in light armor can wear it.',
+    {}, 'Woven by deep-delving smiths from silver-bright mithral, light as silk.',
+    'a shirt of very fine bright silvery mithral chain links that drapes like cloth, gleaming almost white', { base: 13, type: 'light' }),
+  LG('sentinelShield', 'Sentinel Shield', 'shield', 4, '+4 initiative; Perception proficiency and its Spot trick.',
+    { init: 4, skillProf: ['perception'] }, 'An eye painted on its face never closes.',
+    'a round wooden shield with a bronze rim, a large watchful painted eye in the centre that glows faintly gold'),
+  LG('dragonscale', 'Red Dragon Scale Mail', 'scaleMail', 5, 'Resistance to fire; Ember dice count as your colour.',
+    { resist: ['fire'], affinity: ['ember'] }, 'Scales shed by a red dragon, still warm to the touch.',
+    'a coat of overlapping large crimson dragon scales with a dark leather lining and a high scaled collar, glinting like embers'),
+  LG('demonArmor', 'Demon Armor', 'plate', 8, 'Your unarmed strikes become 1d8 claws, so you can fight bare-handed in plate; −1 to all saves.',
+    { unarmedDie: 8, saves: -1 }, 'Fiend-forged plate whose gauntlets end in talons. It whispers.',
+    'a suit of black spiked full plate armour with horned helmet, the gauntlets ending in long curved claws, faint red light from the visor slits'),
+  LG('invulnerable', 'Armor of Invulnerability', 'plate', 12, 'The first hit you take each fight deals no damage.',
+    { firstHitImmune: true }, 'Plate that the first blow of any battle simply slides off.',
+    'a suit of pale grey full plate with smooth flawless rounded plates like polished river stone, a faint protective shimmer over the surface'),
+  LG('wolfPelt', "Wolfmother's Pelt", 'hide', 13, '+1 Rage; heal 3% of max HP at the start of each of your turns.',
+    { resources: { rage: 1 }, regen: 0.03 }, 'The pelt of a great white wolf who mothered a whole tribe.',
+    'a huge white wolf pelt worn as a hooded mantle over hide armour, the wolf\'s head forming the hood, bone toggles and blue war-paint marks'),
+  LG('efreetiChain', 'Efreeti Chain', 'chainMail', 15, 'Resistance to fire; melee attackers take fire damage equal to your level.',
+    { resist: ['fire'], thorns: 1 }, 'Chain woven from the brass of the City of Fire.',
+    'a hauberk of glowing brass-gold chain mail with small flames licking between the links, an ornate brass collar'),
+  LG('dawnPlate', 'Plate of the Unbroken Oath', 'plate', 16, 'The first time you would drop to 0 HP each fight, you stay at 1; healing you receive +25%.',
+    { deathWard: true, healTakenPct: 0.25 }, 'A paladin\'s armor that held the line for a hundred years.',
+    'a suit of white-and-gold full plate with a sunburst on the breastplate, a long white tabard and small gold wings on the helmet'),
+  LG('dragonboneAegis', 'Dragonbone Aegis', 'shield', 18, 'Resistance to acid, cold, fire, lightning and poison; −2 initiative.',
+    { resist: ['acid', 'cold', 'fire', 'lightning', 'poison'], init: -2 }, 'Carved from a skull-plate of one of the Dragon Queen\'s fallen consorts.',
+    'a large kite shield carved from a single pale dragon skull-plate, five small coloured gems (red, green, blue, white, black) set in a ring'),
+
+  // ── trinkets ──
+  LG('foxMask', 'Fox Spirit Mask', 'trinket', 3, 'Each fight opens with a Wild ghost die on the tray; Deception proficiency and its Bluff trick.',
+    { openingWild: 1, skillProf: ['deception'] }, 'A shrine fox\'s white mask. Wear it and luck mistakes you for a friend.',
+    'a white lacquered fox-face mask with red swirling markings and gold-tipped ears, a red cord tied at the back'),
+  LG('ringSpellStoring', 'Ring of Spell Storing', 'trinket', 5, 'Spellcasters gain an extra 1st- and 2nd-level spell slot.',
+    { bonusSlots: { 1: 1, 2: 1 } }, 'A ring that keeps a spell or two tucked away for later.',
+    'a thick silver ring set with a large sapphire in which tiny swirling sparks of magic are trapped'),
+  LG('robeStars', 'Robe of Stars', 'trinket', 6, '+2 damage on every spell; +1 to all saves.',
+    { spellDmg: 2, saves: 1 }, 'A night-black robe whose embroidered stars can be plucked and thrown.',
+    'a folded deep-blue velvet wizard\'s robe embroidered with silver stars and constellations that twinkle'),
+  LG('capeMountebank', 'Cape of the Mountebank', 'trinket', 9, 'Each fight you start hidden: advantage on your first attack (and Sneak Attack).',
+    { openingHidden: true }, 'A showman\'s cape that smells faintly of brimstone and applause.',
+    'a flamboyant short cape, black outside and bright crimson inside, a puff of purple smoke curling from its hem, a gold clasp'),
+  LG('animatedShield', 'Animated Shield', 'trinket', 10, '+2 AC while you hold no shield: it floats beside you, leaving both hands free.',
+    { acNoShield: 2 }, 'A shield that guards on its own, so a greatsword need not choose.',
+    'a round steel shield floating in the air by itself, faint blue magic glow around its rim, a stylised wing emblem'),
+  LG('ringRegeneration', 'Ring of Regeneration', 'trinket', 11, 'Heal 4% of max HP at the start of each of your turns.',
+    { regen: 0.04 }, 'Its wearer\'s wounds close as you watch.',
+    'a gold ring shaped like a green vine wrapped around the finger, a small emerald bud with a glowing green leaf'),
+  LG('hundredFists', 'Gauntlets of the Hundred Fists', 'trinket', 12, 'Unarmed strikes roll 1d10; +2 Focus for monks.',
+    { unarmedDie: 10, resources: { focus: 2 } }, 'Fighting-school gauntlets that throw a hundred punches in the time it takes to blink.',
+    'a pair of red cloth hand-wraps with steel knuckle plates, wisps of white ki energy and blurred after-images of fists around them'),
+  LG('saintRosary', 'Rosary of the Dawn Saint', 'trinket', 13, 'Healing you give +30%; +1 Channel Divinity.',
+    { healPct: 0.3, resources: { channel: 1 } }, 'Prayer beads of a saint who never let a friend fall.',
+    'a long string of pearl prayer beads with a small golden sunburst pendant glowing softly'),
+  LG('hellfireContract', 'Hellfire Contract', 'trinket', 14, '+12% damage and +1 spell save DC; −15% max HP.',
+    { dmgPct: 0.12, spellDc: 1, hpPct: -0.15 }, 'Signed in blood. The fine print is written in fire.',
+    'a rolled black parchment contract sealed with a red wax seal shaped like a horned skull, edges smouldering with tiny flames, abstract marks only'),
+  LG('hollowEye', 'Eye of the Hollow King', 'trinket', 16, 'Crits on one lower face; +1 spell save DC; −10% max HP.',
+    { critRange: 1, spellDc: 1, hpPct: -0.1 }, 'Plucked from a lich-king who saw everything and spared nothing.',
+    'a withered amber-gold eyeball set in a black iron claw pendant, its slit pupil glowing violet'),
+  LG('robeArchmagi', 'Robe of the Archmagi', 'trinket', 18, 'With no body armor your AC is 15 + DEX; +2 spell save DC and attack.',
+    { unarmoredBase: 15, spellDc: 2 }, 'The robe of the highest office of magic. It protects as well as plate.',
+    'a folded flowing robe of white and silver silk with glowing arcane sigil embroidery along the hems, faint light rising from it'),
+  LG('dragonOrb', 'Orb of Dragonkind', 'trinket', 20, 'Ember, Verdant, Shadow, Frost and Storm dice all count as your colour.',
+    { affinity: ['ember', 'verdant', 'shadow', 'frost', 'storm'] }, 'Five dragon souls swirl inside. They do not agree on anything, except you.',
+    'a crystal orb held in a gold dragon-claw stand, five swirling coloured mists inside it: red, green, black, white and blue'),
+].forEach(add);
+
+export const LEGENDARIES: ItemDef[] = Object.values(ITEMS).filter((d) => d.legend);

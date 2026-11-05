@@ -1,7 +1,7 @@
 /** Procedural loot with bounded rarity and biome-themed affixes (plan §7). */
-import type { BiomeId, ClassId, ItemInstance } from '../engine/types.ts';
+import type { BiomeId, ClassId, GameState, ItemInstance } from '../engine/types.ts';
 import type { Rng } from '../engine/rng.ts';
-import { ITEMS, AFFIXES } from '../content/items.ts';
+import { ITEMS, AFFIXES, LEGENDARIES, legendPlus } from '../content/items.ts';
 import { makeItem } from '../rules/character.ts';
 
 const BIOME_AFFIX: Record<BiomeId, string[]> = {
@@ -27,12 +27,12 @@ export function rollItem(rng: Rng, level: number, biome: BiomeId, opts: { boost?
     return makeItem(rng, def.id, 0, [], def.id.startsWith('potion') ? rng.int(1, 2) : 1);
   }
   if (r < 0.58) {
-    const pool = Object.values(ITEMS).filter((d) => d.kind === 'trinket' && !d.tool && (d.shopTier ?? 1) <= tier + 1);
+    const pool = Object.values(ITEMS).filter((d) => d.kind === 'trinket' && !d.tool && !d.legend && (d.shopTier ?? 1) <= tier + 1);
     const def = rng.pick(pool);
     const aff = tier >= 2 && rng.chance(0.3) ? [rollAffix(rng, 'trinket', biome, tier)].filter(Boolean) as string[] : [];
     return makeItem(rng, def.id, 0, aff);
   }
-  const gear = Object.values(ITEMS).filter((d) => (d.kind === 'weapon' || d.kind === 'armor' || d.kind === 'shield') && (tier >= 2 || d.price <= 200));
+  const gear = Object.values(ITEMS).filter((d) => (d.kind === 'weapon' || d.kind === 'armor' || d.kind === 'shield') && !d.legend && (tier >= 2 || d.price <= 200));
   const def = rng.pick(gear);
   const plus = Math.min(3, rng.chance(0.35 + tier * 0.12) ? 1 + (tier >= 3 && rng.chance(0.4) ? 1 : 0) + (tier >= 4 && rng.chance(0.3) ? 1 : 0) : 0);
   const nAff = rng.chance(0.5 + tier * 0.1) ? 1 + (tier >= 3 && rng.chance(0.35) ? 1 : 0) : 0;
@@ -62,14 +62,14 @@ export function rollMagicItem(rng: Rng, level: number, biome: BiomeId, quality: 
   const tier = Math.min(4, lootTier(level) + quality);
   if (rng.chance(0.4)) {
     const minRarity = quality >= 2 ? 2 : 1;
-    const ok = (d: (typeof ITEMS)[string]) => d.kind === 'trinket' && !d.tool && (d.shopTier ?? 1) <= tier + 1;
+    const ok = (d: (typeof ITEMS)[string]) => d.kind === 'trinket' && !d.tool && !d.legend && (d.shopTier ?? 1) <= tier + 1;
     let pool = Object.values(ITEMS).filter((d) => ok(d) && RARITY_RANK[d.rarity] >= minRarity);
     if (!pool.length) pool = Object.values(ITEMS).filter(ok);
     const def = rng.pick(pool);
     const aff = rng.chance(0.25 + quality * 0.25) ? [rollAffix(rng, 'trinket', biome, tier)].filter(Boolean) as string[] : [];
     return makeItem(rng, def.id, 0, aff);
   }
-  const gear = Object.values(ITEMS).filter((d) => (d.kind === 'weapon' || d.kind === 'armor' || d.kind === 'shield') && (tier >= 2 || d.price <= 200));
+  const gear = Object.values(ITEMS).filter((d) => (d.kind === 'weapon' || d.kind === 'armor' || d.kind === 'shield') && !d.legend && (tier >= 2 || d.price <= 200));
   const def = rng.pick(gear);
   const plus = Math.min(3, Math.max(1, quality) + (rng.chance(0.25 + tier * 0.1) ? 1 : 0));
   const nAff = Math.max(1, quality) + (tier >= 3 && rng.chance(0.3) ? 1 : 0);
@@ -92,4 +92,27 @@ export function bossLootChoice(rng: Rng, level: number, biome: BiomeId, quality 
     out.push(it);
   }
   return out;
+}
+
+// ── legendaries ─────────────────────────────────────────────────────────────
+
+/** Chance a hoard holds a legendary, by source. Bosses are the main way to find one. */
+export const LEGEND_CHANCE = { boss: 0.45, bossPerRank: 0.1, elite: 0.06, treasure: 0.04, secret: 0.1 } as const;
+
+/** Legendaries the Keep already owns (vault, heroes, or carried this run): each exists once. */
+export function ownedLegends(g: GameState): Set<string> {
+  const all = [...g.vault, ...g.roster.flatMap((h) => Object.values(h.equipment)), ...(g.expedition?.carriedItems ?? [])];
+  return new Set(all.filter((i) => i && ITEMS[i.defId]?.legend).map((i) => i!.defId));
+}
+
+/**
+ * One legendary the party could find at `level`, or null. Items from just
+ * below the party's level are the most likely, so early pieces fade out as a
+ * party grows but are never lost for good.
+ */
+export function rollLegendary(rng: Rng, level: number, owned: Set<string>): ItemInstance | null {
+  const pool = LEGENDARIES.filter((d) => d.legend!.level <= level && !owned.has(d.id));
+  if (!pool.length) return null;
+  const def = rng.weighted(pool, (d) => 1 / (1 + (level - d.legend!.level) / 3));
+  return makeItem(rng, def.id, legendPlus(def), []);
 }

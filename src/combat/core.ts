@@ -235,9 +235,10 @@ export function startCombat(game: GameState, roomKey: string, entries: string[],
     if (d.features.has('archdruid')) h.resources.wildShape = Math.min(d.resources.wildShape, (h.resources.wildShape ?? 0) + 1);
     if (d.features.has('perfectFocus')) h.resources.focus = Math.max(h.resources.focus ?? 0, 4);
     for (let i = 0; i < d.diceGear.openingWild; i++) {
-      addGhostDie(exp.fortune, ctx.fortuneRng, 'bone', 6, 'wild', 'Bag of Tricks');
-      log(ctx, `${c.name}'s Bag of Tricks spills a Wild die onto the tray.`, 'fortune');
+      addGhostDie(exp.fortune, ctx.fortuneRng, 'bone', 6, 'wild', 'Wild die');
+      log(ctx, `${c.name}'s gear spills a Wild die onto the tray.`, 'fortune');
     }
+    if (d.legend.openingHidden) { addCondition(ctx, c, { id: 'hidden', rounds: 3 }); log(ctx, `${c.name} vanishes in a puff of smoke.`, 'info'); }
     if (d.features.has('superiorInspiration')) h.resources.inspiration = Math.max(h.resources.inspiration ?? 0, 2);
     if (d.features.has('persistentRage') && (h.resources.rage ?? 0) === 0) h.resources.rage = 1;
     if (exp.flags[`blessed:${h.id}`]) { addCondition(ctx, c, { id: 'blessed', rounds: 3, value: 4 }); delete exp.flags[`blessed:${h.id}`]; }
@@ -364,6 +365,7 @@ export function startOfTurn(ctx: Ctx, c: Combatant) {
   if (hero && !c.downed) {
     const d = derive(hero);
     if (d.features.has('survivor') && c.hp < c.maxHp / 2 && c.hp > 0) heal(ctx, c, Math.round((5 + d.mods.con) * VITALITY), 'Survivor');
+    if (d.legend.regen > 0 && c.hp > 0 && c.hp < c.maxHp) heal(ctx, c, Math.max(1, Math.round(c.maxHp * d.legend.regen)), 'Regeneration');
     const hero2 = cond(c, 'heroism');
     if (hero2) c.tempHp = Math.max(c.tempHp, hero2.value ?? 0);
     // Zones owned by this caster tick now.
@@ -519,6 +521,16 @@ export function applyDamage(ctx: Ctx, target: Combatant, parts: DmgPart[], opts:
     log(ctx, `${target.name} retaliates against ${opts.attacker.name}!`, 'enemy');
     applyDamage(ctx, opts.attacker, [{ type: 'force', amount: back }], { source: `${target.name} (Retaliation)`, attacker: target, noFortune: true });
   }
+  const tHero = target.side === 'hero' && !target.downed ? heroOf(ctx, target) : undefined;
+  const tLegend = tHero ? derive(tHero).legend : undefined;
+  if (tLegend?.firstHitImmune && opts.attacker?.side === 'enemy' && !ctx.combat.once[`invuln:${target.id}`]) {
+    ctx.combat.once[`invuln:${target.id}`] = true;
+    log(ctx, `The blow glances off ${target.name}'s Armor of Invulnerability.`, 'info');
+    return 0;
+  }
+  if (tLegend?.thorns && opts.melee && opts.attacker?.side === 'enemy' && !opts.attacker.dead) {
+    applyDamage(ctx, opts.attacker, [{ type: 'fire', amount: Math.round(tHero!.level * tLegend.thorns * 2) }], { source: `${target.name} (Efreeti Chain)`, attacker: target, noFortune: true });
+  }
   // Downed hero hit → death save failure.
   if (target.side === 'hero' && target.downed) {
     target.deathSaves.f += opts.crit ? 2 : 1;
@@ -584,6 +596,13 @@ function dropToZero(ctx: Ctx, target: Combatant, opts: DmgOpts) {
     return;
   }
   const h = heroOf(ctx, target)!;
+  // Plate of the Unbroken Oath: once per fight.
+  if (derive(h).legend.deathWard && !ctx.combat.once[`oath:${target.id}`]) {
+    ctx.combat.once[`oath:${target.id}`] = true;
+    target.hp = 1;
+    log(ctx, `${target.name}'s oath holds — 1 HP!`, 'heal');
+    return;
+  }
   // Death Ward.
   if (has(target, 'deathWard')) {
     removeCondition(target, 'deathWard');
@@ -659,6 +678,11 @@ export function kill(ctx: Ctx, target: Combatant, source: string, attacker?: Com
         log(ctx, `${attacker.name} drinks in the kill (Dark One's Blessing).`, 'heal');
       }
       if (d.doubloonOnKill) ctx.exp.fortune.doubloons += d.doubloonOnKill;
+      if (d.legend.onKill.healPct && !attacker.downed) heal(ctx, attacker, attacker.maxHp * d.legend.onKill.healPct, 'Nine Lives');
+      if (d.legend.onKill.rerolls && ctx.combat.turn?.actorId === attacker.id) {
+        ctx.exp.fortune.rerollsLeft += d.legend.onKill.rerolls;
+        log(ctx, `${attacker.name} steals a life: +${d.legend.onKill.rerolls} reroll.`, 'fortune');
+      }
     }
     if (!ctx.exp.journal.includes(target.refId) && !ctx.game.profile.codex.monsters.includes(target.refId)) ctx.game.profile.codex.monsters.push(target.refId);
   } else {
@@ -676,6 +700,13 @@ export function kill(ctx: Ctx, target: Combatant, source: string, attacker?: Com
 export function heal(ctx: Ctx, target: Combatant, amount: number, source: string): number {
   if (target.dead || amount <= 0) return 0;
   if (has(target, 'noHeal')) { log(ctx, `${target.name} cannot heal.`, 'warn'); return 0; }
+  const th = target.side === 'hero' ? heroOf(ctx, target) : undefined;
+  if (th) {
+    const taken = derive(th).legend.healTakenPct;
+    // Moonreaper only refuses healing from others; its own lifesteal still lands.
+    const self = source === 'Vampiric' || source === 'Nine Lives' || source === 'Regeneration';
+    if (taken > 0 || (taken < 0 && !self)) amount *= 1 + taken;
+  }
   const before = target.hp;
   target.hp = Math.min(target.maxHp, target.hp + Math.round(amount));
   if (target.downed && target.hp > 0) {

@@ -84,11 +84,21 @@ const ITEM_ART: Record<string, string> = {
 const cat = (k: string, id: string) => k === 'weapon' ? 'weapon' : k === 'armor' || k === 'shield' ? 'armor' : k === 'consumable' ? (id.startsWith('scroll') ? 'scroll' : 'consumable') : 'trinket';
 const seenCat = new Set<string>();
 for (const d of Object.values(ITEMS)) {
+  if (d.legend) continue; // painted below as their own family
   const g = cat(d.kind, d.id);
   const anchor = !seenCat.has(g);
   seenCat.add(g);
   if (d.id === 'thievesTools') { out.push({ key: d.art, kind: 'icon', group: `item:${g}`, name: d.name, subject: "a half-unrolled leather craftsman's pouch of small brass and steel tools: a tiny hammer, a file, tweezers and a little round mirror" }); continue; }
   out.push({ key: d.art, kind: 'icon', group: `item:${g}`, name: d.name, subject: ITEM_ART[d.id] ?? `${d.name}${d.text ? ` — ${d.text}` : ''}${d.weapon ? ` (a ${d.weapon.props.includes('ranged') ? 'ranged' : 'melee'} weapon dealing ${d.weapon.type} damage)` : ''}`, anchor });
+}
+
+// Legendaries: one family so they share a heroic finish, each with a concrete subject of its own.
+let firstLegend = true;
+for (const d of Object.values(ITEMS)) {
+  if (!d.legend) continue;
+  const what = d.kind === 'weapon' ? 'weapon' : d.kind === 'armor' ? 'suit of armour' : d.kind === 'shield' ? 'shield' : 'wondrous item';
+  out.push({ key: d.art, kind: 'icon', group: 'item:legendary', name: d.name, subject: `${d.legend.look}. A one-of-a-kind legendary ${what}, clearly finer and more storied than ordinary gear.`, anchor: firstLegend });
+  firstLegend = false;
 }
 
 const SCENE_TEXT: Record<string, Record<string, string>> = {

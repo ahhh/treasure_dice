@@ -43,6 +43,7 @@ import { CLASS_IDS } from '../src/content/classes.ts';
 import { MONSTERS } from '../src/content/monsters.ts';
 import { ITEMS } from '../src/content/items.ts';
 import { BIOME_ORDER } from '../src/content/biomes.ts';
+import { echoesUncleared } from '../src/content/story.ts';
 import { average } from '../src/engine/dice.ts';
 import { rollItem } from '../src/meta/loot.ts';
 import { DIFFICULTY_ORDER } from '../src/rules/balance.ts';
@@ -210,6 +211,7 @@ type Job = SweepJob | CampaignJob;
 function runSweep(j: SweepJob): RunRec {
   const g = newGame(1, 'legacy', j.seed);
   g.profile.unlockedBiomes = [...BIOME_ORDER];
+  if (j.finale) for (const b of BIOME_ORDER) g.profile.sigils[b] = 1;
   const rng = new Rng([hash(j.seed), 7, 9, 11]);
   g.roster = j.comp.map((c) => createHero(rng, c, j.level));
   g.roster.forEach(fullRestore);
@@ -300,11 +302,13 @@ function runCampaign(j: CampaignJob): { runs: RunRec[]; camp: CampaignRec } {
   for (let guard = 0; guard < 80; guard++) {
     const party = g.roster.filter((h) => h.status === 'alive').slice(0, 3);
     const level = Math.max(...party.map((h) => h.level));
-    const finale = level >= 20 && party.every((h) => h.level >= 20);
+    // The Sixth Door also needs every echo broken: clear any the campaign skipped first.
+    const unbroken = echoesUncleared(g)[0];
+    const finale = level >= 20 && party.every((h) => h.level >= 20) && !unbroken;
     camp.reached = level;
     camp.attempts[level] = (camp.attempts[level] ?? 0) + 1;
     if (camp.attempts[level] > 6) { camp.stalledAt = level; break; }
-    const biome = finale ? 'starfall' : biomeFor(level);
+    const biome = finale ? 'starfall' : level >= 20 && unbroken ? unbroken : biomeFor(level);
     const rec = newRec('campaign', level, biome, j.difficulty, finale, party.map((h) => h.classId));
     rec.campaign = { id: j.id, attempt: attempt++ };
     const r = dispatch(g, { type: 'startExpedition', partyIds: party.map((h) => h.id), biome, difficulty: j.difficulty, seed: `${j.seed}-${guard}`, finale });
