@@ -24,7 +24,7 @@ export const PORTRAITS: PortraitDef[] = [
   P('barbarian', 1, 'goliath', 'a massive goliath woman with stone-grey skin, war paint and a greataxe'),
   P('barbarian', 2, 'human', 'a wild-haired human man with a bear-pelt cloak, scars and a roaring expression'),
   P('barbarian', 3, 'orc', 'a scarred orc man with tusks, braids and blood-red war paint'),
-  P('barbarian', 4, 'dwarf', 'a dwarf berserker with a flame-red beard and twin handaxes'),
+  P('barbarian', 4, 'dwarf', 'a dwarf berserker with a flame-red beard, one hand wrapped firmly around the haft of a single raised handaxe, a second handaxe hanging from his belt'),
   P('bard', 1, 'elf', 'a graceful elf man with long silver hair, a lute and an embroidered violet coat'),
   P('bard', 2, 'tiefling', 'a crimson-skinned tiefling woman with ram horns, a feathered cap and a fiddle'),
   P('bard', 3, 'gnome', 'a tiny gnome with wild teal hair, round spectacles and a set of pan-pipes'),
