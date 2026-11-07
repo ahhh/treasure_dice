@@ -244,7 +244,12 @@ export function startCombat(game: GameState, roomKey: string, entries: string[],
     if (exp.flags[`blessed:${h.id}`]) { addCondition(ctx, c, { id: 'blessed', rounds: 3, value: 4 }); delete exp.flags[`blessed:${h.id}`]; }
     if (exp.flags[`frightened:${h.id}`]) { addCondition(ctx, c, { id: 'frightened', rounds: 2 }); delete exp.flags[`frightened:${h.id}`]; }
     if (exp.flags[`poisoned:${h.id}`]) { addCondition(ctx, c, { id: 'poisoned', rounds: 3 }); delete exp.flags[`poisoned:${h.id}`]; }
+    // The Queen's Due: Kiln-Row Stout wards the first fight; the Kindred Chorus blesses the Tiamat fight.
+    if (exp.flags.drinkWard) c.tempHp = Math.max(c.tempHp ?? 0, Math.round(d.maxHp * 0.15));
+    if (exp.flags.kindred && kind === 'boss') addCondition(ctx, c, { id: 'blessed', rounds: 3, value: 4 });
   }
+  if (exp.flags.drinkWard) { delete exp.flags.drinkWard; log(ctx, 'The Kiln-Row Stout settles warm in every belly: the party is Warded.', 'info'); }
+  if (exp.flags.kindred && kind === 'boss') log(ctx, 'From far above, the whole Keep is singing. Kindred Chorus: the party is Blessed.', 'fortune');
   applyBiomeAtStart(ctx);
   for (const ch of exp.fortune.charms) {
     const def = CHARM_BY_ID[ch.id];

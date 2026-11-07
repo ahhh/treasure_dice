@@ -1,7 +1,7 @@
 /** The Lantern Keep hub. */
 import type { BiomeId, EquipSlot, Hero, ItemInstance } from '../engine/types.ts';
 import { h, btn, fmt } from './dom.ts';
-import { app, run, render, setGame, toast } from './app.ts';
+import { app, run, render, setGame, toast, afterRender } from './app.ts';
 import { bgStyle, art, banner } from './art.ts';
 import { heroPortrait, heroLine, hpBar, itemIcon, charmEl } from './widgets.ts';
 import { CLASSES } from '../content/classes.ts';
@@ -22,9 +22,19 @@ import { saveGame } from '../persistence/save.ts';
 import { sfx } from './audio.ts';
 import { PROLOGUE, CHAPTERS, HEADS, FINALE, FINALE_LEVEL, EPILOGUE, finaleBlocked, finaleSealed, echoesUncleared, storyOf, doorName } from '../content/story.ts';
 import { openShareCard } from './shareCard.ts';
+import { tavernTab, tavernArt, tavernNews } from './tavern.ts';
+import { autoDialogue, openDialogue, bark, staticBox } from './dialogue.ts';
+import { dispatch } from '../app/commands.ts';
+import { persist } from './app.ts';
+import { tavernOpen, heads, awakened, tiamatSlain, readyScripts, leadsFor, has, trainingClosed, questOf, trackDone, hymnColour, CHROMATIC } from '../meta/quest.ts';
+import { ANNOTATIONS, DISSENT, EVIDENCE, LULLABY, TRACKS } from '../content/quest.ts';
+import { KEEPER_BY_TAB, NPCS } from '../content/npcs.ts';
+import { BARKS } from '../content/dialogue/keep.ts';
+import type { Where } from '../content/dialogue.ts';
 
-const TABS: [string, string, string][] = [
+const ALL_TABS: [string, string, string][] = [
   ['guild', 'Guild Hall', 'town/guild'],
+  ['tavern', 'The Low Lantern', 'town/tavern'],
   ['chronicle', 'Chronicle', 'town/door'],
   ['cartographer', 'Cartographer', 'town/cartographer'],
   ['armory', 'Armory', 'town/armory'],
@@ -35,11 +45,59 @@ const TABS: [string, string, string][] = [
   ['codex', 'Codex', 'town/keep'],
 ];
 
+/** The Low Lantern appears once the guided tour is over; once Tiamat wakes it moves to the top. */
+function tabsFor(): [string, string, string][] {
+  const g = app.game!;
+  const tabs = ALL_TABS.filter(([id]) => id !== 'tavern' || tavernOpen(g));
+  if (awakened(g) && !tiamatSlain(g)) tabs.sort((a, b) => Number(b[0] === 'tavern') - Number(a[0] === 'tavern'));
+  return tabs;
+}
+
+// ── keeper barks: one line on the first visit after each head wakes ─────────
+let barkNow: { tab: string; who: string; text: string } | null = null;
+function keeperBark(tab: string): HTMLElement | null {
+  const g = app.game!;
+  if (!tavernOpen(g)) return null;
+  if (barkNow && barkNow.tab !== tab) barkNow = null;
+  if (!barkNow) {
+    let pending: { who: string; text: string; flag: string } | null = null;
+    const fallen = g.roster.filter((x) => x.status === 'dead' && !has(g, `note:eulogy:${x.id}`));
+    if (tab === 'guild' && fallen.length) {
+      const x = fallen[0];
+      pending = { who: 'maren', flag: `note:eulogy:${x.id}`, text: `I read ${x.name}'s name off the Wall this morning. ${x.history.clears} echo${x.history.clears === 1 ? '' : 'es'} broken, ${x.history.kills} foes put down. ${x.history.deathCause ? `Lost to ${x.history.deathCause}.` : ''} We'll read it every morning.` };
+    } else {
+      const who = KEEPER_BY_TAB[tab];
+      const stage = tiamatSlain(g) ? 6 : heads(g);
+      if (who && BARKS[who] && !has(g, `bark:${who}:${stage}`)) pending = { who, flag: `bark:${who}:${stage}`, text: BARKS[who][stage] };
+    }
+    if (!pending) return null;
+    barkNow = { tab, who: pending.who, text: pending.text };
+    const flag = pending.flag;
+    afterRender.push(() => { dispatch(g, { type: 'questSeen', flag }); persist(); });
+  }
+  const b = barkNow;
+  return bark(b.who, b.text, () => { barkNow = { ...b, tab: '' }; render(); });
+}
+
+/** Scenes a keeper has for you at this tab (auto ones open themselves). */
+function keeperScenes(tab: string): HTMLElement | null {
+  const g = app.game!;
+  if (!tavernOpen(g)) return null;
+  const where = tab as Where;
+  autoDialogue(where);
+  const list = readyScripts(g, where).filter((x) => !x.auto);
+  if (!list.length) return null;
+  return h('div', { class: 'win keeper-call' }, ...list.map((sc) => h('div', { class: 'row' },
+    h('span', { class: 'grow' }, h('b', null, NPCS[sc.speaker]?.name ?? ''), ` — ${sc.title}`),
+    btn('Talk', () => openDialogue(sc.id), { cls: 'small primary', key: `scene-${sc.id}` }))));
+}
+
 export function topbar(): HTMLElement {
   const g = app.game!;
   const sig = Object.values(g.profile.sigils).reduce((a, b) => a + (b ?? 0), 0);
   return h('div', { class: 'topbar' },
-    h('span', { class: 'title' }, 'The Lantern Keep'),
+    h('span', { class: 'title' }, awakened(g) && !tiamatSlain(g) ? 'The Lantern Keep — Under the Dragon' : 'The Lantern Keep'),
+    questOf(g).drink ? h('span', { class: 'stat', title: 'A drink is waiting for your next run' }, '🍺') : null,
     h('span', { class: 'stat', title: 'Banked gold — safe from wipes' }, h('span', { class: 'coin' }), h('b', { class: 'gold' }, fmt(g.profile.bankedGold)), 'gold'),
     h('span', { class: 'stat', title: 'Boss sigils unlock facility upgrades' }, h('b', null, sig), 'sigils'),
     h('span', { class: 'stat muted' }, `Day ${g.profile.townDay}`),
@@ -55,19 +113,24 @@ export function topbar(): HTMLElement {
 export function townScreen(): HTMLElement {
   const g = app.game!;
   const tab = app.ui.townTab;
+  const TABS = tabsFor();
   const t = TABS.find((x) => x[0] === tab) ?? TABS[0];
   const pending = g.roster.filter((x) => x.pendingLevel && x.status === 'alive').length;
+  const news = tavernOpen(g) ? tavernNews() : 0;
+  const bannerKey = t[0] === 'tavern' ? tavernArt() : t[0] === 'guild' && awakened(g) && !tiamatSlain(g) ? 'town/keep_awakened' : t[2];
   return h('div', null, topbar(),
     h('div', { class: 'town' },
       h('nav', { class: 'town-nav', 'aria-label': 'Keep facilities' }, ...TABS.map(([id, name]) =>
-        btn([name, id === 'guild' && pending ? h('span', { class: 'badge red', style: 'margin-left:6px' }, `${pending} level-up`) : null], () => { app.ui.townTab = id; render(); }, { cls: tab === id ? 'on' : '', key: `tab-${id}` }))),
+        btn([name, id === 'guild' && pending ? h('span', { class: 'badge red', style: 'margin-left:6px' }, `${pending} level-up`) : null, id === 'tavern' && news ? h('span', { class: 'badge red', style: 'margin-left:6px' }, '!') : null], () => { app.ui.townTab = id; render(); }, { cls: tab === id ? 'on' : '', key: `tab-${id}` }))),
       h('main', null,
-        h('div', { class: 'town-banner', style: bgStyle(t[2], 'linear-gradient(135deg,#26346a,#0b1230)') }, h('h1', null, t[1])),
-        TAB_RENDER[tab]?.() ?? null)));
+        h('div', { class: 'town-banner', style: bgStyle(bannerKey, 'linear-gradient(135deg,#26346a,#0b1230)') }, h('h1', null, t[1])),
+        keeperBark(t[0]),
+        t[0] !== 'tavern' ? keeperScenes(t[0]) : null,
+        TAB_RENDER[t[0]]?.() ?? null)));
 }
 
 const TAB_RENDER: Record<string, () => HTMLElement> = {
-  guild: guildTab, chronicle: chronicleTab, cartographer: cartTab, armory: () => shopTab('gear'), apothecary: () => shopTab('consumable'),
+  guild: guildTab, tavern: tavernTab, chronicle: chronicleTab, cartographer: cartTab, armory: () => shopTab('gear'), apothecary: () => shopTab('consumable'),
   enchanter: enchantTab, training: trainingTab, vault: vaultTab, codex: codexTab,
 };
 
@@ -147,12 +210,17 @@ function cartTab(): HTMLElement {
         const def = BIOMES[b];
         const open = g.profile.unlockedBiomes.includes(b);
         return h('button', { class: `biome-card ${ui.biome === b ? 'sel' : ''} ${open ? '' : 'locked'}`, style: bgStyle(`scenes/${b}_corridor`, `linear-gradient(135deg, ${def.color}, #0b1230)`), disabled: !open, on: { click: () => { ui.biome = b; render(); } } },
-          h('b', null, def.name), h('span', { class: 'small' }, open ? def.tagline : 'Sealed — clear the previous echo'), open && g.profile.sigils[b] ? h('span', { class: 'small gold' }, `Cleared ×${g.profile.sigils[b]}`) : null);
+          h('b', null, def.name), h('span', { class: 'small' }, open ? def.tagline : 'Sealed — clear the previous echo'), open && g.profile.sigils[b] ? h('span', { class: 'small gold' }, `Cleared ×${g.profile.sigils[b]}`) : null,
+          ...(open ? leadsFor(g, b) : []).map((l) => h('span', { class: `lead-chip ${l.runsLeft !== undefined ? 'timed' : ''}`, title: l.def.brief }, `📜 ${l.def.title}${l.runsLeft !== undefined ? ` · ${l.runsLeft} left` : ''}`)));
       }), h('button', { class: `biome-card finale ${finale ? 'sel' : ''} ${hasChampion ? '' : 'locked'}`, style: bgStyle('monsters/starfall_tiamat', 'linear-gradient(135deg, #7a1f2b, #2b1550 55%, #0b1230)'), disabled: !hasChampion, 'data-key': 'biome-finale', title: sealed ?? FINALE.tagline, on: { click: () => { ui.biome = 'finale'; render(); } } },
         h('b', null, `👑 ${FINALE.name}`), h('span', { class: 'small' }, sealed ?? FINALE.tagline), storyOf(g).tiamat ? h('span', { class: 'small gold' }, `Tiamat slain ×${storyOf(g).tiamat}`) : null)),
       finale
         ? h('div', null, h('p', { class: 'prose' }, FINALE.premise),
           h('p', { class: 'small muted' }, 'Final stage: a long Starfall dungeon, and Tiamat on her throne in place of its boss. Her Chromatic Dominion curse debuffs Ember, Verdant, Shadow, Frost and Storm dice and cuts Mult to ×0.75.'),
+          trackDone(g, 'break') ? h('div', { class: 'row', style: 'margin:4px 0' },
+            h('span', { class: 'small gold' }, '✦ Silenced Hymn spares:'),
+            ...CHROMATIC.map((c) => btn(c[0].toUpperCase() + c.slice(1), () => run({ type: 'setHymn', colour: c }), { cls: `small ${hymnColour(g, partyHeroes.filter(Boolean)) === c ? 'on' : ''}`, key: `hymn-${c}` }))) : null,
+          ...(['shelter', 'break', 'unite'] as const).filter((t) => has(g, { shelter: 'muster:shelter.cellar', break: 'muster:break.precentor', unite: 'muster:unite.light' }[t]) && (t !== 'shelter' || (has(g, 'muster:shelter.hands') && has(g, 'muster:shelter.hearths'))) && (t !== 'break' || (has(g, 'muster:break.stores') && has(g, 'muster:break.due')))).map((t) => h('p', { class: 'small gold' }, `✦ ${TRACKS[t].boon}`)),
           finaleBlocked(partyHeroes, g) ? h('p', { class: 'small danger' }, finaleBlocked(partyHeroes, g)) : null)
         : h('div', null,
           h('p', { class: 'prose' }, BIOMES[ui.biome as BiomeId].premise),
@@ -185,13 +253,14 @@ function cartTab(): HTMLElement {
 
 function chronicleTab(): HTMLElement {
   const g = app.game!;
+  const notes = (id: string) => (awakened(g) ? ANNOTATIONS[id] ?? [] : []).map((t) => h('p', { class: 'prose annotation' }, `✒ ${t}`));
   const story = storyOf(g);
   const alive = g.roster.filter((x) => x.status === 'alive');
   const best = alive.reduce((m, x) => Math.max(m, x.level), 0);
   const para = (t: string) => h('p', { class: 'prose' }, t);
   return h('div', { class: 'col' },
     h('div', { class: 'win chronicle', 'data-tut': 'story' },
-      banner(`story/${PROLOGUE.id}`, PROLOGUE.title), h('div', { class: 'chapter-head' }, PROLOGUE.head), h('h2', null, PROLOGUE.title), ...PROLOGUE.text.map(para),
+      banner(`story/${PROLOGUE.id}`, PROLOGUE.title), h('div', { class: 'chapter-head' }, PROLOGUE.head), h('h2', null, PROLOGUE.title), ...PROLOGUE.text.map(para), ...notes('prologue'),
       h('div', { class: 'heads' }, ...BIOME_ORDER.map((b) => {
         const broken = (g.profile.sigils[b] ?? 0) > 0;
         return h('div', { class: `head ${broken ? 'broken' : ''}`, style: `--hc:${HEADS[b].color}`, title: `${HEADS[b].name} (${HEADS[b].breath}) feeds ${BIOMES[b].name}${broken ? ' — broken' : ''}` },
@@ -202,8 +271,10 @@ function chronicleTab(): HTMLElement {
       const earned = (g.profile.sigils[b] ?? 0) > 0;
       return h('div', { class: `win chronicle ${earned ? '' : 'sealed'}` },
         h('div', { class: 'chapter-head' }, `${c.head} · ${BIOMES[b].name}`),
-        earned ? [banner(`story/${c.id}`, c.title), h('h2', null, c.title), ...c.text.map(para)] : h('p', { class: 'muted' }, `Break ${BIOMES[b].name} to read this chapter.`));
+        earned ? [banner(`story/${c.id}`, c.title), h('h2', null, c.title), ...c.text.map(para), ...notes(b)] : h('p', { class: 'muted' }, `Break ${BIOMES[b].name} to read this chapter.`));
     }),
+    has(g, 'warned') ? h('div', { class: 'win chronicle' }, h('div', { class: 'chapter-head' }, 'A Dissent, entered before the Fifth Door'), h('p', { class: 'prose' }, 'A Keeper of this house warned that the Doors were never meant to be broken. The Guild read the warning and pressed on.'), ...(awakened(g) ? [h('p', { class: 'prose annotation' }, `✒ ${DISSENT}`)] : [])) : null,
+    awakened(g) ? h('div', { class: 'win chronicle' }, banner('story/lullaby', "The Wardens' Lullaby"), h('div', { class: 'chapter-head' }, 'Copied from the inside of the Sixth Door'), h('h2', null, "The Wardens' Lullaby"), ...LULLABY.map((l) => h('p', { class: 'prose lullaby' }, l))) : null,
     h('div', { class: 'win chronicle finale-win' },
       h('div', { class: 'chapter-head' }, 'The Final Stage'),
       banner(`story/${FINALE.id}`, FINALE.name),
@@ -300,6 +371,7 @@ function trainingTab(): HTMLElement {
   const cap = trainingCap(g);
   const alive = g.roster.filter((x) => x.status === 'alive');
   return h('div', { class: 'col' },
+    trainingClosed(g) ? h('div', { class: 'win' }, h('p', { class: 'danger' }, 'The Training Grounds are closed while Drillmaster Kost leads the evacuation. They reopen when Tiamat falls.')) : null,
     h('div', { class: 'win' }, h('h2', null, 'Reserve training'),
       h('p', { class: 'prose' }, `Pay to raise a benched hero by one level, up to level ${cap} (two below your strongest trio). Clearing dungeons is the only other way to level.`),
       h('div', { class: 'cards' }, ...alive.map((hero) => heroCard(hero, {
@@ -317,6 +389,10 @@ function codexTab(): HTMLElement {
       h('table', { class: 'mini' }, ...[
         ['Expeditions', s.expeditions], ['Echoes cleared', s.clears], ['Retreats', s.retreats], ['Wipes', s.wipes], ['Heroes lost', s.deaths], ['Best single hand', fmt(s.bestScore)],
       ].map(([k, v]) => h('tr', null, h('th', null, String(k)), h('td', null, String(v)))))),
+    tavernOpen(g) ? h('div', { class: 'win' }, h('h2', null, `Journal: The Queen's Due (${Object.values(EVIDENCE).filter((e) => has(g, `ev:${e.id}`)).length}/${Object.keys(EVIDENCE).length})`),
+      h('div', { class: 'list' }, ...Object.values(EVIDENCE).map((e) => has(g, `ev:${e.id}`)
+        ? h('div', { class: 'item-row' }, h('div', { class: 'icon', style: 'width:56px;height:56px' }, art(e.art, e.name)), h('div', { class: 'grow' }, h('b', null, e.name), h('div', { class: 'small prose' }, e.text), awakened(g) && e.after ? h('div', { class: 'small annotation' }, `✒ ${e.after}`) : null))
+        : h('div', { class: 'item-row muted' }, h('div', { class: 'icon', style: 'width:56px;height:56px' }), h('span', null, '???'))))) : null,
     h('div', { class: 'win' }, h('h2', null, `Charms found (${g.profile.codex.charms.length}/${CHARMS.length})`),
       h('div', { class: 'charm-bar' }, ...CHARMS.map((c) => g.profile.codex.charms.includes(c.id) ? charmEl(c.id) : h('div', { class: 'charm empty', title: 'Undiscovered' })))),
     h('div', { class: 'win' }, h('h2', null, `Bestiary (${g.profile.codex.monsters.length})`),

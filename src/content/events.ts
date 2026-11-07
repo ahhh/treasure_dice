@@ -4,6 +4,8 @@
  * soft-lock a run (plan §5.3 fairness invariant).
  */
 import type { Ability, BiomeId, Skill } from '../engine/types.ts';
+import type { QuestFx } from './questTypes.ts';
+import { QUEST_EVENTS } from './questEvents.ts';
 
 export type Outcome =
   | { type: 'gold'; amount: number }
@@ -13,7 +15,8 @@ export type Outcome =
   | { type: 'heal'; pct: number }
   | { type: 'damage'; pct: number; who: 'party' | 'one' }
   | { type: 'item'; tier: number }
-  | { type: 'combat'; elite?: boolean }
+  | { type: 'combat'; elite?: boolean; /** Swap one foe for this monster (the Dragon's Choir sends its own). */ cultist?: string; /** Quest effects granted only if this fight is won. */ onWin?: QuestFx[] }
+  | { type: 'quest'; fx: QuestFx[] }
   | { type: 'meter'; delta: number; set?: number }
   | { type: 'reveal' }
   | { type: 'key' }
@@ -47,6 +50,10 @@ export interface EventDef {
   title: string;
   text: string;
   options: EventOption[];
+  /** Quest rooms (The Queen's Due) are placed only by a lead, never at random. */
+  quest?: boolean;
+  /** Room scene for a quest room. */
+  scene?: string;
 }
 
 export const EVENTS: Record<string, EventDef> = {};
@@ -187,8 +194,10 @@ E({ id: 'sleepingStar', biome: 'starfall', kind: 'event', title: 'A Sleeping Sta
     { label: 'Sing it a lullaby', check: { skill: 'performance', dc: 12 }, success: [{ type: 'condition', id: 'blessed' }, { type: 'meter', delta: 0, set: 0 }], failure: [{ type: 'text', t: 'The star snores on.' }] },
   ] });
 
+for (const q of QUEST_EVENTS) E(q);
+
 export const EVENT_LIST = Object.values(EVENTS);
 
 export function eventsFor(biome: BiomeId, kind: EventDef['kind']): EventDef[] {
-  return EVENT_LIST.filter((e) => e.kind === kind && (e.biome === 'any' || e.biome === biome) && e.id !== 'meterReset' && e.id !== 'sigilKey');
+  return EVENT_LIST.filter((e) => e.kind === kind && (e.biome === 'any' || e.biome === biome) && !e.quest && e.id !== 'meterReset' && e.id !== 'sigilKey');
 }

@@ -59,7 +59,7 @@ export function playedDice(run: FortuneRun, trayIndices: number[]): PlayedDie[] 
 
 export function evalPlayed(run: FortuneRun, played: PlayedDie[], curse?: CurseId) {
   const rules = charmPassives(run).rules;
-  const debuffed = played.map((d) => isDebuffed(d, curse));
+  const debuffed = played.map((d) => isDebuffed(d, curse) && !(curse === 'chromatic' && run.spared === d.material));
   const evalDice: EvalDie[] = played.map((d, i) => ({
     value: debuffed[i] ? 0 : d.value,
     wild: d.mod === 'wild' && !debuffed[i],

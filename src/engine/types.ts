@@ -177,6 +177,8 @@ export interface CharmInstance {
 }
 
 export interface FortuneRun {
+  /** Silenced Hymn (The Queen's Due): Chromatic Dominion spares this material. */
+  spared?: Material;
   bag: FortuneDie[];
   drawPile: string[];
   discard: string[];
@@ -456,6 +458,8 @@ export interface Expedition {
   shortRests: number;
   longRestUsed: boolean;
   theme: { name: string; anomaly: string; faction: string; objective: string; boss: string; hook: string };
+  /** The Queen's Due: the lead whose room was placed this run, and the drink taken. */
+  quest?: { lead?: string; drink?: string; /** Quest effects waiting on the current fight being won. */ onWin?: import('../content/questTypes.ts').QuestFx[] };
   fallen: string[];
   bossDefeated: boolean;
   journal: string[];
@@ -490,6 +494,25 @@ export interface Profile {
   story?: { seen: string[]; tiamat: number };
   /** Optional name shown on the share card. */
   keeperName?: string;
+  /** The Queen's Due side quest (src/meta/quest.ts). */
+  quest?: QuestState;
+}
+
+/** Progress in The Queen's Due. Heads awake are derived from sigils, never stored. */
+export interface QuestState {
+  /** 'seen:<script>', 'met:<npc>', 'ev:<id>', 'muster:<task>', 'leadDone:<id>', story flags… */
+  flags: string[];
+  trust: Record<string, number>;
+  fate: Record<string, string>;
+  resolve: number;
+  leads: { id: string; misses: number; runsLeft?: number }[];
+  rumors: string[];
+  drink?: string;
+  /** Keep day Sereth last tended the heroes. */
+  tendedDay?: number;
+  tended?: boolean;
+  /** Silenced Hymn: the dice colour the player chose to spare. */
+  hymn?: string;
 }
 
 /** Guided-tutorial progress. Null/undefined once finished or skipped. */
@@ -517,7 +540,7 @@ export interface GameState {
   shopStock: string[];
   townRng: RngStreams['town'];
   expedition?: Expedition;
-  lastResult?: { kind: 'won' | 'retreated' | 'wiped'; gold: number; items: string[]; fallen: string[]; leveled: string[]; biome: BiomeId; score: number; fights: number; rank: number; charms: string[]; bossRounds?: number; tutorial?: boolean; finale?: boolean; chapter?: string };
+  lastResult?: { kind: 'won' | 'retreated' | 'wiped'; gold: number; items: string[]; fallen: string[]; leveled: string[]; biome: BiomeId; score: number; fights: number; rank: number; charms: string[]; bossRounds?: number; tutorial?: boolean; finale?: boolean; chapter?: string; quest?: { found: string[]; head?: BiomeId; notes: string[] } };
   uidCounter: number;
   settings: { fast: boolean; sound: boolean };
   tutorial?: TutorialState | null;

@@ -3,7 +3,7 @@
 import { spawn } from 'node:child_process';
 import { startVite, stopVite } from './ui-lib.mjs';
 
-const ALL = ['smoke', 'tutorial', 'screens', 'boss', 'battle', 'render-stress'];
+const ALL = ['smoke', 'tutorial', 'screens', 'dialogue', 'boss', 'battle', 'render-stress'];
 const pick = process.argv.slice(2);
 const names = pick.length ? ALL.filter((n) => pick.includes(n)) : ALL;
 const server = process.env.URL ? null : await startVite();

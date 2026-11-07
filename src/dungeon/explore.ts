@@ -24,6 +24,8 @@ import { rollItem, rollMagicItem, bossLootChoice, rollLegendary, ownedLegends, L
 import { makeItem } from '../rules/character.ts';
 import { buildTutorialMap, TUTORIAL_SEED } from './tutorial.ts';
 import { FINALE, CHAPTERS, EPILOGUE, finaleBlocked, storyOf } from '../content/story.ts';
+import { onExpeditionStart, onExpeditionEnd, applyFx } from '../meta/quest.ts';
+import { EVIDENCE, LEADS } from '../content/quest.ts';
 
 export function xlog(exp: Expedition, t: string, kind?: LogEntry['kind']) {
   exp.log.push({ t, kind });
@@ -105,11 +107,14 @@ export function startExpedition(g: GameState, o: StartOpts): string | null {
   }
   g.vault = g.vault.filter((i) => !exp.carriedItems.includes(i));
   g.expedition = exp;
+  // The Queen's Due: the drink Bet poured, and maybe a lead's quest room.
+  onExpeditionStart(g, exp, heroes as Hero[], MAX_TOKENS);
   revealAround(exp);
   if (o.tutorial) xlog(exp, 'The Training Cellar: a short, gentle dungeon beneath the Keep. Your goal: take the Boss Sigil and beat the practice forge.', 'info');
   else if (o.finale) xlog(exp, `${FINALE.name}: ${FINALE.premise}`, 'warn');
   else xlog(exp, `${b.name}: ${exp.theme.anomaly}. Your goal: ${exp.theme.objective}.`, 'info');
   xlog(exp, `Rumour has it ${exp.theme.boss} waits in the deepest chamber.`, 'info');
+  if (exp.quest?.lead) xlog(exp, `📜 Your lead is somewhere in here: ${LEADS[exp.quest.lead].title}.`, 'warn');
   g.profile.stats.expeditions += 1;
   // Face into the dungeon.
   const start = map.rooms[map.start];
@@ -394,9 +399,18 @@ function applyOutcome(g: GameState, o: Outcome): string | null {
       for (const h of victims) h.hp = Math.max(1, h.hp - Math.round(derive(h).maxHp * o.pct));
       return o.who === 'party' ? 'The party is hurt.' : `${victims[0].name} is hurt.`;
     }
+    case 'quest': {
+      const notes = applyFx(g, o.fx);
+      const found = notes.filter((n) => n.startsWith('ev:')).map((n) => EVIDENCE[n.slice(3)]?.name).filter(Boolean);
+      if (found.length) { exp.flags.questFound = (exp.flags.questFound ?? 0) + found.length; return `📜 Evidence: ${found.join(', ')}.`; }
+      return null;
+    }
     case 'combat': {
       const room = exp.map.rooms[exp.pos];
       const mons = rollEncounter(stream(exp.rng, 'encounter'), exp.biome, L, o.elite ? 'elite' : 'normal', exp.difficulty);
+      // The Dragon's Choir sends its own: one foe becomes a cultist.
+      if (o.cultist && MONSTERS[o.cultist]) mons[mons.length - 1] = o.cultist;
+      if (o.onWin) exp.quest = { ...exp.quest, onWin: o.onWin };
       room.encounter = { monsters: mons, kind: o.elite ? 'elite' : 'normal', cleared: false };
       startCombat(g, room.key, mons, o.elite ? 'elite' : 'normal');
       return 'Combat!';
@@ -550,7 +564,15 @@ export function afterCombat(g: GameState) {
   if (combat.status === 'victory' && !combat.rewarded) {
     combat.rewarded = true;
     grantSpoils(g);
+    // The Queen's Due: a quest fight pays out only when it's won.
+    if (exp.quest?.onWin) {
+      const found = applyFx(g, exp.quest.onWin).filter((n) => n.startsWith('ev:')).map((n) => EVIDENCE[n.slice(3)]?.name).filter(Boolean);
+      exp.quest.onWin = undefined;
+      for (const f of found) { xlog(exp, `📜 Evidence: ${f}.`, 'info'); exp.spoils?.items.push(`📜 ${f}`); }
+      xlog(exp, '📜 The way is clear. You did what you came for.', 'info');
+    }
   }
+  if ((combat.status === 'defeat' || combat.status === 'fled') && exp.quest?.onWin) exp.quest.onWin = undefined;
   if (combat.status === 'defeat') {
     endCombatTray(exp.fortune);
     if (g.mode === 'story' || exp.tutorial) {
@@ -963,6 +985,7 @@ export function finishExpedition(g: GameState, kind: 'won' | 'retreated' | 'wipe
     }
   }
   const story = storyOf(g);
+  const firstClear = kind === 'won' && !exp.finale && !exp.tutorial && !story.seen.includes(exp.biome);
   if (kind === 'won' && exp.finale) {
     // Tiamat slain: the epilogue, not a sigil.
     g.profile.stats.clears += 1;
@@ -981,6 +1004,8 @@ export function finishExpedition(g: GameState, kind: 'won' | 'retreated' | 'wipe
   if (kind === 'retreated') g.profile.stats.retreats += 1;
   g.profile.stats.deaths += result.fallen.length;
   if (exp.fortune.bestScore > g.profile.stats.bestScore) g.profile.stats.bestScore = exp.fortune.bestScore;
+  const q = onExpeditionEnd(g, exp, kind, firstClear, result.gold);
+  if (q.head || q.found.length || q.notes.length) result.quest = q;
   g.lastResult = result;
   g.expedition = undefined;
   g.profile.townDay += 1;

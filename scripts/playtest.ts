@@ -21,6 +21,7 @@
  *   --gear earned|kit            sweep gear: loot a campaign would have earned by that level
  *                                (default), or the class starting kit only
  *   --finale                     sweep fights Tiamat's Dragon Throne (level 20 only)
+ *   --muster none|all|shelter,break,unite   finale only: Muster tracks finished (The Queen's Due boons)
  *   --workers N                  parallel workers (default: cores - 1)
  *   --seed S                     base seed (default PT)
  *   --out DIR                    output directory (default playtest-results/<stamp>)
@@ -204,7 +205,7 @@ function playExpedition(g: GameState, rec: RunRec) {
 
 // ── sweep ───────────────────────────────────────────────────────────────────
 
-interface SweepJob { kind: 'sweep'; level: number; difficulty: Difficulty; biome: BiomeId; finale: boolean; seed: string; comp: ClassId[]; gear: 'kit' | 'earned' }
+interface SweepJob { kind: 'sweep'; level: number; difficulty: Difficulty; biome: BiomeId; finale: boolean; seed: string; comp: ClassId[]; gear: 'kit' | 'earned'; muster?: string }
 interface CampaignJob { kind: 'campaign'; id: number; difficulty: Difficulty; seed: string; comp: ClassId[]; classes: ClassId[] }
 type Job = SweepJob | CampaignJob;
 
@@ -212,6 +213,12 @@ function runSweep(j: SweepJob): RunRec {
   const g = newGame(1, 'legacy', j.seed);
   g.profile.unlockedBiomes = [...BIOME_ORDER];
   if (j.finale) for (const b of BIOME_ORDER) g.profile.sigils[b] = 1;
+  // The Queen's Due: finish Muster tracks before the finale (--muster shelter,break,unite|all).
+  if (j.finale && j.muster && j.muster !== 'none') {
+    const want = j.muster === 'all' ? ['shelter', 'break', 'unite'] : j.muster.split(',');
+    const tasks: Record<string, string[]> = { shelter: ['shelter.hands', 'shelter.hearths', 'shelter.cellar'], break: ['break.stores', 'break.due', 'break.precentor'], unite: ['unite.assembly', 'unite.guild', 'unite.light'] };
+    g.profile.quest = { flags: want.flatMap((t) => tasks[t] ?? []).map((id) => `muster:${id}`), trust: {}, fate: {}, resolve: 0, leads: [], rumors: [] };
+  }
   const rng = new Rng([hash(j.seed), 7, 9, 11]);
   g.roster = j.comp.map((c) => createHero(rng, c, j.level));
   g.roster.forEach(fullRestore);
@@ -370,6 +377,7 @@ async function main() {
   const workers = Math.max(1, Number(arg('workers', String(Math.max(1, availableParallelism() - 1)))));
   const quiet = arg('quiet') === 'true';
   const gear = (arg('gear', 'earned') === 'kit' ? 'kit' : 'earned') as SweepJob['gear'];
+  const muster = arg('muster', 'none')!;
   const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
   const outDir = arg('out', `playtest-results/${stamp}`)!;
 
@@ -378,7 +386,7 @@ async function main() {
   if (mode === 'sweep' || mode === 'both') {
     const rng = new Rng([hash(seed), 1, 2, 3]);
     for (const level of levels) for (const difficulty of diffs) for (let i = 0; i < runs; i++) {
-      jobs.push({ kind: 'sweep', level, difficulty, biome: biomes[i % biomes.length], finale, seed: `${seed}-S-${level}-${difficulty}-${i}`, comp: pickComp(rng), gear });
+      jobs.push({ kind: 'sweep', level, difficulty, biome: biomes[i % biomes.length], finale, seed: `${seed}-S-${level}-${difficulty}-${i}`, comp: pickComp(rng), gear, muster });
     }
   }
   if ((mode === 'campaign' || mode === 'both') && !finale) {

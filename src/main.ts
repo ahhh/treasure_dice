@@ -8,6 +8,7 @@ import { combatScreen, combatKeys } from './ui/combat.ts';
 import { shareModal } from './ui/shareCard.ts';
 import { installTutorial, coachBlocking } from './ui/tutorial.ts';
 import { installTips } from './ui/tips.ts';
+import { dialogueBox, dialogueKeys, dialogueOpen } from './ui/dialogue.ts';
 import { heroSheet, levelUpModal, spoilsModal, boonsModal, lootChoiceModal, eventModal, shopModal, bagModal, resultScreen, helpModal } from './ui/modals.ts';
 
 app.root = document.getElementById('app')!;
@@ -19,6 +20,7 @@ app.renderers.result = resultScreen;
 app.renderers.overlay = () => {
   const g = app.game;
   if (!g) return null as unknown as HTMLElement;
+  if (dialogueOpen()) return dialogueBox()!;
   if (app.ui.heroSheet) return heroSheet(app.ui.heroSheet);
   if (app.ui.levelUp) return levelUpModal(app.ui.levelUp);
   if (app.ui.modal?.kind === 'bag' && g.expedition) return bagModal();
@@ -42,6 +44,8 @@ document.addEventListener('keydown', (e) => {
   if (coachBlocking()) return;
   const g = app.game;
   if (!g) return;
+  // An open dialogue box owns the keyboard.
+  if (dialogueOpen()) { if (dialogueKeys(e)) e.preventDefault(); return; }
   if (e.key === 'Escape' && (app.ui.heroSheet || app.ui.levelUp || app.ui.modal)) {
     app.ui.heroSheet = undefined; app.ui.levelUp = undefined; app.ui.modal = undefined; render(); e.preventDefault(); return;
   }

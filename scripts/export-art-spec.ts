@@ -12,8 +12,10 @@ import { BIOMES } from '../src/content/biomes.ts';
 import { CHARMS } from '../src/fortune/charms.ts';
 import { ITEMS } from '../src/content/items.ts';
 import { EVENTS } from '../src/content/events.ts';
+import { NPCS, HEAD_EYES, portraitKey, type Mood } from '../src/content/npcs.ts';
+import { EVIDENCE, DRINKS } from '../src/content/quest.ts';
 
-interface Entry { key: string; kind: 'portrait' | 'sprite' | 'icon' | 'scene' | 'vignette'; group: string; name: string; subject: string; anchor?: boolean }
+interface Entry { key: string; kind: 'portrait' | 'sprite' | 'icon' | 'scene' | 'vignette'; group: string; name: string; subject: string; anchor?: boolean; /** Identity reference: paint this as a variant of that key (same face, new expression). */ ref?: string }
 const out: Entry[] = [];
 
 for (const p of PORTRAITS) {
@@ -185,6 +187,19 @@ const EVENT_ART: Record<string, string> = {
   confessional: 'The Confessional. An empty confessional booth made of black glass standing alone in a white crystal cathedral, a faint violet light glowing behind its lattice, its little door ajar. Nobody inside or nearby.',
   talkingMirror: 'The Talking Mirror. A tall ornate standing mirror in an empty glass cathedral; its surface ripples like water and glows softly, as if about to speak. Nobody stands before it.',
 };
+// Quest rooms (The Queen's Due): vignettes name the people in them; no onlooker.
+Object.assign(EVENT_ART, {
+  q_stalledCart: 'The Stalled Cart. A tipped mine rail cart with one shattered wheel in an ash-filled tunnel, sacks of lamp oil and a crate of hardtack spilled out, a small brass lockbox chained to its frame, six sets of boot-prints in the ash leading away into the dark. No people.',
+  q_choirGrove: "The Choir's Grove. A cleared grove inside a fungal crypt seen from a little distance, so everything sits in the MIDDLE of the frame: on the left two grey-robed hooded cultists stand talking; in the centre, on a low bedroll at mid-height, a young dragonborn PERSON lies peacefully asleep on his side, face clearly visible and drawn as cleanly as an anime character portrait (smooth dragon snout, closed eyes, small head frill): a humanoid with a reptilian dragon head and grey-green scales, wearing a plain wool tunic and trousers, two arms and two legs like a human, a chain on one ankle (NOT an animal, NOT a lizard on four legs); on the right, wooden crates stamped with a ring of five open dragon mouths; grey cloth lanterns with no flame hang from the roots above.",
+  q_titheBarge: 'The Tithe Barge. A flat wooden barge moored between two flooded bookshelves in a sunken library, sitting low in clear teal water under the weight of locked iron strongboxes, a small writing desk bolted to its deck. No people.',
+  q_erenCaptive: "Eren's Last Run. A wide hall of tall mirrors and glass pillars. LEFT third: a calm grey MULE (a donkey-like animal with very long upright ears and a short bristly mane, not a horse) standing alone on the mirrored floor, nobody on her back. CENTRE: a separate glass pillar several paces away from the mule, with a young bronze-orange-scaled dragonborn man in a courier's harness standing tied to it with rope, a cloth gag over his snout. RIGHT third: two cultists in faceted mirror masks and pale robes, arguing. The mule and the dragonborn do not touch.",
+  q_reflectedCharge: 'The Reflected Charge. A tall ornate standing mirror in an empty glass cathedral; instead of a reflection, the glass shows an ancient stone town gate with a freshly carved inscription of abstract marks, and a single bright crack runs across the mirror. No people.',
+  q_throneRoad: 'The Throne Road. A road of drifting stepping stones across a starfield strewn with dropped gold coins, a line of tired labourers carrying heavy sacks toward a distant golden glow far below. The labourers are dragonborn (reptilian dragon heads, scales of grey, green and copper); the one at the front is a young bronze-orange-scaled dragonborn boy. A grey-robed overseer holds a lantern of grey cloth.',
+  q_lostHands: "The Hands' Camp. A camp of grey canvas tents in a cooled dwarven forge hall, tired workers of many peoples sitting silently around a fire that gives off no light, their tools laid down.",
+  q_choirStores: "The Cult's Stores. A burial vault turned into a storehouse: stacked sacks of grain, barrels of oil, crates of medicine and racks of spears, every crate stamped with a ring of five open dragon mouths, roots creeping over it all. No people.",
+  q_sunkenDue: 'The Sunken Due. A half-flooded strongroom in a drowned library, open chests of gold coins with paper name tags tied to them, rising clear water lapping at the chests, a single tide-cultist in eel-skin robes singing with raised arms.',
+  q_precentor: 'The Precentor. At the edge of a floating stone causeway among the stars, an old human gentleman in his sixties with SHORT neatly swept-back silver hair and a kindly lined face, wearing an elegant plum-coloured frock coat, sits on a small wooden folding stool (the stool clearly visible under him), a cane with a gold egg-shaped pommel resting across his knees, calmly watching a vast golden glow far below.',
+});
 const seenEvent = new Set<string>();
 for (const ev of Object.values(EVENTS)) {
   const group = `event:${ev.biome}`;
@@ -220,6 +235,47 @@ const TOWN: Record<string, string> = {
   door: 'the Sixth Door: a colossal ancient single-slab stone door in a cavern, with five glowing round seals set in a curved arch across its upper half, like five points along a rainbow: two seals on the left, ONE seal at the top centre, two seals on the right, 5 seals in total. Left to right their colours are fiery red, poison green, glowing silver-white (the centre, highest seal), smoky violet, lightning blue, one for each head of the five-headed dragon. No other seals, circles or lights on the door. Golden light glows along the base of the door',
 };
 for (const [k, t] of Object.entries(TOWN)) out.push({ key: `town/${k}`, kind: 'scene', group: 'scene:town', name: k, subject: t, anchor: k === 'keep' });
+
+// ── The Queen's Due ────────────────────────────────────────────────────────
+// Townsfolk portraits: the neutral face is painted from text; each mood is a variant OF it (ref).
+for (const n of Object.values(NPCS)) {
+  const base = portraitKey(n.id);
+  out.push({ key: base, kind: 'portrait', group: 'npc:keep', name: n.name, subject: `${n.look}. ${n.title} of the Lantern Keep: an ordinary townsperson, not an adventurer.`, anchor: n.id === 'bet' });
+  for (const [mood, how] of Object.entries(n.moods) as [Mood, string][]) {
+    out.push({ key: portraitKey(n.id, mood), kind: 'portrait', group: 'npc:keep', name: `${n.name} (${mood})`, subject: `${n.look}. Expression: ${how}.`, ref: base });
+  }
+}
+for (const e of Object.values(HEAD_EYES)) out.push({ key: e.key, kind: 'icon', group: 'npc:heads', name: e.key.split('/')[1], subject: e.subject });
+// Quest rooms get their own room scene.
+const QUEST_SCENE: Record<string, [string, string]> = {
+  q_stalledCart: ['cinder', 'a narrow mine rail cut through black basalt, a tipped rail cart with a broken wheel against the wall, sacks spilled across the tracks, ash drifting through a shaft of daylight'],
+  q_choirGrove: ['rootbound', 'a cleared grove inside a fungal crypt, the spores swept away, grey cloth lanterns hanging from roots, stacked crates and a bedroll by a cold fire pit'],
+  q_titheBarge: ['drowned', 'a still waterway between towering drowned bookshelves, a heavily laden flat barge moored to a reading desk, lamplight rippling on the water'],
+  q_erenCaptive: ['mirror', 'a hall of tall mirrors and glass pillars, one pillar with loose ropes around it, a coil of courier rope and a dropped harness on the mirrored floor'],
+  q_reflectedCharge: ['mirror', 'a quiet glass cathedral transept with one enormous ornate mirror at its end, cracked across the middle, soft light falling on it'],
+  q_throneRoad: ['starfall', 'a road of drifting stepping stones across a starfield, gold coins scattered on every stone, a warm golden glow far below the road'],
+  q_lostHands: ['cinder', 'a cooled dwarven forge hall turned into a camp of grey canvas tents, a cold fire pit, tools and sacks left in rows'],
+  q_choirStores: ['rootbound', 'a root-wrapped burial vault packed with stacked sacks, barrels and crates, a narrow aisle between them, green light through the roots'],
+  q_sunkenDue: ['drowned', 'a half-flooded stone strongroom, open chests of coins on a raised dais, clear water rising around the steps, light from a broken skylight'],
+  q_precentor: ['starfall', 'the end of a floating stone causeway among the stars, a lone folding stool at its edge, a vast golden glow far below in the void'],
+};
+for (const [id, [b, t]] of Object.entries(QUEST_SCENE)) out.push({ key: `scenes/${id}`, kind: 'scene', group: `scene:${b}`, name: `Quest room — ${id}`, subject: t });
+const TAVERN: Record<string, string> = {
+  tavern: 'the Low Lantern: a low, warm stone tavern dug into a mountainside at the top of a long stone stair, a long wooden bar with a shelf of small lit candles behind it, tables of townsfolk of many peoples, a single oil lamp glowing over the open door, cosy dusk light',
+  tavern_uneasy: 'the same low stone mountainside tavern with a long wooden bar and a shelf of candles, now half empty, a few patrons in plain grey robes huddled in one corner, frost creeping on the windows, the candle shelf only half lit, uneasy dusk light',
+  tavern_muster: 'the same low stone mountainside tavern crowded with townsfolk, families wrapped in blankets on the benches, maps pinned along the long wooden bar, through the open door a dark town with every window unlit',
+  tavern_dawn: 'the same low stone mountainside tavern at dawn, nearly empty, pale sunlight through the open door, a row of full glasses standing on the candle shelf behind the long wooden bar',
+  keep_awakened: 'the hilltop Lantern Keep at night in a storm, every lantern on its tower dark, one small warm window still glowing at the foot of the town, five coloured glows rising from the cliff beneath it',
+  kilnrow: 'Kiln Row: a narrow sloping street of stone forge-homes in a hilltop town, each doorway with a small clay hearth lamp burning a blue flame, chimney smoke and warm light at dusk',
+};
+for (const [k, t] of Object.entries(TAVERN)) out.push({ key: `town/${k}`, kind: 'scene', group: 'scene:town', name: k, subject: t });
+out.push({ key: 'story/awakening', kind: 'vignette', group: 'story:chronicle', name: 'awakening', subject: 'a hilltop keep at night in a storm, every lantern on its great tower going dark at once, one small warm window glowing at the foot of the town, five vast coloured shapes stirring in the clouds' });
+out.push({ key: 'story/lullaby', kind: 'vignette', group: 'story:chronicle', name: 'lullaby', subject: 'the inside face of a colossal opened stone door, carved with long lines of ancient abstract verse-marks around five dragon-head reliefs, lit by a single lantern on the floor' });
+for (const e of Object.values(EVIDENCE)) out.push({ key: e.art, kind: 'icon', group: 'item:evidence', name: e.name, subject: e.look });
+for (const d of Object.values(DRINKS)) out.push({ key: `drinks/${d.id}`, kind: 'icon', group: 'item:drink', name: d.name, subject: d.look });
+out.push({ key: 'drinks/lastLight', kind: 'icon', group: 'item:drink', name: 'The Last Light', subject: 'a single plain clear glass of golden drink with a small candle flame reflected in it' });
+out.push({ key: 'ui/choirSigil', kind: 'icon', group: 'item:evidence', name: "The Dragon's Choir sigil", subject: 'a round grey stone medallion carved with exactly FIVE dragon heads, mouths open, evenly spaced around the rim like the points of a star, all facing inward toward an empty centre, simple and bold; count them: five' });
+out.push({ key: 'ui/lowLanternSign', kind: 'icon', group: 'item:evidence', name: 'The Low Lantern sign', subject: 'a hanging wooden tavern sign on an iron bracket, painted with a small glowing oil lamp near the bottom of the board' });
 
 writeFileSync('art/spec.json', JSON.stringify({ game: 'treasure_dice', count: out.length, entries: out }, null, 1));
 const groups = new Map<string, number>();

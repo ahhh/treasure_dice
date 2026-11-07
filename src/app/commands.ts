@@ -6,6 +6,7 @@ import type { BiomeId, Difficulty, EquipSlot, GameState, RelDir } from '../engin
 import { combatDispatch, type CombatCmd } from '../combat/index.ts';
 import * as X from '../dungeon/explore.ts';
 import * as T from '../meta/town.ts';
+import * as Q from '../meta/quest.ts';
 
 export type GameCmd =
   | { type: 'combat'; cmd: CombatCmd }
@@ -44,12 +45,20 @@ export type GameCmd =
   | { type: 'train'; heroId: string }
   | { type: 'levelUp'; heroId: string; choices: T.LevelChoices }
   | { type: 'prepare'; heroId: string; spellIds: string[] }
-  | { type: 'ackResult' };
+  | { type: 'ackResult' }
+  // The Queen's Due
+  | { type: 'talk'; script: string; node: string; choice?: number }
+  | { type: 'buyDrink'; id: string }
+  | { type: 'hearRumor'; id: string }
+  | { type: 'tend' }
+  | { type: 'muster'; id: string }
+  | { type: 'questSeen'; flag: string }
+  | { type: 'setHymn'; colour: string };
 
-export interface DispatchResult { ok: boolean; error?: string; score?: import('../engine/types.ts').ScoreReport }
+export interface DispatchResult { ok: boolean; error?: string; score?: import('../engine/types.ts').ScoreReport; talk?: Q.TalkResult }
 
 const DUNGEON_CMDS = new Set(['combat', 'move', 'search', 'eventChoice', 'eventClose', 'eventOpen', 'sacrifice', 'takeLoot', 'closeSpoils', 'pickBoon', 'skipBoon', 'pickLoot', 'shopBuy', 'shopReroll', 'shopClose', 'shopOpen', 'sellCharm', 'moveCharm', 'rest', 'useItem', 'castExplore', 'retreat', 'exitDungeon']);
-const TOWN_CMDS = new Set(['hire', 'rerollRecruits', 'retire', 'buy', 'sell', 'equip', 'unequip', 'enchant', 'upgrade', 'train', 'levelUp', 'prepare']);
+const TOWN_CMDS = new Set(['hire', 'rerollRecruits', 'retire', 'buy', 'sell', 'equip', 'unequip', 'enchant', 'upgrade', 'train', 'levelUp', 'prepare', 'talk', 'buyDrink', 'hearRumor', 'tend', 'muster', 'setHymn']);
 
 /** Never throws: a bug in one command must not take down the session. */
 export function dispatch(g: GameState, cmd: GameCmd): DispatchResult {
@@ -114,6 +123,16 @@ function dispatchInner(g: GameState, cmd: GameCmd): DispatchResult {
     case 'train': return err(T.train(g, cmd.heroId));
     case 'levelUp': return err(T.levelUp(g, cmd.heroId, cmd.choices));
     case 'prepare': return err(T.setPrepared(g, cmd.heroId, cmd.spellIds));
+    case 'talk': {
+      const r = Q.talk(g, cmd.script, cmd.node, cmd.choice);
+      return r.error ? { ok: false, error: r.error } : { ok: true, talk: r.result };
+    }
+    case 'buyDrink': return err(Q.buyDrink(g, cmd.id));
+    case 'hearRumor': return err(Q.hearRumor(g, cmd.id));
+    case 'tend': return err(Q.tend(g));
+    case 'muster': return err(Q.musterAct(g, cmd.id));
+    case 'questSeen': return err(Q.markSeen(g, cmd.flag));
+    case 'setHymn': return err(Q.setHymn(g, cmd.colour));
     case 'ackResult':
       g.lastResult = undefined;
       T.refreshRecruits(g);

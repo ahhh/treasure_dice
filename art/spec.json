@@ -1,6 +1,6 @@
 {
  "game": "treasure_dice",
- "count": 408,
+ "count": 484,
  "entries": [
   {
    "key": "heroes/fighter_1",
@@ -3069,6 +3069,86 @@
    "anchor": false
   },
   {
+   "key": "events/q_stalledCart",
+   "kind": "vignette",
+   "group": "event:cinder",
+   "name": "The Stalled Cart",
+   "subject": "The Stalled Cart. A tipped mine rail cart with one shattered wheel in an ash-filled tunnel, sacks of lamp oil and a crate of hardtack spilled out, a small brass lockbox chained to its frame, six sets of boot-prints in the ash leading away into the dark. No people.",
+   "anchor": false
+  },
+  {
+   "key": "events/q_choirGrove",
+   "kind": "vignette",
+   "group": "event:rootbound",
+   "name": "The Choir's Grove",
+   "subject": "The Choir's Grove. A cleared grove inside a fungal crypt seen from a little distance, so everything sits in the MIDDLE of the frame: on the left two grey-robed hooded cultists stand talking; in the centre, on a low bedroll at mid-height, a young dragonborn PERSON lies peacefully asleep on his side, face clearly visible and drawn as cleanly as an anime character portrait (smooth dragon snout, closed eyes, small head frill): a humanoid with a reptilian dragon head and grey-green scales, wearing a plain wool tunic and trousers, two arms and two legs like a human, a chain on one ankle (NOT an animal, NOT a lizard on four legs); on the right, wooden crates stamped with a ring of five open dragon mouths; grey cloth lanterns with no flame hang from the roots above.",
+   "anchor": false
+  },
+  {
+   "key": "events/q_titheBarge",
+   "kind": "vignette",
+   "group": "event:drowned",
+   "name": "The Tithe Barge",
+   "subject": "The Tithe Barge. A flat wooden barge moored between two flooded bookshelves in a sunken library, sitting low in clear teal water under the weight of locked iron strongboxes, a small writing desk bolted to its deck. No people.",
+   "anchor": false
+  },
+  {
+   "key": "events/q_erenCaptive",
+   "kind": "vignette",
+   "group": "event:mirror",
+   "name": "Eren's Last Run",
+   "subject": "Eren's Last Run. A wide hall of tall mirrors and glass pillars. LEFT third: a calm grey MULE (a donkey-like animal with very long upright ears and a short bristly mane, not a horse) standing alone on the mirrored floor, nobody on her back. CENTRE: a separate glass pillar several paces away from the mule, with a young bronze-orange-scaled dragonborn man in a courier's harness standing tied to it with rope, a cloth gag over his snout. RIGHT third: two cultists in faceted mirror masks and pale robes, arguing. The mule and the dragonborn do not touch.",
+   "anchor": false
+  },
+  {
+   "key": "events/q_reflectedCharge",
+   "kind": "vignette",
+   "group": "event:mirror",
+   "name": "The Reflected Charge",
+   "subject": "The Reflected Charge. A tall ornate standing mirror in an empty glass cathedral; instead of a reflection, the glass shows an ancient stone town gate with a freshly carved inscription of abstract marks, and a single bright crack runs across the mirror. No people.",
+   "anchor": false
+  },
+  {
+   "key": "events/q_throneRoad",
+   "kind": "vignette",
+   "group": "event:starfall",
+   "name": "The Throne Road",
+   "subject": "The Throne Road. A road of drifting stepping stones across a starfield strewn with dropped gold coins, a line of tired labourers carrying heavy sacks toward a distant golden glow far below. The labourers are dragonborn (reptilian dragon heads, scales of grey, green and copper); the one at the front is a young bronze-orange-scaled dragonborn boy. A grey-robed overseer holds a lantern of grey cloth.",
+   "anchor": false
+  },
+  {
+   "key": "events/q_lostHands",
+   "kind": "vignette",
+   "group": "event:cinder",
+   "name": "The Hands' Camp",
+   "subject": "The Hands' Camp. A camp of grey canvas tents in a cooled dwarven forge hall, tired workers of many peoples sitting silently around a fire that gives off no light, their tools laid down.",
+   "anchor": false
+  },
+  {
+   "key": "events/q_choirStores",
+   "kind": "vignette",
+   "group": "event:rootbound",
+   "name": "The Cult's Stores",
+   "subject": "The Cult's Stores. A burial vault turned into a storehouse: stacked sacks of grain, barrels of oil, crates of medicine and racks of spears, every crate stamped with a ring of five open dragon mouths, roots creeping over it all. No people.",
+   "anchor": false
+  },
+  {
+   "key": "events/q_sunkenDue",
+   "kind": "vignette",
+   "group": "event:drowned",
+   "name": "The Sunken Due",
+   "subject": "The Sunken Due. A half-flooded strongroom in a drowned library, open chests of gold coins with paper name tags tied to them, rising clear water lapping at the chests, a single tide-cultist in eel-skin robes singing with raised arms.",
+   "anchor": false
+  },
+  {
+   "key": "events/q_precentor",
+   "kind": "vignette",
+   "group": "event:starfall",
+   "name": "The Precentor",
+   "subject": "The Precentor. At the edge of a floating stone causeway among the stars, an old human gentleman in his sixties with SHORT neatly swept-back silver hair and a kindly lined face, wearing an elegant plum-coloured frock coat, sits on a small wooden folding stool (the stool clearly visible under him), a cane with a gold egg-shaped pommel resting across his knees, calmly watching a vast golden glow far below.",
+   "anchor": false
+  },
+  {
    "key": "story/prologue",
    "kind": "vignette",
    "group": "story:chronicle",
@@ -3219,6 +3299,494 @@
    "name": "door",
    "subject": "the Sixth Door: a colossal ancient single-slab stone door in a cavern, with five glowing round seals set in a curved arch across its upper half, like five points along a rainbow: two seals on the left, ONE seal at the top centre, two seals on the right, 5 seals in total. Left to right their colours are fiery red, poison green, glowing silver-white (the centre, highest seal), smoky violet, lightning blue, one for each head of the five-headed dragon. No other seals, circles or lights on the door. Golden light glows along the base of the door",
    "anchor": false
+  },
+  {
+   "key": "npcs/bet_neutral",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Bet Harrowgate",
+   "subject": "a human woman innkeeper in her late fifties, short-cropped grey hair, strong forearms, an old faded military quartermaster's coat with the insignia cut away, a cleaning rag over one shoulder, a level, unimpressed, quietly kind look. Keeper of the Low Lantern of the Lantern Keep: an ordinary townsperson, not an adventurer.",
+   "anchor": true
+  },
+  {
+   "key": "npcs/bet_warm",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Bet Harrowgate (warm)",
+   "subject": "a human woman innkeeper in her late fifties, short-cropped grey hair, strong forearms, an old faded military quartermaster's coat with the insignia cut away, a cleaning rag over one shoulder, a level, unimpressed, quietly kind look. Expression: a small rare smile, eyes crinkled at the corners.",
+   "ref": "npcs/bet_neutral"
+  },
+  {
+   "key": "npcs/bet_worried",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Bet Harrowgate (worried)",
+   "subject": "a human woman innkeeper in her late fifties, short-cropped grey hair, strong forearms, an old faded military quartermaster's coat with the insignia cut away, a cleaning rag over one shoulder, a level, unimpressed, quietly kind look. Expression: jaw set, looking past the viewer at something far away.",
+   "ref": "npcs/bet_neutral"
+  },
+  {
+   "key": "npcs/bet_grief",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Bet Harrowgate (grief)",
+   "subject": "a human woman innkeeper in her late fifties, short-cropped grey hair, strong forearms, an old faded military quartermaster's coat with the insignia cut away, a cleaning rag over one shoulder, a level, unimpressed, quietly kind look. Expression: eyes lowered, holding a small pinched-out candle in both hands.",
+   "ref": "npcs/bet_neutral"
+  },
+  {
+   "key": "npcs/eren_neutral",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Eren",
+   "subject": "a young bronze-scaled dragonborn man of about twenty-four, a dragon-like reptilian head with warm bronze scales and a short frill, a coil of rope over one shoulder, a worn leather courier's harness, a pencil tucked behind his frill, an easy open friendly face. Courier, Provisions Office of the Lantern Keep: an ordinary townsperson, not an adventurer.",
+   "anchor": false
+  },
+  {
+   "key": "npcs/eren_grin",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Eren (grin)",
+   "subject": "a young bronze-scaled dragonborn man of about twenty-four, a dragon-like reptilian head with warm bronze scales and a short frill, a coil of rope over one shoulder, a worn leather courier's harness, a pencil tucked behind his frill, an easy open friendly face. Expression: a wide toothy grin, laughing.",
+   "ref": "npcs/eren_neutral"
+  },
+  {
+   "key": "npcs/eren_worried",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Eren (worried)",
+   "subject": "a young bronze-scaled dragonborn man of about twenty-four, a dragon-like reptilian head with warm bronze scales and a short frill, a coil of rope over one shoulder, a worn leather courier's harness, a pencil tucked behind his frill, an easy open friendly face. Expression: frowning down at a folded paper manifest held in his claws.",
+   "ref": "npcs/eren_neutral"
+  },
+  {
+   "key": "npcs/eren_resolved",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Eren (resolved)",
+   "subject": "a young bronze-scaled dragonborn man of about twenty-four, a dragon-like reptilian head with warm bronze scales and a short frill, a coil of rope over one shoulder, a worn leather courier's harness, a pencil tucked behind his frill, an easy open friendly face. Expression: no grin at all, determined and grim, a small scrape on his snout, rope gripped tight.",
+   "ref": "npcs/eren_neutral"
+  },
+  {
+   "key": "npcs/veska_neutral",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Veska",
+   "subject": "an older white-scaled dragonborn woman registrar in her fifties, a dragon-like reptilian head with pale white scales, thin reading spectacles on a fine chain, a grey high-buttoned clerk's coat, ink stains on her claws, composed and polite. Provisions Registrar of the Lantern Keep: an ordinary townsperson, not an adventurer.",
+   "anchor": false
+  },
+  {
+   "key": "npcs/veska_cornered",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Veska (cornered)",
+   "subject": "an older white-scaled dragonborn woman registrar in her fifties, a dragon-like reptilian head with pale white scales, thin reading spectacles on a fine chain, a grey high-buttoned clerk's coat, ink stains on her claws, composed and polite. Expression: spectacles taken off and held tightly in one claw, eyes hard and guarded.",
+   "ref": "npcs/veska_neutral"
+  },
+  {
+   "key": "npcs/veska_ashamed",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Veska (ashamed)",
+   "subject": "an older white-scaled dragonborn woman registrar in her fifties, a dragon-like reptilian head with pale white scales, thin reading spectacles on a fine chain, a grey high-buttoned clerk's coat, ink stains on her claws, composed and polite. Expression: head bowed, a thick leather ledger clutched to her chest.",
+   "ref": "npcs/veska_neutral"
+  },
+  {
+   "key": "npcs/sereth_neutral",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Sereth",
+   "subject": "a deep red-scaled dragonborn man healer in his thirties, a dragon-like reptilian head with dark crimson scales, a stained linen healer's apron over plain grey robes, five tiny brass bells sewn along his collar, steady kind eyes. Healer of the Dragon's Choir of the Lantern Keep: an ordinary townsperson, not an adventurer.",
+   "anchor": false
+  },
+  {
+   "key": "npcs/sereth_fervent",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Sereth (fervent)",
+   "subject": "a deep red-scaled dragonborn man healer in his thirties, a dragon-like reptilian head with dark crimson scales, a stained linen healer's apron over plain grey robes, five tiny brass bells sewn along his collar, steady kind eyes. Expression: eyes bright with faith, one hand raised as if in the middle of a hymn.",
+   "ref": "npcs/sereth_neutral"
+  },
+  {
+   "key": "npcs/sereth_broken",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Sereth (broken)",
+   "subject": "a deep red-scaled dragonborn man healer in his thirties, a dragon-like reptilian head with dark crimson scales, a stained linen healer's apron over plain grey robes, five tiny brass bells sewn along his collar, steady kind eyes. Expression: NO bells on his collar any more: the collar is bare, with only a few loose cut threads where the five bells used to be; his hands clasped, exhausted and gentle.",
+   "ref": "npcs/sereth_neutral"
+  },
+  {
+   "key": "npcs/corvin_neutral",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Corvin Aldane",
+   "subject": "a genial silver-haired human gentleman in his sixties, an elegant plum-coloured frock coat, a cane topped with a gold egg-shaped pommel, a generous smile that does not reach his eyes. The Aldane Expeditionary Trust of the Lantern Keep: an ordinary townsperson, not an adventurer.",
+   "anchor": false
+  },
+  {
+   "key": "npcs/corvin_exultant",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Corvin Aldane (exultant)",
+   "subject": "a genial silver-haired human gentleman in his sixties, an elegant plum-coloured frock coat, a cane topped with a gold egg-shaped pommel, a generous smile that does not reach his eyes. Expression: plain grey cult robes thrown over the plum coat, arms spread wide, lit by golden light from below, triumphant.",
+   "ref": "npcs/corvin_neutral"
+  },
+  {
+   "key": "npcs/hessa_neutral",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Hessa",
+   "subject": "an old bronze-scaled dragonborn woman, a dragon-like reptilian head with faded bronze scales, flour on her apron, holding a small clay hearth lamp whose flame is clearly BLUE (a cool blue fire, not yellow). Of Kiln Row of the Lantern Keep: an ordinary townsperson, not an adventurer.",
+   "anchor": false
+  },
+  {
+   "key": "npcs/ilo_neutral",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Ilo",
+   "subject": "a thin young dragonborn labourer, a dragon-like reptilian head with dusty grey-green scales, rope burns on his wrists, a wool blanket around his shoulders, tired wary eyes. A freed worker of the Lantern Keep: an ordinary townsperson, not an adventurer.",
+   "anchor": false
+  },
+  {
+   "key": "npcs/maren_neutral",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Maren Holt",
+   "subject": "a gruff human woman guildmaster in her sixties, a black leather patch over one eye, iron-grey hair in a short braid, a heavy guild sash over a worn gambeson, an old soldier's bearing. Guildmaster of the Lantern Keep: an ordinary townsperson, not an adventurer.",
+   "anchor": false
+  },
+  {
+   "key": "npcs/ilvane_neutral",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Ilvane",
+   "subject": "an ageless elf chronicler with long straight silver hair tied back, ink-stained fingers holding a quill, half-moon spectacles, a scholar's deep green robe with many pockets. The Chronicler of the Lantern Keep: an ordinary townsperson, not an adventurer.",
+   "anchor": false
+  },
+  {
+   "key": "npcs/pim_neutral",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Pim Ashgrove",
+   "subject": "an excitable elderly gnome cartographer with wild white hair, round brass spectacles pushed up on his forehead, a pencil in each hand, rolled maps under one arm. Cartographer of the Lantern Keep: an ordinary townsperson, not an adventurer.",
+   "anchor": false
+  },
+  {
+   "key": "npcs/hulda_neutral",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Hulda Stonebrace",
+   "subject": "a stocky dwarf woman smith with soot on her cheeks, dark hair bound up in a red scarf, a heavy leather forge apron, burn-scarred bare forearms, a pair of smith's tongs in one hand. Armorer of the Lantern Keep: an ordinary townsperson, not an adventurer.",
+   "anchor": false
+  },
+  {
+   "key": "npcs/fennick_neutral",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Mother Fennick",
+   "subject": "a very old halfling woman apothecary with white curls under a flowered kerchief, sharp bright eyes, a shawl, bundles of dried herbs and a mortar and pestle. Apothecary of the Lantern Keep: an ordinary townsperson, not an adventurer.",
+   "anchor": false
+  },
+  {
+   "key": "npcs/sabeline_neutral",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Sabeline Morrow",
+   "subject": "a poised tiefling woman enchanter with lavender skin, swept-back horns ringed with silver bands, dark hair, a high-collared indigo coat, a faint glowing rune hovering over one palm. Enchanter of the Lantern Keep: an ordinary townsperson, not an adventurer.",
+   "anchor": false
+  },
+  {
+   "key": "npcs/kost_neutral",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Drillmaster Kost",
+   "subject": "a towering goliath drillmaster with grey stone-like skin marked with dark lines, a bald head, a whistle on a cord, a padded training vest and a wooden practice sword over his shoulder. Training Grounds of the Lantern Keep: an ordinary townsperson, not an adventurer.",
+   "anchor": false
+  },
+  {
+   "key": "npcs/pell_neutral",
+   "kind": "portrait",
+   "group": "npc:keep",
+   "name": "Abernathy Pell",
+   "subject": "a nervous young human vault clerk with neat parted brown hair, a high starched collar, ink-smudged cuffs, a brass key ring and an abacus held to his chest. Vault Clerk of the Lantern Keep: an ordinary townsperson, not an adventurer.",
+   "anchor": false
+  },
+  {
+   "key": "npcs/head_red",
+   "kind": "icon",
+   "group": "npc:heads",
+   "name": "head_red",
+   "subject": "a single enormous slit-pupilled dragon eye, half-open, glowing fiery red-orange, surrounded by crimson scales, wisps of smoke"
+  },
+  {
+   "key": "npcs/head_green",
+   "kind": "icon",
+   "group": "npc:heads",
+   "name": "head_green",
+   "subject": "a single enormous slit-pupilled dragon eye, half-open, glowing poison green, surrounded by emerald scales, drifting spores"
+  },
+  {
+   "key": "npcs/head_black",
+   "kind": "icon",
+   "group": "npc:heads",
+   "name": "head_black",
+   "subject": "a single enormous slit-pupilled dragon eye, half-open, glowing pale sickly yellow, surrounded by glossy black scales dripping with water"
+  },
+  {
+   "key": "npcs/head_white",
+   "kind": "icon",
+   "group": "npc:heads",
+   "name": "head_white",
+   "subject": "a single enormous slit-pupilled dragon eye, half-open, glowing icy pale blue-white, surrounded by frosted white scales and ice crystals"
+  },
+  {
+   "key": "npcs/head_blue",
+   "kind": "icon",
+   "group": "npc:heads",
+   "name": "head_blue",
+   "subject": "a single enormous slit-pupilled dragon eye, half-open, glowing electric blue, surrounded by sapphire scales crackling with tiny sparks of lightning"
+  },
+  {
+   "key": "scenes/q_stalledCart",
+   "kind": "scene",
+   "group": "scene:cinder",
+   "name": "Quest room — q_stalledCart",
+   "subject": "a narrow mine rail cut through black basalt, a tipped rail cart with a broken wheel against the wall, sacks spilled across the tracks, ash drifting through a shaft of daylight"
+  },
+  {
+   "key": "scenes/q_choirGrove",
+   "kind": "scene",
+   "group": "scene:rootbound",
+   "name": "Quest room — q_choirGrove",
+   "subject": "a cleared grove inside a fungal crypt, the spores swept away, grey cloth lanterns hanging from roots, stacked crates and a bedroll by a cold fire pit"
+  },
+  {
+   "key": "scenes/q_titheBarge",
+   "kind": "scene",
+   "group": "scene:drowned",
+   "name": "Quest room — q_titheBarge",
+   "subject": "a still waterway between towering drowned bookshelves, a heavily laden flat barge moored to a reading desk, lamplight rippling on the water"
+  },
+  {
+   "key": "scenes/q_erenCaptive",
+   "kind": "scene",
+   "group": "scene:mirror",
+   "name": "Quest room — q_erenCaptive",
+   "subject": "a hall of tall mirrors and glass pillars, one pillar with loose ropes around it, a coil of courier rope and a dropped harness on the mirrored floor"
+  },
+  {
+   "key": "scenes/q_reflectedCharge",
+   "kind": "scene",
+   "group": "scene:mirror",
+   "name": "Quest room — q_reflectedCharge",
+   "subject": "a quiet glass cathedral transept with one enormous ornate mirror at its end, cracked across the middle, soft light falling on it"
+  },
+  {
+   "key": "scenes/q_throneRoad",
+   "kind": "scene",
+   "group": "scene:starfall",
+   "name": "Quest room — q_throneRoad",
+   "subject": "a road of drifting stepping stones across a starfield, gold coins scattered on every stone, a warm golden glow far below the road"
+  },
+  {
+   "key": "scenes/q_lostHands",
+   "kind": "scene",
+   "group": "scene:cinder",
+   "name": "Quest room — q_lostHands",
+   "subject": "a cooled dwarven forge hall turned into a camp of grey canvas tents, a cold fire pit, tools and sacks left in rows"
+  },
+  {
+   "key": "scenes/q_choirStores",
+   "kind": "scene",
+   "group": "scene:rootbound",
+   "name": "Quest room — q_choirStores",
+   "subject": "a root-wrapped burial vault packed with stacked sacks, barrels and crates, a narrow aisle between them, green light through the roots"
+  },
+  {
+   "key": "scenes/q_sunkenDue",
+   "kind": "scene",
+   "group": "scene:drowned",
+   "name": "Quest room — q_sunkenDue",
+   "subject": "a half-flooded stone strongroom, open chests of coins on a raised dais, clear water rising around the steps, light from a broken skylight"
+  },
+  {
+   "key": "scenes/q_precentor",
+   "kind": "scene",
+   "group": "scene:starfall",
+   "name": "Quest room — q_precentor",
+   "subject": "the end of a floating stone causeway among the stars, a lone folding stool at its edge, a vast golden glow far below in the void"
+  },
+  {
+   "key": "town/tavern",
+   "kind": "scene",
+   "group": "scene:town",
+   "name": "tavern",
+   "subject": "the Low Lantern: a low, warm stone tavern dug into a mountainside at the top of a long stone stair, a long wooden bar with a shelf of small lit candles behind it, tables of townsfolk of many peoples, a single oil lamp glowing over the open door, cosy dusk light"
+  },
+  {
+   "key": "town/tavern_uneasy",
+   "kind": "scene",
+   "group": "scene:town",
+   "name": "tavern_uneasy",
+   "subject": "the same low stone mountainside tavern with a long wooden bar and a shelf of candles, now half empty, a few patrons in plain grey robes huddled in one corner, frost creeping on the windows, the candle shelf only half lit, uneasy dusk light"
+  },
+  {
+   "key": "town/tavern_muster",
+   "kind": "scene",
+   "group": "scene:town",
+   "name": "tavern_muster",
+   "subject": "the same low stone mountainside tavern crowded with townsfolk, families wrapped in blankets on the benches, maps pinned along the long wooden bar, through the open door a dark town with every window unlit"
+  },
+  {
+   "key": "town/tavern_dawn",
+   "kind": "scene",
+   "group": "scene:town",
+   "name": "tavern_dawn",
+   "subject": "the same low stone mountainside tavern at dawn, nearly empty, pale sunlight through the open door, a row of full glasses standing on the candle shelf behind the long wooden bar"
+  },
+  {
+   "key": "town/keep_awakened",
+   "kind": "scene",
+   "group": "scene:town",
+   "name": "keep_awakened",
+   "subject": "the hilltop Lantern Keep at night in a storm, every lantern on its tower dark, one small warm window still glowing at the foot of the town, five coloured glows rising from the cliff beneath it"
+  },
+  {
+   "key": "town/kilnrow",
+   "kind": "scene",
+   "group": "scene:town",
+   "name": "kilnrow",
+   "subject": "Kiln Row: a narrow sloping street of stone forge-homes in a hilltop town, each doorway with a small clay hearth lamp burning a blue flame, chimney smoke and warm light at dusk"
+  },
+  {
+   "key": "story/awakening",
+   "kind": "vignette",
+   "group": "story:chronicle",
+   "name": "awakening",
+   "subject": "a hilltop keep at night in a storm, every lantern on its great tower going dark at once, one small warm window glowing at the foot of the town, five vast coloured shapes stirring in the clouds"
+  },
+  {
+   "key": "story/lullaby",
+   "kind": "vignette",
+   "group": "story:chronicle",
+   "name": "lullaby",
+   "subject": "the inside face of a colossal opened stone door, carved with long lines of ancient abstract verse-marks around five dragon-head reliefs, lit by a single lantern on the floor"
+  },
+  {
+   "key": "evidence/shortCount",
+   "kind": "icon",
+   "group": "item:evidence",
+   "name": "The Short Count",
+   "subject": "a creased paper cargo manifest folded twice, a smudged red wax thumbprint at the bottom"
+  },
+  {
+   "key": "evidence/hessaTally",
+   "kind": "icon",
+   "group": "item:evidence",
+   "name": "Hessa's Tally",
+   "subject": "a folded sheet of paper covered in neat handwriting, tied with a red thread, a small clay lamp beside it"
+  },
+  {
+   "key": "evidence/groveRoster",
+   "kind": "icon",
+   "group": "item:evidence",
+   "name": "The Grove Roster",
+   "subject": "a grey cloth-bound roster book stamped on the cover with a ring of five open dragon mouths"
+  },
+  {
+   "key": "evidence/hymnalPage",
+   "kind": "icon",
+   "group": "item:evidence",
+   "name": "The Hymnal Page",
+   "subject": "a torn page from a hymnal with lines of musical notation and a grey ribbon"
+  },
+  {
+   "key": "evidence/lampGlass",
+   "kind": "icon",
+   "group": "item:evidence",
+   "name": "The Warden's Lamp-Glass",
+   "subject": "a warm round amber glass lens in a bronze ring etched with one curving rune, glowing faintly"
+  },
+  {
+   "key": "evidence/precentorLetter",
+   "kind": "icon",
+   "group": "item:evidence",
+   "name": "The Precentor's Letter",
+   "subject": "a folded letter sealed with plum-coloured wax, an elegant flourish of ink on the outside"
+  },
+  {
+   "key": "evidence/reflectedCharge",
+   "kind": "icon",
+   "group": "item:evidence",
+   "name": "The Reflected Charge",
+   "subject": "a small silver hand mirror with a single crack running straight across the glass"
+  },
+  {
+   "key": "evidence/veskaLedger",
+   "kind": "icon",
+   "group": "item:evidence",
+   "name": "Veska's Ledger",
+   "subject": "a thick leather registrar's ledger with a pair of reading spectacles on a fine chain looped around it"
+  },
+  {
+   "key": "evidence/lullaby",
+   "kind": "icon",
+   "group": "item:evidence",
+   "name": "The Wardens' Lullaby",
+   "subject": "a charcoal rubbing on a long sheet of rough paper, lines of abstract carved marks, curling at the edges"
+  },
+  {
+   "key": "drinks/houseAle",
+   "kind": "icon",
+   "group": "item:drink",
+   "name": "House Ale",
+   "subject": "a foaming pewter tankard of golden ale"
+  },
+  {
+   "key": "drinks/kilnStout",
+   "kind": "icon",
+   "group": "item:drink",
+   "name": "Kiln-Row Stout",
+   "subject": "a dark stout with a tan head in a glazed clay mug painted with a small blue flame"
+  },
+  {
+   "key": "drinks/spicedMead",
+   "kind": "icon",
+   "group": "item:drink",
+   "name": "Spiced Mead",
+   "subject": "amber spiced mead in a carved drinking horn with a cinnamon stick"
+  },
+  {
+   "key": "drinks/minersTea",
+   "kind": "icon",
+   "group": "item:drink",
+   "name": "Miner's Tea",
+   "subject": "a dented tin cup of steaming dark tea"
+  },
+  {
+   "key": "drinks/cordial",
+   "kind": "icon",
+   "group": "item:drink",
+   "name": "Lamplighter's Cordial",
+   "subject": "a small stemmed glass of luminous pale-gold cordial with a sprig of green herbs"
+  },
+  {
+   "key": "drinks/lastLight",
+   "kind": "icon",
+   "group": "item:drink",
+   "name": "The Last Light",
+   "subject": "a single plain clear glass of golden drink with a small candle flame reflected in it"
+  },
+  {
+   "key": "ui/choirSigil",
+   "kind": "icon",
+   "group": "item:evidence",
+   "name": "The Dragon's Choir sigil",
+   "subject": "a round grey stone medallion carved with exactly FIVE dragon heads, mouths open, evenly spaced around the rim like the points of a star, all facing inward toward an empty centre, simple and bold; count them: five"
+  },
+  {
+   "key": "ui/lowLanternSign",
+   "kind": "icon",
+   "group": "item:evidence",
+   "name": "The Low Lantern sign",
+   "subject": "a hanging wooden tavern sign on an iron bracket, painted with a small glowing oil lamp near the bottom of the board"
   }
  ]
 }

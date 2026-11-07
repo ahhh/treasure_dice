@@ -46,6 +46,9 @@ function noise(dur: number, vol = 0.05, when = 0) {
 }
 
 export const sfx = {
+  /** Dialogue text blip: each speaker has a waveform and pitch. */
+  blip(wave: OscillatorType = 'square', pitch = 300) { tone(pitch, 0.035, wave, 0.018); },
+  rumble() { tone(55, 0.6, 'sawtooth', 0.05, 0, -15); noise(0.4, 0.03); },
   roll(n = 5) { for (let i = 0; i < Math.min(n, 8); i++) noise(0.05, 0.08, i * 0.035); },
   select() { tone(660, 0.05, 'square', 0.03); },
   chip(i = 0) { tone(520 + i * 40, 0.06, 'square', 0.035); },

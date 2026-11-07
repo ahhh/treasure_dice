@@ -113,6 +113,8 @@ function validate(g: GameState): string | null {
   return null;
 }
 
+import { migrateQuest } from '../meta/quest.ts';
+
 /** Schema migrations live here as the format evolves. */
 export function migrate(g: GameState): GameState {
   if (!g.schemaVersion) g.schemaVersion = 1;
@@ -120,5 +122,7 @@ export function migrate(g: GameState): GameState {
   if (g.expedition && !g.expedition.searched) g.expedition.searched = [];
   // Story progress: earlier saves have seen the chapters for the echoes they already cleared.
   if (!g.profile.story) g.profile.story = { seen: Object.keys(g.profile.sigils).filter((b) => (g.profile.sigils[b as keyof typeof g.profile.sigils] ?? 0) > 0), tiamat: 0 };
+  // The Queen's Due: Keeps from before the quest skip to the current act, and Bet catches them up.
+  migrateQuest(g);
   return g;
 }

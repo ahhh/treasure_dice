@@ -9,9 +9,10 @@ import { ITEMS, sellValue, itemValue, isTwoHanded, itemName } from '../content/i
 import { createHero, derive, applyLevel, autoPrepare, fullRestore, makeItem, choiceOptions, maxPrepared } from '../rules/character.ts';
 import { spellsForClass } from '../content/spells.ts';
 import { markOffers, applyMark } from '../fortune/dicepath.ts';
+import { trainingClosed } from './quest.ts';
 
 export const SCHEMA_VERSION = 1;
-export const CONTENT_REVISION = 'td-1.1';
+export const CONTENT_REVISION = 'td-1.2';
 /** Banked gold for a brand-new Keep: enough for a potion or two, not a shopping spree. */
 export const STARTING_GOLD = 50;
 
@@ -279,6 +280,7 @@ export function train(g: GameState, heroId: string): string | null {
   const h = g.roster.find((x) => x.id === heroId);
   if (!h || h.status !== 'alive') return 'Not available.';
   if (h.pendingLevel) return 'Finish their pending level-up first.';
+  if (trainingClosed(g)) return 'The Training Grounds are closed: Drillmaster Kost is leading the evacuation.';
   if (h.level >= trainingCap(g)) return `Training can only raise heroes to level ${trainingCap(g)}.`;
   const cost = trainingCost(g, h);
   if (g.profile.bankedGold < cost) return `Needs ${cost} gold.`;
