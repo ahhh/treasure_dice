@@ -181,7 +181,9 @@ img { display: block; }
 .pmini { display: flex; gap: 8px; align-items: center; padding: 6px; border-radius: 4px; background: rgba(5, 10, 30, .5); border: 1px solid rgba(233, 225, 207, .2); min-width: 0; }
 .pmini .portrait { width: 44px; height: 44px; }
 .pmini .name { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.log { font-family: var(--prose); font-size: 15px; max-height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; padding-right: 4px; }
+/* column-reverse pins the scroll to the newest entry (bottom) on every render; the single inner .log-lines keeps DOM order chronological. */
+.log { font-family: var(--prose); font-size: 15px; max-height: 180px; overflow-y: auto; display: flex; flex-direction: column-reverse; padding-right: 4px; }
+.log-lines { display: flex; flex-direction: column; gap: 2px; }
 .log .warn { color: #ffcf7a; }
 .log .loot, .log .fortune { color: var(--gold); }
 .log .heal { color: #8ff0a4; }

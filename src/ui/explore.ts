@@ -111,7 +111,7 @@ export function exploreScreen(): HTMLElement {
           mirror ? h('p', { class: 'small gold' }, '🪞 This room is mirrored: Left and Right are swapped.') : null,
           exp.biome === 'starfall' && exp.meter ? h('p', { class: 'small gold' }, `🌌 Gravity has turned ${exp.meter} quarter${exp.meter > 1 ? 's' : ''} — directions are rotated.`) : null),
         h('div', { class: 'row' }, ...actions),
-        h('div', { class: 'win' }, h('h3', null, 'Journal'), h('div', { class: 'log', role: 'log', 'aria-live': 'polite' }, ...exp.log.slice(-40).map((l) => h('div', { class: l.kind ?? '' }, l.t)))),
+        h('div', { class: 'win' }, h('h3', null, 'Journal'), h('div', { class: 'log', role: 'log', 'aria-live': 'polite' }, h('div', { class: 'log-lines' }, ...exp.log.slice(-40).map((l) => h('div', { class: l.kind ?? '' }, l.t))))),
         partyStrip(),
         fortuneStrip()),
       h('div', { class: 'col' },

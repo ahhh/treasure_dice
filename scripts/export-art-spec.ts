@@ -217,7 +217,7 @@ const TOWN: Record<string, string> = {
   training: 'an outdoor training yard with practice dummies, an archery range and sparring ring at sunset',
   cartographer: 'a cartographer\'s map room with a huge table map, compasses, candles and five glowing doorways painted on the wall',
   vault: 'an underground bank vault with heavy iron doors, chests of gold and guarded lockboxes',
-  door: 'the Sixth Door: a colossal ancient stone door in a cavern, five glowing seals (one for each lesser door), dice-shaped runes, light spilling through the crack',
+  door: 'the Sixth Door: a colossal ancient single-slab stone door in a cavern, with five glowing round seals set in a curved arch across its upper half, like five points along a rainbow: two seals on the left, ONE seal at the top centre, two seals on the right, 5 seals in total. Left to right their colours are fiery red, poison green, glowing silver-white (the centre, highest seal), smoky violet, lightning blue, one for each head of the five-headed dragon. No other seals, circles or lights on the door. Golden light glows along the base of the door',
 };
 for (const [k, t] of Object.entries(TOWN)) out.push({ key: `town/${k}`, kind: 'scene', group: 'scene:town', name: k, subject: t, anchor: k === 'keep' });
 

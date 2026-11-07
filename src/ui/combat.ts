@@ -299,8 +299,7 @@ function commandEl(): HTMLElement {
 
 function logWin(): HTMLElement {
   const ctx = ctxOrNull()!;
-  const el = h('div', { class: 'log', role: 'log', 'aria-live': 'polite', style: 'max-height:240px' }, ...ctx.combat.log.slice(-60).map((l) => h('div', { class: l.kind ?? '' }, l.t)));
-  afterRender.push(() => { el.scrollTop = el.scrollHeight; });
+  const el = h('div', { class: 'log', role: 'log', 'aria-live': 'polite', style: 'max-height:240px' }, h('div', { class: 'log-lines' }, ...ctx.combat.log.slice(-60).map((l) => h('div', { class: l.kind ?? '' }, l.t))));
   return h('div', { class: 'win' }, h('h3', null, 'Battle log'), el);
 }
 
