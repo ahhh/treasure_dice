@@ -26,7 +26,7 @@ const L5: QuestFx[] = [{ flag: 'tarnFreed' }, { leadDone: 'L5' }, { resolve: 1 }
 export const QUEST_EVENTS: EventDef[] = [
   // ── Act 0 · The Short Count (Cinder) ─────────────────────────────────────
   Q({ id: 'q_stalledCart', biome: 'cinder', title: 'The Stalled Cart',
-    text: 'A rail cart lies tipped against the wall of the cut, one wheel shattered. Sacks of lamp oil, a crate of hardtack, and a brass lockbox chained to the frame. Six sets of boot-prints lead away from it, deeper in. None of them come back.',
+    text: 'A rail cart stands abandoned on the tracks, its wheels chained to the rails and padlocked. Sacks of lamp oil, a crate of hardtack, and a brass lockbox chained to the frame. Six sets of boot-prints lead away from it, deeper in. None of them come back.',
     options: [
       { label: 'Pick the lockbox', check: { skill: 'sleightOfHand', dc: 13 }, spell: 'unlock',
         success: [win(L0), { type: 'gold', amount: 0.5 }, { type: 'text', t: 'Inside: Eren\'s manifest, folded twice, and a little coin for his trouble.' }],

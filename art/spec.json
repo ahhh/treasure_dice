@@ -1551,7 +1551,7 @@
    "kind": "icon",
    "group": "item:weapon",
    "name": "Whip",
-   "subject": "Whip (a melee weapon dealing slashing damage)",
+   "subject": "a leather bullwhip laid out uncoiled: a short braided-leather handle with a brass pommel at the lower left, and from the tip of that handle ONE single continuous braided lash flows out in a long, gentle S-shaped curve across the frame, getting steadily thinner until it ends in a thin frayed cracker tip at the upper right. The lash never crosses itself: no coils, no loops, no rings, no separate circles; you can trace one unbroken line from the handle to the tip",
    "anchor": false
   },
   {
@@ -1575,7 +1575,7 @@
    "kind": "icon",
    "group": "item:weapon",
    "name": "Longbow",
-   "subject": "Longbow (a ranged weapon dealing piercing damage)",
+   "subject": "a tall simple longbow drawn as ONE single smooth D-shaped wooden stave, shown upright and slightly tilted, a leather-wrapped grip at its exact middle, a single taut straight bowstring running from tip to tip on the inner side; no arrow, no second bow, no crossed limbs",
    "anchor": false
   },
   {
@@ -3073,7 +3073,7 @@
    "kind": "vignette",
    "group": "event:cinder",
    "name": "The Stalled Cart",
-   "subject": "The Stalled Cart. A tipped mine rail cart with one shattered wheel in an ash-filled tunnel, sacks of lamp oil and a crate of hardtack spilled out, a small brass lockbox chained to its frame, six sets of boot-prints in the ash leading away into the dark. No people.",
+   "subject": "The Stalled Cart. In an ash-filled mine tunnel, a small open-topped wooden mine cart stands upright and intact on narrow iron rails, seen from the side at a slight angle: a sturdy rectangular wooden box on a low iron frame with four round iron wheels, all whole. Heavy iron chains are wrapped through the spokes of its wheels and around the rails, each chain fastened with a big iron padlock, so the cart cannot roll. In the cart: two burlap sacks of lamp oil and a small wooden crate. A small brass lockbox hangs from the side of the cart on its own short chain. Boot-prints in the ash lead away from the cart into the dark. No people.",
    "anchor": false
   },
   {
@@ -3097,7 +3097,7 @@
    "kind": "vignette",
    "group": "event:mirror",
    "name": "Eren's Last Run",
-   "subject": "Eren's Last Run. A wide hall of tall mirrors and glass pillars. LEFT third: a calm grey MULE (a donkey-like animal with very long upright ears and a short bristly mane, not a horse) standing alone on the mirrored floor, nobody on her back. CENTRE: a separate glass pillar several paces away from the mule, with a young bronze-orange-scaled dragonborn man in a courier's harness standing tied to it with rope, a cloth gag over his snout. RIGHT third: two cultists in faceted mirror masks and pale robes, arguing. The mule and the dragonborn do not touch.",
+   "subject": "Eren's Last Run. A wide hall of tall mirrors and glass pillars, seen from a little distance so all figures are shown full length. LEFT: a calm grey mule (long upright ears, short bristly mane) standing alone, nobody on her back. CENTRE, a few paces away from the mule: a young DRAGONBORN courier tied to a round glass pillar. Dragonborn means a humanoid man whose head is a dragon's head, like a small western dragon: a long scaly snout with nostrils at the tip, a mouth line with small teeth, a ridge of short horns sweeping back from the brow, no ears; bronze-orange scales on his face and hands. He wears a brown leather vest over a cream shirt, dark trousers and boots, a courier satchel strap across his chest. His arms are behind the pillar and a rope is wound several times around his chest and the pillar; his two legs stand separately on the floor in front of the pillar. A strip of red cloth is tied tightly around his snout as a gag, clearly visible. RIGHT: two cultists in pale hooded robes and smooth silver mirror masks, facing each other and arguing with raised hands.",
    "anchor": false
   },
   {
@@ -3548,7 +3548,7 @@
    "kind": "scene",
    "group": "scene:cinder",
    "name": "Quest room — q_stalledCart",
-   "subject": "a narrow mine rail cut through black basalt, a tipped rail cart with a broken wheel against the wall, sacks spilled across the tracks, ash drifting through a shaft of daylight"
+   "subject": "a narrow mine rail cut through black basalt, an upright wooden mine cart standing on the rails, its wheels chained to the rails and fastened with a big iron padlock, sacks and a crate in the cart, boot-prints in the ash leading away, ash drifting through a shaft of daylight"
   },
   {
    "key": "scenes/q_choirGrove",

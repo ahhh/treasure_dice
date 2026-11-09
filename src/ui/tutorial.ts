@@ -273,6 +273,22 @@ const STEPS: Step[] = [
       P(B('End turn'), ' (E) passes to the next hero. Unplayed dice stay on the tray, so you can save a good pair for a teammate.')],
   },
   {
+    // Players stall here wondering what to do with "bonus ready". Only shown while the
+    // hero who attacked is still up with their action spent; otherwise it passes at once.
+    id: 'endturn', where: 'combat', title: 'Ending your turn',
+    enter: (g) => { const c = current(makeCtx(g)); g.tutorial!.mark = `endturn:${c && c.used.action && !c.used.bonus ? c.id : ''}`; },
+    target: () => $('[data-key="end-turn"]') ?? $('[data-key="menu-back"]'),
+    done: (g) => {
+      if (!combatActive(g)) return true;
+      const was = g.tutorial!.mark?.startsWith('endturn:') ? g.tutorial!.mark.slice(8) : '';
+      const c = current(makeCtx(g));
+      return !was || !c || c.id !== was;
+    },
+    text: (g) => [P('Each turn has an action and a ', B('bonus action'), '. Use both and the turn passes on its own.'),
+      P(`${actorName(g)} still has a bonus action, but many heroes have nothing worth spending it on yet. That's fine: you end the turn yourself. `,
+        B(app.ui.menu !== 'root' ? 'Click Back, then End turn' : 'Click End turn'), ' (E).')],
+  },
+  {
     id: 'win1', where: 'combat', free: true, title: 'Finish the fight',
     done: (g) => !combatActive(g),
     text: () => [P('Select dice, pick an action, click a target. Keep going until the goblins drop.')],
