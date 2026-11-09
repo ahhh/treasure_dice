@@ -316,6 +316,9 @@ img { display: block; }
 .charm.legendary { border-color: transparent; background: linear-gradient(#0b1230, #0b1230) padding-box, conic-gradient(#ff6a5c, #f2c14e, #4fc46a, #3d8bff, #b57bff, #ff6a5c) border-box; }
 .charm .cnt { position: absolute; bottom: -6px; right: -6px; background: var(--mult); color: #fff; font-size: 11px; border-radius: 10px; padding: 0 5px; }
 .charm.trig { animation: jiggle .35s ease; }
+.charm.omen { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2px; border-color: #cbbcff; background: radial-gradient(circle at 35% 30%, #e4d9ff, #6b4fd0 60%, #2b1a6a); color: #fff; overflow: hidden; }
+.charm.omen .omen-star { font-size: 20px; line-height: 1; }
+.charm.omen .omen-hand { font-size: 9px; line-height: 1.05; text-align: center; text-shadow: 0 1px 2px rgba(0, 0, 0, .7); }
 .charm.empty { border-style: dashed; border-color: rgba(201, 162, 74, .35); cursor: default; }
 .token { width: 34px; height: 34px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff4c0, #c99a2a 60%, #7a5a14); border: 2px solid #f3dfa5; display: grid; place-items: center; font-size: 15px; color: #3a2600; cursor: pointer; box-shadow: 0 3px 0 #5a420e; }
 .doubloons { display: inline-flex; align-items: center; gap: 4px; color: var(--gold); font-size: 18px; }

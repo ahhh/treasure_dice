@@ -3,7 +3,7 @@
  * export/import with a checksum (plan §10.1). Saves are plain data — imports
  * are validated and never evaluated.
  */
-import type { GameState } from '../engine/types.ts';
+import type { FortuneRun, GameState, HandType } from '../engine/types.ts';
 import { SCHEMA_VERSION } from '../meta/town.ts';
 
 const DB = 'treasure-dice';
@@ -114,6 +114,7 @@ function validate(g: GameState): string | null {
 }
 
 import { migrateQuest } from '../meta/quest.ts';
+import { newCharm, omenId } from '../fortune/charms.ts';
 
 /** Schema migrations live here as the format evolves. */
 export function migrate(g: GameState): GameState {
@@ -124,5 +125,11 @@ export function migrate(g: GameState): GameState {
   if (!g.profile.story) g.profile.story = { seen: Object.keys(g.profile.sigils).filter((b) => (g.profile.sigils[b as keyof typeof g.profile.sigils] ?? 0) > 0), tiamat: 0 };
   // The Queen's Due: Keeps from before the quest skip to the current act, and Bet catches them up.
   migrateQuest(g);
+  // Omens used to be a hidden level table; now each level is a relic in a charm slot.
+  const f = g.expedition?.fortune as (FortuneRun & { omens?: Partial<Record<HandType, number>> }) | undefined;
+  if (f?.omens) {
+    for (const [hand, n] of Object.entries(f.omens)) for (let i = 0; i < (n ?? 0); i++) f.charms.push(newCharm(omenId(hand as HandType)));
+    delete f.omens;
+  }
   return g;
 }

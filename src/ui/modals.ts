@@ -13,9 +13,9 @@ import { SPECIES, BACKGROUNDS } from '../content/origins.ts';
 import { spellsForClass, SPELLS } from '../content/spells.ts';
 import { derive, SKILL_NAMES, ABILITY_NAMES, maxPrepared, choiceOptions } from '../rules/character.ts';
 import { levelUpPreview, canEquip, type LevelChoices } from '../meta/town.ts';
-import { offerNeedsTarget } from '../fortune/boons.ts';
+import { offerNeedsTarget, offerTakesSlot } from '../fortune/boons.ts';
 import { charmSlots } from '../fortune/tray.ts';
-import { CHARM_BY_ID } from '../fortune/charms.ts';
+import { CHARM_BY_ID, omenLevels } from '../fortune/charms.ts';
 import { HANDS } from '../fortune/hands.ts';
 import { EVENTS } from '../content/events.ts';
 import { eventOptions } from '../dungeon/explore.ts';
@@ -200,7 +200,7 @@ export function boonsModal(): HTMLElement {
 
 function pickOffer(purpose: 'boon' | 'shop', o: BoonOffer, i: number) {
   const exp = app.game!.expedition!;
-  if (o.kind === 'charm' && exp.fortune.charms.length >= charmSlots(exp.fortune)) { replacing = { purpose, idx: i }; render(); return; }
+  if (offerTakesSlot(o) && exp.fortune.charms.length >= charmSlots(exp.fortune)) { replacing = { purpose, idx: i }; render(); return; }
   const need = offerNeedsTarget(o);
   if (need) { app.ui.bagPick = { purpose, idx: i }; render(); return; }
   const r = run(purpose === 'boon' ? { type: 'pickBoon', idx: i } : { type: 'shopBuy', idx: i });
@@ -213,7 +213,7 @@ function replaceModal(): HTMLElement {
   const cancel = () => { replacing = null; render(); };
   return modal([
     h('h2', null, 'Your charm slots are full'),
-    h('p', { class: 'prose' }, 'Choose a charm to give up for the new one.'),
+    h('p', { class: 'prose' }, 'Choose a charm or omen to give up for the new one.'),
     h('div', { class: 'charm-bar' }, ...exp.fortune.charms.map((c, i) => h('button', { class: 'btn', on: { click: () => {
       const r = run(rp.purpose === 'boon' ? { type: 'pickBoon', idx: rp.idx, replaceCharm: i } : { type: 'shopBuy', idx: rp.idx, replaceCharm: i });
       if (r.ok) { replacing = null; render(); }
@@ -314,7 +314,7 @@ export function bagModal(): HTMLElement {
       h('div', { class: 'row', style: 'gap:2px' }, btn('◀', () => run({ type: 'moveCharm', from: i, to: i - 1 }), { cls: 'small', disabled: i === 0 }), btn('▶', () => run({ type: 'moveCharm', from: i, to: i + 1 }), { cls: 'small', disabled: i === f.charms.length - 1 }))))),
     h('h3', { style: 'margin-top:12px' }, 'Hand levels'),
     h('table', { class: 'mini' }, h('tr', null, h('th', null, 'Hand'), h('th', null, 'Lv'), h('th', null, 'Chips'), h('th', null, 'Mult'), h('th', null, 'Played')),
-      ...HANDS.map((x) => { const lv = f.omens[x.id] ?? 0; return h('tr', null, h('td', null, x.name), h('td', null, 1 + lv), h('td', { class: 'chipc' }, x.chips + lv * x.lvChips), h('td', { class: 'multc' }, `×${x.mult + lv * x.lvMult}`), h('td', { class: 'muted' }, f.handsPlayed[x.id] ?? 0)); })),
+      ...HANDS.map((x) => { const lv = omenLevels(f)[x.id] ?? 0; return h('tr', null, h('td', null, x.name), h('td', null, 1 + lv), h('td', { class: 'chipc' }, x.chips + lv * x.lvChips), h('td', { class: 'multc' }, `×${x.mult + lv * x.lvMult}`), h('td', { class: 'muted' }, f.handsPlayed[x.id] ?? 0)); })),
     h('p', { class: 'small muted' }, `Tokens: ${f.tokens.length ? f.tokens.join(', ') : 'none'}. Best hand this run: ${fmt(f.bestScore)}.`),
     h('div', { class: 'row' }, h('span', { class: 'spacer' }), btn('Close', close, { key: 'close-bag' })),
   ], { label: 'Dice bag', onClose: close });
@@ -359,7 +359,7 @@ export function helpModal(): HTMLElement {
     p('Each fight deals dice from your bag onto a shared felt tray. On a hero\'s turn, select dice and reroll them (1 reroll a turn, more from skills, items and charms), then choose an action. Up to five selected dice ride along as a poker-dice hand: Pair, Straight, Set (five dice of one colour), Full House, Five of a Kind…'),
     p('Damage = (your action\'s real dice + the hand\'s chips + the pips) × mult. Dice matching the acting hero\'s colour add +1 mult. Dice you don\'t play stay on the tray for the next hero. If you miss, your dice come back.'),
     h('h3', null, 'Getting lucky'),
-    p('After every fight your Fortune Rank rises: choose a charm, an omen (levels up a hand), a new die, a face enchantment, or a token. Charms score left to right, so order matters (rearrange them in the Dice bag). Doubloons earn interest; spend them at the Peddler. It all vanishes when the dungeon ends, so go big.'),
+    p('After every fight your Fortune Rank rises: choose a charm, an omen (levels up a hand while it holds a charm slot), a new die, a face enchantment, or a token. Charms score left to right, so order matters (rearrange them in the Dice bag). Doubloons earn interest; spend them at the Peddler. It all vanishes when the dungeon ends, so go big.'),
     h('h3', null, 'Watch out'),
     p('Enemies hex your tray: they steal dice, jinx your best face, or flip everything. Bosses bring a curse that changes the rules for the fight. Each echo has its own meter, like Heat or Gravity, that bends both the map and the dice.'),
     h('h3', null, 'The story'),

@@ -5,7 +5,7 @@
  */
 import type { CharmInstance, FortuneRun, HandType, Material } from '../engine/types.ts';
 import type { Rng } from '../engine/rng.ts';
-import { handContains, type EvalRules } from './hands.ts';
+import { HANDS, handContains, type EvalRules } from './hands.ts';
 
 export type CharmRarity = 'common' | 'uncommon' | 'rare' | 'legendary';
 
@@ -50,8 +50,10 @@ export interface CharmDef {
   rarity: CharmRarity;
   /** Use {n} for the live counter. */
   text: string;
-  theme: 'mult' | 'chips' | 'xmult' | 'economy' | 'dice' | 'utility';
+  theme: 'mult' | 'chips' | 'xmult' | 'economy' | 'dice' | 'utility' | 'omen';
   passive?: {
+    /** Omen relic: +1 level to this hand type while held. */
+    omen?: HandType;
     handSize?: number;
     rerolls?: number;
     interestCap?: number;
@@ -206,7 +208,29 @@ for (const m of IDOL_MATS) {
   });
 }
 
-export const CHARM_BY_ID: Record<string, CharmDef> = Object.fromEntries(CHARMS.map((c) => [c.id, c]));
+/**
+ * Omens: relics that level up one hand type for as long as they sit in a charm
+ * slot. Each omen is its own slot, so hand levels compete with charms for room.
+ * Kept out of CHARMS so they never show up in charm draws or the codex.
+ */
+export const OMEN_NAMES: Record<HandType, string> = {
+  high: 'Omen of the Lone Star', pair: 'Omen of the Twins', twoPair: 'Omen of the Mirror',
+  three: 'Omen of the Triad', straight: 'Omen of the Road', set: 'Omen of the Banner',
+  fullHouse: 'Omen of the Hearth', four: 'Omen of the Tower', straightSet: 'Omen of the Comet',
+  five: 'Omen of the Hoard', fullSet: 'Omen of the Crown', hoard: 'Omen of the Dragon',
+};
+
+export const omenId = (hand: HandType) => `omen_${hand}`;
+
+export const OMENS: CharmDef[] = HANDS.map((h) => ({
+  id: omenId(h.id), name: OMEN_NAMES[h.id], rarity: 'common', theme: 'omen',
+  text: `${h.name} +1 level while held (+${h.lvChips} Chips, +${h.lvMult} Mult).`,
+  passive: { omen: h.id },
+}));
+
+export const CHARM_BY_ID: Record<string, CharmDef> = Object.fromEntries([...CHARMS, ...OMENS].map((c) => [c.id, c]));
+
+export const isOmen = (id: string) => CHARM_BY_ID[id]?.theme === 'omen';
 
 export function charmText(def: CharmDef, inst?: CharmInstance): string {
   const n = inst ? inst.counter : def.startCounter ?? 0;
@@ -220,7 +244,7 @@ export function newCharm(id: string): CharmInstance {
 
 /** Aggregate passive modifiers across owned charms (Mimic copies passives too). */
 export function charmPassives(run: FortuneRun) {
-  const out = { handSize: 0, rerolls: 0, interestCap: 0, critRange: 0, healMult: 1, guardMult: 1, hitBonus: 0, charmSlots: 0, overkill: false, rules: {} as EvalRules };
+  const out = { handSize: 0, rerolls: 0, interestCap: 0, critRange: 0, healMult: 1, guardMult: 1, hitBonus: 0, charmSlots: 0, overkill: false, rules: {} as EvalRules, omens: {} as Partial<Record<HandType, number>> };
   const list = effectiveCharms(run);
   for (const { def } of list) {
     const p = def.passive;
@@ -232,11 +256,17 @@ export function charmPassives(run: FortuneRun) {
     out.hitBonus += p.hitBonus ?? 0;
     out.charmSlots += p.charmSlots ?? 0;
     if (p.overkill) out.overkill = true;
+    if (p.omen) out.omens[p.omen] = (out.omens[p.omen] ?? 0) + 1;
     if (p.healMult) out.healMult *= p.healMult;
     if (p.guardMult) out.guardMult *= p.guardMult;
     if (p.rules) Object.assign(out.rules, p.rules);
   }
   return out;
+}
+
+/** Hand levels granted by the omens currently held (a Mimic can copy one). */
+export function omenLevels(run: FortuneRun): Partial<Record<HandType, number>> {
+  return charmPassives(run).omens;
 }
 
 /** Resolve Mimic Tongue: each mimic acts as the charm to its right. */

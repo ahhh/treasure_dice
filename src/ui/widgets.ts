@@ -4,6 +4,7 @@ import { h, fmt } from './dom.ts';
 import { art } from './art.ts';
 import { MATERIALS, FACE_MODS, SPECIAL_BY_ID } from '../fortune/materials.ts';
 import { CHARM_BY_ID, charmText } from '../fortune/charms.ts';
+import { HAND_BY_ID } from '../fortune/hands.ts';
 import { offerTitle, offerText, TOKENS } from '../fortune/boons.ts';
 import { CLASSES } from '../content/classes.ts';
 import { derive } from '../rules/character.ts';
@@ -41,6 +42,11 @@ export function trayDie(run: FortuneRun, td: TrayDie, i: number, selected: boole
 export function charmEl(id: string, counter?: number, extra = ''): HTMLElement {
   const def = CHARM_BY_ID[id];
   const text = def ? charmText(def, counter !== undefined ? { id, counter } : undefined) : id;
+  const omen = def?.passive?.omen;
+  if (omen) {
+    return h('div', { class: `charm omen ${extra}`, title: `${def.name} (omen) — ${text}`, tabindex: 0, 'data-charm': id },
+      h('span', { class: 'omen-star' }, '✶'), h('span', { class: 'omen-hand' }, HAND_BY_ID[omen].name));
+  }
   return h('div', { class: `charm ${def?.rarity ?? ''} ${extra}`, title: `${def?.name} (${def?.rarity}) — ${text}`, tabindex: 0, 'data-charm': id },
     art(`charms/${id}`, def?.name ?? id, '', '#5a4a1a'),
     def?.showCounter && counter !== undefined ? h('span', { class: 'cnt' }, id === 'ouroboros' || id === 'avalanche' ? `×${counter}` : `+${counter}`) : null);

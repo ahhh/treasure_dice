@@ -384,7 +384,7 @@ const TIPS: Tip[] = [
   { id: 'spoils', title: 'Spoils', when: (g) => !!g.expedition?.spoils, target: () => $('.modal'),
     text: [P('Gold you find is ', B('carried'), ' until you get home alive. ', B('Doubloons'), ' are this dungeon\'s currency, and you earn +1 interest for every 5 you hold.'), P('Each fight raises your ', B('Fortune Rank'), ': a boon now, and every third rank a bigger upgrade.')] },
   { id: 'boons', title: 'Pick a boon', when: (g) => !!g.expedition?.boons && !g.expedition.spoils, target: () => $('.boons'),
-    text: [P(B('Charms'), ' are lasting scoring effects for this run (5 slots). ', B('Omens'), ' level up a hand type. ', B('Dice'), ' and ', B('face enchants'), ' reshape your bag. ', B('Tokens'), ' are one-shot tricks.'), P('Hover a card for details, then pick one. When in doubt, take a charm.')] },
+    text: [P(B('Charms'), ' are lasting scoring effects for this run (5 slots). ', B('Omens'), ' level up a hand type and share those slots. ', B('Dice'), ' and ', B('face enchants'), ' reshape your bag. ', B('Tokens'), ' are one-shot tricks.'), P('Hover a card for details, then pick one. When in doubt, take a charm.')] },
   { id: 'event', title: 'Events', when: (g) => !!g.expedition?.event && g.expedition.event.stage === 'choose', target: () => $('.modal .menu'),
     text: [P('Each option shows which hero rolls, their bonus and their chance. Some spells (and thieves\' tools) succeed automatically.')] },
   { id: 'hoard', title: 'The boss hoard', when: (g) => !!g.expedition?.lootChoice && !g.expedition.spoils, target: () => $('.modal .list'),

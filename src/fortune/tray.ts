@@ -20,7 +20,6 @@ export function newFortuneRun(rng: Rng, classes: ClassId[], signature?: Signatur
     tray: [],
     charms: [],
     charmSlots: BASE_CHARM_SLOTS,
-    omens: {},
     doubloons: 4,
     rank: 0,
     rerollsLeft: BASE_REROLLS,

@@ -2,7 +2,7 @@
  * Expedition controller: relative movement on the grid, room entry, events,
  * loot, post-combat spoils and Fortune level-ups, rests, and extraction.
  */
-import type { BiomeId, Difficulty, Expedition, Facing, GameState, Hero, RelDir, Room, Skill, BoonOffer, LogEntry } from '../engine/types.ts';
+import type { BiomeId, Difficulty, Expedition, Facing, GameState, Hero, RelDir, Room, Skill, BoonOffer, LogEntry, HandType } from '../engine/types.ts';
 import { Rng, makeStreams, stream } from '../engine/rng.ts';
 import { rollD20, roll } from '../engine/dice.ts';
 import { generateDungeon, tierFor, DIRS, DELTA, rollEncounter, key, parseKey } from './generator.ts';
@@ -13,7 +13,7 @@ import { ITEMS, itemName } from '../content/items.ts';
 import { newFortuneRun, interest, endCombatTray, MAX_TOKENS } from '../fortune/tray.ts';
 import { heroDice } from '../fortune/dicepath.ts';
 import { makeDie, SPECIAL_BY_ID } from '../fortune/materials.ts';
-import { rollBoons, rollShop, applyOffer, makeOffer, offerTitle, TOKENS } from '../fortune/boons.ts';
+import { rollBoons, rollShop, applyOffer, makeOffer, offerTitle, omenOffer, TOKENS } from '../fortune/boons.ts';
 import { CHARMS, CHARM_BY_ID, newCharm } from '../fortune/charms.ts';
 import { HANDS } from '../fortune/hands.ts';
 import { startCombat, makeCtx, syncHeroes, hooks, heroOf, heroes as combatHeroes } from '../combat/core.ts';
@@ -430,11 +430,8 @@ function applyOutcome(g: GameState, o: Outcome): string | null {
     case 'key':
       if (!exp.keys.includes('sigil')) exp.keys.push('sigil');
       return '🔑 You hold the Boss Sigil.';
-    case 'omen': {
-      const h = loot.pick(HANDS.slice(1, 8));
-      exp.fortune.omens[h.id] = (exp.fortune.omens[h.id] ?? 0) + 1;
-      return `Omen: ${h.name} levels up!`;
-    }
+    case 'omen':
+      return grantOmen(exp, loot.pick(HANDS.slice(1, 8)).id);
     case 'die': {
       const o2 = makeOffer(loot, exp.fortune, 'die', new Set());
       if (o2?.die) { exp.fortune.bag.push(o2.die); return `${o2.die.name} joins your dice bag.`; }
@@ -475,6 +472,15 @@ function applyOutcome(g: GameState, o: Outcome): string | null {
   return null;
 }
 
+/** An omen from an event: straight into a free charm slot, or offered as a boon so the player can pick what to replace. */
+function grantOmen(exp: Expedition, hand: HandType): string {
+  const offer = { ...omenOffer(hand), price: undefined };
+  const r = applyOffer(exp.fortune, offer);
+  if (r.ok) return r.text;
+  exp.boons = { offers: [offer], source: 'event', picks: 1 };
+  return `${offerTitle(offer)} appears, but your charm slots are full.`;
+}
+
 function spinWheel(g: GameState): string {
   const exp = g.expedition!;
   const loot = stream(exp.rng, 'loot');
@@ -496,11 +502,10 @@ export function sacrificeDie(g: GameState, dieUid: string): string | null {
   const die = exp.fortune.bag.find((d) => d.uid === dieUid);
   if (!die) return 'Pick a die.';
   exp.fortune.bag = exp.fortune.bag.filter((d) => d.uid !== dieUid);
-  const fav = (Object.entries(exp.fortune.handsPlayed).sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))[0]?.[0] ?? 'pair') as keyof typeof exp.fortune.omens;
-  exp.fortune.omens[fav] = (exp.fortune.omens[fav] ?? 0) + 1;
+  const fav = (Object.entries(exp.fortune.handsPlayed).sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))[0]?.[0] ?? 'pair') as HandType;
   exp.fortune.doubloons += 2;
   exp.event.stage = 'result';
-  exp.event.result = [`The altar accepts your ${die.name ?? die.material + ' die'}. Your favourite hand grows stronger (+1 level), and 2 doubloons glint in the bowl.`];
+  exp.event.result = [`The altar accepts your ${die.name ?? die.material + ' die'}. An omen for your favourite hand rises from the smoke, and 2 doubloons glint in the bowl.`, grantOmen(exp, fav)];
   return null;
 }
 

@@ -15,6 +15,7 @@ import { DIRS, DELTA } from '../dungeon/generator.ts';
 import { derive, choiceOptions } from '../rules/character.ts';
 import { CLASSES } from '../content/classes.ts';
 import { offerNeedsTarget } from '../fortune/boons.ts';
+import { charmSlots } from '../fortune/tray.ts';
 import type { LevelChoices } from '../meta/town.ts';
 import { Rng } from '../engine/rng.ts';
 
@@ -202,7 +203,7 @@ export function autoExploreStep(g: GameState): boolean {
   if (exp.boons) {
     const i = exp.boons.offers.findIndex((o) => !o.sold && !offerNeedsTarget(o));
     if (i >= 0) {
-      const r = dispatch(g, { type: 'pickBoon', idx: i, replaceCharm: exp.fortune.charms.length >= 5 ? 0 : undefined });
+      const r = dispatch(g, { type: 'pickBoon', idx: i, replaceCharm: exp.fortune.charms.length >= charmSlots(exp.fortune) ? 0 : undefined });
       if (!r.ok) dispatch(g, { type: 'skipBoon' });
     } else {
       const j = exp.boons.offers.findIndex((o) => !o.sold);
@@ -226,9 +227,9 @@ export function autoExploreStep(g: GameState): boolean {
     return true;
   }
   if (exp.shop) {
-    const i = exp.shop.offers.findIndex((o) => !o.sold && (o.price ?? 0) <= exp.fortune.doubloons && o.kind === 'charm' && exp.fortune.charms.length < 5);
+    const i = exp.shop.offers.findIndex((o) => !o.sold && (o.price ?? 0) <= exp.fortune.doubloons && o.kind === 'charm' && exp.fortune.charms.length < charmSlots(exp.fortune));
     if (i >= 0 && dispatch(g, { type: 'shopBuy', idx: i }).ok) return true;
-    const j = exp.shop.offers.findIndex((o) => !o.sold && (o.price ?? 0) <= exp.fortune.doubloons && (o.kind === 'omen'));
+    const j = exp.shop.offers.findIndex((o) => !o.sold && (o.price ?? 0) <= exp.fortune.doubloons && o.kind === 'omen' && exp.fortune.charms.length < charmSlots(exp.fortune));
     if (j >= 0 && dispatch(g, { type: 'shopBuy', idx: j }).ok) return true;
     dispatch(g, { type: 'shopClose' });
     return true;

@@ -185,7 +185,6 @@ export interface FortuneRun {
   tray: TrayDie[];
   charms: CharmInstance[];
   charmSlots: number;
-  omens: Partial<Record<HandType, number>>;
   doubloons: number;
   rank: number;
   /** Rerolls remaining for the acting hero this turn. */

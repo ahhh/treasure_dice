@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { evaluateHand, type EvalDie } from '../src/fortune/hands.ts';
 import { Rng, seedState } from '../src/engine/rng.ts';
-import { newFortuneRun, startCombatTray, reroll, spendDice } from '../src/fortune/tray.ts';
+import { newFortuneRun, startCombatTray, reroll, spendDice, charmSlots } from '../src/fortune/tray.ts';
 import { scoreHand } from '../src/fortune/scoring.ts';
-import { newCharm } from '../src/fortune/charms.ts';
+import { newCharm, omenLevels } from '../src/fortune/charms.ts';
 import { applyOffer, rollBoons, rollShop } from '../src/fortune/boons.ts';
 
 const d = (value: number, material: EvalDie['material'] = 'bone', wild = false): EvalDie => ({ value, material, wild });
@@ -99,6 +99,22 @@ describe('tray', () => {
     expect(shop.length).toBeGreaterThan(4);
     const r = applyOffer(run, { kind: 'omen', id: 'omen_pair', hand: 'pair' });
     expect(r.ok).toBe(true);
-    expect(run.omens.pair).toBe(1);
+    expect(omenLevels(run).pair).toBe(1);
+  });
+  it('omens are relics: each takes a charm slot and its level leaves with it', () => {
+    const run = newFortuneRun(new Rng(seedState('omen')), ['fighter']);
+    const omen = { kind: 'omen' as const, id: 'omen_pair', hand: 'pair' as const };
+    for (let i = 0; i < charmSlots(run); i++) expect(applyOffer(run, omen).ok).toBe(true);
+    expect(run.charms.length).toBe(charmSlots(run));
+    expect(omenLevels(run).pair).toBe(charmSlots(run));
+    // Full tray: omens need a replacement target just like charms.
+    expect(applyOffer(run, omen).ok).toBe(false);
+    expect(applyOffer(run, { kind: 'charm', id: 'copperTooth' }, { replaceCharm: 0 }).ok).toBe(true);
+    expect(omenLevels(run).pair).toBe(charmSlots(run) - 1);
+    // Omens never leak into charm draws or the codex.
+    expect(run.seenCharms).toEqual(['copperTooth']);
+    // Structural upgrades stay slot-free.
+    expect(applyOffer(run, { kind: 'upgrade', id: 'charmSlot' }).ok).toBe(true);
+    expect(run.charms.length).toBe(charmSlots(run) - 1);
   });
 });

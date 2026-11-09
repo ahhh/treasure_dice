@@ -12,7 +12,7 @@ import type { CurseId } from './curses.ts';
 import type { FortuneRun, HandType, Material, ScoreReport, ScoreStep, TrayDie } from '../engine/types.ts';
 import type { Rng } from '../engine/rng.ts';
 import { evaluateHand, handBase, handLevel, HAND_BY_ID, type EvalDie } from './hands.ts';
-import { charmPassives, effectiveCharms, CHARM_BY_ID, type PlayedDie, type ScoreCtx, type Effect } from './charms.ts';
+import { charmPassives, effectiveCharms, omenLevels, CHARM_BY_ID, type PlayedDie, type ScoreCtx, type Effect } from './charms.ts';
 import { CURSES } from './curses.ts';
 
 export interface ScoreInput {
@@ -87,7 +87,7 @@ export function scoreHand(inp: ScoreInput): ScoreOutput {
 
   const hand: HandType = res.hand;
   const steps: ScoreStep[] = [];
-  const omens = inp.curse && CURSES[inp.curse].ignoreOmens ? {} : run.omens;
+  const omens = inp.curse && CURSES[inp.curse].ignoreOmens ? {} : omenLevels(run);
   const hb = handBase(omens, hand);
   let chips = inp.base;
   let mult = hb.mult;

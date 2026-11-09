@@ -5,7 +5,7 @@
  */
 import type { BoonOffer, FaceMod, FortuneRun, HandType } from '../engine/types.ts';
 import type { Rng } from '../engine/rng.ts';
-import { CHARMS, CHARM_BY_ID, CHARM_PRICE, newCharm, type CharmRarity } from './charms.ts';
+import { CHARMS, CHARM_BY_ID, CHARM_PRICE, OMEN_NAMES, newCharm, omenId, omenLevels, type CharmRarity } from './charms.ts';
 import { HANDS, HAND_BY_ID } from './hands.ts';
 import { SPECIAL_DICE, SPECIAL_BY_ID, makeDie, MATERIALS } from './materials.ts';
 import { charmSlots, MAX_TOKENS } from './tray.ts';
@@ -18,13 +18,6 @@ export const TOKENS: Record<string, TokenDef> = {
   loadedCoin: { id: 'loadedCoin', name: 'Loaded Coin', text: 'Your next attack roll is a natural 20.', price: 4 },
   encore: { id: 'encore', name: 'Encore Coin', text: 'The acting hero may play a second hand this turn.', price: 5 },
   tonic: { id: 'tonic', name: 'Tonic Coin', text: 'Heal the acting hero for 30% of max HP.', price: 3 },
-};
-
-export const OMEN_NAMES: Record<HandType, string> = {
-  high: 'Omen of the Lone Star', pair: 'Omen of the Twins', twoPair: 'Omen of the Mirror',
-  three: 'Omen of the Triad', straight: 'Omen of the Road', set: 'Omen of the Banner',
-  fullHouse: 'Omen of the Hearth', four: 'Omen of the Tower', straightSet: 'Omen of the Comet',
-  five: 'Omen of the Hoard', fullSet: 'Omen of the Crown', hoard: 'Omen of the Dragon',
 };
 
 export const FACE_BOONS: FaceMod[] = ['gilded', 'keen', 'fierce', 'savage', 'wild', 'lucky'];
@@ -75,9 +68,9 @@ export function makeOffer(rng: Rng, run: FortuneRun, kind: BoonOffer['kind'], ex
     }
     case 'omen': {
       const hand = omenHand(rng, run);
-      if (exclude.has(`omen_${hand}`)) return null;
-      exclude.add(`omen_${hand}`);
-      return { kind, id: `omen_${hand}`, hand, price: 3 };
+      if (exclude.has(omenId(hand))) return null;
+      exclude.add(omenId(hand));
+      return omenOffer(hand);
     }
     case 'die': {
       const pool = SPECIAL_DICE.filter((d) => d.rarity !== 'rare' || rng.chance(0.4 + boost * 0.3));
@@ -113,6 +106,16 @@ export function makeOffer(rng: Rng, run: FortuneRun, kind: BoonOffer['kind'], ex
     default:
       return null;
   }
+}
+
+/** An omen as a boon: lands in a charm slot like any charm. */
+export function omenOffer(hand: HandType): BoonOffer {
+  return { kind: 'omen', id: omenId(hand), hand, price: 3 };
+}
+
+/** Boons that occupy a charm slot (and so may need one replaced). */
+export function offerTakesSlot(o: BoonOffer): boolean {
+  return o.kind === 'charm' || o.kind === 'omen';
 }
 
 /** Post-combat level-up: three choices (boss/elite fights roll richer). */
@@ -172,7 +175,7 @@ export function offerText(o: BoonOffer): string {
     case 'charm': return CHARM_BY_ID[o.id]?.text.replace('{n}', String(CHARM_BY_ID[o.id]?.startCounter ?? 0)) ?? '';
     case 'omen': {
       const h = HAND_BY_ID[o.hand!];
-      return `Level up ${h.name}: +${h.lvChips} chips, +${h.lvMult} mult.`;
+      return `${h.name} +1 level while held: +${h.lvChips} chips, +${h.lvMult} mult. Takes a charm slot.`;
     }
     case 'die': return `${SPECIAL_BY_ID[o.id]?.text ?? ''} (${MATERIALS[o.die!.material].name})`;
     case 'face': return `Enchant one face of a die in your bag: ${FACE_TEXT[o.face!]}`;
@@ -201,18 +204,17 @@ export type ApplyResult = { ok: true; text: string } | { ok: false; reason: stri
 
 export function applyOffer(run: FortuneRun, o: BoonOffer, target?: { dieUid?: string; face?: number; replaceCharm?: number }): ApplyResult {
   switch (o.kind) {
-    case 'charm': {
+    case 'charm':
+    case 'omen': {
       if (run.charms.length >= charmSlots(run)) {
         if (target?.replaceCharm === undefined) return { ok: false, reason: 'Charm slots full — choose one to replace.' };
         run.charms.splice(target.replaceCharm, 1);
       }
       run.charms.push(newCharm(o.id));
-      run.seenCharms.push(o.id);
+      if (o.kind === 'charm') run.seenCharms.push(o.id);
+      else return { ok: true, text: `Gained ${CHARM_BY_ID[o.id].name}: ${HAND_BY_ID[o.hand!].name} is now Lv.${1 + (omenLevels(run)[o.hand!] ?? 0)}.` };
       return { ok: true, text: `Gained ${CHARM_BY_ID[o.id].name}.` };
     }
-    case 'omen':
-      run.omens[o.hand!] = (run.omens[o.hand!] ?? 0) + 1;
-      return { ok: true, text: `${HAND_BY_ID[o.hand!].name} is now Lv.${1 + run.omens[o.hand!]!}.` };
     case 'die':
       run.bag.push(o.die!);
       return { ok: true, text: `${o.die!.name ?? 'A die'} joins your bag.` };
