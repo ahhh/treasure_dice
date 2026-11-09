@@ -316,7 +316,8 @@ const STEPS: Step[] = [
   },
   {
     id: 'fortune', where: 'dungeon', next: true, title: 'This run\'s Fortune', target: () => $('.explore .felt'),
-    text: () => [P('Charms, doubloons (¤), tokens and your dice bag only last for this dungeon. They build into a scoring engine as you go deeper, then vanish when the dungeon ends. So go big.'),
+    text: () => [P('Charms, omens, doubloons (¤), tokens and your dice bag only last for this dungeon. They build into a scoring engine as you go deeper, then vanish when the dungeon ends. So go big.'),
+      P('The slots below are your ', B('relic tray'), '. Every ', B('charm'), ' and every ', B('omen'), ' (✶, +1 level to one hand) takes a slot. When it\'s full, a new one must replace an old one, and a sold or replaced omen takes its level with it.'),
       P('Open the ', B('Dice bag'), ' to see every die, reorder charms (they score left to right) and check your hand levels.')],
   },
   {
