@@ -1,10 +1,14 @@
 /**
- * Dev-server-only API that lets the in-browser text editor (dev/dialogue.html)
+ * Dev-server-only API that lets the in-browser text editor (dev/text.html)
  * read and write src/locales/<lang>/<namespace>.json on disk.
  *
  *   GET  /__locales                 → { langs: { en: ['dialogue'], fr: [...] } }
  *   GET  /__locales/<lang>/<ns>     → the catalog ({} if the file doesn't exist yet)
  *   PUT  /__locales/<lang>/<ns>     → write the JSON body (pretty-printed, key order kept)
+ *
+ * Edits to a locale file don't trigger Vite's usual reload: the plugin sends a
+ * `td:locales` event instead, the game swaps the catalog in place and re-renders
+ * (see src/main.ts), and the editor keeps its place.
  *
  * `apply: 'serve'` keeps it out of production builds entirely.
  */
@@ -20,6 +24,12 @@ export function localesApi(root = 'src/locales'): Plugin {
   return {
     name: 'td-locales-api',
     apply: 'serve',
+    handleHotUpdate({ file, server }) {
+      const m = /\/locales\/([^/]+)\/([^/]+)\.json$/.exec(file);
+      if (!m || !file.startsWith(dir)) return;
+      server.ws.send({ type: 'custom', event: 'td:locales', data: { lang: m[1], ns: m[2] } });
+      return [];
+    },
     configureServer(server) {
       server.middlewares.use('/__locales', (req, res) => {
         const send = (code: number, body: unknown) => {

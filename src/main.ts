@@ -1,7 +1,7 @@
 import './styles/main.css';
 import { app, render } from './ui/app.ts';
 import { loadManifest } from './ui/art.ts';
-import { setLocale, onLocaleChange } from './i18n/index.ts';
+import { setLocale, onLocaleChange, setCatalog, locale, type Catalog } from './i18n/index.ts';
 import { titleScreen } from './ui/title.ts';
 import { townScreen } from './ui/town.ts';
 import { exploreScreen, move } from './ui/explore.ts';
@@ -68,6 +68,15 @@ onLocaleChange(render);
 const lang = new URLSearchParams(location.search).get('lang');
 if (lang) void setLocale(lang);
 render();
+
+// Dev: the text editor saved a locale file; swap it in without a reload.
+if (import.meta.hot) {
+  import.meta.hot.on('td:locales', async ({ lang, ns }: { lang: string; ns: string }) => {
+    if (lang !== 'en' && lang !== locale()) return;
+    const r = await fetch(`/__locales/${lang}/${ns}`);
+    if (r.ok) { setCatalog(lang, ns, (await r.json()) as Catalog); render(); }
+  });
+}
 
 // Dev-only hook for browser tests (stripped from production builds).
 if (import.meta.env.DEV) {

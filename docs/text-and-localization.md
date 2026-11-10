@@ -7,13 +7,22 @@ anything a translation hasn't covered. Other languages load on demand.
 ## Editing text
 
 ```
-npm run text        # dev server + opens /dev/dialogue.html
+npm run text        # dev server + opens /dev/text.html
 ```
 
-The editor lists every scene by place (tavern, guild, muster…), plus keeper barks, Tiamat's
-heads and the eulogy. Each line shows the speaker's portrait for that mood, their description,
-when the line plays, where choices lead, the d20 checks and effects. Edit, then **Save** (⌘S):
-the JSON on disk changes and the game tab reloads. Commit the file as usual.
+The editor covers:
+
+- **Dialogue** (`dialogue.json`): every scene by place, keeper barks, Tiamat's heads, the
+  eulogy. Each line shows the speaker's portrait for that mood, their description, when the
+  line plays, where choices lead, the d20 checks and effects.
+- **Events** (`story.json`): every room event with its scene art, checks, spells that
+  auto-succeed, costs and outcomes.
+- **Story and quest** (`story.json`): the Chronicle (chapters, later notes, lullaby), people,
+  heads, doors and the finale, leads, evidence, rumours, drinks and the Muster.
+
+Edit, then **Save** (⌘S): the JSON on disk changes, an open game tab swaps the new text in
+without reloading, and the editor keeps your place. Commit the file as usual. Link straight
+to an entry with its id: `/dev/text.html#event:q_stalledCart`, `#evidence`, `#script:bet.intro`.
 
 The editor only exists on the dev server (`scripts/vite-locales.ts`, `apply: 'serve'`); it is
 not in the production build.
@@ -51,6 +60,16 @@ e.g. the names of the fallen. Plurals use `Intl.PluralRules` categories (`one`, 
 Markup inside lines: `|` is a beat pause, `{keeper}`, `{hero}` and `{best:<skill>}` are
 filled in by the dialogue box.
 
+## How content tables get their words
+
+Tables like `EVENTS`, `LEADS` and `NPCS` keep ids, rules and art in code and are declared
+without their text (`Textless<T, K>`). `textTable(ns, path, data)` / `bindText` then give each
+record live getters that read the current language, so code keeps writing `ev.title` or
+`lead.brief`. The JSON mirrors the table's shape and holds only strings; for events, text
+outcomes sit at `events.<id>.options[i].success.<j>.t`.
+
+Art subjects (`look`, `moods`) stay in code: they describe pictures, not player text.
+
 ## Code API
 
 ```ts
@@ -63,8 +82,7 @@ await setLocale('fr');                   // loads that language's chunks, then r
 ## Still to move
 
 1. Dialogue scenes, barks, heads, eulogy: **done**.
-2. Story content: events (`events.ts`, `questEvents.ts`), chapters (`story.ts`), leads,
-   evidence, rumours, drinks, NPC names and titles.
+2. Story content (events, chapters, leads, evidence, rumours, drinks, Muster, NPC names): **done**.
 3. Game data names and descriptions: charms, items, monsters, spells, classes, biomes.
 4. UI strings in `src/ui/*` (buttons, labels, tutorial, tooltips) into `ui.json`, plus a
    language menu in settings.

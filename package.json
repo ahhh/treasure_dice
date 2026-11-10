@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "text": "vite --open /dev/dialogue.html",
+    "text": "vite --open /dev/text.html",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",

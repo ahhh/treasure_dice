@@ -4,6 +4,11 @@ import { SCRIPTS } from '../src/content/dialogue.ts';
 import { lineText, choiceLabel, scriptTitle } from '../src/i18n/dialogue.ts';
 import { newGame } from '../src/meta/town.ts';
 import en from '../src/locales/en/dialogue.json';
+import story from '../src/locales/en/story.json';
+import { EVENTS } from '../src/content/events.ts';
+import { CHAPTERS, PROLOGUE, EPILOGUE, HEADS, FINALE } from '../src/content/story.ts';
+import { EVIDENCE, DRINKS, LEADS, SOURCES, RUMORS, MUSTER, TRACKS, LULLABY } from '../src/content/quest.ts';
+import { NPCS } from '../src/content/npcs.ts';
 
 type Lines = Record<string, string | Record<string, string>>;
 const scripts = en.scripts as Record<string, { title: string; lines: Lines; choices?: Record<string, string[]>; terms?: Record<string, string> }>;
@@ -47,6 +52,48 @@ describe('dialogue text', () => {
         n.choices?.forEach((_, i) => expect(choiceLabel(s.id, id, i)).not.toContain('⟦'));
       }
     }
+  });
+});
+
+describe('story text', () => {
+  const ids = (o: object) => Object.keys(o).sort();
+  it('every event, option and text outcome has words, and no words point at missing content', () => {
+    expect(ids(story.events)).toEqual(ids(EVENTS));
+    for (const e of Object.values(EVENTS)) {
+      expect(e.title, `${e.id} title`).toBeTruthy();
+      expect(e.text, `${e.id} text`).toBeTruthy();
+      e.options.forEach((o, i) => {
+        expect(o.label, `${e.id} option ${i}`).toBeTruthy();
+        for (const x of [...o.success, ...(o.failure ?? [])]) if (x.type === 'text') expect(x.t, `${e.id} option ${i} text outcome`).toBeTruthy();
+      });
+      // Every outcome the JSON speaks for is a text outcome in code.
+      const opts = (story.events as unknown as Record<string, { options: Record<string, unknown>[] }>)[e.id].options;
+      opts.forEach((o, i) => {
+        for (const side of ['success', 'failure'] as const) {
+          for (const j of Object.keys((o[side] as object) ?? {})) expect(e.options[i]?.[side]?.[Number(j)]?.type, `${e.id} option ${i} ${side}[${j}]`).toBe('text');
+        }
+      });
+    }
+  });
+  it('every story table has its words', () => {
+    for (const c of [PROLOGUE, EPILOGUE, ...Object.values(CHAPTERS)]) { expect(c.title).toBeTruthy(); expect(c.text.length).toBeGreaterThan(0); }
+    for (const x of Object.values(HEADS)) expect(x.name && x.breath).toBeTruthy();
+    expect(FINALE.name && FINALE.bossText).toBeTruthy();
+    expect(LULLABY.length).toBe(10);
+    expect(ids(story.npcs)).toEqual(ids(NPCS));
+    for (const n of Object.values(NPCS)) expect(n.name && n.title, n.id).toBeTruthy();
+    expect(ids(story.evidence)).toEqual(ids(EVIDENCE));
+    for (const e of Object.values(EVIDENCE)) expect(e.name && e.text, e.id).toBeTruthy();
+    expect(ids(story.drinks)).toEqual(ids(DRINKS));
+    for (const d of Object.values(DRINKS)) expect(d.name && d.text && d.line, d.id).toBeTruthy();
+    expect(ids(story.leads)).toEqual(ids(LEADS));
+    for (const l of Object.values(LEADS)) expect(l.title && l.brief, l.id).toBeTruthy();
+    expect(ids(story.rumorSources)).toEqual(ids(SOURCES));
+    expect(ids(story.rumors)).toEqual(RUMORS.map((r) => r.id).sort());
+    for (const r of RUMORS) expect(r.text, r.id).toBeTruthy();
+    expect(ids(story.muster)).toEqual(MUSTER.map((m) => m.id).sort());
+    for (const m of MUSTER) expect(m.title && m.text, m.id).toBeTruthy();
+    for (const t of Object.values(TRACKS)) expect(t.name && t.boon && t.cost).toBeTruthy();
   });
 });
 

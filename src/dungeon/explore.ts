@@ -5,6 +5,7 @@
 import type { BiomeId, Difficulty, Expedition, Facing, GameState, Hero, RelDir, Room, Skill, BoonOffer, LogEntry, HandType } from '../engine/types.ts';
 import { Rng, makeStreams, stream } from '../engine/rng.ts';
 import { rollD20, roll } from '../engine/dice.ts';
+import { text } from '../i18n/index.ts';
 import { generateDungeon, tierFor, DIRS, DELTA, rollEncounter, key, parseKey } from './generator.ts';
 import { BIOMES, BIOME_ORDER } from '../content/biomes.ts';
 import { EVENTS, type Outcome } from '../content/events.ts';
@@ -389,7 +390,7 @@ function applyOutcome(g: GameState, o: Outcome): string | null {
   const loot = stream(exp.rng, 'loot');
   const L = exp.partyLevel;
   switch (o.type) {
-    case 'text': return o.t;
+    case 'text': return o.leadOpen ? `${o.t} ${text('story', ['leadOpen'])}` : o.t;
     case 'gold': { const n = Math.round(goldReward(L, 'normal') * (0.8 + loot.next()) * o.amount); exp.carriedGold += n; return `+${n} gold.`; }
     case 'doubloons': exp.fortune.doubloons += o.n; return `+${o.n} doubloons.`;
     case 'item': { const it = rollItem(loot, L, exp.biome, { boost: o.tier }); exp.carriedItems.push(it); return `Found: ${itemName(it)}.`; }

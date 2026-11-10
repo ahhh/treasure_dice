@@ -1,0 +1,1336 @@
+{
+  "leadOpen": "The lead is still open: try again on another run.",
+  "events": {
+    "lockedChest": {
+      "title": "A Locked Chest",
+      "text": "An iron-banded chest squats in an alcove. The lock is old but stubborn, and there are scratches around the keyhole — someone tried before you.",
+      "options": [
+        {
+          "label": "Pick the lock",
+          "hint": "Rogues and thieves' tools help.",
+          "failure": {
+            "1": {
+              "t": "A needle trap jabs you. The lock holds."
+            }
+          }
+        },
+        {
+          "label": "Smash it open",
+          "failure": {
+            "0": {
+              "t": "The chest dents but holds. Your shoulder aches."
+            }
+          }
+        },
+        {
+          "label": "Leave it",
+          "success": {
+            "0": {
+              "t": "Some treasures are bait."
+            }
+          }
+        }
+      ]
+    },
+    "woundedStranger": {
+      "title": "A Wounded Adventurer",
+      "text": "A stranger in a rival guild's colours slumps against the wall, bleeding. \"They took my dice,\" she gasps. \"All of them.\"",
+      "options": [
+        {
+          "label": "Tend her wounds",
+          "success": {
+            "0": {
+              "t": "She presses a strange die into your hand. \"For luck.\""
+            }
+          },
+          "failure": {
+            "0": {
+              "t": "You do what you can. She thanks you and limps away."
+            }
+          }
+        },
+        {
+          "label": "Ask what she saw",
+          "success": {
+            "1": {
+              "t": "She sketches the path to the boss on your map."
+            }
+          },
+          "failure": {
+            "0": {
+              "t": "Her story makes no sense. Fever, perhaps."
+            }
+          }
+        },
+        {
+          "label": "Rob her",
+          "success": {
+            "1": {
+              "t": "You take her purse. The dungeon notices."
+            }
+          }
+        }
+      ]
+    },
+    "dicingGhost": {
+      "title": "The Dicing Ghost",
+      "text": "A translucent gambler sits at a table of bone, rattling a cup. \"One game, living ones. Double or nothing.\"",
+      "options": [
+        {
+          "label": "Wager 5 doubloons"
+        },
+        {
+          "label": "Challenge him to a game of wits",
+          "success": {
+            "1": {
+              "t": "You bluff the ghost into folding. He tosses you a charm with a scowl."
+            }
+          },
+          "failure": {
+            "1": {
+              "t": "The ghost laughs; the cold seeps into your bones."
+            }
+          }
+        },
+        {
+          "label": "Decline politely",
+          "success": {
+            "0": {
+              "t": "\"Coward,\" the ghost sighs, and fades."
+            }
+          }
+        }
+      ]
+    },
+    "wheelOfFate": {
+      "title": "The Wheel of Fate",
+      "text": "A great wheel of brass and bone stands in the centre of the room, studded with pictures: a crown, a skull, a coin, a die. A slot waits for a coin.",
+      "options": [
+        {
+          "label": "Spin (3 doubloons)"
+        },
+        {
+          "label": "Spin (60 gold)"
+        },
+        {
+          "label": "Walk away",
+          "success": {
+            "0": {
+              "t": "The wheel ticks once as you leave."
+            }
+          }
+        }
+      ]
+    },
+    "diceAltar": {
+      "title": "Altar of Offerings",
+      "text": "Carved into the altar: a hand releasing a die. Below, a bowl worn smooth by countless sacrifices.",
+      "options": [
+        {
+          "label": "Sacrifice a die from your bag"
+        },
+        {
+          "label": "Pray",
+          "success": {
+            "1": {
+              "t": "A whisper names a hand you will play well."
+            }
+          },
+          "failure": {
+            "0": {
+              "t": "Only silence answers."
+            }
+          }
+        },
+        {
+          "label": "Leave"
+        }
+      ]
+    },
+    "collapsedPassage": {
+      "title": "Collapsed Passage",
+      "text": "Rubble chokes the way. Beyond it you glimpse the glint of something valuable.",
+      "options": [
+        {
+          "label": "Dig through",
+          "failure": {
+            "1": {
+              "t": "The ceiling shifts. You scramble back, bruised."
+            }
+          }
+        },
+        {
+          "label": "Find a weak point",
+          "failure": {
+            "0": {
+              "t": "You find nothing useful."
+            }
+          }
+        },
+        {
+          "label": "Move on"
+        }
+      ]
+    },
+    "mysteriousPotion": {
+      "title": "A Bubbling Cauldron",
+      "text": "An abandoned alchemist's camp. A cauldron still simmers with something purple and smug.",
+      "options": [
+        {
+          "label": "Identify the brew",
+          "success": {
+            "1": {
+              "t": "A restorative! Everyone takes a sip."
+            }
+          },
+          "failure": {
+            "1": {
+              "t": "It was not a restorative."
+            }
+          }
+        },
+        {
+          "label": "Just drink it"
+        },
+        {
+          "label": "Bottle it for later (Nature)",
+          "failure": {
+            "0": {
+              "t": "The bottle cracks in your hand."
+            }
+          }
+        }
+      ]
+    },
+    "trapHall": {
+      "title": "Pressure Plates",
+      "text": "The floor is a chessboard of pressure plates. Dark holes line the walls.",
+      "options": [
+        {
+          "label": "Spot the safe path",
+          "success": {
+            "1": {
+              "t": "You dance across, and find coins dropped by the less careful."
+            }
+          }
+        },
+        {
+          "label": "Tumble through",
+          "success": {
+            "0": {
+              "t": "Graceful. Barely."
+            }
+          }
+        },
+        {
+          "label": "Disarm the mechanism"
+        }
+      ]
+    },
+    "rivalParty": {
+      "title": "A Rival Party",
+      "text": "Three adventurers from the Copper Lantern guild block the corridor. \"This dungeon's ours. Pay the toll or turn around.\"",
+      "options": [
+        {
+          "label": "Talk them down",
+          "success": {
+            "1": {
+              "t": "They grudgingly share their map."
+            }
+          }
+        },
+        {
+          "label": "Intimidate them",
+          "success": {
+            "1": {
+              "t": "They flee, dropping a purse."
+            }
+          }
+        },
+        {
+          "label": "Pay 40 gold",
+          "success": {
+            "0": {
+              "t": "They step aside, smirking."
+            }
+          }
+        },
+        {
+          "label": "Fight"
+        }
+      ]
+    },
+    "oldShrine": {
+      "title": "Forgotten Shrine",
+      "text": "A small shrine to a god of travellers. Candle stubs. A cracked offering bowl.",
+      "options": [
+        {
+          "label": "Leave an offering (25 gold)"
+        },
+        {
+          "label": "Study the carvings",
+          "failure": {
+            "0": {
+              "t": "The carvings are too worn."
+            }
+          }
+        },
+        {
+          "label": "Pass by"
+        }
+      ]
+    },
+    "cursedIdol": {
+      "title": "The Grinning Idol",
+      "text": "A small golden idol grins on a pedestal. It practically begs to be taken. The room is suspiciously clean.",
+      "options": [
+        {
+          "label": "Take it"
+        },
+        {
+          "label": "Check for traps",
+          "success": {
+            "1": {
+              "t": "You swap it for a rock of equal weight. Classic."
+            }
+          },
+          "failure": {
+            "1": {
+              "t": "Darts! The idol is gone in the chaos."
+            }
+          }
+        },
+        {
+          "label": "Leave it",
+          "success": {
+            "0": {
+              "t": "Wise. Probably."
+            }
+          }
+        }
+      ]
+    },
+    "sigilKey": {
+      "title": "The Boss Sigil",
+      "text": "A sigil-key rests on a plinth, humming. Wards flicker around it.",
+      "options": [
+        {
+          "label": "Unravel the wards",
+          "success": {
+            "1": {
+              "t": "The wards part. The sigil is yours."
+            }
+          },
+          "failure": {
+            "2": {
+              "t": "The wards burn you, but you hold on to the sigil."
+            }
+          }
+        },
+        {
+          "label": "Grab it and run"
+        }
+      ]
+    },
+    "meterReset": {
+      "title": "Mechanism",
+      "text": "A lever, worn smooth by many hands.",
+      "options": [
+        {
+          "label": "Pull the lever"
+        },
+        {
+          "label": "Leave it"
+        }
+      ]
+    },
+    "valveChamber": {
+      "title": "Valve Chamber",
+      "text": "Pipes hiss. A great wheel-valve could vent the heat — or blow the room apart.",
+      "options": [
+        {
+          "label": "Read the pressure gauges",
+          "success": {
+            "1": {
+              "t": "Steam roars out harmlessly. The halls cool."
+            }
+          }
+        },
+        {
+          "label": "Wrench it open",
+          "failure": {
+            "1": {
+              "t": "It jams. The heat climbs."
+            }
+          }
+        }
+      ]
+    },
+    "foundry": {
+      "title": "The Abandoned Foundry",
+      "text": "Moulds for weapons line the walls. The crucible is still hot.",
+      "options": [
+        {
+          "label": "Re-temper your weapons",
+          "success": {
+            "1": {
+              "t": "Your blades ring true."
+            }
+          }
+        },
+        {
+          "label": "Melt down loot for coins"
+        }
+      ]
+    },
+    "whisperingTree": {
+      "title": "The Whispering Tree",
+      "text": "An ancient tree grows through the crypt roof. Its leaves whisper names of the dead.",
+      "options": [
+        {
+          "label": "Listen closely",
+          "failure": {
+            "1": {
+              "t": "The tree shudders and spores billow."
+            }
+          }
+        },
+        {
+          "label": "Ask it a favour"
+        }
+      ]
+    },
+    "sarcophagus": {
+      "title": "Sealed Sarcophagus",
+      "text": "Roots have cracked the lid. Something inside is wrapped in golden thread.",
+      "options": [
+        {
+          "label": "Pry it open"
+        },
+        {
+          "label": "Read the epitaph",
+          "failure": {
+            "0": {
+              "t": "The words are in no tongue you know."
+            }
+          }
+        }
+      ]
+    },
+    "cipherDoor": {
+      "title": "The Ciphered Door",
+      "text": "Three rings of glyphs turn on a bronze door. A riddle is etched above: \"I am read but never written.\"",
+      "options": [
+        {
+          "label": "Solve the cipher",
+          "failure": {
+            "1": {
+              "t": "Water jets from the walls."
+            }
+          }
+        },
+        {
+          "label": "Answer: \"the stars\"",
+          "success": {
+            "1": {
+              "t": "The door sighs open. Close enough."
+            }
+          }
+        }
+      ]
+    },
+    "observatory": {
+      "title": "Drowned Observatory",
+      "text": "A telescope pokes up through the water, aimed at a ceiling painted with stars.",
+      "options": [
+        {
+          "label": "Align the telescope",
+          "failure": {
+            "0": {
+              "t": "The stars refuse to line up."
+            }
+          }
+        },
+        {
+          "label": "Salvage brass fittings"
+        }
+      ]
+    },
+    "talkingMirror": {
+      "title": "The Talking Mirror",
+      "text": "\"Ask me anything,\" says your reflection. \"But I only tell the truth backwards.\"",
+      "options": [
+        {
+          "label": "Ask where the boss waits",
+          "failure": {
+            "1": {
+              "t": "The answer twists in your head."
+            }
+          }
+        },
+        {
+          "label": "Ask for luck"
+        },
+        {
+          "label": "Smash it"
+        }
+      ]
+    },
+    "confessional": {
+      "title": "The Confessional",
+      "text": "A booth of black glass. A voice: \"Confess one sin, receive one blessing.\"",
+      "options": [
+        {
+          "label": "Confess honestly",
+          "failure": {
+            "0": {
+              "t": "\"Lies,\" hisses the voice."
+            }
+          }
+        },
+        {
+          "label": "Lie convincingly"
+        }
+      ]
+    },
+    "weighingScales": {
+      "title": "The Weighing Scales",
+      "text": "Golden scales float in the void. One pan holds a feather. The other waits for you.",
+      "options": [
+        {
+          "label": "Weigh your gold (lose 50 gold)"
+        },
+        {
+          "label": "Weigh your heart"
+        },
+        {
+          "label": "Leave the scales"
+        }
+      ]
+    },
+    "sleepingStar": {
+      "title": "A Sleeping Star",
+      "text": "A star the size of a fist hovers here, dimly pulsing, fast asleep.",
+      "options": [
+        {
+          "label": "Pocket it",
+          "success": {
+            "1": {
+              "t": "It becomes a die in your hand, warm and humming."
+            }
+          },
+          "failure": {
+            "1": {
+              "t": "It wakes and flares!"
+            }
+          }
+        },
+        {
+          "label": "Sing it a lullaby",
+          "failure": {
+            "0": {
+              "t": "The star snores on."
+            }
+          }
+        }
+      ]
+    },
+    "q_stalledCart": {
+      "title": "The Stalled Cart",
+      "text": "A rail cart stands abandoned on the tracks, its wheels chained to the rails and padlocked. Sacks of lamp oil, a crate of hardtack, and a brass lockbox chained to the frame. Six sets of boot-prints lead away from it, deeper in. None of them come back.",
+      "options": [
+        {
+          "label": "Pick the lockbox",
+          "success": {
+            "2": {
+              "t": "Inside: Eren's manifest, folded twice, and a little coin for his trouble."
+            }
+          },
+          "failure": {
+            "1": {
+              "t": "A needle trap bites, and the lock seizes for good."
+            }
+          }
+        },
+        {
+          "label": "Break the chain",
+          "success": {
+            "1": {
+              "t": "The chain snaps. The lockbox spills the manifest at your feet."
+            }
+          },
+          "failure": {
+            "1": {
+              "t": "The cart rolls onto a foot and wedges the lockbox under the rail."
+            }
+          }
+        },
+        {
+          "label": "Follow the boot-prints",
+          "success": {
+            "2": {
+              "t": "The prints lead toward the deep forge. Someone dropped the manifest on the way. You mark the route."
+            }
+          },
+          "failure": {
+            "0": {
+              "t": "The prints vanish in drifting ash. When you come back, the cart is gone."
+            }
+          }
+        },
+        {
+          "label": "Take the oil and go",
+          "success": {
+            "1": {
+              "t": "Lamp oil sells. The lockbox stays where it is."
+            }
+          }
+        }
+      ]
+    },
+    "q_choirGrove": {
+      "title": "The Choir's Grove",
+      "text": "Someone has cleared the spores from this grove and hung lanterns that hold no flame, only grey cloth. Crates stamped with a ring of five open mouths. Two grey-robed cultists stand over a bedroll where a young Dragonborn sleeps in chains.",
+      "options": [
+        {
+          "label": "Fight",
+          "success": {
+            "0": {
+              "t": "The cultists draw knives. \"The Queen is owed!\""
+            }
+          }
+        },
+        {
+          "label": "Talk them down",
+          "success": {
+            "1": {
+              "t": "They are not soldiers. They leave the key and the roster, and they do not look back."
+            }
+          },
+          "failure": {
+            "0": {
+              "t": "\"Heretics!\" Steel comes out."
+            }
+          }
+        },
+        {
+          "label": "Watch and follow",
+          "success": {
+            "1": {
+              "t": "They sing from a hymnal before they move on: a lullaby, but wrong. A page tears loose. They take the sleeper with them and leave the roster behind."
+            }
+          },
+          "failure": {
+            "0": {
+              "t": "A twig snaps. \"Who's there?\""
+            }
+          }
+        },
+        {
+          "label": "Leave them be",
+          "success": {
+            "0": {
+              "t": "You back away into the roots."
+            }
+          }
+        }
+      ]
+    },
+    "q_titheBarge": {
+      "title": "The Tithe Barge",
+      "text": "A flat barge is moored between two drowned shelves, low in the water with the weight of locked strongboxes. Each box is stamped with five open mouths. A writing desk is bolted to the deck, its drawer swollen shut.",
+      "options": [
+        {
+          "label": "Force the desk drawer",
+          "success": {
+            "1": {
+              "t": "Inside, letters in a beautiful hand, every one signed \"P.\""
+            }
+          },
+          "failure": {
+            "0": {
+              "t": "The drawer won't give, and you hear oars. The bargemen are back."
+            }
+          }
+        },
+        {
+          "label": "Read the strongbox seals",
+          "success": {
+            "2": {
+              "t": "Coin, all of it, tagged by family name. Kiln Row's names. In the desk, a letter signed \"P.\""
+            }
+          },
+          "failure": {
+            "1": {
+              "t": "A seal is trapped with acid ink. By the time the burning stops, the barge has drifted off."
+            }
+          }
+        },
+        {
+          "label": "Wait for the bargemen",
+          "success": {
+            "0": {
+              "t": "Two cult bargemen come back for the boat."
+            }
+          }
+        }
+      ]
+    },
+    "q_erenCaptive": {
+      "title": "Eren's Last Run",
+      "text": "A grey mule stands perfectly calm in a hall of mirrors. Every reflection shows her alone. Behind her, Eren is bound to a pillar of glass, a gag in his jaws. Two masked cultists argue about whether the Queen wants him whole.",
+      "options": [
+        {
+          "label": "Fight",
+          "success": {
+            "0": {
+              "t": "\"Oh thank the — behind you! BEHIND YOU!\""
+            }
+          }
+        },
+        {
+          "label": "Turn the mirrors on them",
+          "success": {
+            "1": {
+              "t": "You tilt the glass. The cultists see something in it they do not like, and run. Eren spits out the gag. \"Tuesday. Her name is Tuesday.\""
+            }
+          },
+          "failure": {
+            "0": {
+              "t": "The glass shows them only you."
+            }
+          }
+        },
+        {
+          "label": "Bluff: \"The Precentor sent us.\"",
+          "success": {
+            "1": {
+              "t": "\"Splendid,\" one says, and hands you a letter for the Precentor. They leave Eren with you."
+            }
+          },
+          "failure": {
+            "0": {
+              "t": "\"The Precentor would never send YOU.\""
+            }
+          }
+        }
+      ]
+    },
+    "q_reflectedCharge": {
+      "title": "The Reflected Charge",
+      "text": "The great mirror here shows no reflection of you. It shows the Lantern Keep's gate, centuries younger, its inscription freshly cut. Every word is still there. A crack is already creeping across the glass.",
+      "options": [
+        {
+          "label": "Read it aloud",
+          "success": {
+            "1": {
+              "t": "\"Break no—\" The glass cracks across the next letter with a sound like ice. No? Now?"
+            }
+          },
+          "failure": {
+            "1": {
+              "t": "The old script won't come. The mirror shatters before you find the line."
+            }
+          }
+        },
+        {
+          "label": "Copy it down carefully",
+          "success": {
+            "2": {
+              "t": "You copy every line before the crack spreads. It runs through one word: \"Break no—\""
+            }
+          },
+          "failure": {
+            "0": {
+              "t": "The crack outruns your pencil, and the image goes dark."
+            }
+          }
+        }
+      ]
+    },
+    "q_throneRoad": {
+      "title": "The Throne Road",
+      "text": "A road of drifting stones strewn with dropped coins. A line of exhausted labourers carries sacks toward a golden glow far below, watched by a cultist with a lantern of grey cloth. One of the labourers is a bronze-scaled boy who looks very like Eren.",
+      "options": [
+        {
+          "label": "Free them",
+          "success": {
+            "0": {
+              "t": "The overseer raises the alarm."
+            }
+          }
+        },
+        {
+          "label": "Speak to the boy",
+          "success": {
+            "1": {
+              "t": "\"I'm Tarn. We stack it. Down there, at the big door. She sleeps on it.\" While the overseer looks the other way, the line walks back up the road with you."
+            }
+          },
+          "failure": {
+            "0": {
+              "t": "He flinches, and the overseer turns."
+            }
+          }
+        }
+      ]
+    },
+    "q_lostHands": {
+      "title": "The Hands' Camp",
+      "text": "A camp of grey tents in a cooled forge hall. Workers sit in silence around a fire that gives no heat. The cultists who kept them have gone below to see their Queen. Nobody told the workers they could leave, and they do not believe strangers who say so.",
+      "options": [
+        {
+          "label": "\"You can go home.\"",
+          "success": {
+            "1": {
+              "t": "It takes a long moment. Then someone stands, and then all of them."
+            }
+          },
+          "failure": {
+            "0": {
+              "t": "They look through you. \"They said someone would come and say that. They said it would be a test.\""
+            }
+          }
+        },
+        {
+          "label": "Find their overseer's orders",
+          "success": {
+            "2": {
+              "t": "The orders say \"leave them\". You read it aloud. That, they believe."
+            }
+          },
+          "failure": {
+            "0": {
+              "t": "Nothing but grey cloth and cold ash."
+            }
+          }
+        }
+      ]
+    },
+    "q_choirStores": {
+      "title": "The Cult's Stores",
+      "text": "The cult has turned a burial vault into a storehouse: grain, oil, medicine, weapons, all stamped with five open mouths. Enough to outlast a siege, and wardens to guard it.",
+      "options": [
+        {
+          "label": "Burn it"
+        },
+        {
+          "label": "Carry the medicine home first",
+          "success": {
+            "2": {
+              "t": "The medicine goes up the Stair. The rest goes up in smoke."
+            }
+          },
+          "failure": {
+            "0": {
+              "t": "The wardens come back as you load up."
+            }
+          }
+        }
+      ]
+    },
+    "q_sunkenDue": {
+      "title": "The Sunken Due",
+      "text": "A strongroom where the tithe barge unloaded: coin by the chestful, tagged with family names from Kiln Row. The tide has risen around it. A cult tide-singer is trying to sing it lower.",
+      "options": [
+        {
+          "label": "Take it back"
+        },
+        {
+          "label": "Haul it out through the water",
+          "success": {
+            "2": {
+              "t": "Chest by chest, Kiln Row's money comes back up."
+            }
+          },
+          "failure": {
+            "1": {
+              "t": "The tide takes the first chest and nearly takes you with it."
+            }
+          }
+        }
+      ]
+    },
+    "q_precentor": {
+      "title": "The Precentor",
+      "text": "At the edge of a floating causeway, a silver-haired man in a plum coat sits on a folding stool, watching a golden glow below the stars. \"Ah,\" says Corvin Aldane, without turning. \"The heroes. You did splendidly, you know. Truly.\"",
+      "options": [
+        {
+          "label": "Take him",
+          "success": {
+            "0": {
+              "t": "\"Oh, very well.\" He raises his cane, and his cult rises with him."
+            }
+          }
+        },
+        {
+          "label": "\"It's over, Corvin.\"",
+          "success": {
+            "1": {
+              "t": "He looks at you for a long time. Then he hands you his cane. \"I suppose it is. For me.\""
+            }
+          },
+          "failure": {
+            "0": {
+              "t": "\"Is it?\" He smiles. His cult steps out of the dark."
+            }
+          }
+        }
+      ]
+    }
+  },
+  "chapters": {
+    "prologue": {
+      "head": "Prologue",
+      "title": "The Queen Stirs",
+      "text": [
+        "Long ago five heroes sealed Tiamat, the five-headed Dragon Queen, behind the Sixth Door. In front of it they set five lesser doors, one to bind each of her heads. They hid all six beneath the Lantern Keep and lit a lantern for every head she bore.",
+        "The lanterns are guttering. Behind the Sixth Door the Queen dreams, and each head's dreams seep out through its own door as an echo: drowned libraries, burning forges, cathedrals of glass. Each echo grows stronger while it stands.",
+        "Break the echoes and the five doors with them. Raise heroes worthy of legend. When one of them stands at the height of their power, carry the last lantern through the Sixth Door and end her reign before she wakes."
+      ]
+    },
+    "cinder": {
+      "head": "Chapter I",
+      "title": "Ash on the Wind",
+      "text": [
+        "The Deep Forge goes cold. In the silence a voice like a furnace laughs: the Red Head has noticed you.",
+        "\"Little lantern-bearers,\" it purrs. \"You have only woken me sooner.\""
+      ]
+    },
+    "rootbound": {
+      "head": "Chapter II",
+      "title": "The Green Whisper",
+      "text": [
+        "The Heartroot withers, and the spores scatter into nothing. The Green Head has lost its garden.",
+        "Back at the Keep a second lantern flares, then dims. The Queen is turning in her sleep."
+      ]
+    },
+    "drowned": {
+      "head": "Chapter III",
+      "title": "Ink and Acid",
+      "text": [
+        "The Drowned Archive drains. In its last flooded vault you find a chart of all six doors, drawn by the heroes who first sealed them.",
+        "Their margin notes say the same thing in five hands: \"Only a champion at the height of their power can stand before her.\""
+      ]
+    },
+    "mirror": {
+      "head": "Chapter IV",
+      "title": "The White Reflection",
+      "text": [
+        "The Bright Nave shatters. In every falling shard you see the same thing: a throne of hoarded gold, and five heads raised above it.",
+        "She sees you too."
+      ]
+    },
+    "starfall": {
+      "head": "Chapter V",
+      "title": "The Last Lantern",
+      "text": [
+        "The stars stop falling. All five echoes are broken, all five doors are dark, and the Queen has no more dreams to hide behind.",
+        "Only the Sixth Door remains, and it stands open. One lantern is left, and a champion of the twentieth level must carry it."
+      ]
+    },
+    "epilogue": {
+      "head": "Epilogue",
+      "title": "The Lanterns Burn Bright",
+      "text": [
+        "Tiamat falls. Her five heads breathe one last time, and then her hoard goes dark.",
+        "In the Lantern Keep every lantern blazes at once. The echoes fade into ordinary dungeons with ordinary monsters and plenty of treasure.",
+        "The Sixth Door still stands. Legends say she will rise again. When she does, the Keep will be ready."
+      ]
+    }
+  },
+  "heads": {
+    "cinder": {
+      "name": "the Red Head",
+      "breath": "fire"
+    },
+    "rootbound": {
+      "name": "the Green Head",
+      "breath": "poison"
+    },
+    "drowned": {
+      "name": "the Black Head",
+      "breath": "acid"
+    },
+    "mirror": {
+      "name": "the White Head",
+      "breath": "frost"
+    },
+    "starfall": {
+      "name": "the Blue Head",
+      "breath": "lightning"
+    }
+  },
+  "finale": {
+    "name": "The Dragon Throne",
+    "tagline": "Tiamat's hoard behind the Sixth Door.",
+    "premise": "The last echo is no dream. Tiamat waits on a throne of stolen gold, her five heads breathing fire, poison, acid, frost and lightning. Every die in her presence bends to her will.",
+    "bossRoom": "The Throne Behind the Sixth Door",
+    "bossText": "A mountain of coins shifts. Five heads rise, each a different colour, and every one of them is looking at you."
+  },
+  "doors": [
+    "First Door",
+    "Second Door",
+    "Third Door",
+    "Fourth Door",
+    "Fifth Door"
+  ],
+  "door": "Door",
+  "npcs": {
+    "bet": {
+      "name": "Bet Harrowgate",
+      "title": "Keeper of the Low Lantern"
+    },
+    "eren": {
+      "name": "Eren",
+      "title": "Courier, Provisions Office"
+    },
+    "veska": {
+      "name": "Veska",
+      "title": "Provisions Registrar"
+    },
+    "sereth": {
+      "name": "Sereth",
+      "alias": "A Healer",
+      "title": "Healer of the Dragon's Choir"
+    },
+    "corvin": {
+      "name": "Corvin Aldane",
+      "alias": "???",
+      "title": "The Aldane Expeditionary Trust"
+    },
+    "hessa": {
+      "name": "Hessa",
+      "title": "Of Kiln Row"
+    },
+    "ilo": {
+      "name": "Ilo",
+      "title": "A freed worker"
+    },
+    "maren": {
+      "name": "Maren Holt",
+      "title": "Guildmaster"
+    },
+    "ilvane": {
+      "name": "Ilvane",
+      "title": "The Chronicler"
+    },
+    "pim": {
+      "name": "Pim Ashgrove",
+      "title": "Cartographer"
+    },
+    "hulda": {
+      "name": "Hulda Stonebrace",
+      "title": "Armorer"
+    },
+    "fennick": {
+      "name": "Mother Fennick",
+      "title": "Apothecary"
+    },
+    "sabeline": {
+      "name": "Sabeline Morrow",
+      "title": "Enchanter"
+    },
+    "kost": {
+      "name": "Drillmaster Kost",
+      "title": "Training Grounds"
+    },
+    "pell": {
+      "name": "Abernathy Pell",
+      "title": "Vault Clerk"
+    }
+  },
+  "evidence": {
+    "E1": {
+      "name": "The Short Count",
+      "text": "A courier's manifest. \"Lamp oil, 40 sacks. Hardtack, 1 crate. Hands, 6. Due. Rec'd V.\"",
+      "after": "The hands carried the oil. The oil fed the lamps. The lamps watched her sleep."
+    },
+    "E2": {
+      "name": "Hessa's Tally",
+      "text": "Names and seasons in a mother's careful hand. Tarn's name is last.",
+      "after": "She kept every name. Nobody else did."
+    },
+    "E3": {
+      "name": "The Grove Roster",
+      "text": "The cult's own list of hands. The last two seasons have no return dates.",
+      "after": "Not missing. Stacking."
+    },
+    "E4": {
+      "name": "The Hymnal Page",
+      "text": "\"…avails nothing less than power, a champion at the height of…\" A lullaby, sung wrong.",
+      "after": "It is the Lullaby, sung backwards."
+    },
+    "E5": {
+      "name": "The Warden's Lamp-Glass",
+      "text": "A round amber lens from the Drowned Star's vault, set in bronze and etched with a rune of holding. Warm to the touch.",
+      "after": "A cradle. You broke four of them."
+    },
+    "E6": {
+      "name": "The Precentor's Letter",
+      "text": "\"The road is nearly clear. The heroes are doing splendidly. Keep the Keep grateful. — P.\""
+    },
+    "E7": {
+      "name": "The Reflected Charge",
+      "text": "\"Break no— dream that she is dreaming.\" The letter after \"no\" is lost under a crack.",
+      "after": "No."
+    },
+    "E8": {
+      "name": "Veska's Ledger",
+      "text": "Every hand, every season, and every return date she stopped writing.",
+      "after": "She kept the ledger. That is something."
+    },
+    "E9": {
+      "name": "The Wardens' Lullaby",
+      "text": "The full text, copied from the inside of the Sixth Door."
+    }
+  },
+  "lullaby": [
+    "Hush now, Mother of Five. We give you five dreams to keep.",
+    "To the Red, a forge that never cools, that she may rage asleep.",
+    "To the Green, a garden of the dead, that she may grow and grieve.",
+    "To the Black, a drowning library, that she may hoard and never leave.",
+    "To the White, a hall of mirrors, that she see no face but hers.",
+    "To the Blue, a sky of falling stars, that she chase what never stirs.",
+    "Light a lamp for every dream, and let the lamps burn low.",
+    "Break no dream that she is dreaming. Let no lantern-bearer go",
+    "behind the doors to end them. But should the dreaming fail,",
+    "raise a champion at the height of power, for nothing less avails."
+  ],
+  "annotations": {
+    "prologue": [
+      "The doors were hidden to keep us out, not to keep her in. We built a town on the warning and called it a fortress.",
+      "Each echo grew stronger while it stood. So does any dream, as the dreamer sinks deeper. We took her sleep for her strength."
+    ],
+    "cinder": [
+      "We recorded \"you have only woken me sooner\" as a boast. It was a statement of fact."
+    ],
+    "rootbound": [
+      "A lamp flares like that once: at the end of its wick."
+    ],
+    "drowned": [
+      "The last line of a lullaby. They were not telling us to fight her. They were telling us what we would need if someone failed to leave her be."
+    ],
+    "mirror": [
+      "Since the fourth door, she has seen everything a mirror sees. Including this page."
+    ],
+    "starfall": [
+      "We thought the dreams were where she hid. They were where we hid her."
+    ]
+  },
+  "dissent": "Before the fifth door, someone warned us. We wrote it down. We did not listen.",
+  "leads": {
+    "L0": {
+      "title": "The Short Count",
+      "brief": "Eren's supply cart is stuck on a rail cut past the First Door. The manifest is in the lockbox."
+    },
+    "L1": {
+      "title": "Kiln Row's Empty Chairs",
+      "brief": "Visit Eren's mother Hessa in Kiln Row and ask about the Due."
+    },
+    "L2": {
+      "title": "The Supply Station",
+      "brief": "The Dragon's Choir keeps a camp of its own behind the Second Door. Tarn wrote home from there once."
+    },
+    "L3": {
+      "title": "The Tithe Barge",
+      "brief": "A barge carries the Due through the Drowned Archive. Somebody is keeping its books."
+    },
+    "LE": {
+      "title": "Eren's Last Run",
+      "brief": "Eren followed the hands through the Fourth Door with no lantern. Find him before it is too late."
+    },
+    "L4": {
+      "title": "The Reflected Charge",
+      "brief": "A mirror in the Fourth Door is said to show things as they were. The Keep's gate, for instance."
+    },
+    "L5": {
+      "title": "The Throne Road",
+      "brief": "The hands carry the Due down a road of drifting stones behind the Fifth Door. Tarn is among them."
+    },
+    "M_hands": {
+      "title": "Muster: The Hands' Camp",
+      "brief": "Workers the cult abandoned are still waiting in a forge camp behind the First Door."
+    },
+    "M_stores": {
+      "title": "Muster: The Cult's Stores",
+      "brief": "Burn the Dragon's Choir's stores behind the Second Door."
+    },
+    "M_due": {
+      "title": "Muster: The Sunken Due",
+      "brief": "Bring Kiln Row's tithe back up from the Drowned Archive."
+    },
+    "M_precentor": {
+      "title": "Muster: The Precentor",
+      "brief": "Corvin Aldane waits at the edge of the Fifth Door, watching her wake."
+    }
+  },
+  "rumorSources": {
+    "dace": {
+      "name": "Dace, a frightened miner",
+      "bias": "Honest. Exaggerates danger."
+    },
+    "pellam": {
+      "name": "Ser Pellam, a boastful sellsword",
+      "bias": "Wrong about anything he didn't do himself."
+    },
+    "recruiter": {
+      "name": "A recruiter for the Dragon's Choir",
+      "bias": "Accurate facts. Wrong conclusions."
+    },
+    "clerk": {
+      "name": "A Guild clerk",
+      "bias": "Accurate on paper. Blind to what isn't."
+    },
+    "dockhand": {
+      "name": "A dockhand from the Stair",
+      "bias": "Sees everything. Understands little."
+    }
+  },
+  "rumors": {
+    "r0a": {
+      "text": "Patrol out of the First Door camp never came back. Guild says they took the long way. There is no long way."
+    },
+    "r0b": {
+      "text": "The Cinder Vaults? Walked them twice. Forge-thing at the bottom is all smoke. I'd have killed it myself if I hadn't sprained something."
+    },
+    "r0c": {
+      "text": "The Aldane Trust has posted a bounty on the Deep Forge. Four hundred gold. Generous people, the Aldanes."
+    },
+    "r1a": {
+      "text": "Saw six lads go down the Long Stair with no lanterns and no swords. Who goes down without a lantern?"
+    },
+    "r1b": {
+      "text": "Every hearth in the Keep burned too hot the night the Forge went cold. My wife's bread came out black. Coincidence, she says."
+    },
+    "r1c": {
+      "text": "Did you feel it when the Forge went cold? She stirred. That was joy, friend. That was joy."
+    },
+    "r2a": {
+      "text": "The Trust doubled the bounty on the Drowned Star. Nobody asks why a bounty needs doubling if the job's already being done."
+    },
+    "r2b": {
+      "text": "There's a barge down in the Drowned Archive, low in the water. Heavy boxes. I asked the bargeman what was in them. He said \"the Queen's Due\" and laughed."
+    },
+    "r2c": {
+      "text": "The apothecary's herbs all bloomed in one night, they say, and rotted by morning. I say it was a prank. Possibly mine."
+    },
+    "r3a": {
+      "text": "I'm not going back down. Water in my well tastes like ink. You don't have to believe me. Taste it."
+    },
+    "r3b": {
+      "text": "Three heads stirring, and the Keep still thinks it's winning. She's not dying. She's waking up and she's hungry. Pay your due."
+    },
+    "r3c": {
+      "text": "The Codex has a note about a mirror in the Fourth Door that shows places \"as they were\". Probably nonsense. Somebody filed it, though."
+    },
+    "r4a": {
+      "text": "Guild notice: \"The disturbances are the Queen's death throes. Press on.\" I wrote it. I didn't make it up. I just wrote it."
+    },
+    "r4b": {
+      "text": "Behind the Fifth Door there's a road of floating stones with coins all over it. Like someone's been dropping them for years."
+    },
+    "r4c": {
+      "text": "Frost on the inside of my window this morning. Inside! I'm not frightened. I simply prefer the window shut."
+    },
+    "r5a": {
+      "text": "Every lamp in the Keep went out but this one. Bet's. I'm not leaving this room till someone kills that thing."
+    },
+    "r5b": {
+      "text": "She's awake. She'll remember who paid her due. Will she? She'll remember. She will."
+    },
+    "r5c": {
+      "text": "The Guild has taken down every Aldane bounty. Nobody can find Master Aldane. Nobody can find most of his money either."
+    },
+    "r6a": {
+      "text": "Went down the First Door yesterday. Just a mine. Ugly, hot, ordinary mine. I could have kissed it."
+    }
+  },
+  "drinks": {
+    "houseAle": {
+      "name": "House Ale",
+      "text": "Start the next run with a Tonic token.",
+      "line": "It's beer, love. It does what beer does."
+    },
+    "kilnStout": {
+      "name": "Kiln-Row Stout",
+      "text": "The next run's first fight begins with every hero Warded.",
+      "line": "Hessa brews it. Don't tell her I water it. I don't water it."
+    },
+    "spicedMead": {
+      "name": "Spiced Mead",
+      "text": "+10% gold banked when you come home (up to +150).",
+      "line": "For people who plan on counting something later."
+    },
+    "minersTea": {
+      "name": "Miner's Tea",
+      "text": "Start the next run with a Mulligan Coin: reroll your whole tray once, free.",
+      "line": "For people who'd like to remember the stairs."
+    },
+    "cordial": {
+      "name": "Lamplighter's Cordial",
+      "text": "Start the next run with a Fate Coin.",
+      "line": "Sereth brings the herbs. Good herbs. Don't ask me who pays for them."
+    }
+  },
+  "muster": {
+    "shelter.hands": {
+      "title": "Bring the hands home",
+      "text": "Workers the cult abandoned are still waiting behind the First Door."
+    },
+    "shelter.hearths": {
+      "title": "Carry Kiln Row's hearth-flames up the Stair",
+      "text": "Hessa will not leave without the family flames, and Kiln Row will not hand them to just anyone.",
+      "need": "Kiln Row has to trust you: free the cult's workers, hear Hessa out, bring Tarn home, or return the Due."
+    },
+    "shelter.cellar": {
+      "title": "Stock the Low Lantern's cellar",
+      "text": "Food and drink for everyone sheltering here. Restores the full drink menu."
+    },
+    "break.stores": {
+      "title": "Burn the cult's stores",
+      "text": "Behind the Second Door."
+    },
+    "break.due": {
+      "title": "Recover the Due",
+      "text": "Kiln Row's tithe, sunk in the Drowned Archive."
+    },
+    "break.precentor": {
+      "title": "Take the Precentor",
+      "text": "Corvin Aldane watches from the Fifth Door.",
+      "need": "You need proof he is the Precentor: the letter signed \"P.\" (the Tithe Barge, behind the Third Door)."
+    },
+    "unite.assembly": {
+      "title": "Kiln Row's assembly",
+      "text": "Read the evidence to Kiln Row and let them decide.",
+      "need": "Needs Veska's testimony or Sereth's change of heart, and Resolve 5."
+    },
+    "unite.guild": {
+      "title": "The Guild's apology",
+      "text": "Maren Holt pulls the Aldane bounties and says so in public.",
+      "need": "Needs the assembly first, and Resolve 7."
+    },
+    "unite.light": {
+      "title": "Light the Keep",
+      "text": "Every household carries a flame from the Low Lantern to the tower.",
+      "need": "Needs the Guild's apology first, and Resolve 8."
+    }
+  },
+  "tracks": {
+    "shelter": {
+      "name": "Shelter the Keep",
+      "boon": "Provisions: the Dragon Throne run starts with 2 Tonic tokens.",
+      "cost": "The Training Grounds close while Drillmaster Kost leads the evacuation."
+    },
+    "break": {
+      "name": "Silence the Choir",
+      "boon": "Silenced Hymn: Tiamat's Chromatic Dominion spares one colour of dice (you choose which in the Cartographer).",
+      "cost": "Three hard fights, and you must first prove who the Precentor is."
+    },
+    "unite": {
+      "name": "Unite the Keep",
+      "boon": "Kindred Chorus: in the Dragon Throne, each hero's first hand scores +2 Mult.",
+      "cost": "None. It only asks what you have already done."
+    }
+  }
+}

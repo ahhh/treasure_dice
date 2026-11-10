@@ -27,7 +27,7 @@ import { autoDialogue, openDialogue, bark, staticBox } from './dialogue.ts';
 import { dispatch } from '../app/commands.ts';
 import { persist } from './app.ts';
 import { tavernOpen, heads, awakened, tiamatSlain, readyScripts, leadsFor, has, trainingClosed, questOf, trackDone, hymnColour, CHROMATIC } from '../meta/quest.ts';
-import { ANNOTATIONS, DISSENT, EVIDENCE, LULLABY, TRACKS } from '../content/quest.ts';
+import { ANNOTATIONS, dissent, EVIDENCE, LULLABY, TRACKS } from '../content/quest.ts';
 import { KEEPER_BY_TAB, NPCS } from '../content/npcs.ts';
 import { barkLine, eulogyLine, scriptTitle } from '../i18n/dialogue.ts';
 import type { Where } from '../content/dialogue.ts';
@@ -274,7 +274,7 @@ function chronicleTab(): HTMLElement {
         h('div', { class: 'chapter-head' }, `${c.head} · ${BIOMES[b].name}`),
         earned ? [banner(`story/${c.id}`, c.title), h('h2', null, c.title), ...c.text.map(para), ...notes(b)] : h('p', { class: 'muted' }, `Break ${BIOMES[b].name} to read this chapter.`));
     }),
-    has(g, 'warned') ? h('div', { class: 'win chronicle' }, h('div', { class: 'chapter-head' }, 'A Dissent, entered before the Fifth Door'), h('p', { class: 'prose' }, 'A Keeper of this house warned that the Doors were never meant to be broken. The Guild read the warning and pressed on.'), ...(awakened(g) ? [h('p', { class: 'prose annotation' }, `✒ ${DISSENT}`)] : [])) : null,
+    has(g, 'warned') ? h('div', { class: 'win chronicle' }, h('div', { class: 'chapter-head' }, 'A Dissent, entered before the Fifth Door'), h('p', { class: 'prose' }, 'A Keeper of this house warned that the Doors were never meant to be broken. The Guild read the warning and pressed on.'), ...(awakened(g) ? [h('p', { class: 'prose annotation' }, `✒ ${dissent()}`)] : [])) : null,
     awakened(g) ? h('div', { class: 'win chronicle' }, banner('story/lullaby', "The Wardens' Lullaby"), h('div', { class: 'chapter-head' }, 'Copied from the inside of the Sixth Door'), h('h2', null, "The Wardens' Lullaby"), ...LULLABY.map((l) => h('p', { class: 'prose lullaby' }, l))) : null,
     h('div', { class: 'win chronicle finale-win' },
       h('div', { class: 'chapter-head' }, 'The Final Stage'),

@@ -19,17 +19,19 @@ export const LOCALES: { code: string; name: string }[] = [
   { code: 'en', name: 'English' },
 ];
 
-const eager = import.meta.glob<Catalog>('../locales/en/*.json', { eager: true, import: 'default' });
-const lazy = import.meta.glob<Catalog>(['../locales/*/*.json', '!../locales/en/*.json'], { import: 'default' });
+// English is imported statically (not via import.meta.glob) so content modules that bind
+// their text also load under plain Node (scripts/sim.ts, playtest). Add new namespaces here.
+import enDialogue from '../locales/en/dialogue.json' with { type: 'json' };
+import enStory from '../locales/en/story.json' with { type: 'json' };
+
+/** Other languages: one lazy chunk per file. Vite rewrites this call; under plain Node it doesn't exist. */
+let lazy: Record<string, () => Promise<Catalog>> = {};
+try { lazy = import.meta.glob<Catalog>(['../locales/*/*.json', '!../locales/en/*.json'], { import: 'default' }); } catch { /* node: English only */ }
 
 const nsOf = (path: string) => /\/locales\/([^/]+)\/([^/]+)\.json$/.exec(path);
 
 /** catalogs[lang][namespace] */
-const catalogs: Record<string, Record<string, Catalog>> = { en: {} };
-for (const [path, data] of Object.entries(eager)) {
-  const m = nsOf(path);
-  if (m) catalogs.en[m[2]] = data;
-}
+const catalogs: Record<string, Record<string, Catalog>> = { en: { dialogue: enDialogue, story: enStory } };
 
 let current = SOURCE_LOCALE;
 const listeners = new Set<() => void>();
@@ -57,6 +59,41 @@ export async function setLocale(lang: string): Promise<void> {
   current = lang;
   if (typeof document !== 'undefined') document.documentElement.lang = lang;
   for (const fn of listeners) fn();
+}
+
+/**
+ * Give `target` live getters for every string the English catalog has at `path`,
+ * creating nested objects/arrays it lacks. Content tables keep their structure in
+ * code and read their words from the current language: `EVENTS.x.title` just works.
+ */
+export function bindText<T extends object>(target: T, ns: string, path: readonly string[]): T {
+  const src = dig(catalogs.en[ns], path);
+  if (!src || typeof src !== 'object') return target;
+  const tgt = target as Record<string, unknown>;
+  for (const [k, v] of Object.entries(src)) {
+    if (typeof v === 'string') {
+      Object.defineProperty(tgt, k, { get: () => text(ns, [...path, k]), enumerable: true, configurable: true });
+    } else if (v && typeof v === 'object') {
+      if (!tgt[k] || typeof tgt[k] !== 'object') tgt[k] = Array.isArray(v) ? [] : {};
+      bindText(tgt[k] as object, ns, [...path, k]);
+    }
+  }
+  return target;
+}
+
+/**
+ * `T` without its text fields `K`, recursively: the shape a content table is written in
+ * when its words live in a locale file (`textTable` / `bindText` put them back as getters).
+ */
+export type Textless<T, K extends PropertyKey> =
+  T extends (...a: never[]) => unknown ? T
+    : T extends readonly (infer U)[] ? Textless<U, K>[]
+      : T extends object ? { [P in keyof T as P extends K ? never : P]: Textless<T[P], K> }
+        : T;
+
+/** A content table written without its words; they come from `ns` at `path` (see bindText). */
+export function textTable<T extends object, K extends PropertyKey>(ns: string, path: readonly string[], data: Textless<T, K>): T {
+  return bindText(data as unknown as T, ns, path);
 }
 
 /** Re-render hook: called after the language changes. */
