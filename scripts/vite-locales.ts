@@ -1,5 +1,5 @@
 /**
- * Dev-server-only API that lets the in-browser text editor (dev/text.html)
+ * Dev-server-only API that lets the in-browser text editor (npm run text, text-editor/)
  * read and write src/locales/<lang>/<namespace>.json on disk.
  *
  *   GET  /__locales                 → { langs: { en: ['dialogue'], fr: [...] } }

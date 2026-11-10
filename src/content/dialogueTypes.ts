@@ -1,7 +1,7 @@
 /**
  * Dialogue script types and the `chain` helper. Scripts are data, not code, so they can be linted and replayed.
  * Scripts hold structure only; their words live in src/locales/<lang>/dialogue.json,
- * keyed by script id and node id (edit them with the dev editor: npm run dev → /dev/text.html).
+ * keyed by script id and node id (edit them with the text editor: npm run text).
  * Text markup: `|` is a beat pause, {keeper} the Keeper's name, {hero} the
  * hero who just rolled, {best:<skill>} the roster hero best at a skill.
  */

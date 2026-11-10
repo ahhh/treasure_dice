@@ -7,10 +7,12 @@ anything a translation hasn't covered. Other languages load on demand.
 ## Editing text
 
 ```
-npm run text        # dev server + opens /dev/text.html
+npm run text        # standalone editor at http://localhost:5180 (opens in your browser)
 ```
 
-The editor covers:
+It is its own app (`text-editor/vite.config.ts`), separate from the game's dev server, so you
+never have to play to reach a line. Tabs along the top split the text by kind; the sidebar lists
+every entry in that tab. The editor covers:
 
 - **Dialogue** (`dialogue.json`): every scene by place, keeper barks, Tiamat's heads, the
   eulogy. Each line shows the speaker's portrait for that mood, their description, when the
@@ -29,12 +31,26 @@ The editor covers:
   and the tutorial, one section per source file. Each string shows its key, the file and line
   that uses it and the code around it (from src/dev/ui-context.json).
 
-Edit, then **Save** (⌘S): the JSON on disk changes, an open game tab swaps the new text in
-without reloading, and the editor keeps your place. Commit the file as usual. Link straight
-to an entry with its id: `/dev/text.html#event:q_stalledCart`, `#evidence`, `#script:bet.intro`.
+Edit, then **Save** (⌘S): the JSON on disk changes, an open game tab (`npm run dev`) swaps the
+new text in without reloading, and the editor keeps your place. Commit the file as usual. Link
+straight to an entry with its id: `localhost:5180/#event:q_stalledCart`, `#evidence`,
+`#script:bet.intro`.
 
-The editor only exists on the dev server (`scripts/vite-locales.ts`, `apply: 'serve'`); it is
-not in the production build.
+### Reviewing for slop
+
+- **Step through everything:** `j`/`k` (or Alt+↓/↑ while typing) move to the next/previous
+  entry, across tabs. `/` focuses search; search covers all tabs at once.
+- **Mark reviewed:** ⌘↵ marks the entry reviewed and moves on. Marks are saved to
+  `text-editor/review.json` with a hash of the entry's text: edit it later and it shows ● (changed
+  since review) instead of ✓. The top bar and each tab count what's reviewed.
+- **Flagged phrases:** anything matching `text-editor/slop-phrases.json` (em dashes, “tapestry”,
+  “not just X but Y”, “a sense of”…) is highlighted in place, with a chip under the box (click it
+  to select the phrase). The sidebar shows ⚑ counts; the **⚑ Flagged** filter lists only entries
+  with hits, **To review** only those not yet marked. Edit the JSON to tune the list: each entry
+  is a case-insensitive regex and a reason.
+
+The editor only exists as a dev server (`scripts/vite-locales.ts`, `scripts/vite-review.ts`,
+`apply: 'serve'`); it is not in the production build.
 
 ## Choosing a language
 

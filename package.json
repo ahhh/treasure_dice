@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "text": "vite --open /dev/text.html",
+    "text": "vite --config text-editor/vite.config.ts",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",

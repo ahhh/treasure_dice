@@ -1,17 +1,23 @@
 /**
- * Text editor (dev server only: `npm run text`, or /dev/text.html under `npm run dev`).
+ * Text editor: a standalone dev app (`npm run text`, text-editor/vite.config.ts).
  *
  * Every player-facing word that lives in src/locales, shown with its context:
  * dialogue scenes (speaker, portrait, mood, when a line plays, where choices
  * lead), room events (scene art, checks, outcomes), the chronicle, people,
- * leads, evidence, rumours, drinks and the Muster. Save writes
- * src/locales/<lang>/<namespace>.json through the dev server
- * (scripts/vite-locales.ts), ready to commit; the game tab reloads.
+ * leads, evidence, rumours, drinks and the Muster, game data and interface.
+ * Save writes src/locales/<lang>/<namespace>.json through the dev server
+ * (scripts/vite-locales.ts), ready to commit; an open game tab swaps the text in.
+ *
+ * Review: step through every entry (Alt+↓/↑ or j/k), mark it reviewed (⌘↵ marks
+ * and moves on). Marks are stored with a hash of the entry's text in
+ * text-editor/review.json, so an entry edited later shows as changed. Phrases in
+ * text-editor/slop-phrases.json are highlighted in place.
  *
  * Pick another language to translate: English shows above each box, and any
  * box left empty falls back to English in game.
  */
 import './editor.css';
+import slopPhrases from '../../text-editor/slop-phrases.json';
 import { h, clear } from '../ui/dom.ts';
 import { art, hasArt, loadManifest } from '../ui/art.ts';
 import { SCRIPTS, type Script, type DlgNode } from '../content/dialogue.ts';
@@ -121,15 +127,16 @@ async function save() {
   const files: string[] = [];
   try {
     for (const ns of dirtyNs()) {
-      const r = await api(`/${st.lang}/${ns}`, { method: 'PUT', body: JSON.stringify(payload(ns)) });
+      await api(`/${st.lang}/${ns}`, { method: 'PUT', body: JSON.stringify(payload(ns)) });
       st.saved[ns] = JSON.stringify(payload(ns));
       if (st.lang === 'en') st.en[ns] = clone(st.work[ns]);
-      files.push(r.file);
+      files.push(`src/locales/${st.lang}/${ns}.json`);
     }
     if (!st.langs[st.lang]) st.langs[st.lang] = [...NAMESPACES];
     st.status = files.length ? `Saved ${files.join(', ')}` : st.status;
     st.error = false;
-  } catch (e) { st.status = `Save failed: ${(e as Error).message}`; st.error = true; }
+    if (files.length) toast(st.status);
+  } catch (e) { st.status = `Save failed: ${(e as Error).message}`; st.error = true; toast(st.status, true); }
   renderBar();
 }
 
@@ -145,21 +152,58 @@ const open = (key: string, label: string) => h('a', { class: 'jump', href: '#', 
 
 function grow(t: HTMLTextAreaElement) { t.style.height = 'auto'; t.style.height = `${t.scrollHeight + 2}px`; }
 
+// ── slop phrases ────────────────────────────────────────────────────────────
+
+interface Hit { start: number; end: number; text: string; why: string }
+const PHRASES = (slopPhrases as { match: string; why: string }[]).flatMap((p) => {
+  try { return [{ re: new RegExp(p.match, 'giu'), why: p.why }]; } catch { console.warn('[text editor] bad slop pattern', p.match); return []; }
+});
+
+function slop(text: string): Hit[] {
+  const hits: Hit[] = [];
+  for (const p of PHRASES) for (const m of text.matchAll(p.re)) if (m[0]) hits.push({ start: m.index, end: m.index + m[0].length, text: m[0].trim(), why: p.why });
+  hits.sort((a, b) => a.start - b.start);
+  return hits.filter((x, i) => i === 0 || x.start >= hits[i - 1].end);
+}
+
+const esc = (s: string) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]!);
+function marked(text: string, hits: Hit[]): string {
+  let out = '', at = 0;
+  for (const x of hits) { out += esc(text.slice(at, x.start)) + `<mark>${esc(text.slice(x.start, x.end))}</mark>`; at = x.end; }
+  return out + esc(text.slice(at)) + '\n';
+}
+
 /** One editable string. In a translation, English sits above and an empty box falls back to it. */
 function field(ns: Ns, path: Path, opts: { label?: string; rows?: number } = {}): HTMLElement {
   const en = getAt(st.en[ns], path);
   const cur = getAt(st.work[ns], path);
+  const hl = h('div', { class: 'hl', 'aria-hidden': 'true' });
+  const flags = h('div', { class: 'flags' });
   const ta = h('textarea', {
     rows: opts.rows ?? 2, spellcheck: true, lang: st.lang,
     placeholder: st.lang === 'en' ? '' : 'Untranslated: the game shows English',
-    on: { input: (e: Event) => { const t = e.target as HTMLTextAreaElement; setAt(st.work[ns], path, t.value); grow(t); wrap.classList.toggle('missing', st.lang !== 'en' && !t.value); renderBar(); renderSide(); } },
+    on: { input: (e: Event) => {
+      const t = e.target as HTMLTextAreaElement;
+      setAt(st.work[ns], path, t.value); grow(t); paint();
+      wrap.classList.toggle('missing', st.lang !== 'en' && !t.value);
+      edited();
+    } },
   });
   ta.value = typeof cur === 'string' ? cur : '';
-  requestAnimationFrame(() => grow(ta));
+  const paint = () => {
+    const hits = slop(ta.value);
+    hl.innerHTML = marked(ta.value, hits);
+    clear(flags);
+    flags.append(...hits.map((x) => h('button', { class: 'flag', title: 'Select it', on: { click: () => { ta.focus(); ta.setSelectionRange(x.start, x.end); } } }, `⚑ “${x.text}” · ${x.why}`)));
+    wrap.classList.toggle('flagged', hits.length > 0);
+  };
   const wrap = h('div', { class: `field ${st.lang !== 'en' && !ta.value ? 'missing' : ''}` },
-    opts.label ? h('div', { class: 'flabel' }, opts.label) : null,
+    opts.label ? h('label', null, opts.label) : null,
     st.lang !== 'en' && typeof en === 'string' ? h('div', { class: 'ref', lang: 'en' }, en) : null,
-    ta);
+    h('div', { class: 'ta' }, hl, ta),
+    flags);
+  paint();
+  requestAnimationFrame(() => grow(ta));
   return wrap;
 }
 /** Fields for whichever of these keys English has at `path`. */
@@ -504,14 +548,15 @@ const uiView = (section: string) => {
     }));
 };
 
-// ── layout ──────────────────────────────────────────────────────────────────
+// ── entries ─────────────────────────────────────────────────────────────────
 
-interface Entry { key: string; label: string; sub: string; parts: [Ns, Path][]; search: string }
+/** One sidebar row: a scene, an event, a table… `group` is "Mode · subgroup". */
+interface Entry { key: string; group: string; label: string; sub: string; parts: [Ns, Path][]; search: string }
 
 const words = (parts: [Ns, Path][]) => parts.map(([ns, p]) => `${JSON.stringify(getAt(st.en[ns], p) ?? '')} ${JSON.stringify(getAt(st.work[ns], p) ?? '')}`).join(' ');
 
-function entries(): { group: string; items: Entry[] }[] {
-  const groups = new Map<string, Entry[]>();
+function entries(): Entry[] {
+  const groups = new Map<string, Omit<Entry, 'group'>[]>();
   const add = (g: string, key: string, label: string, sub: string, parts: [Ns, Path][], extra = '') =>
     groups.set(g, [...(groups.get(g) ?? []), { key, label, sub, parts, search: `${key} ${label} ${sub} ${extra} ${words(parts)}` }]);
   const title = (ns: Ns, p: Path, fallback: string) => String(getAt(st.work[ns], p) || getAt(st.en[ns], p) || fallback);
@@ -551,33 +596,159 @@ function entries(): { group: string; items: Entry[] }[] {
   for (const [k, [label, path]] of Object.entries(GAME_TABLES)) add('Game · tables', `table:${k}`, label, path.join('.'), [[G, path]]);
   for (const [k, [title, , paths]] of Object.entries(LOOSE)) add('Game · tables', `loose:${k}`, title, '', paths.map((p) => [G, p] as [Ns, Path]));
   for (const sec of Object.keys(st.en[U] ?? {})) add('Interface', `ui:${sec}`, pretty(sec), sourceFile(sec), [[U, [sec]]]);
-  const q = st.q.trim().toLowerCase();
-  return [...groups.entries()].map(([group, items]) => ({ group, items: q ? items.filter((e) => e.search.toLowerCase().includes(q)) : items })).filter((g) => g.items.length);
+  return [...groups.entries()].flatMap(([group, items]) => items.map((e) => ({ ...e, group })));
 }
 
-const side = h('aside', { class: 'side' });
-const main = h('main', { class: 'main' });
-const bar = h('header', { class: 'bar' });
+const MODES = ['Dialogue', 'Events', 'Story', 'Quest', 'Game', 'Interface'];
+const modeOf = (e: Entry) => e.group.split(' · ')[0];
+const subOf = (e: Entry) => e.group.split(' · ')[1] ?? (e.group === 'Interface' ? 'Source files' : e.group);
+
+// ── review ledger and flags ─────────────────────────────────────────────────
+
+/** language → entry key → hash of the entry's text when it was marked reviewed. */
+let ledger: Record<string, Record<string, string>> = {};
+type RState = 'new' | 'done' | 'changed';
+
+function hash(s: string): string { let x = 5381; for (let i = 0; i < s.length; i++) x = ((x * 33) ^ s.charCodeAt(i)) >>> 0; return x.toString(36); }
+const textOf = (e: Entry) => e.parts.map(([ns, p]) => JSON.stringify(getAt(st.work[ns], p) ?? null)).join('\n');
+
+function reviewState(e: Entry): RState {
+  const r = ledger[st.lang]?.[e.key];
+  return !r ? 'new' : r === hash(textOf(e)) ? 'done' : 'changed';
+}
+
+async function setReviewed(e: Entry, on: boolean) {
+  const mine = (ledger[st.lang] ??= {});
+  if (on) mine[e.key] = hash(textOf(e)); else delete mine[e.key];
+  try {
+    const r = await fetch('/__review', { method: 'PUT', body: JSON.stringify(ledger) });
+    if (!r.ok) throw new Error(r.statusText);
+  } catch (err) { toast(`Couldn't save review marks: ${(err as Error).message}`, true); }
+}
+
+const flagCache = new Map<string, number>();
+function flagCount(e: Entry): number {
+  let n = flagCache.get(e.key);
+  if (n === undefined) {
+    n = 0;
+    for (const [ns, p] of e.parts) for (const q of leaves(getAt(st.work[ns], p), p)) n += slop(getAt(st.work[ns], q) as string).length;
+    flagCache.set(e.key, n);
+  }
+  return n;
+}
+
+// ── layout ──────────────────────────────────────────────────────────────────
+
+type Filter = 'all' | 'todo' | 'flagged';
+const ui = { all: [] as Entry[], mode: 'Dialogue', filter: 'all' as Filter, lastInMode: {} as Record<string, string> };
+
+const topbar = h('header', { class: 'topbar' });
+const sideHead = h('div');
+const search = h('input', {
+  type: 'search', placeholder: 'Search all text, speakers, ids…  ( / )',
+  on: {
+    input: (e: Event) => { st.q = (e.target as HTMLInputElement).value; renderBar(); renderSide(); },
+    keydown: (e: Event) => { if ((e as KeyboardEvent).key === 'Escape') (e.target as HTMLInputElement).blur(); },
+  },
+});
+const nav = h('nav');
+const side = h('aside', { class: 'sidebar' }, h('div', { class: 'section' }, sideHead, search, nav));
+const toolbar = h('div', { class: 'toolbar' });
+const content = h('div', { class: 'content' });
+const pane = h('main', { class: 'editor' }, toolbar, content);
+
+const current = () => ui.all.find((e) => e.key === st.sel);
+
+function matches(e: Entry): boolean {
+  if (ui.filter === 'todo' && reviewState(e) === 'done') return false;
+  if (ui.filter === 'flagged' && !flagCount(e)) return false;
+  const q = st.q.trim().toLowerCase();
+  return !q || e.search.toLowerCase().includes(q);
+}
 
 function select(key: string) {
   st.sel = key;
+  const e = current();
+  if (e) { ui.mode = modeOf(e); ui.lastInMode[ui.mode] = key; }
   try { history.replaceState(null, '', `#${encodeURIComponent(key)}`); } catch { /* ignore */ }
-  renderSide();
-  renderMain();
-  main.scrollTop = 0;
+  renderBar(); renderSide(); renderToolbar(); renderMain();
+  content.scrollTop = 0;
+  nav.querySelector('.map-row.selected')?.scrollIntoView({ block: 'nearest' });
+}
+
+function setMode(m: string) {
+  if (st.q) { st.q = ''; search.value = ''; }
+  const inMode = ui.all.filter((e) => modeOf(e) === m);
+  const pick = ui.lastInMode[m] ?? (inMode.find(matches) ?? inMode[0])?.key;
+  if (pick) select(pick);
+}
+
+/** Move to the next/previous entry that passes the search and filter, across modes. */
+function step(dir: 1 | -1) {
+  const i = ui.all.findIndex((e) => e.key === st.sel);
+  for (let j = i + dir; j >= 0 && j < ui.all.length; j += dir) if (matches(ui.all[j])) return select(ui.all[j].key);
+  toast(dir > 0 ? 'That was the last entry.' : 'That was the first entry.');
+}
+
+async function markAndNext() {
+  const e = current();
+  if (!e) return;
+  await setReviewed(e, true);
+  renderBar(); renderSide(); renderToolbar();
+  step(1);
+}
+
+/** After a keystroke in a field: refresh counts and marks once per frame. */
+let pending = 0;
+function edited() {
+  flagCache.delete(st.sel);
+  if (pending) return;
+  pending = requestAnimationFrame(() => { pending = 0; ui.all = entries(); renderBar(); renderSide(); renderToolbar(); });
 }
 
 function renderSide() {
-  const list = h('nav', null, ...entries().map(({ group, items }) => h('div', { class: 'group' },
-    h('div', { class: 'gname' }, group),
-    ...items.map((e) => {
-      const [done, total] = st.lang === 'en' ? [0, 0] : progress(e.parts);
-      return h('button', { class: `item ${st.sel === e.key ? 'on' : ''}`, on: { click: () => select(e.key) } },
-        h('span', { class: 'grow' }, h('span', { class: 'ilabel' }, e.label), h('span', { class: 'isub' }, e.sub)),
-        st.lang !== 'en' ? h('span', { class: `badge ${done === total ? 'done' : ''}` }, `${done}/${total}`) : null);
-    }))));
-  const old = side.querySelector('nav');
-  if (old) side.replaceChild(list, old); else side.append(list);
+  const q = st.q.trim();
+  const list = ui.all.filter((e) => (q || modeOf(e) === ui.mode) && matches(e));
+  clear(sideHead);
+  sideHead.append(
+    h('h2', null, q ? `Matches (${list.length})` : `${ui.mode} (${list.length})`),
+    h('div', { class: 'seg' }, ...([['all', 'All'], ['todo', 'To review'], ['flagged', '⚑ Flagged']] as [Filter, string][]).map(([f, label]) =>
+      h('button', { class: ui.filter === f ? 'active' : '', on: { click: () => { ui.filter = f; renderSide(); } } }, label))));
+  clear(nav);
+  let group = '';
+  for (const e of list) {
+    const g = q ? e.group : subOf(e);
+    if (g !== group) { group = g; nav.append(h('div', { class: 'list-group' }, g)); }
+    const rs = reviewState(e);
+    const fl = flagCount(e);
+    const [done, total] = st.lang === 'en' ? [0, 0] : progress(e.parts);
+    nav.append(h('div', { class: `map-row ${st.sel === e.key ? 'selected' : ''}`, on: { click: () => select(e.key) } },
+      h('div', { class: 'grow' }, h('div', null, e.label), h('div', { class: 'id' }, e.sub)),
+      h('div', { class: 'marks' },
+        st.lang !== 'en' ? h('span', { class: `badge ${done === total ? 'done' : ''}` }, `${done}/${total}`) : null,
+        fl ? h('span', { class: 'badge flag', title: `${fl} flagged phrase${fl > 1 ? 's' : ''}` }, `⚑${fl}`) : null,
+        h('span', { class: `rv ${rs}`, title: rs === 'done' ? 'Reviewed' : rs === 'changed' ? 'Changed since it was reviewed' : 'Not reviewed' }, rs === 'done' ? '✓' : rs === 'changed' ? '●' : ''))));
+  }
+  if (!list.length) nav.append(h('div', { class: 'empty' }, ui.filter === 'todo' ? 'All reviewed.' : 'Nothing matches.'));
+}
+
+function renderToolbar() {
+  clear(toolbar);
+  const e = current();
+  if (!e) return;
+  const rs = reviewState(e);
+  const fl = flagCount(e);
+  toolbar.append(
+    h('button', { title: 'Previous (k or Alt+↑)', on: { click: () => step(-1) } }, '‹ Prev'),
+    h('button', { title: 'Next (j or Alt+↓)', on: { click: () => step(1) } }, 'Next ›'),
+    h('span', { class: 'crumb' }, `${e.group} › `, h('b', null, e.label)),
+    fl ? h('span', { class: 'badge flag' }, `⚑ ${fl} flagged`) : '',
+    rs === 'changed' ? h('span', { class: 'badge changed' }, 'changed since review') : '',
+    h('span', { class: 'spacer' }),
+    h('span', { class: 'legend' }, 'j/k next/prev · ⌘↵ reviewed + next · / search · ⌘S save'),
+    rs === 'done'
+      ? h('button', { class: 'active', title: 'Click to unmark', on: { click: async () => { await setReviewed(e, false); renderBar(); renderSide(); renderToolbar(); } } }, '✓ Reviewed')
+      : h('button', { class: 'primary', title: 'Mark reviewed and go to the next entry (⌘↵)', on: { click: () => void markAndNext() } }, 'Mark reviewed ⌘↵'));
 }
 
 const VIEWS: Record<string, () => HTMLElement> = {
@@ -586,19 +757,19 @@ const VIEWS: Record<string, () => HTMLElement> = {
 };
 
 function renderMain() {
-  clear(main);
+  clear(content);
   const [kind, id] = st.sel.split(/:(.*)/s);
   const s = kind === 'script' ? SCRIPTS.find((x) => x.id === id) : undefined;
   const e = kind === 'event' ? EVENTS[id] : undefined;
   const gameKinds = ['biome', 'items', 'monsters', 'spells', 'class', 'charms', 'table'];
-  main.append(s ? scriptView(s) : e ? eventView(e) : kind === 'barks' ? barksView(id) : kind === 'ui' ? uiView(id) : gameKinds.includes(kind) ? gameView(kind, id) : kind === 'loose' ? looseView(id) : VIEWS[kind]?.() ?? h('p', null, 'Pick something on the left.'));
+  content.append(s ? scriptView(s) : e ? eventView(e) : kind === 'barks' ? barksView(id) : kind === 'ui' ? uiView(id) : gameKinds.includes(kind) ? gameView(kind, id) : kind === 'loose' ? looseView(id) : VIEWS[kind]?.() ?? h('div', { class: 'empty' }, 'Pick an entry on the left.'));
 }
 
 function renderBar() {
-  clear(bar);
+  clear(topbar);
   const dirty = dirtyNs();
-  const [done, total] = st.lang === 'en' ? [0, 0] : progress(NAMESPACES.map((ns) => [ns, []]));
-  const sel = h('select', { on: { change: async (e: Event) => {
+  const q = st.q.trim();
+  const sel = h('select', { title: 'Language', on: { change: async (e: Event) => {
     const t = e.target as HTMLSelectElement;
     let lang = t.value;
     if (lang === '+') {
@@ -607,32 +778,62 @@ function renderBar() {
     }
     if (dirtyNs().length && !confirm('Discard unsaved changes?')) { t.value = st.lang; return; }
     await loadLang(lang);
+    flagCache.clear();
     renderAll();
   } } },
   ...[...new Set([...Object.keys(st.langs), st.lang])].sort((a, b) => (a === 'en' ? -1 : b === 'en' ? 1 : a.localeCompare(b))).map((l) => h('option', { value: l, selected: l === st.lang }, l === 'en' ? 'en (source)' : l)),
   h('option', { value: '+' }, '+ New language…'));
-  bar.append(
-    h('b', null, 'Text editor'),
-    sel,
-    st.lang !== 'en' ? h('span', { class: 'muted' }, `${done}/${total} translated`) : h('span', { class: 'muted' }, 'Markup: | pause · {keeper} · {hero} · {best:skill}'),
+  const reviewed = ui.all.filter((e) => reviewState(e) === 'done').length;
+  const flags = ui.all.reduce((n, e) => n + flagCount(e), 0);
+  const [done, total] = st.lang === 'en' ? [0, 0] : progress(NAMESPACES.map((ns) => [ns, []]));
+  topbar.append(...[
+    h('h1', null, 'Treasure Dice · Text Editor'),
+    h('div', { class: 'mode-tabs' }, ...MODES.map((m) => {
+      const es = ui.all.filter((e) => modeOf(e) === m);
+      const d = es.filter((e) => reviewState(e) === 'done').length;
+      return h('button', { class: !q && ui.mode === m ? 'active' : '', on: { click: () => setMode(m) } }, m, h('span', { class: 'count' }, ` ${d}/${es.length}`));
+    })),
     h('span', { class: 'spacer' }),
-    h('span', { class: st.error ? 'err' : 'muted' }, dirty.length ? `Unsaved: ${dirty.map((ns) => `${st.lang}/${ns}.json`).join(', ')}` : st.status),
-    h('button', { class: `save ${dirty.length ? 'dirty' : ''}`, disabled: !dirty.length, on: { click: () => void save() } }, 'Save'));
+    h('span', { class: 'meta' }, `reviewed ${reviewed}/${ui.all.length} · ⚑ ${flags}`, st.lang !== 'en' ? ` · ${done}/${total} translated` : ''),
+    sel,
+    dirty.length || st.error ? h('span', { class: st.error ? 'meta err' : 'meta' }, dirty.length ? `unsaved: ${dirty.map((ns) => `${st.lang}/${ns}.json`).join(', ')}` : st.status) : null,
+    h('button', { class: dirty.length ? 'primary' : '', disabled: !dirty.length, title: '⌘S', on: { click: () => void save() } }, 'Save')].filter((x) => x !== null));
 }
 
 function renderAll() {
+  ui.all = entries();
+  if (!current() && ui.all.length) st.sel = ui.all[0].key;
+  const e = current();
+  if (e) { ui.mode = modeOf(e); ui.lastInMode[ui.mode] = e.key; }
+  search.value = st.q;
   clear(root);
-  clear(side);
-  side.append(h('input', { type: 'search', placeholder: 'Search text, speaker, id…', value: st.q, on: { input: (e: Event) => { st.q = (e.target as HTMLInputElement).value; renderSide(); } } }));
-  renderSide();
-  renderMain();
-  renderBar();
-  root.append(bar, h('div', { class: 'cols' }, side, main));
-  side.querySelector('.item.on')?.scrollIntoView({ block: 'center' });
+  root.append(topbar, h('div', { class: 'main' }, side, pane));
+  renderBar(); renderSide(); renderToolbar(); renderMain();
+  nav.querySelector('.map-row.selected')?.scrollIntoView({ block: 'center' });
+}
+
+let toastTimer = 0;
+function toast(text: string, error = false) {
+  let t = document.querySelector<HTMLDivElement>('.toast');
+  if (!t) { t = h('div'); document.body.append(t); }
+  t.className = `toast ${error ? 'error' : ''}`;
+  t.textContent = text;
+  clearTimeout(toastTimer);
+  toastTimer = window.setTimeout(() => t.remove(), 3500);
 }
 
 document.addEventListener('keydown', (e) => {
-  if ((e.metaKey || e.ctrlKey) && e.key === 's') { e.preventDefault(); if (dirtyNs().length) void save(); }
+  const t = e.target;
+  const typing = t instanceof HTMLTextAreaElement || t instanceof HTMLInputElement || t instanceof HTMLSelectElement;
+  const cmd = e.metaKey || e.ctrlKey;
+  if (cmd && e.key === 's') { e.preventDefault(); if (dirtyNs().length) void save(); }
+  else if (cmd && e.key === 'Enter') { e.preventDefault(); void markAndNext(); }
+  else if (e.altKey && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) { e.preventDefault(); step(e.key === 'ArrowDown' ? 1 : -1); }
+  else if (!typing && !cmd && !e.altKey) {
+    if (e.key === 'j') step(1);
+    else if (e.key === 'k') step(-1);
+    else if (e.key === '/') { e.preventDefault(); search.focus(); }
+  }
 });
 window.addEventListener('beforeunload', (e) => { if (dirtyNs().length) e.preventDefault(); });
 
@@ -641,6 +842,7 @@ async function boot() {
   try {
     const [{ langs }] = await Promise.all([api(''), loadManifest()]);
     st.langs = langs;
+    ledger = await fetch('/__review').then((r) => r.json());
     for (const ns of NAMESPACES) st.en[ns] = await api(`/en/${ns}`);
     const want = new URLSearchParams(location.search).get('lang');
     await loadLang(want && langs[want] ? want : 'en');
@@ -648,7 +850,7 @@ async function boot() {
     if (hash) st.sel = hash;
     renderAll();
   } catch (e) {
-    root.textContent = `The editor needs the dev server (npm run text). ${(e as Error).message}`;
+    root.textContent = `The editor needs its dev server: run npm run text. (${(e as Error).message})`;
   }
 }
 void boot();

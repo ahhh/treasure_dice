@@ -3,21 +3,21 @@
     "bet.intro": {
       "title": "Last orders",
       "lines": {
-        "a0": "You're the new Keeper. Thought you'd be taller.| Sit anywhere that isn't wet.",
-        "a1": "See that shelf? One candle for every party that goes down the Stair. I light it when you leave.| I pinch it out when you come home.",
+        "a0": "So, you're the new Keeper. You don't look like a keeper, but then again, they never look how I expect.| Sit anywhere that isn't wet.",
+        "a1": "See that shelf? I set out a magic candle for every party member that goes down the Stair. I light it when you leave.| I pinch it out when you come home.",
         "a2": "That's the deal. You come home, I pinch it out. Don't make me wait.",
         "a3": "At the next table, a clatter of dice and a groan.",
-        "a4": "That's — no. No, that's a four. That's clearly a four if you're standing over here.",
+        "a4": "Let's play some dice! C'mon, papa needs a new pair of shoes!",
         "a5": "That's Eren. He runs crates down the Doors for the Provisions Office. He has never once won at dice.",
-        "a6": "Statistically, Bet, that means I'm due.| Hello! You're the Keeper. Could your heroes lend a man two silver? For science.",
-        "lend": "A patron of the sciences!| ...And it's gone. Science is hard.",
+        "a6": "Statistically, Bet, that means I'm due for a win.| Hello! You're the Keeper. Could your heroes lend a man two silver? I gotta win one of these rounds!",
+        "lend": "Thanks chum!| ...And it's gone. Damn my luck!",
         "refuse": "Fair. Wise. Cruel, but wise.",
-        "loaded": "They're what?| ...Oh, that's why I keep — Joss! JOSS!",
-        "b0": "Say, are you going through the First Door? There's a cart of mine stuck on the rail cut past the gate. Bad wheel. The manifest's in the lockbox.",
-        "b1": "Count was off on the last run, too. Forty sacks of oil, a crate of hardtack, and six of something I never loaded.| Probably nothing. Clerk's hand.",
+        "loaded": "They're what?| ...Oh, that's why I keep losing! I knew I wasn't this unlucky. Joss! JOSS!",
+        "b0": "Say, are you going through the First Door? There's a cart of mine stuck on the rail cut past the gate. The wheel broke so I chained it up. The manifest's in the lockbox.",
+        "b1": "Count was off on the last run, too. Forty sacks of oil, a crate of hardtack, and six bags of rice.| Can't tell where the extra rice was lifted, but we felt the loss for sure.",
         "b2": "Bring me that manifest and I owe you a drink. Bet, write that down.",
-        "b3": "I don't do credit.",
-        "b4": "She does credit."
+        "b3": "You still owe me for the last team you sent down there!",
+        "b4": "That's why I'm not getting them the drinks till they return. Besides, this groups different, I can tell."
       },
       "choices": {
         "a6": [
@@ -30,37 +30,37 @@
     "bet.catchup": {
       "title": "What you missed",
       "lines": {
-        "a0": "You've been busy, love. Sit. I'm Bet. This is the Low Lantern, the last warm room before the Stair.",
-        "a1": "You won't have heard, being down there. Workers have been going below on false papers. A tithe called the Queen's Due. A cult called the Dragon's Choir, feeding half of Kiln Row and taking the rest.",
-        "a2": "And every time one of your echoes breaks, something in this Keep goes strange. Lamps. Wells. Frost on the inside of windows.",
-        "a3": "Eren can tell you the rest. He's been counting things again. Talk to the regulars. I'll keep your candle lit."
+        "a0": "You've been busy, love. Sit. I'm Bet. This is the Low Lantern, the last warm tavern before the Stair.",
+        "a1": "You won't have heard, being down there. Workers have been going below on false papers. Someone's been circulating a false tithe called the Queen's Due. Rumor has it, it's a cult called the Dragon's Choir. One one hand they've been feeding half of Kiln Row. But on the other hand they've been pocketing the rest.",
+        "a2": "And every time you break one of those echoes, something in this Keep goes a little strange. Lamps go out. Wells dry up. And now frost on the inside of windows.",
+        "a3": "Eren can tell you the rest. He's been counting things again. Talk to the regulars. I have to tend to the candles."
       }
     },
     "bet.lamps": {
       "title": "The lamps",
       "lines": {
         "a0": "Every lamp in my house went out. Same moment the Forge went cold, they tell me.",
-        "a1": "Then they lit themselves again. I've poured drinks under this roof eleven years. They don't go out.| ...Probably the draught."
+        "a1": "I went around and relit all of my magical lamps and cancled. I've poured drinks under this roof for eleven years. That's never happened before."
       }
     },
     "eren.noManifest": {
       "title": "The office copy",
       "lines": {
-        "a0": "The First Door's quiet now, and my cart's still down there. The lockbox too. I'd go myself, but I've seen what lives on that rail cut.",
-        "a1": "If you're ever back that way... the manifest. I just want to see the count."
+        "a0": "The First Door's quiet now, and my cart's still down there. The lockbox too. I'd go myself, but I've seen what lives down there, and I'm just not cut out for that life.",
+        "a1": "If you're ever back that way... please fetch the manifest. I need to see what we've lost and if I can get reimbursed for it."
       }
     },
     "eren.hands": {
       "title": "Eren reads the manifest",
       "lines": {
         "a0": "You found it! I owe you a drink. I owe you two. Let's see what my wheel cost me...",
-        "a1": "Hands.| Six of them. I've carried oil, hardtack, a piano once, gods help me. I've never carried hands.",
-        "a2": "\"Due. Received, V.\"| ...Right.",
+        "a1": "Dragon claws.| Six of them. I've carried oil, hardtack, even a piano once, gods help me. I've never carried dragon claws.",
+        "a2": "\"The Due has been received, V.\"| ...Right.",
         "who": "A lot of names start with V.| A lot.",
-        "mistake": "Sure. Six times. In the same column. Under \"Due\".| Sure.",
-        "knows": "Veska. My boss. She signs everything V. She signed my birthday card V.| She's not — she's a good person, Keeper.",
-        "c0": "My mother lives in Kiln Row. If anybody knows what \"the Due\" is, it's her. She knows everything that happens on that street, and most of what's about to.",
-        "c1": "Hessa makes the stout. Go and see her. Take something sweet. She won't eat it, but she'll like you for it."
+        "mistake": "I don't buy that, and I don't think you do either...",
+        "knows": "Veska. My boss. She signs everything V. She signed my birthday card V.| She's a complicated one, Keeper.",
+        "c0": "My mother lives in Kiln Row. If anybody knows what \"the Due\" is, it's her. She knows everything that happens on that street.",
+        "c1": "Hessa makes the stout. Go and see her. Take something sweet. She has a hell of a sweet tooth."
       },
       "choices": {
         "a2": [
