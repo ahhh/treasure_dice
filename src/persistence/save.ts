@@ -5,6 +5,7 @@
  */
 import type { FortuneRun, GameState, HandType } from '../engine/types.ts';
 import { SCHEMA_VERSION } from '../meta/town.ts';
+import { t, txn } from '../i18n/index.ts';
 
 const DB = 'treasure-dice';
 const STORE = 'saves';
@@ -74,7 +75,7 @@ export async function listSlots(): Promise<SlotInfo[]> {
     if (!g) { out.push({ slot, exists: false }); continue; }
     const alive = g.roster.filter((h) => h.status === 'alive');
     const top = alive.reduce((m, h) => Math.max(m, h.level), 0);
-    out.push({ slot, exists: true, savedAt: g.savedAt, summary: `${g.mode === 'legacy' ? 'Legacy' : 'Story'} · Day ${g.profile.townDay} · ${alive.length} heroes (best Lv ${top}) · ${g.profile.bankedGold} gold${g.expedition ? ' · in a dungeon' : ''}` });
+    out.push({ slot, exists: true, savedAt: g.savedAt, summary: t('save.summary', { mode: t(g.mode === 'legacy' ? 'save.legacy' : 'save.story'), day: t('save.day', { day: g.profile.townDay }), heroes: txn('save.heroes', alive.length, { top }), gold: t('save.gold', { gold: g.profile.bankedGold }), dungeon: g.expedition ? t('save.inDungeon') : '' }) });
   }
   return out;
 }
@@ -92,11 +93,11 @@ export function exportSave(g: GameState): string {
 
 export function importSave(text: string, slot: number): { ok: true; game: GameState } | { ok: false; error: string } {
   let wrap: { format?: string; checksum?: string; body?: string };
-  try { wrap = JSON.parse(text); } catch { return { ok: false, error: 'Not a JSON file.' }; }
-  if (wrap.format !== 'treasure-dice-save' || typeof wrap.body !== 'string') return { ok: false, error: 'Not a Treasure Dice save.' };
-  if (checksum(wrap.body) !== wrap.checksum) return { ok: false, error: 'Checksum mismatch — the file is corrupted or edited.' };
+  try { wrap = JSON.parse(text); } catch { return { ok: false, error: t('save.notJson') }; }
+  if (wrap.format !== 'treasure-dice-save' || typeof wrap.body !== 'string') return { ok: false, error: t('save.notTdSave') };
+  if (checksum(wrap.body) !== wrap.checksum) return { ok: false, error: t('save.checksum') };
   let g: GameState;
-  try { g = JSON.parse(wrap.body); } catch { return { ok: false, error: 'Corrupted save body.' }; }
+  try { g = JSON.parse(wrap.body); } catch { return { ok: false, error: t('save.corruptBody') }; }
   const v = validate(g);
   if (v) return { ok: false, error: v };
   g.slot = slot;
@@ -104,12 +105,12 @@ export function importSave(text: string, slot: number): { ok: true; game: GameSt
 }
 
 function validate(g: GameState): string | null {
-  if (!g || typeof g !== 'object') return 'Empty save.';
-  if (!Array.isArray(g.roster) || !g.profile || !Array.isArray(g.vault)) return 'Save is missing required data.';
+  if (!g || typeof g !== 'object') return t('save.empty');
+  if (!Array.isArray(g.roster) || !g.profile || !Array.isArray(g.vault)) return t('save.missingData');
   for (const h of g.roster) {
-    if (typeof h.name !== 'string' || typeof h.level !== 'number' || h.level < 1 || h.level > 20) return 'Invalid hero data.';
+    if (typeof h.name !== 'string' || typeof h.level !== 'number' || h.level < 1 || h.level > 20) return t('save.invalidHero');
   }
-  if (typeof g.profile.bankedGold !== 'number' || g.profile.bankedGold < 0) return 'Invalid gold.';
+  if (typeof g.profile.bankedGold !== 'number' || g.profile.bankedGold < 0) return t('save.invalidGold');
   return null;
 }
 

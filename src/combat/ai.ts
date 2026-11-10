@@ -15,6 +15,8 @@ import { derive } from '../rules/character.ts';
 import { VITALITY, ECHO } from '../rules/balance.ts';
 import { MONSTERS } from '../content/monsters.ts';
 import { CURSES } from '../fortune/curses.ts';
+import { tx } from '../i18n/index.ts';
+import { condName } from '../content/terms.ts';
 
 function usable(c: Combatant, a: MonsterAction): boolean {
   if (a.phase && c.mon!.phase < a.phase) return false;
@@ -58,7 +60,7 @@ export function enemyTurn(ctx: Ctx, c: Combatant) {
   if (m.boss && tele.length && ctx.aiRng.chance(0.4)) {
     const t = ctx.aiRng.pick(tele);
     m.telegraphed = t.id;
-    log(ctx, `⚠ ${c.name} prepares ${t.name}! (next turn)`, 'warn');
+    log(ctx, tx('combatAi.preparesNextTurn', { cName: c.name, tName: t.name }), 'warn');
     fx(ctx, { kind: 'text', target: c.id, text: `${t.name}!` });
     const basic = actions.filter((a) => a.kind === 'attack' && !a.telegraph);
     if (basic.length) perform(ctx, c, ctx.aiRng.pick(basic));
@@ -71,7 +73,7 @@ export function enemyTurn(ctx: Ctx, c: Combatant) {
   const again = m.phase >= 2 ? (hasTrait(c, 'relentless') ? 0.5 : 0.35) : hasTrait(c, 'relentless') ? 0.3 : 0;
   if (m.boss && again && ctx.aiRng.chance(again) && livingHeroes(ctx).length) {
     const extra = actions.filter((x) => x.kind === 'attack' && !x.telegraph);
-    if (extra.length) { log(ctx, `${c.name} strikes again!`, 'warn'); perform(ctx, c, ctx.aiRng.pick(extra)); }
+    if (extra.length) { log(ctx, tx('combatAi.strikesAgain', { cName: c.name }), 'warn'); perform(ctx, c, ctx.aiRng.pick(extra)); }
   }
 }
 
@@ -98,8 +100,8 @@ export function lairActions(ctx: Ctx) {
   for (const b of livingEnemies(ctx).filter((e) => hasTrait(e, 'lair'))) {
     const a = b.mon!.actions.find((x) => x.kind === 'save' && x.target === 'all') ?? b.mon!.actions.find((x) => x.kind === 'save');
     if (!a) continue;
-    log(ctx, `The lair answers ${b.name}: ${a.name} ripples through the room!`, 'warn');
-    perform(ctx, b, { ...a, id: `lair:${a.id}`, name: `Lair — ${a.name}`, dmg: (a.dmg ?? 1) * 0.45, condition: undefined, telegraph: false });
+    log(ctx, tx('combatAi.theLairAnswersRipplesThrough', { bName: b.name, aName: a.name }), 'warn');
+    perform(ctx, b, { ...a, id: `lair:${a.id}`, name: tx('combatAi.lair', { aName: a.name }), dmg: (a.dmg ?? 1) * 0.45, condition: undefined, telegraph: false });
   }
 }
 
@@ -118,7 +120,7 @@ function perform(ctx: Ctx, c: Combatant, a: MonsterAction) {
     }
     case 'save': {
       const list = a.target === 'all' ? livingHeroes(ctx) : a.target === 'front' ? livingHeroes(ctx).filter((h) => h.rank === 'front') : a.target === 'back' ? livingHeroes(ctx).filter((h) => h.rank === 'back') : [pickTarget(ctx, c, a)!];
-      log(ctx, `${c.name} unleashes ${a.name}!`, 'enemy');
+      log(ctx, tx('combatAi.unleashes', { cName: c.name, aName: a.name }), 'enemy');
       const dmg = dmgRoll(ctx, c, a);
       for (const t of list.length ? list : livingHeroes(ctx)) {
         if (!t) continue;
@@ -128,7 +130,7 @@ function perform(ctx: Ctx, c: Combatant, a: MonsterAction) {
         let amt = ok ? (a.halfOnSave ? dmg / 2 : 0) : dmg;
         if (evasion) amt = ok ? 0 : dmg / 2;
         if (amt > 0) applyDamage(ctx, t, [{ type: a.damageType ?? 'force', amount: amt }], { source: a.name, attacker: c });
-        else log(ctx, `${t.name} avoids it!`, 'miss');
+        else log(ctx, tx('combatAi.avoidsIt', { tName: t.name }), 'miss');
         if (!ok && a.condition && !t.dead && !t.downed) addCondition(ctx, t, { id: a.condition.id, rounds: a.condition.rounds, value: a.condition.value, save: a.condition.saveEnds ? { ability: a.save!, dc: m.saveDc } : undefined });
       }
       return;
@@ -136,17 +138,17 @@ function perform(ctx: Ctx, c: Combatant, a: MonsterAction) {
     case 'condition': {
       const t = pickTarget(ctx, c, a);
       if (!t) return;
-      log(ctx, `${c.name} uses ${a.name} on ${t.name}.`, 'enemy');
+      log(ctx, tx('combatAi.usesOn', { cName: c.name, aName: a.name, tName: t.name }), 'enemy');
       if (a.save) {
-        if (savingThrow(ctx, t, a.save, m.saveDc)) { log(ctx, `${t.name} resists.`, 'miss'); return; }
+        if (savingThrow(ctx, t, a.save, m.saveDc)) { log(ctx, tx('combatAi.resists', { tName: t.name }), 'miss'); return; }
       } else {
         const r = rollD20(ctx.aiRng).natural + m.attackBonus;
-        if (r < effectiveAc(ctx, t)) { log(ctx, 'It misses.', 'miss'); fx(ctx, { kind: 'miss', target: t.id, actor: c.id }); return; }
+        if (r < effectiveAc(ctx, t)) { log(ctx, tx('combatAi.itMisses'), 'miss'); fx(ctx, { kind: 'miss', target: t.id, actor: c.id }); return; }
       }
       if (a.dmg) applyDamage(ctx, t, [{ type: a.damageType ?? 'force', amount: dmgRoll(ctx, c, a) }], { source: a.name, attacker: c });
       if (!t.dead && !t.downed && a.condition) {
         addCondition(ctx, t, { id: a.condition.id, rounds: a.condition.rounds, value: a.condition.value ? Math.round(a.condition.value * VITALITY) : undefined, save: a.condition.saveEnds && a.save ? { ability: a.save, dc: m.saveDc } : undefined });
-        log(ctx, `${t.name} is ${a.condition.id}!`, 'warn');
+        log(ctx, tx('combatAi.is', { tName: t.name, conditionId: condName(a.condition.id) }), 'warn');
       }
       return;
     }
@@ -154,7 +156,7 @@ function perform(ctx: Ctx, c: Combatant, a: MonsterAction) {
       const list = a.target === 'self' ? [c] : livingEnemies(ctx).sort((p, q) => p.hp / p.maxHp - q.hp / q.maxHp);
       const t = list[0];
       if (!t) return;
-      log(ctx, `${c.name} uses ${a.name}.`, 'enemy');
+      log(ctx, tx('combatAi.uses', { cName: c.name, aName: a.name }), 'enemy');
       if (a.target !== 'self' && hasTrait(c, 'massMend')) {
         for (const x of list) heal(ctx, x, m.dmgBase * (a.dmg ?? 1) * (x === t ? 1.6 : 0.6), a.name);
         return;
@@ -164,7 +166,7 @@ function perform(ctx: Ctx, c: Combatant, a: MonsterAction) {
     }
     case 'buff': {
       const list = a.target === 'self' ? [c] : livingEnemies(ctx);
-      log(ctx, `${c.name} uses ${a.name}.`, 'enemy');
+      log(ctx, tx('combatAi.uses', { cName: c.name, aName: a.name }), 'enemy');
       for (const t of list) if (a.condition) addCondition(ctx, t, { id: a.condition.id, rounds: a.condition.rounds, value: a.condition.value });
       return;
     }
@@ -195,7 +197,7 @@ function perform(ctx: Ctx, c: Combatant, a: MonsterAction) {
       ctx.combat.combatants[s.id] = s;
       const idx = ctx.combat.order.indexOf(c.id);
       ctx.combat.order.splice(idx + 1, 0, s.id);
-      log(ctx, `${c.name} calls forth a ${def.name}!`, 'warn');
+      log(ctx, tx('combatAi.callsForthA', { cName: c.name, defName: def.name }), 'warn');
       return;
     }
   }
@@ -222,7 +224,7 @@ function attack(ctx: Ctx, c: Combatant, t: Combatant, a: MonsterAction) {
   const ac = effectiveAc(ctx, t);
   const hit = r.natural === 20 || (r.natural !== 1 && r.natural + bonus >= ac);
   if (!hit) {
-    log(ctx, `${c.name}'s ${a.name} misses ${t.name}.`, 'miss');
+    log(ctx, tx('combatAi.sMisses', { cName: c.name, aName: a.name, tName: t.name }), 'miss');
     fx(ctx, { kind: 'miss', target: t.id, actor: c.id });
     return;
   }
@@ -234,15 +236,15 @@ function attack(ctx: Ctx, c: Combatant, t: Combatant, a: MonsterAction) {
     if (th.classId === 'monk' && th.level >= 3 && (th.level >= 13 || ['bludgeoning', 'piercing', 'slashing'].includes(a.damageType ?? ''))) {
       const red = Math.round((roll(ctx.rng, '1d10').total + d.mods.dex + th.level) * VITALITY);
       dmg = Math.max(0, dmg - red); t.used.reaction = true;
-      log(ctx, `${t.name} deflects the blow (−${red}).`, 'info');
+      log(ctx, tx('combatAi.deflectsTheBlow', { tName: t.name, red }), 'info');
     } else if (th.classId === 'rogue' && th.level >= 5) {
       dmg = Math.round(dmg / 2); t.used.reaction = true;
-      log(ctx, `${t.name}: Uncanny Dodge halves the damage.`, 'info');
+      log(ctx, tx('combatAi.uncannyDodgeHalvesTheDamage', { tName: t.name }), 'info');
     } else if (th.ancestry === 'goliath' && (th.resources.stonesEndurance ?? 0) > 0 && dmg > t.maxHp * 0.15) {
       th.resources.stonesEndurance -= 1;
       const red = Math.round((roll(ctx.rng, '1d12').total + d.mods.con) * VITALITY);
       dmg = Math.max(0, dmg - red); t.used.reaction = true;
-      log(ctx, `${t.name}'s Stone's Endurance absorbs ${red}.`, 'info');
+      log(ctx, tx('combatAi.sStoneSEnduranceAbsorbs', { tName: t.name, red }), 'info');
     }
   }
   // Cutting Words from a bard ally.
@@ -253,7 +255,7 @@ function attack(ctx: Ctx, c: Combatant, t: Combatant, a: MonsterAction) {
     bard.used.reaction = true;
     const red = Math.round(roll(ctx.rng, `1d${derive(bh).inspirationDie}`).total * VITALITY);
     dmg = Math.max(0, dmg - red);
-    log(ctx, `${bard.name}'s Cutting Words blunt the blow (−${red}).`, 'info');
+    log(ctx, tx('combatAi.sCuttingWordsBluntThe', { bardName: bard.name, red }), 'info');
   }
   // Interception.
   const interceptor = livingHeroes(ctx).find((x) => x.id !== t.id && !x.used.reaction && heroOf(ctx, x)!.choices.fightingStyle?.includes('interception'));
@@ -261,9 +263,9 @@ function attack(ctx: Ctx, c: Combatant, t: Combatant, a: MonsterAction) {
     const ih = heroOf(ctx, interceptor)!;
     const red = Math.round((roll(ctx.rng, '1d10').total + derive(ih).pb) * VITALITY);
     dmg = Math.max(0, dmg - red); interceptor.used.reaction = true;
-    log(ctx, `${interceptor.name} intercepts (−${red}).`, 'info');
+    log(ctx, tx('combatAi.intercepts', { interceptorName: interceptor.name, red }), 'info');
   }
-  log(ctx, `${c.name}'s ${a.name} ${crit ? 'CRITS' : 'hits'} ${t.name}!`, crit ? 'crit' : 'enemy');
+  log(ctx, tx(crit ? 'combatAi.crits' : 'combatAi.hits', { attacker: c.name, action: a.name, target: t.name }), crit ? 'crit' : 'enemy');
   applyDamage(ctx, t, [{ type: a.damageType ?? 'bludgeoning', amount: dmg }], { source: c.name, attacker: c, crit, melee: !a.ranged });
   // Retaliation (Berserker 10).
   if (!a.ranged && !t.dead && !t.downed && th.classId === 'barbarian' && th.level >= 10 && !t.used.reaction && !c.dead) {
@@ -271,7 +273,7 @@ function attack(ctx: Ctx, c: Combatant, t: Combatant, a: MonsterAction) {
     const r2 = rollD20(ctx.rng).natural + d.main.toHit;
     if (r2 >= c.ac) {
       const amt = (roll(ctx.rng, d.main.dice).total + d.main.bonus + (has(t, 'raging') ? d.rageDamage : 0)) * ECHO;
-      log(ctx, `${t.name} retaliates!`, 'hit');
+      log(ctx, tx('combatAi.retaliates', { tName: t.name }), 'hit');
       applyDamage(ctx, c, [{ type: d.main.type, amount: amt }], { source: 'Retaliation', attacker: t, noFortune: true });
     }
   }

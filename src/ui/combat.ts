@@ -20,8 +20,12 @@ import { BIOMES } from '../content/biomes.ts';
 import { Rng } from '../engine/rng.ts';
 import { showTip, touchUi } from './tips.ts';
 import { sfx } from './audio.ts';
+import { tx } from '../i18n/index.ts';
+import { term } from '../content/terms.ts';
 
-const MENU: [string, string][] = [['attack', 'Attack'], ['skill', 'Skills'], ['magic', 'Magic'], ['item', 'Items'], ['guard', 'Guard / Move']];
+const MENU_IDS = ['attack', 'skill', 'magic', 'item', 'guard'] as const;
+/** Command menu: [id, label]. A function so labels follow the language. */
+const menuItems = (): [string, string][] => MENU_IDS.map((id) => [id, tx(`combat.menu.${id}`)]);
 
 function ctxOrNull() {
   const g = app.game!;
@@ -44,7 +48,7 @@ export function toggleDie(i: number) {
 
 export function doReroll() {
   const sel = app.ui.selected.slice();
-  if (!sel.length) { toast('Select the dice you want to reroll.'); return; }
+  if (!sel.length) { toast(tx('combat.selectTheDiceYouWant')); return; }
   const r = run({ type: 'combat', cmd: { type: 'reroll', dice: sel } });
   if (r.ok) {
     sfx.roll(sel.length);
@@ -77,14 +81,14 @@ function act(opt: ActionOption, targets: string[]) {
 function pickOption(opt: ActionOption) {
   if (opt.group === 'item' && opt.usable && touchUi()) {
     const drink = /potion|elixir|antitoxin/i.test(opt.name);
-    showTip({ title: opt.name, text: `${opt.text} ${drink ? 'Drink it now?' : 'Use it now?'}`, actions: [{ label: drink ? 'Drink it' : 'Use it', primary: true, run: () => chooseOption(opt) }] });
+    showTip({ title: opt.name, text: `${opt.text} ${tx(drink ? 'combat.drinkItNow' : 'combat.useItNow')}`, actions: [{ label: drink ? tx('combat.drinkIt') : tx('combat.useIt'), primary: true, run: () => chooseOption(opt) }] });
     return;
   }
   chooseOption(opt);
 }
 
 function chooseOption(opt: ActionOption) {
-  if (!opt.usable) { toast(opt.reason ?? 'Not available'); return; }
+  if (!opt.usable) { toast(opt.reason ?? tx('combat.notAvailable')); return; }
   const slots = opt.slots ?? [];
   app.ui.pending = { key: opt.key, slot: slots.length ? slots[0] : undefined, meta: [] };
   const needsTarget = ['enemy', 'ally', 'rank', 'fallenAlly'].includes(opt.target);
@@ -112,7 +116,7 @@ function clickTarget(c: Combatant) {
   const opt = pendingOpt();
   if (!opt) return;
   const ctx = ctxOrNull()!;
-  if (!legalTargets(ctx, opt.target, !!opt.melee).some((x) => x.id === c.id)) { toast('Not a legal target.'); return; }
+  if (!legalTargets(ctx, opt.target, !!opt.melee).some((x) => x.id === c.id)) { toast(tx('combat.notALegalTarget')); return; }
   act(opt, [c.id]);
 }
 
@@ -125,8 +129,8 @@ function enemyEl(c: Combatant, targetable: boolean): HTMLElement {
   return h('div', {
     class: `enemy ${c.mon?.boss ? 'boss' : ''} ${c.mon?.elite ? 'elite' : ''} tier${tier} ${targetable ? 'targetable' : ''} ${c.dead ? 'dead' : ''}`,
     'data-cid': c.id, tabindex: targetable ? 0 : -1, role: targetable ? 'button' : undefined,
-    'aria-label': `${c.name}, ${c.hp} of ${c.maxHp} HP${targetable ? ' — target' : ''}`,
-    title: `${c.name} — AC ${c.ac}. ${def?.flavor ?? ''}${c.mon?.resist.length ? ` Resists ${c.mon.resist.join(', ')}.` : ''}${c.mon?.vuln.length ? ` Weak to ${c.mon.vuln.join(', ')}.` : ''}${c.mon?.traits?.length ? ` ${c.mon.traits.map((t) => { const i = TRAIT_INFO[t as MonsterTrait]; return i ? `${i.name}: ${i.text}` : ''; }).join(' ')}` : ''}`,
+    'aria-label': tx('combat.ofHp', { cName: c.name, hp: c.hp, maxHp: c.maxHp, target: targetable ? tx('combat.targetSuffix') : '' }),
+    title: tx('combat.ac', { cName: c.name, ac: c.ac, v: def?.flavor ?? '', resists: c.mon?.resist.length ? tx('combat.resists', { list: c.mon.resist.map((x) => term('damageTypes', x)).join(', ') }) : '', weak: c.mon?.vuln.length ? tx('combat.weakTo', { list: c.mon.vuln.map((x) => term('damageTypes', x)).join(', ') }) : '', v4: c.mon?.traits?.length ? ` ${c.mon.traits.map((t) => { const i = TRAIT_INFO[t as MonsterTrait]; return i ? `${i.name}: ${i.text}` : ''; }).join(' ')}` : '' }),
     on: targetable ? { click: () => clickTarget(c), keydown: (e: Event) => { if ((e as KeyboardEvent).key === 'Enter') clickTarget(c); } } : undefined,
   },
     tele ? h('span', { class: 'tele' }, `⚠ ${tele}`) : null,
@@ -145,12 +149,12 @@ function heroEl(c: Combatant, active: boolean, targetable: boolean): HTMLElement
     'data-cid': c.id, tabindex: targetable ? 0 : -1,
     on: { click: () => (targetable ? clickTarget(c) : (app.ui.heroSheet = hero.id, render())) },
   },
-    h('span', { class: 'rank-tag' }, c.rank === 'front' ? 'Front' : 'Back'),
+    h('span', { class: 'rank-tag' }, c.rank === 'front' ? tx('combat.front') : tx('combat.back')),
     h('div', { class: 'portrait' }, combatantArt(c)),
     h('div', { class: 'grow col', style: 'gap:2px;min-width:0' },
       h('b', { class: 'small', style: 'white-space:nowrap;overflow:hidden;text-overflow:ellipsis' }, c.name),
       hpBar(c.hp, c.maxHp, c.tempHp),
-      h('span', { class: 'hpnum' }, c.dead ? 'DEAD' : c.downed ? `Down ${c.deathSaves.s}✓ ${c.deathSaves.f}✗` : `${c.hp}/${c.maxHp}${c.tempHp ? ` +${c.tempHp} ward` : ''}`),
+      h('span', { class: 'hpnum' }, c.dead ? tx('combat.dead') : c.downed ? tx('combat.down', { s: c.deathSaves.s, f: c.deathSaves.f }) : `${c.hp}/${c.maxHp}${c.tempHp ? ` +${c.tempHp} ward` : ''}`),
       slotsLine(hero.id),
       conds(c.conditions, 'hero')));
 }
@@ -158,9 +162,9 @@ function heroEl(c: Combatant, active: boolean, targetable: boolean): HTMLElement
 function slotsLine(heroId: string): HTMLElement | null {
   const hero = app.game!.roster.find((x) => x.id === heroId)!;
   const s = hero.slots.map((n, i) => (i > 0 && n > 0 ? `${i}:${n}` : '')).filter(Boolean);
-  const res = Object.entries(hero.resources).filter(([k, v]) => v > 0 && ['rage', 'channel', 'focus', 'sorcery', 'inspiration', 'wildShape', 'secondWind', 'actionSurge', 'layOnHands'].includes(k)).map(([k, v]) => `${k === 'layOnHands' ? 'LoH' : k} ${v}`);
+  const res = Object.entries(hero.resources).filter(([k, v]) => v > 0 && ['rage', 'channel', 'focus', 'sorcery', 'inspiration', 'wildShape', 'secondWind', 'actionSurge', 'layOnHands'].includes(k)).map(([k, v]) => `${tx(`combat.res.${k}`)} ${v}`);
   if (!s.length && !res.length) return null;
-  return h('span', { class: 'small muted', style: 'font-size:11px' }, [s.length ? `slots ${s.join(' ')}` : '', ...res].filter(Boolean).join(' · '));
+  return h('span', { class: 'small muted', style: 'font-size:11px' }, [s.length ? tx('combat.slots', { list: s.join(' ') }) : '', ...res].filter(Boolean).join(' · '));
 }
 
 // ── the felt ────────────────────────────────────────────────────────────────
@@ -194,17 +198,17 @@ function trayEl(): HTMLElement {
       const r = run({ type: 'combat', cmd: { type: 'talent', id: t.id, die: one, ...extra } });
       if (r.ok) { sfx.roll(1); app.ui.selected = []; app.ui.talent = undefined; render(); }
     };
-    if (t.needs === 'dieDelta') return h('span', { class: 'row', style: 'gap:2px' }, btn(`${t.name} −1`, () => (one === undefined ? toast('Select one die.') : go({ delta: -1 })), { cls: 'small', disabled: !t.usable, title: t.reason ?? t.text }), btn('+1', () => (one === undefined ? toast('Select one die.') : go({ delta: 1 })), { cls: 'small', disabled: !t.usable }));
+    if (t.needs === 'dieDelta') return h('span', { class: 'row', style: 'gap:2px' }, btn(`${t.name} −1`, () => (one === undefined ? toast(tx('combat.selectOneDie')) : go({ delta: -1 })), { cls: 'small', disabled: !t.usable, title: t.reason ?? t.text }), btn('+1', () => (one === undefined ? toast(tx('combat.selectOneDie')) : go({ delta: 1 })), { cls: 'small', disabled: !t.usable }));
     if (t.needs === 'dieValue') {
-      if (app.ui.talent?.id === t.id) return h('span', { class: 'row', style: 'gap:2px' }, h('span', { class: 'small' }, 'Value:'), ...[1, 2, 3, 4, 5, 6].map((v) => btn(String(v), () => (one === undefined ? toast('Select one die.') : go({ value: v })), { cls: 'small' })), btn('✕', () => { app.ui.talent = undefined; render(); }, { cls: 'small' }));
+      if (app.ui.talent?.id === t.id) return h('span', { class: 'row', style: 'gap:2px' }, h('span', { class: 'small' }, tx('combat.value')), ...[1, 2, 3, 4, 5, 6].map((v) => btn(String(v), () => (one === undefined ? toast(tx('combat.selectOneDie')) : go({ value: v })), { cls: 'small' })), btn('✕', () => { app.ui.talent = undefined; render(); }, { cls: 'small' }));
       return btn(t.name, () => { app.ui.talent = { id: t.id, needs: t.needs }; render(); }, { cls: 'small', disabled: !t.usable, title: t.reason ?? t.text });
     }
-    return btn(t.name, () => (t.needs === 'die' && one === undefined ? toast('Select one die.') : go()), { cls: 'small', disabled: !t.usable, title: t.reason ?? t.text });
+    return btn(t.name, () => (t.needs === 'die' && one === undefined ? toast(tx('combat.selectOneDie')) : go()), { cls: 'small', disabled: !t.usable, title: t.reason ?? t.text });
   };
   const tokenBtn = (id: string) => {
     const one = sel.length === 1 ? sel[0] : undefined;
     if (id === 'fateCoin' && app.ui.talent?.id === 'token:fateCoin') {
-      return h('span', { class: 'row', style: 'gap:2px' }, ...[1, 2, 3, 4, 5, 6].map((v) => btn(String(v), () => { if (one === undefined) { toast('Select one die.'); return; } const r = run({ type: 'combat', cmd: { type: 'token', id, die: one, value: v } }); if (r.ok) { app.ui.talent = undefined; app.ui.selected = []; sfx.coin(); render(); } }, { cls: 'small' })));
+      return h('span', { class: 'row', style: 'gap:2px' }, ...[1, 2, 3, 4, 5, 6].map((v) => btn(String(v), () => { if (one === undefined) { toast(tx('combat.selectOneDie')); return; } const r = run({ type: 'combat', cmd: { type: 'token', id, die: one, value: v } }); if (r.ok) { app.ui.talent = undefined; app.ui.selected = []; sfx.coin(); render(); } }, { cls: 'small' })));
     }
     const spend = () => {
       if (id === 'fateCoin') { app.ui.talent = { id: 'token:fateCoin', needs: 'dieValue' }; render(); return; }
@@ -213,34 +217,34 @@ function trayEl(): HTMLElement {
     };
     return h('button', { class: 'token', title: `${TOKENS[id].name}: ${TOKENS[id].text}`, 'aria-label': TOKENS[id].name, on: { click: () => {
       // Tokens are spent on use: on touch screens (no hover tooltips) say what it does and ask first.
-      if (touchUi()) { showTip({ title: TOKENS[id].name, text: `${TOKENS[id].text}${turn ? ' Use it now?' : ''}`, actions: turn ? [{ label: 'Use it', primary: true, run: spend }] : [] }); return; }
+      if (touchUi()) { showTip({ title: TOKENS[id].name, text: `${TOKENS[id].text}${turn ? ` ${tx('combat.useItNow')}` : ''}`, actions: turn ? [{ label: tx('combat.useIt'), primary: true, run: spend }] : [] }); return; }
       if (!turn) return;
       spend();
     } } }, TOKEN_GLYPH[id] ?? '¤');
   };
   const curse = ctx.combat.curse ? CURSES[ctx.combat.curse] : undefined;
-  return h('div', { class: 'felt', 'aria-label': 'Fortune tray' },
+  return h('div', { class: 'felt', 'aria-label': tx('combat.fortuneTray') },
     h('div', { class: 'felt-head' },
-      h('div', { class: 'hand-name' }, preview ? HAND_BY_ID[preview.hand].name : sel.length ? '' : 'Select dice', h('small', null, preview ? `Lv ${preview.handLevel} · ${preview.scoringDice.length} scoring dice` : `Play up to ${turn?.playLimit ?? 5} with an action`)),
+      h('div', { class: 'hand-name' }, preview ? HAND_BY_ID[preview.hand].name : sel.length ? '' : tx('combat.selectDice'), h('small', null, preview ? tx('combat.lvScoringDice', { handLevel: preview.handLevel, scoringDiceLength: preview.scoringDice.length }) : tx('combat.playUpToWithAn', { v: turn?.playLimit ?? 5 }))),
       h('div', { class: 'score-box', 'aria-live': 'polite' },
-        h('span', { class: 'chips-box', title: 'Chips: your action\'s base damage is added here' }, preview ? `+${preview.chips}` : '—'),
+        h('span', { class: 'chips-box', title: tx('combat.chipsYourActionSBase') }, preview ? `+${preview.chips}` : '—'),
         h('span', { class: 'score-x' }, '×'),
-        h('span', { class: 'mult-box', title: 'Mult' }, preview ? preview.mult : '—')),
+        h('span', { class: 'mult-box', title: tx('combat.mult') }, preview ? preview.mult : '—')),
       h('span', { class: 'spacer' }),
-      h('span', { class: 'rerolls' }, 'Rerolls ', h('b', null, f.rerollsLeft)),
-      h('span', { class: 'rerolls' }, 'Plays ', h('b', null, playsLeft)),
+      h('span', { class: 'rerolls' }, tx('combat.rerolls'), h('b', null, f.rerollsLeft)),
+      h('span', { class: 'rerolls' }, tx('combat.plays'), h('b', null, playsLeft)),
       doubloons(f.doubloons)),
     h('div', { class: 'dice-row' }, ...f.tray.map((td, i) => trayDie(f, td, i, sel.includes(i), rolling.has(i), () => toggleDie(i)))),
     h('div', { class: 'tray-actions' },
-      btn(['Reroll selected ', h('span', { class: 'kbd' }, 'R')], doReroll, { disabled: !turn || !sel.length || (f.rerollsLeft <= 0 && !(hero?.classId === 'barbarian' && has(actor!, 'raging'))), key: 'reroll', title: hero?.classId === 'barbarian' && has(actor!, 'raging') && f.rerollsLeft <= 0 ? 'Blood Dice: pay HP for a reroll' : undefined }),
-      btn('Clear', () => { app.ui.selected = []; render(); }, { cls: 'small', disabled: !sel.length }),
+      btn([tx('combat.rerollSelected'), h('span', { class: 'kbd' }, 'R')], doReroll, { disabled: !turn || !sel.length || (f.rerollsLeft <= 0 && !(hero?.classId === 'barbarian' && has(actor!, 'raging'))), key: 'reroll', title: hero?.classId === 'barbarian' && has(actor!, 'raging') && f.rerollsLeft <= 0 ? tx('combat.bloodDicePayHpFor') : undefined }),
+      btn(tx('combat.clear'), () => { app.ui.selected = []; render(); }, { cls: 'small', disabled: !sel.length }),
       ...talents.map(talentBtn),
       ...f.tokens.map(tokenBtn),
-      nbDie ? h('span', { class: 'small', style: 'color:#b9e2cc' }, `Next in bag: ${MATERIALS[nbDie.material].name} [${nbDie.faces.map((x) => x.v).join(' ')}]`) : null,
-      curse ? h('span', { class: 'small', style: 'color:#ffb3ad' }, `Curse: ${curse.text}`) : null),
+      nbDie ? h('span', { class: 'small', style: 'color:#b9e2cc' }, tx('combat.nextInBag', { name: MATERIALS[nbDie.material].name, map: nbDie.faces.map((x) => x.v).join(' ') })) : null,
+      curse ? h('span', { class: 'small', style: 'color:#ffb3ad' }, tx('combat.curse', { curseText: curse.text })) : null),
     h('div', { class: 'charm-bar', style: 'margin-top:10px' },
       ...f.charms.map((c) => charmEl(c.id, c.counter)),
-      ...Array.from({ length: Math.max(0, charmSlots(f) - f.charms.length) }, () => h('div', { class: 'charm empty', title: 'Empty charm slot' }))));
+      ...Array.from({ length: Math.max(0, charmSlots(f) - f.charms.length) }, () => h('div', { class: 'charm empty', title: tx('combat.emptyCharmSlot') }))));
 }
 
 // ── command panel ───────────────────────────────────────────────────────────
@@ -250,10 +254,10 @@ function commandEl(): HTMLElement {
   const ctx = ctxOrNull()!;
   const actor = current(ctx);
   const turn = ctx.combat.turn;
-  const timeline = h('div', { class: 'timeline', 'aria-label': 'Turn order' }, ...ctx.combat.order.map((id) => ctx.combat.combatants[id]).filter((c) => !c.dead).map((c) =>
+  const timeline = h('div', { class: 'timeline', 'aria-label': tx('combat.turnOrder') }, ...ctx.combat.order.map((id) => ctx.combat.combatants[id]).filter((c) => !c.dead).map((c) =>
     h('div', { class: `tl ${c.id === actor?.id ? 'now' : ''} ${c.side === 'enemy' ? 'enemy-t' : ''}`, title: c.name }, combatantArt(c))));
   if (!turn || !actor || actor.side !== 'hero') {
-    return h('div', { class: 'command' }, h('div', { class: 'win' }, timeline, h('p', { class: 'muted' }, ctx.combat.status === 'active' ? 'The enemy acts…' : '')), logWin());
+    return h('div', { class: 'command' }, h('div', { class: 'win' }, timeline, h('p', { class: 'muted' }, ctx.combat.status === 'active' ? tx('combat.theEnemyActs') : '')), logWin());
   }
   const opts = listActions(ctx);
   const pending = pendingOpt();
@@ -268,29 +272,29 @@ function commandEl(): HTMLElement {
     body = h('div', { class: 'col' },
       h('b', null, pending.name),
       h('div', { class: 'opt-detail' }, pending.text),
-      slots.length > 1 ? h('div', { class: 'row' }, h('span', { class: 'small' }, 'Slot:'), ...[...new Set(slots)].map((s) => btn(`${s}`, () => { app.ui.pending!.slot = s; render(); }, { cls: `small ${app.ui.pending!.slot === s ? 'on' : ''}` }))) : null,
-      mm.length ? h('div', { class: 'row' }, h('span', { class: 'small' }, `Metamagic (${hero.resources.sorcery ?? 0} pts):`), ...mm.map((m) => {
+      slots.length > 1 ? h('div', { class: 'row' }, h('span', { class: 'small' }, tx('combat.slot')), ...[...new Set(slots)].map((s) => btn(`${s}`, () => { app.ui.pending!.slot = s; render(); }, { cls: `small ${app.ui.pending!.slot === s ? 'on' : ''}` }))) : null,
+      mm.length ? h('div', { class: 'row' }, h('span', { class: 'small' }, tx('combat.metamagicPts', { v: hero.resources.sorcery ?? 0 })), ...mm.map((m) => {
         const on = app.ui.pending!.meta.includes(m);
         return btn(`${METAMAGIC[m].name} (${METAMAGIC[m].cost})`, () => { const meta = app.ui.pending!.meta; app.ui.pending!.meta = on ? meta.filter((x) => x !== m) : [...meta, m]; render(); }, { cls: `small ${on ? 'on' : ''}`, title: METAMAGIC[m].text });
       })) : null,
-      overchannel ? btn('Overchannel (max damage)', () => { const meta = app.ui.pending!.meta; app.ui.pending!.meta = meta.includes('overchannel') ? meta.filter((x) => x !== 'overchannel') : [...meta, 'overchannel']; render(); }, { cls: `small ${app.ui.pending!.meta.includes('overchannel') ? 'on' : ''}` }) : null,
-      pending.fortune !== 'none' ? h('div', { class: 'small', style: 'color:#b9e2cc' }, app.ui.selected.length ? `Playing ${app.ui.selected.length} dice with this.` : 'No dice selected — base effect only.') : null,
-      needsTarget ? h('div', { class: 'target-hint' }, pending.target === 'rank' ? 'Click a foe to strike its whole rank.' : pending.target === 'enemy' ? 'Click a foe.' : 'Click an ally.')
-        : btn(pending.group === 'magic' ? 'Cast' : 'Confirm', () => act(pending, []), { cls: 'primary', key: 'confirm-act' }),
-      btn('Back', () => { app.ui.pending = undefined; render(); }, { cls: 'small' }));
+      overchannel ? btn(tx('combat.overchannelMaxDamage'), () => { const meta = app.ui.pending!.meta; app.ui.pending!.meta = meta.includes('overchannel') ? meta.filter((x) => x !== 'overchannel') : [...meta, 'overchannel']; render(); }, { cls: `small ${app.ui.pending!.meta.includes('overchannel') ? 'on' : ''}` }) : null,
+      pending.fortune !== 'none' ? h('div', { class: 'small', style: 'color:#b9e2cc' }, app.ui.selected.length ? tx('combat.playingDiceWithThis', { selectedLength: app.ui.selected.length }) : tx('combat.noDiceSelectedBaseEffect')) : null,
+      needsTarget ? h('div', { class: 'target-hint' }, pending.target === 'rank' ? tx('combat.clickAFoeToStrike') : pending.target === 'enemy' ? tx('combat.clickAFoe') : tx('combat.clickAnAlly'))
+        : btn(pending.group === 'magic' ? tx('combat.cast') : tx('combat.confirm'), () => act(pending, []), { cls: 'primary', key: 'confirm-act' }),
+      btn(tx('combat.back'), () => { app.ui.pending = undefined; render(); }, { cls: 'small' }));
   } else if (menu === 'root') {
-    body = h('div', { class: 'cmd-tabs', role: 'menu' }, ...MENU.map(([id, name], i) => {
+    body = h('div', { class: 'cmd-tabs', role: 'menu' }, ...menuItems().map(([id, name], i) => {
       const n = opts.filter((o) => o.group === id && o.usable).length;
       return btn([name, ' ', h('span', { class: 'kbd' }, 'ABCDG'[i]), n ? '' : h('span', { class: 'small muted' }, ' —')], () => { app.ui.menu = id; render(); }, { key: `menu-${id}`, disabled: !opts.some((o) => o.group === id) });
-    }), btn(['End turn ', h('span', { class: 'kbd' }, 'E')], endTurn, { key: 'end-turn' }));
+    }), btn([tx('combat.endTurn'), h('span', { class: 'kbd' }, 'E')], endTurn, { key: 'end-turn' }));
   } else {
     const list = opts.filter((o) => o.group === menu);
     body = h('div', { class: 'col' },
       h('div', { class: 'opt-list', role: 'menu' }, ...list.map((o) => btn([h('span', null, o.name), h('span', { class: 'cost' }, `${o.cost}${o.fortune !== 'none' ? ' · 🎲' : ''}`)], () => pickOption(o), { disabled: !o.usable, title: o.usable ? o.text : `${o.reason} — ${o.text}`, key: `opt-${o.key}` }))),
-      h('div', { class: 'opt-detail' }, list.length ? `${touchUi() ? 'Long-press' : 'Hover'} an option for details. 🎲 = uses your selected dice.` : 'Nothing here.'),
-      btn('Back', () => { app.ui.menu = 'root'; render(); }, { cls: 'small', key: 'menu-back' }));
+      h('div', { class: 'opt-detail' }, list.length ? tx('combat.anOptionForDetailsUses', { v: touchUi() ? 'Long-press' : 'Hover' }) : tx('combat.nothingHere')),
+      btn(tx('combat.back'), () => { app.ui.menu = 'root'; render(); }, { cls: 'small', key: 'menu-back' }));
   }
-  const used = [actor.used.action ? 'action used' : 'action ready', actor.used.bonus ? 'bonus used' : 'bonus ready'].join(' · ');
+  const used = [tx(actor.used.action ? 'combat.actionUsed' : 'combat.actionReady'), tx(actor.used.bonus ? 'combat.bonusUsed' : 'combat.bonusReady')].join(' · ');
   return h('div', { class: 'command' },
     h('div', { class: 'win' }, timeline,
       h('h2', { style: 'margin-top:8px' }, actor.name), h('div', { class: 'small muted' }, used), h('div', { style: 'margin-top:8px' }, body)),
@@ -300,7 +304,7 @@ function commandEl(): HTMLElement {
 function logWin(): HTMLElement {
   const ctx = ctxOrNull()!;
   const el = h('div', { class: 'log', role: 'log', 'aria-live': 'polite', style: 'max-height:240px' }, h('div', { class: 'log-lines' }, ...ctx.combat.log.slice(-60).map((l) => h('div', { class: l.kind ?? '' }, l.t))));
-  return h('div', { class: 'win' }, h('h3', null, 'Battle log'), el);
+  return h('div', { class: 'win' }, h('h3', null, tx('combat.battleLog')), el);
 }
 
 export function combatScreen(): HTMLElement {
@@ -328,13 +332,13 @@ export function combatScreen(): HTMLElement {
   if (app.scoreQueue.length && !app.animating) afterRender.push(() => void playScores());
   return h('div', null,
     h('div', { class: 'topbar' },
-      h('span', { class: 'title' }, combat.kind === 'boss' ? `Boss: ${MONSTERS[enemies.find((e) => e.mon?.boss)?.refId ?? '']?.name ?? ''}` : combat.kind === 'elite' ? 'Elite fight' : combat.kind === 'ambush' ? 'Ambush!' : 'Combat'),
-      h('span', { class: 'stat' }, `Round ${combat.round}`),
-      h('span', { class: 'stat muted' }, `Depth ${exp.depth} · Rank ${exp.fortune.rank}`),
+      h('span', { class: 'title' }, combat.kind === 'boss' ? tx('combat.boss', { v: MONSTERS[enemies.find((e) => e.mon?.boss)?.refId ?? '']?.name ?? '' }) : combat.kind === 'elite' ? tx('combat.eliteFight') : combat.kind === 'ambush' ? tx('combat.ambush') : tx('combat.combat')),
+      h('span', { class: 'stat' }, tx('combat.round', { round: combat.round })),
+      h('span', { class: 'stat muted' }, tx('combat.depthRank', { depth: exp.depth, rank: exp.fortune.rank })),
       h('span', { class: 'spacer' }),
-      btn(g.settings.fast ? 'Fast: on' : 'Fast: off', () => { g.settings.fast = !g.settings.fast; render(); }, { cls: 'small' }),
-      btn('How to play', () => { app.ui.modal = { kind: 'help' }; render(); }, { cls: 'small' }),
-      btn('Dice bag', () => { app.ui.modal = { kind: 'bag' }; render(); }, { cls: 'small' })),
+      btn(g.settings.fast ? tx('combat.fastOn') : tx('combat.fastOff'), () => { g.settings.fast = !g.settings.fast; render(); }, { cls: 'small' }),
+      btn(tx('combat.howToPlay'), () => { app.ui.modal = { kind: 'help' }; render(); }, { cls: 'small' }),
+      btn(tx('combat.diceBag'), () => { app.ui.modal = { kind: 'bag' }; render(); }, { cls: 'small' })),
     h('div', { class: 'combat' }, field, h('div', { class: 'tray-wrap' }, trayEl()), commandEl()));
 }
 
@@ -351,7 +355,7 @@ function playFx() {
       if (!el) return;
       const text = f.kind === 'miss' ? 'Miss' : f.kind === 'kill' ? '✖' : f.kind === 'down' ? 'Down!' : f.kind === 'hex' ? `Hex: ${f.text}` : f.kind === 'text' ? f.text ?? '' : fmt(f.amount ?? 0);
       const cls = f.kind === 'crit' ? 'crit' : f.kind === 'heal' ? 'heal' : f.kind === 'miss' ? 'miss' : f.kind === 'ward' ? 'ward' : f.kind === 'dmg' ? 'dmg' : 'text';
-      const fl = h('div', { class: `floater ${cls}` }, f.kind === 'heal' ? `+${text}` : f.kind === 'ward' ? `+${text} ward` : text);
+      const fl = h('div', { class: `floater ${cls}` }, f.kind === 'heal' ? `+${text}` : f.kind === 'ward' ? tx('combat.ward', { text }) : text);
       el.appendChild(fl);
       if (f.kind === 'dmg' || f.kind === 'crit') { el.classList.add('shake'); sfx.hit(); }
       if (f.kind === 'miss') sfx.miss();
@@ -411,6 +415,6 @@ export function combatKeys(e: KeyboardEvent): boolean {
   if (k === 'e' && !app.ui.pending) { endTurn(); return true; }
   if (k === 'escape') { if (app.ui.pending) app.ui.pending = undefined; else app.ui.menu = 'root'; render(); return true; }
   const idx = 'abcdg'.indexOf(k);
-  if (idx >= 0 && idx < MENU.length && !app.ui.pending) { app.ui.menu = MENU[idx][0]; render(); return true; }
+  if (idx >= 0 && idx < MENU_IDS.length && !app.ui.pending) { app.ui.menu = MENU_IDS[idx]; render(); return true; }
   return false;
 }

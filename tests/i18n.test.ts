@@ -23,6 +23,7 @@ import { roomName, roomText, themeText } from '../src/dungeon/roomText.ts';
 import { dispatch } from '../src/app/commands.ts';
 import { Rng, seedState } from '../src/engine/rng.ts';
 import { setCatalog, setLocale } from '../src/i18n/index.ts';
+import ui from '../src/locales/en/ui.json';
 
 type Lines = Record<string, string | Record<string, string>>;
 const scripts = en.scripts as Record<string, { title: string; lines: Lines; choices?: Record<string, string[]>; terms?: Record<string, string> }>;
@@ -155,6 +156,39 @@ describe('game data text', () => {
       expect(roomText(combat)).toBe(combat.text); // untranslated lines fall back to English
       return setLocale('en');
     });
+  });
+});
+
+describe('interface text', () => {
+  const files = (dir: string): string[] => readdirSync(dir, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? files(`${dir}/${e.name}`) : e.name.endsWith('.ts') ? [`${dir}/${e.name}`] : []));
+  const code = files('src').filter((f) => !f.startsWith('src/dev/')).map((f) => readFileSync(f, 'utf8')).join('\n');
+  const used = new Set([...code.matchAll(/\btxn?\('([\w.]+)'/g)].map((m) => m[1]));
+  // Keys picked at runtime: tx(`explore.dir.${facing}`) and tx(cond ? 'a.b' : 'a.c').
+  const prefixes = [...code.matchAll(/\btxn?\(`([\w.]+)\.\$\{/g)].map((m) => m[1]);
+  // Any quoted 'section.key' also counts (keys chosen by a ternary or passed around).
+  const sections = Object.keys(ui);
+  for (const m of code.matchAll(/'([A-Za-z]\w*\.[\w.]+)'/g)) if (sections.includes(m[1].split('.')[0])) used.add(m[1]);
+  const at = (k: string) => k.split('.').reduce<unknown>((o, p) => (o && typeof o === 'object' ? (o as Record<string, unknown>)[p] : undefined), ui);
+
+  it('every key the code asks for exists in ui.json', () => {
+    const missing = [...used].filter((k) => at(k) === undefined);
+    expect(missing).toEqual([]);
+    for (const p of prefixes) expect(at(p), p).toBeTypeOf('object');
+  });
+
+  it('ui.json has no unused strings, and plurals have an "other" form', () => {
+    const unused: string[] = [];
+    for (const [sec, keys] of Object.entries(ui as Record<string, Record<string, unknown>>)) {
+      if (sec === 'sources') continue; // looked up by damage-source id at runtime
+      for (const [k, v] of Object.entries(keys)) {
+        const key = `${sec}.${k}`;
+        const plural = v && typeof v === 'object' && 'other' in v;
+        if (v && typeof v === 'object' && !plural) {
+          if (!prefixes.includes(key) && !Object.keys(v).every((c) => used.has(`${key}.${c}`))) unused.push(key);
+        } else if (!used.has(key)) unused.push(key);
+      }
+    }
+    expect(unused).toEqual([]);
   });
 });
 

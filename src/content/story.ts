@@ -5,7 +5,7 @@
  * derived from the sigils a Keep has already earned.
  */
 import type { BiomeId, GameState, Hero } from '../engine/types.ts';
-import { bindText, text, textTable } from '../i18n/index.ts';
+import { bindText, text, textTable, tx, txn } from '../i18n/index.ts';
 
 export interface Chapter { id: string; title: string; head: string; text: string[] }
 
@@ -54,16 +54,16 @@ export function echoesUncleared(g: GameState): BiomeId[] {
 export function finaleSealed(g: GameState): string | null {
   const left = echoesUncleared(g).length;
   const champion = g.roster.some((h) => h.status === 'alive' && h.level >= FINALE_LEVEL);
-  if (left && !champion) return `Sealed — clear the other ${left} echo${left > 1 ? 'es' : ''} and raise a level ${FINALE_LEVEL} hero`;
-  if (left) return `Sealed — clear the other ${left} echo${left > 1 ? 'es' : ''} first`;
-  if (!champion) return `Sealed — needs a level ${FINALE_LEVEL} hero`;
+  if (left && !champion) return txn('contentStory.sealedClearTheOtherEcho', left, { FINALE_LEVEL });
+  if (left) return txn('contentStory.sealedClearTheOtherEcho2', left);
+  if (!champion) return tx('contentStory.sealedNeedsALevelHero', { FINALE_LEVEL });
   return null;
 }
 
 /** The finale needs all five echoes cleared and at least one level-20 hero in the chosen party. */
 export function finaleBlocked(party: Hero[], g?: GameState): string | null {
-  if (g && echoesUncleared(g).length) return 'The Sixth Door stays sealed until all five other echoes are cleared.';
-  if (!party.some((h) => h.level >= FINALE_LEVEL)) return `Tiamat can only be faced with a level ${FINALE_LEVEL} hero in the party.`;
+  if (g && echoesUncleared(g).length) return tx('contentStory.theSixthDoorStaysSealed');
+  if (!party.some((h) => h.level >= FINALE_LEVEL)) return tx('contentStory.tiamatCanOnlyBeFaced', { FINALE_LEVEL });
   return null;
 }
 

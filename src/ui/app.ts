@@ -4,6 +4,7 @@ import { dispatch, type GameCmd, type DispatchResult } from '../app/commands.ts'
 import { saveGame } from '../persistence/save.ts';
 import { h, clear } from './dom.ts';
 import { sfx, setSound } from './audio.ts';
+import { tx } from '../i18n/index.ts';
 
 export interface UiState {
   townTab: string;
@@ -73,7 +74,7 @@ function autosave() {
 /** Run a command, autosave, re-render. */
 export function run(cmd: GameCmd, opts: { silent?: boolean } = {}): DispatchResult {
   const g = app.game;
-  if (!g) return { ok: false, error: 'No game' };
+  if (!g) return { ok: false, error: tx('app.noGame') };
   const r = dispatch(g, cmd);
   if (!r.ok) {
     if (!opts.silent && r.error) { toast(r.error); sfx.bad(); }

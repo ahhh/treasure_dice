@@ -3,6 +3,7 @@ import type { ClassId, FaceMod, FortuneRun, HexId, TrayDie } from '../engine/typ
 import type { Rng } from '../engine/rng.ts';
 import { buildStartingBag, rollFace, makeDie, type SignatureSet } from './materials.ts';
 import { charmPassives, CHARM_BY_ID } from './charms.ts';
+import { tx, txn } from '../i18n/index.ts';
 
 export const PLAY_LIMIT = 5;
 export const BASE_HAND_SIZE = 7;
@@ -158,7 +159,7 @@ export function applyHex(run: FortuneRun, rng: Rng, hex: HexId, size: number): s
       if (!cands.length) return null;
       const best = cands.reduce((a, b) => (faceVal(b) > faceVal(a) ? b : a));
       best.jinxed = true;
-      return `jinxes your ${faceVal(best)} — it can't be played until rerolled!`;
+      return tx('fortuneTray.jinx', { value: faceVal(best) });
     }
     case 'pilfer': {
       const loose = run.tray.map((t, i) => i).filter((i) => !steadfast(run.tray[i]));
@@ -168,7 +169,7 @@ export function applyHex(run: FortuneRun, rng: Rng, hex: HexId, size: number): s
       if (td.ghost) run.bag = run.bag.filter((d) => d.uid !== td.dieUid);
       else run.discard.push(td.dieUid);
       refill(run, rng, size - 1);
-      return `snatches a die from your tray!`;
+      return tx('fortuneTray.pilfer');
     }
     case 'curseFace': {
       const pool = run.bag.filter((d) => !d.uid.startsWith('ghost') && d.trait !== 'steadfast');
@@ -186,7 +187,7 @@ export function applyHex(run: FortuneRun, rng: Rng, hex: HexId, size: number): s
         const idx = die.faces.findIndex((f) => f.v === target);
         if (idx >= 0) td.face = idx;
       }
-      return `turns your dice upside-down!`;
+      return tx('fortuneTray.invert');
     }
     case 'drain':
       run.rerollsLeft = Math.max(0, run.rerollsLeft - 1);
@@ -195,7 +196,7 @@ export function applyHex(run: FortuneRun, rng: Rng, hex: HexId, size: number): s
       const lost = Math.min(2, run.doubloons);
       if (!lost) return null;
       run.doubloons -= lost;
-      return `pinches ${lost} doubloon${lost > 1 ? 's' : ''}!`;
+      return txn('fortuneTray.snuff', lost);
     }
   }
 }

@@ -7,6 +7,7 @@ import { combatDispatch, type CombatCmd } from '../combat/index.ts';
 import * as X from '../dungeon/explore.ts';
 import * as T from '../meta/town.ts';
 import * as Q from '../meta/quest.ts';
+import { tx } from '../i18n/index.ts';
 
 export type GameCmd =
   | { type: 'combat'; cmd: CombatCmd }
@@ -62,13 +63,13 @@ const TOWN_CMDS = new Set(['hire', 'rerollRecruits', 'retire', 'buy', 'sell', 'e
 
 /** Never throws: a bug in one command must not take down the session. */
 export function dispatch(g: GameState, cmd: GameCmd): DispatchResult {
-  if (DUNGEON_CMDS.has(cmd.type) && !g.expedition) return { ok: false, error: 'You are not in a dungeon.' };
-  if (TOWN_CMDS.has(cmd.type) && g.expedition) return { ok: false, error: 'That can only be done in the Keep.' };
+  if (DUNGEON_CMDS.has(cmd.type) && !g.expedition) return { ok: false, error: tx('appCommands.youAreNotInA') };
+  if (TOWN_CMDS.has(cmd.type) && g.expedition) return { ok: false, error: tx('appCommands.thatCanOnlyBeDone') };
   try {
     return dispatchInner(g, cmd);
   } catch (e) {
     console.error('dispatch failed', cmd, e);
-    return { ok: false, error: `Something went wrong (${(e as Error).message}). Your last save is intact.` };
+    return { ok: false, error: tx('appCommands.somethingWentWrongYourLast', { message: (e as Error).message }) };
   }
 }
 
@@ -96,7 +97,7 @@ function dispatchInner(g: GameState, cmd: GameCmd): DispatchResult {
     case 'shopOpen': {
       const exp = g.expedition;
       const s = exp?.shops?.[exp.pos];
-      if (!exp || !s) return { ok: false, error: 'No peddler here.' };
+      if (!exp || !s) return { ok: false, error: tx('appCommands.noPeddlerHere') };
       exp.shop = s;
       return { ok: true };
     }
@@ -108,7 +109,7 @@ function dispatchInner(g: GameState, cmd: GameCmd): DispatchResult {
     case 'retreat': return err(X.retreat(g));
     case 'exitDungeon': return err(X.exitDungeon(g));
     case 'startExpedition': {
-      if (g.expedition) return { ok: false, error: 'Already on an expedition.' };
+      if (g.expedition) return { ok: false, error: tx('appCommands.alreadyOnAnExpedition') };
       return err(X.startExpedition(g, cmd));
     }
     case 'hire': return err(T.hire(g, cmd.idx));

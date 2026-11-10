@@ -24,6 +24,7 @@ import { CLASS_MATERIAL } from '../fortune/materials.ts';
 import { heroColour } from '../fortune/dicepath.ts';
 import { Rng } from '../engine/rng.ts';
 import { PROLOGUE, FINALE_LEVEL } from '../content/story.ts';
+import { tx, rich } from '../i18n/index.ts';
 
 type Where = 'town' | 'dungeon' | 'combat' | 'result';
 type Kids = (Node | string | null)[];
@@ -68,7 +69,7 @@ const combatActive = (g: GameState) => !!g.expedition?.combat && g.expedition.co
 
 // ── movement helpers ────────────────────────────────────────────────────────
 
-const REL_LABEL: Record<RelDir, string> = { forward: 'Forward (↑)', left: 'Left (←)', right: 'Right (→)', back: 'Back (↓)' };
+const REL_LABEL: Record<RelDir, string> = { get forward() { return tx('tutorial.rel.forward'); }, get left() { return tx('tutorial.rel.left'); }, get right() { return tx('tutorial.rel.right'); }, get back() { return tx('tutorial.rel.back'); } };
 
 /** The relative direction of the first step on the shortest open path to `target`. */
 function stepToward(g: GameState, target: string): RelDir | null {
@@ -98,7 +99,7 @@ const moveTarget = (room: string) => (g: GameState) => {
 };
 const moveText = (g: GameState, room: string, intro: Kids): Kids => {
   const rel = stepToward(g, room);
-  return [...intro, rel ? P(B(`Tap ${REL_LABEL[rel]}.`), ' Directions are relative to the way you face, so the same door can be Forward one moment and Left the next.') : null];
+  return [...intro, rel ? P(...rich(tx('tutorial.tapDirectionsAreRelativeTo', { REL_LABEL: REL_LABEL[rel] }))) : null];
 };
 
 // ── combat helpers ──────────────────────────────────────────────────────────
@@ -127,7 +128,7 @@ function recHandName(g: GameState, dice: number[]): string {
 
 function actorName(g: GameState): string {
   const ctx = makeCtx(g);
-  return current(ctx)?.name ?? 'Your hero';
+  return current(ctx)?.name ?? tx('tutorial.yourHero');
 }
 
 // ── the steps ───────────────────────────────────────────────────────────────
@@ -135,123 +136,123 @@ function actorName(g: GameState): string {
 const STEPS: Step[] = [
   // ---------------------------------------------------------------- the Keep
   {
-    id: 'welcome', where: 'town', next: true, title: PROLOGUE.title,
+    id: 'welcome', where: 'town', next: true, get title() { return PROLOGUE.title; },
     text: () => [...PROLOGUE.text.map((t) => P(t)),
-      h('p', { class: 'coach-faint' }, 'This short tour shows you around the Keep, then takes your three heroes through a practice dungeon: moving, one fight, treasure and a boss. They come back at level 2. You can skip it at any time.')],
+      h('p', { class: 'coach-faint' }, tx('tutorial.thisShortTourShowsYou'))],
   },
   {
-    id: 'purse', where: 'town', next: true, title: 'Gold and sigils', target: () => $('.topbar'),
-    text: () => [P(B('Banked gold'), ' is safe in the Keep. You start with 50, enough for a potion or two. Gold you find in a dungeon is only banked if you walk out alive.'),
-      P(B('Sigils'), ' come from beating echo bosses. They pay for Keep upgrades, together with gold.')],
+    id: 'purse', where: 'town', next: true, get title() { return tx('tutorial.goldAndSigils'); }, target: () => $('.topbar'),
+    text: () => [P(...rich(tx('tutorial.bankedGoldIsSafeIn'))),
+      P(...rich(tx('tutorial.sigilsComeFromBeatingEcho')))],
   },
   {
-    id: 'nav', where: 'town', next: true, title: 'The Keep is a big menu', target: () => $('.town-nav'),
-    text: () => [P('Each tab is a facility:'),
+    id: 'nav', where: 'town', next: true, get title() { return tx('tutorial.theKeepIsABig'); }, target: () => $('.town-nav'),
+    text: () => [P(tx('tutorial.eachTabIsAFacility')),
       h('ul', { class: 'coach-list' },
-        h('li', null, B('Guild Hall'), ': your roster, level-ups and recruits.'),
-        h('li', null, B('Chronicle'), ': the story so far, and your share card.'),
-        h('li', null, B('Cartographer'), ': pick three heroes and a dungeon.'),
-        h('li', null, B('Armory / Apothecary'), ': buy gear and potions.'),
-        h('li', null, B('Enchanter / Training'), ': upgrade gear, train benched heroes, upgrade the Keep.'),
-        h('li', null, B('Vault / Codex'), ': your loot, and everything you have discovered.')),
-      P('Click any tab to switch. The tour will take you to the ones that matter now.')],
+        h('li', null, ...rich(tx('tutorial.guildHallYourRosterLevel'))),
+        h('li', null, ...rich(tx('tutorial.chronicleTheStorySoFar'))),
+        h('li', null, ...rich(tx('tutorial.cartographerPickThreeHeroesAnd'))),
+        h('li', null, ...rich(tx('tutorial.armoryApothecaryBuyGearAnd'))),
+        h('li', null, ...rich(tx('tutorial.enchanterTrainingUpgradeGearTrain'))),
+        h('li', null, ...rich(tx('tutorial.vaultCodexYourLootAnd')))),
+      P(tx('tutorial.clickAnyTabToSwitch'))],
   },
   {
-    id: 'hero', where: 'town', tab: 'guild', title: 'Meet your heroes',
+    id: 'hero', where: 'town', tab: 'guild', get title() { return tx('tutorial.meetYourHeroes'); },
     target: () => $('[data-tut="roster"] .hero-card'),
     done: () => !!app.ui.heroSheet,
-    text: (g) => [P(`These are your first three heroes: ${g.roster.filter((x) => x.status === 'alive').slice(0, 3).map((x) => x.name.split(' ')[0]).join(', ')}. A fighter up front, a cleric to heal, and a rogue for big hits.`), P(B('Click a hero'), ' to open their sheet.')],
+    text: (g) => [P(tx('tutorial.theseAreYourFirstThree', { map: g.roster.filter((x) => x.status === 'alive').slice(0, 3).map((x) => x.name.split(' ')[0]).join(', ') })), P(...rich(tx('tutorial.clickAHeroToOpen')))],
   },
   {
-    id: 'sheet', where: 'town', next: true, title: 'The hero sheet', target: () => $('.modal .sheet'),
+    id: 'sheet', where: 'town', next: true, get title() { return tx('tutorial.theHeroSheet'); }, target: () => $('.modal .sheet'),
     onNext: () => { app.ui.heroSheet = undefined; render(); },
-    text: () => [P('Everything about a hero: HP, AC, ability scores, gear slots, class features and spells. In the Keep you equip gear from the Vault here and choose prepared spells.'),
-      P('Close any window with ', B('Esc'), ' or by clicking outside it. (Next closes it for you.)')],
+    text: () => [P(tx('tutorial.everythingAboutAHeroHp')),
+      P(...rich(tx('tutorial.closeAnyWindowWithEsc')))],
   },
   {
-    id: 'recruits', where: 'town', tab: 'guild', next: true, title: 'Recruits', target: () => $('[data-tut="recruits"]'),
-    text: () => [P('More heroes are for hire here, from all twelve classes. Each has their own colour of dice. Hiring costs gold, but volunteers sign on free whenever you have fewer than three living heroes.'),
-      P('Every recruit has a unique name, so nobody gets mixed up on the Wall of the Fallen.')],
+    id: 'recruits', where: 'town', tab: 'guild', next: true, get title() { return tx('tutorial.recruits'); }, target: () => $('[data-tut="recruits"]'),
+    text: () => [P(tx('tutorial.moreHeroesAreForHire')),
+      P(tx('tutorial.everyRecruitHasAUnique'))],
   },
   {
-    id: 'chronicle', where: 'town', tab: 'chronicle', next: true, title: 'The Chronicle', target: () => $('[data-tut="story"]'),
-    text: () => [P('Your story. Tiamat the Dragon Queen is stirring behind the Sixth Door, and each of her heads feeds an echo behind a door of its own. Each echo you break tells the next chapter.'),
-      P(`To face her you need at least one hero at `, B(`level ${FINALE_LEVEL}`), '. Heroes gain one level for every dungeon they clear and survive.')],
+    id: 'chronicle', where: 'town', tab: 'chronicle', next: true, get title() { return tx('tutorial.theChronicle'); }, target: () => $('[data-tut="story"]'),
+    text: () => [P(tx('tutorial.yourStoryTiamatTheDragon')),
+      P(...rich(tx('tutorial.toFaceHerYouNeed', { FINALE_LEVEL })))],
   },
   {
-    id: 'cart', where: 'town', tab: 'cartographer', next: true, title: 'The Cartographer', target: () => $('[data-tut="party"]'),
-    text: () => [P('Pick your three heroes here. Click a card to add or remove it. A good party has a front-liner, a healer and someone who hits hard.'),
-      P('Below that you pick an echo (a dungeon), the difficulty and the length.')],
+    id: 'cart', where: 'town', tab: 'cartographer', next: true, get title() { return tx('tutorial.theCartographer'); }, target: () => $('[data-tut="party"]'),
+    text: () => [P(tx('tutorial.pickYourThreeHeroesHere')),
+      P(tx('tutorial.belowThatYouPickAn'))],
   },
   {
-    id: 'enter', where: 'town', tab: 'cartographer', title: 'Enter the Training Cellar', target: () => $('[data-key="start-tutorial"]'),
+    id: 'enter', where: 'town', tab: 'cartographer', get title() { return tx('tutorial.enterTheTrainingCellar'); }, target: () => $('[data-key="start-tutorial"]'),
     done: (g) => inCellar(g),
-    text: () => [P('A small practice dungeon waits under the Keep. It is gentle, and nobody can die there, even in Legacy mode.'), P(B('Click Enter the Training Cellar.'))],
+    text: () => [P(tx('tutorial.aSmallPracticeDungeonWaits')), P(B(tx('tutorial.clickEnterTheTrainingCellar')))],
   },
   // ---------------------------------------------------------------- the cellar
   {
-    id: 'room', where: 'dungeon', next: true, title: 'Your first room', target: () => $('.room-view'),
-    text: () => [P('This is the room you are standing in: its name, what you see, and the echo\'s meter (Heat, here) at the top left.'),
-      P('The compass at the top right shows which way you are ', B('facing'), '.')],
+    id: 'room', where: 'dungeon', next: true, get title() { return tx('tutorial.yourFirstRoom'); }, target: () => $('.room-view'),
+    text: () => [P(tx('tutorial.thisIsTheRoomYou')),
+      P(...rich(tx('tutorial.theCompassAtTheTop')))],
   },
   {
-    id: 'dpad', where: 'dungeon', next: true, title: 'Moving', target: () => $('.dpad'),
-    text: () => [P('Move ', B('Forward, Left, Right or Back'), ' relative to the way you face, with these buttons or the arrow keys / WASD. Each button shows what lies that way; a dash means a wall.'),
-      P('Turning down a side passage changes your facing, so keep an eye on the compass.')],
+    id: 'dpad', where: 'dungeon', next: true, get title() { return tx('tutorial.moving'); }, target: () => $('.dpad'),
+    text: () => [P(...rich(tx('tutorial.moveForwardLeftRightOr'))),
+      P(tx('tutorial.turningDownASidePassage'))],
   },
   {
-    id: 'map', where: 'dungeon', next: true, title: 'The map', target: () => $('.minimap'),
-    text: () => [P('The map fills in as you explore. The arrow is you. ☠ is the boss, ⚿ the Boss Sigil, $ treasure, ? an event, ⌂ a camp.'),
-      P('In every dungeon you need the Boss Sigil to open the boss\'s door.')],
+    id: 'map', where: 'dungeon', next: true, get title() { return tx('tutorial.theMap'); }, target: () => $('.minimap'),
+    text: () => [P(tx('tutorial.theMapFillsInAs')),
+      P(tx('tutorial.inEveryDungeonYouNeed'))],
   },
   {
-    id: 'journal', where: 'dungeon', next: true, title: 'Journal, party and Fortune', target: () => [$('.explore .log'), $('.party-strip')],
-    text: () => [P('The journal records everything that happens. Below it is your party: click a portrait for their sheet. Potions and healing spells are under ', B('Supplies'), ' on the right.')],
+    id: 'journal', where: 'dungeon', next: true, get title() { return tx('tutorial.journalPartyAndFortune'); }, target: () => [$('.explore .log'), $('.party-strip')],
+    text: () => [P(...rich(tx('tutorial.theJournalRecordsEverythingThat')))],
   },
   {
-    id: 'move1', where: 'dungeon', title: 'Take a step', target: moveTarget(TUT.tunnel),
+    id: 'move1', where: 'dungeon', get title() { return tx('tutorial.takeAStep'); }, target: moveTarget(TUT.tunnel),
     done: (g) => g.expedition?.pos !== TUT.entrance,
-    text: (g) => moveText(g, TUT.tunnel, [P('Let\'s go.')]),
+    text: (g) => moveText(g, TUT.tunnel, [P(tx('tutorial.letSGo'))]),
   },
   {
-    id: 'move2', where: 'dungeon', title: 'Something is counting dice', target: moveTarget(TUT.fight),
+    id: 'move2', where: 'dungeon', get title() { return tx('tutorial.somethingIsCountingDice'); }, target: moveTarget(TUT.fight),
     done: (g) => !!g.expedition?.combat || !!g.expedition?.map.rooms[TUT.fight].encounter?.cleared,
-    text: (g) => moveText(g, TUT.fight, [P('Goblins are just ahead. Walking into an occupied room starts a fight.')]),
+    text: (g) => moveText(g, TUT.fight, [P(tx('tutorial.goblinsAreJustAheadWalking'))]),
   },
   // ---------------------------------------------------------------- first fight
   {
-    id: 'field', where: 'combat', next: true, title: 'The battlefield', target: () => $('.battlefield'),
-    text: () => [P('Foes stand in a ', B('front'), ' and a ', B('back'), ' rank. Melee attacks can only reach the front rank while it stands. Hover a foe to see its AC and weaknesses.'),
-      P('Your heroes are along the bottom. The glowing one is acting now.')],
+    id: 'field', where: 'combat', next: true, get title() { return tx('tutorial.theBattlefield'); }, target: () => $('.battlefield'),
+    text: () => [P(...rich(tx('tutorial.foesStandInAFront'))),
+      P(tx('tutorial.yourHeroesAreAlongThe'))],
   },
   {
-    id: 'timeline', where: 'combat', next: true, title: 'Turn order', target: () => $('.timeline'),
-    text: () => [P('Everyone acts in initiative order, shown here. Enemy turns play out on their own.')],
+    id: 'timeline', where: 'combat', next: true, get title() { return tx('tutorial.turnOrder'); }, target: () => $('.timeline'),
+    text: () => [P(tx('tutorial.everyoneActsInInitiativeOrder'))],
   },
   {
-    id: 'tray', where: 'combat', next: true, title: 'The Fortune Tray', target: () => $('.felt .dice-row'),
-    text: () => [P('This is the heart of the game. Every fight deals dice from your bag onto this tray, and the ', B('whole party shares it'), '.'),
-      P('Each die has a material (colour). Dice that match the acting hero\'s colour score extra Mult.')],
+    id: 'tray', where: 'combat', next: true, get title() { return tx('tutorial.theFortuneTray'); }, target: () => $('.felt .dice-row'),
+    text: () => [P(...rich(tx('tutorial.thisIsTheHeartOf'))),
+      P(tx('tutorial.eachDieHasAMaterial'))],
   },
   {
-    id: 'select', where: 'combat', title: 'Pick a hand',
+    id: 'select', where: 'combat', get title() { return tx('tutorial.pickAHand'); },
     target: (g) => { const sel = app.ui.selected; return recommended(g).filter((i) => !sel.includes(i)).map((i) => $(`[data-key="die${i}"]`)).filter((x): x is Element => !!x); },
     done: (g) => { const rec = recommended(g); return rec.length === 0 || rec.every((i) => app.ui.selected.includes(i)); },
-    text: (g) => { const rec = recommended(g); return [P(`On ${actorName(g)}'s turn, choose up to five dice to play with an action. They score like poker dice: Pair, Two Pair, Three of a Kind, Straight…`),
-      P(B(`Click the highlighted dice`), ` (or press their number keys). They make ${/^[AEIOU]/.test(recHandName(g, rec)) ? 'an' : 'a'} `, B(recHandName(g, rec)), '.')]; },
+    text: (g) => { const rec = recommended(g); return [P(tx('tutorial.onSTurnChooseUp', { actorName: actorName(g) })),
+      P(B(tx('tutorial.clickTheHighlightedDice')), tx('tutorial.orPressTheirNumberKeys', { v: /^[AEIOU]/.test(recHandName(g, rec)) ? 'an' : 'a' }), B(recHandName(g, rec)), '.')]; },
   },
   {
-    id: 'score', where: 'combat', next: true, title: 'Chips × Mult', target: () => $('.felt-head'),
-    text: () => [P('The preview shows your hand and its ', h('b', { class: 'chipc' }, 'Chips'), ' × ', h('b', { class: 'multc' }, 'Mult'), '. When you act, the action\'s real damage dice are added to the Chips, then everything is multiplied.'),
-      P('Only the dice that make the pattern score. The rest stay on the tray for the next hero.')],
+    id: 'score', where: 'combat', next: true, get title() { return tx('tutorial.chipsMult'); }, target: () => $('.felt-head'),
+    text: () => [P(tx('tutorial.thePreviewShowsYourHand'), h('b', { class: 'chipc' }, tx('tutorial.chips')), ' × ', h('b', { class: 'multc' }, tx('tutorial.mult')), tx('tutorial.whenYouActTheAction')),
+      P(tx('tutorial.onlyTheDiceThatMake'))],
   },
   {
-    id: 'reroll', where: 'combat', next: true, title: 'Rerolls', target: () => $('[data-key="reroll"]'),
-    text: () => [P('Not happy with a die? Select it and ', B('Reroll'), ' (R). You get 1 reroll per turn; skills, items and charms can give more.'),
-      P('The buttons beside it are class talents. A fighter can nudge a die ±1, a cleric can turn one into a Sun 6, and so on. Tokens (coins) are one-shot tricks.')],
+    id: 'reroll', where: 'combat', next: true, get title() { return tx('tutorial.rerolls'); }, target: () => $('[data-key="reroll"]'),
+    text: () => [P(...rich(tx('tutorial.notHappyWithADie'))),
+      P(tx('tutorial.theButtonsBesideItAre'))],
   },
   {
-    id: 'attack', where: 'combat', title: 'Attack!',
+    id: 'attack', where: 'combat', get title() { return tx('tutorial.attack'); },
     enter: (g) => { g.tutorial!.mark = `actor:${current(makeCtx(g))?.id ?? ''}`; },
     target: () => app.ui.pending ? $$('.enemy.targetable') : app.ui.menu === 'attack' ? $('[data-key="opt-attack"]') : $('[data-key="menu-attack"]'),
     done: (g) => {
@@ -260,22 +261,22 @@ const STEPS: Step[] = [
       const was = g.tutorial!.mark?.startsWith('actor:') ? g.tutorial!.mark.slice(6) : '';
       return !c || c.id !== was || c.used.action;
     },
-    text: () => [P(app.ui.pending ? 'Now click a highlighted foe.' : app.ui.menu === 'attack' ? 'Pick the weapon attack. 🎲 means it carries your selected dice.' : 'Open the Attack menu (A).'),
-      h('p', { class: 'coach-faint' }, 'If you miss, your dice come back to the tray.')],
+    text: () => [P(app.ui.pending ? tx('tutorial.nowClickAHighlightedFoe') : app.ui.menu === 'attack' ? tx('tutorial.pickTheWeaponAttackMeans') : tx('tutorial.openTheAttackMenuA')),
+      h('p', { class: 'coach-faint' }, tx('tutorial.ifYouMissYourDice'))],
   },
   {
-    id: 'log', where: 'combat', next: true, title: 'The battle log', target: () => $('.command .log'),
-    text: () => [P('Every roll, hit and miss is written here. A big hand plays a scoring animation first, so you can watch the Chips and Mult add up.')],
+    id: 'log', where: 'combat', next: true, get title() { return tx('tutorial.theBattleLog'); }, target: () => $('.command .log'),
+    text: () => [P(tx('tutorial.everyRollHitAndMiss'))],
   },
   {
-    id: 'menus', where: 'combat', next: true, title: 'Other commands', target: () => $('.command .win'),
-    text: () => [P(B('Skills'), ' are class features (Second Wind, Sneak Attack…), ', B('Magic'), ' holds spells, ', B('Items'), ' your potions, and ', B('Guard / Move'), ' raises a ward or switches rank.'),
-      P(B('End turn'), ' (E) passes to the next hero. Unplayed dice stay on the tray, so you can save a good pair for a teammate.')],
+    id: 'menus', where: 'combat', next: true, get title() { return tx('tutorial.otherCommands'); }, target: () => $('.command .win'),
+    text: () => [P(...rich(tx('tutorial.skillsAreClassFeaturesSecond'))),
+      P(...rich(tx('tutorial.endTurnEPassesTo')))],
   },
   {
     // Players stall here wondering what to do with "bonus ready". Only shown while the
     // hero who attacked is still up with their action spent; otherwise it passes at once.
-    id: 'endturn', where: 'combat', title: 'Ending your turn',
+    id: 'endturn', where: 'combat', get title() { return tx('tutorial.endingYourTurn'); },
     enter: (g) => { const c = current(makeCtx(g)); g.tutorial!.mark = `endturn:${c && c.used.action && !c.used.bonus ? c.id : ''}`; },
     target: () => $('[data-key="end-turn"]') ?? $('[data-key="menu-back"]'),
     done: (g) => {
@@ -284,92 +285,92 @@ const STEPS: Step[] = [
       const c = current(makeCtx(g));
       return !was || !c || c.id !== was;
     },
-    text: (g) => [P('Each turn has an action and a ', B('bonus action'), '. Use both and the turn passes on its own.'),
-      P(`${actorName(g)} still has a bonus action, but many heroes have nothing worth spending it on yet. That's fine: you end the turn yourself. `,
-        B(app.ui.menu !== 'root' ? 'Click Back, then End turn' : 'Click End turn'), ' (E).')],
+    text: (g) => [P(...rich(tx('tutorial.eachTurnHasAnAction'))),
+      P(tx('tutorial.stillHasABonusAction', { actorName: actorName(g) }),
+        B(app.ui.menu !== 'root' ? tx('tutorial.clickBackThenEndTurn') : tx('tutorial.clickEndTurn')), ' (E).')],
   },
   {
-    id: 'win1', where: 'combat', free: true, title: 'Finish the fight',
+    id: 'win1', where: 'combat', free: true, get title() { return tx('tutorial.finishTheFight'); },
     done: (g) => !combatActive(g),
-    text: () => [P('Select dice, pick an action, click a target. Keep going until the goblins drop.')],
+    text: () => [P(tx('tutorial.selectDicePickAnAction'))],
   },
   // ---------------------------------------------------------------- after the fight
   {
-    id: 'treasure', where: 'dungeon', title: 'A side room', target: moveTarget(TUT.treasure),
+    id: 'treasure', where: 'dungeon', get title() { return tx('tutorial.aSideRoom'); }, target: moveTarget(TUT.treasure),
     done: (g) => g.expedition?.pos === TUT.treasure || !!g.expedition?.map.rooms[TUT.treasure].loot?.taken,
-    text: (g) => moveText(g, TUT.treasure, [P('Victory! The map shows a room off to the side. Treasure rooms are worth the detour.')]),
+    text: (g) => moveText(g, TUT.treasure, [P(tx('tutorial.victoryTheMapShowsA'))]),
   },
   {
-    id: 'loot', where: 'dungeon', title: 'Open the treasure', target: () => $('[data-key="loot"]'),
+    id: 'loot', where: 'dungeon', get title() { return tx('tutorial.openTheTreasure'); }, target: () => $('[data-key="loot"]'),
     done: (g) => !!g.expedition?.map.rooms[TUT.treasure].loot?.taken,
-    text: () => [P('Room actions appear under the room: treasure, events, the Peddler, camps and ', B('Search'), ', which finds hidden doors. ', B('Click Open the treasure.'))],
+    text: () => [P(...rich(tx('tutorial.roomActionsAppearUnderThe')))],
   },
   {
-    id: 'kiln', where: 'dungeon', title: 'Find the Boss Sigil', target: moveTarget(TUT.kiln),
+    id: 'kiln', where: 'dungeon', get title() { return tx('tutorial.findTheBossSigil'); }, target: moveTarget(TUT.kiln),
     done: (g) => g.expedition?.pos === TUT.kiln || !!g.expedition?.keys.includes('sigil'),
-    text: (g) => moveText(g, TUT.kiln, [P('The Sigil Kiln (⚿) is past the fight room.')]),
+    text: (g) => moveText(g, TUT.kiln, [P(tx('tutorial.theSigilKilnIsPast'))]),
   },
   {
-    id: 'sigil', where: 'dungeon', title: 'Take the sigil', target: () => $('.modal-back .menu') ?? $('[data-key="investigate"]'),
+    id: 'sigil', where: 'dungeon', get title() { return tx('tutorial.takeTheSigil'); }, target: () => $('.modal-back .menu') ?? $('[data-key="investigate"]'),
     done: (g) => !!g.expedition?.keys.includes('sigil'),
-    text: () => [P('Rooms with ? or ⚿ hold events: choices, often with a skill check. Your best hero rolls, and the odds are shown before you choose.'), $('.modal-back .menu') ? P(B('Pick a choice'), ' to take the sigil.') : P(B('Investigate'), ' and take the sigil.')],
+    text: () => [P(tx('tutorial.roomsWithOrHoldEvents')), $('.modal-back .menu') ? P(...rich(tx('tutorial.pickAChoiceToTake'))) : P(...rich(tx('tutorial.investigateAndTakeTheSigil')))],
   },
   {
-    id: 'fortune', where: 'dungeon', next: true, title: 'This run\'s Fortune', target: () => $('.explore .felt'),
-    text: () => [P('Charms, omens, doubloons (¤), tokens and your dice bag only last for this dungeon. They build into a scoring engine as you go deeper, then vanish when the dungeon ends. So go big.'),
-      P('The slots below are your ', B('relic tray'), '. Every ', B('charm'), ' and every ', B('omen'), ' (✶, +1 level to one hand) takes a slot. When it\'s full, a new one must replace an old one, and a sold or replaced omen takes its level with it.'),
-      P('Open the ', B('Dice bag'), ' to see every die, reorder charms (they score left to right) and check your hand levels.')],
+    id: 'fortune', where: 'dungeon', next: true, get title() { return tx('tutorial.thisRunSFortune'); }, target: () => $('.explore .felt'),
+    text: () => [P(tx('tutorial.charmsOmensDoubloonsTokensAnd')),
+      P(...rich(tx('tutorial.theSlotsBelowAreYour'))),
+      P(...rich(tx('tutorial.openTheDiceBagTo')))],
   },
   {
-    id: 'bossdoor', where: 'dungeon', title: 'The boss door', target: moveTarget(TUT.boss),
+    id: 'bossdoor', where: 'dungeon', get title() { return tx('tutorial.theBossDoor'); }, target: moveTarget(TUT.boss),
     done: (g) => (combatActive(g) && g.expedition!.combat!.kind === 'boss') || !!g.expedition?.bossDefeated,
-    text: (g) => moveText(g, TUT.boss, [P('The sigil opens the sealed door. Your heroes healed up a little after the fight; in real dungeons, camps (⌂) let you rest.')]),
+    text: (g) => moveText(g, TUT.boss, [P(tx('tutorial.theSigilOpensTheSealed'))]),
   },
   {
-    id: 'curse', where: 'combat', next: true, title: 'Boss curses', target: () => $('.curse-banner'),
-    text: () => [P('Every boss brings a ', B('curse'), ' that changes the dice rules for the fight. This one weakens Steel and Ember dice, so lean on the others.'),
-      P('Bosses also have phases, and they warn you (⚠) before a big attack.')],
+    id: 'curse', where: 'combat', next: true, get title() { return tx('tutorial.bossCurses'); }, target: () => $('.curse-banner'),
+    text: () => [P(...rich(tx('tutorial.everyBossBringsACurse'))),
+      P(tx('tutorial.bossesAlsoHavePhasesAnd'))],
   },
   {
-    id: 'win2', where: 'combat', free: true, title: 'Beat the practice forge',
+    id: 'win2', where: 'combat', free: true, get title() { return tx('tutorial.beatThePracticeForge'); },
     done: (g) => !!g.expedition?.bossDefeated || !combatActive(g),
-    text: () => [P('Everything you learned, together. Big hands, rerolls, talents. You\'ve got this.')],
+    text: () => [P(tx('tutorial.everythingYouLearnedTogetherBig'))],
   },
   {
-    id: 'exit', where: 'dungeon', title: 'Go home in triumph', target: () => $('[data-key="exit"]'),
+    id: 'exit', where: 'dungeon', get title() { return tx('tutorial.goHomeInTriumph'); }, target: () => $('[data-key="exit"]'),
     done: (g) => !g.expedition,
-    text: () => [P('With the boss down you can leave from anywhere. ', B('Return to the Keep'), ' to bank your gold and treasure.')],
+    text: () => [P(...rich(tx('tutorial.withTheBossDownYou')))],
   },
   // ---------------------------------------------------------------- home again
   {
-    id: 'result', where: 'result', next: true, title: 'A cleared dungeon', target: () => $('.title-inner .win'),
-    text: () => [P('Every hero who survives a cleared dungeon ', B('gains a level'), '. Gold and items go to the Keep.'),
-      P('In Legacy mode, heroes who fall in a real dungeon stay dead. In Story mode a wipe just sends you home empty-handed.')],
+    id: 'result', where: 'result', next: true, get title() { return tx('tutorial.aClearedDungeon'); }, target: () => $('.title-inner .win'),
+    text: () => [P(...rich(tx('tutorial.everyHeroWhoSurvivesA'))),
+      P(tx('tutorial.inLegacyModeHeroesWho'))],
   },
   {
-    id: 'home', where: 'result', title: 'Back to the Keep', target: () => $('[data-key="ack"]'),
+    id: 'home', where: 'result', get title() { return tx('tutorial.backToTheKeep'); }, target: () => $('[data-key="ack"]'),
     done: (g) => !g.lastResult,
-    text: () => [P(B('Click Return to the Keep.'))],
+    text: () => [P(B(tx('tutorial.clickReturnToTheKeep')))],
   },
   {
-    id: 'levelup', where: 'town', tab: 'guild', title: 'Level up',
+    id: 'levelup', where: 'town', tab: 'guild', get title() { return tx('tutorial.levelUp'); },
     // Inside the wizard the choices fill the screen (on phones the confirm button is off-screen),
     // so the bubble shrinks to a corner reminder instead of parking on top of the options.
     freeWhen: () => !!app.ui.levelUp,
     target: () => app.ui.levelUp ? null : $('[data-tut="levelup"] button') ?? $('[data-tut="levelup"]'),
     done: (g) => !g.roster.some((x) => x.status === 'alive' && x.pendingLevel),
     text: () => [P(app.ui.levelUp
-      ? 'The level-up wizard lists the new features. When a level offers a choice (a fighting style, a feat…), pick it here. Then confirm.'
-      : 'Heroes with a level waiting have a red badge. Click Level up on each of them.'), P(B(app.ui.levelUp ? 'Click Become level 2.' : 'Level up all three heroes.'))],
+      ? tx('tutorial.theLevelUpWizardLists')
+      : tx('tutorial.heroesWithALevelWaiting')), P(B(app.ui.levelUp ? tx('tutorial.clickBecomeLevel2') : tx('tutorial.levelUpAllThreeHeroes')))],
   },
   {
-    id: 'share', where: 'town', tab: 'chronicle', next: true, title: 'Share your legends', target: () => $('[data-tut="share"]'),
-    text: () => [P('Your share card shows your three best heroes, the echoes you have broken, and whether you have beaten Tiamat. Save it as an image or share it.')],
+    id: 'share', where: 'town', tab: 'chronicle', next: true, get title() { return tx('tutorial.shareYourLegends'); }, target: () => $('[data-tut="share"]'),
+    text: () => [P(tx('tutorial.yourShareCardShowsYour'))],
   },
   {
-    id: 'ready', where: 'town', tab: 'cartographer', next: true, last: true, title: 'The real thing', target: () => $('[data-tut="biomes"]'),
-    text: () => [P('That\'s the tour. Now pick an echo and open its door for real. Each echo you break unlocks the next and tells the next chapter of the story.'),
-      P(`Reach level ${FINALE_LEVEL} and the Dragon Throne opens. `, B('How to play'), ' in the top bar has the rules whenever you need them.')],
+    id: 'ready', where: 'town', tab: 'cartographer', next: true, last: true, get title() { return tx('tutorial.theRealThing'); }, target: () => $('[data-tut="biomes"]'),
+    text: () => [P(tx('tutorial.thatSTheTourNow')),
+      P(...rich(tx('tutorial.reachLevelAndTheDragon', { FINALE_LEVEL })))],
   },
 ];
 
@@ -382,14 +383,14 @@ const CELLAR_LAST = IDX('exit');
 
 interface Tip { id: string; title: string; text: Kids; target: () => Targets; when: (g: GameState) => boolean }
 const TIPS: Tip[] = [
-  { id: 'spoils', title: 'Spoils', when: (g) => !!g.expedition?.spoils, target: () => $('.modal'),
-    text: [P('Gold you find is ', B('carried'), ' until you get home alive. ', B('Doubloons'), ' are this dungeon\'s currency, and you earn +1 interest for every 5 you hold.'), P('Each fight raises your ', B('Fortune Rank'), ': a boon now, and every third rank a bigger upgrade.')] },
-  { id: 'boons', title: 'Pick a boon', when: (g) => !!g.expedition?.boons && !g.expedition.spoils, target: () => $('.boons'),
-    text: [P(B('Charms'), ' are lasting scoring effects for this run (5 slots). ', B('Omens'), ' level up a hand type and share those slots. ', B('Dice'), ' and ', B('face enchants'), ' reshape your bag. ', B('Tokens'), ' are one-shot tricks.'), P('Hover a card for details, then pick one. When in doubt, take a charm.')] },
-  { id: 'event', title: 'Events', when: (g) => !!g.expedition?.event && g.expedition.event.stage === 'choose', target: () => $('.modal .menu'),
-    text: [P('Each option shows which hero rolls, their bonus and their chance. Some spells (and thieves\' tools) succeed automatically.')] },
-  { id: 'hoard', title: 'The boss hoard', when: (g) => !!g.expedition?.lootChoice && !g.expedition.spoils, target: () => $('.modal .list'),
-    text: [P('Bosses guard a hoard: take one item. It goes to the Vault when you get home, and you equip it from a hero\'s sheet.')] },
+  { id: 'spoils', get title() { return tx('tutorial.spoils'); }, when: (g) => !!g.expedition?.spoils, target: () => $('.modal'),
+    get text() { return [P(...rich(tx('tutorial.goldYouFindIsCarried'))), P(...rich(tx('tutorial.eachFightRaisesYourFortune')))]; } },
+  { id: 'boons', get title() { return tx('tutorial.pickABoon'); }, when: (g) => !!g.expedition?.boons && !g.expedition.spoils, target: () => $('.boons'),
+    get text() { return [P(...rich(tx('tutorial.charmsAreLastingScoringEffects'))), P(tx('tutorial.hoverACardForDetails'))]; } },
+  { id: 'event', get title() { return tx('tutorial.events'); }, when: (g) => !!g.expedition?.event && g.expedition.event.stage === 'choose', target: () => $('.modal .menu'),
+    get text() { return [P(tx('tutorial.eachOptionShowsWhichHero'))]; } },
+  { id: 'hoard', get title() { return tx('tutorial.theBossHoard'); }, when: (g) => !!g.expedition?.lootChoice && !g.expedition.spoils, target: () => $('.modal .list'),
+    get text() { return [P(tx('tutorial.bossesGuardAHoardTake'))]; } },
 ];
 let activeTip: string | null = null;
 /** The open tip was dismissed with Got it (it stays dismissed until its pop-up closes). */
@@ -420,7 +421,7 @@ function finish(g: GameState, skipped: boolean) {
   tipHidden = false;
   save();
   clearCoach();
-  toast(skipped ? 'Tutorial skipped. "How to play" in the top bar has the rules, and can restart the tour.' : 'Tutorial complete. Good luck beyond the doors!', true);
+  toast(skipped ? tx('tutorial.tutorialSkippedHowToPlay') : tx('tutorial.tutorialCompleteGoodLuckBeyond'), true);
 }
 
 /** Restart the tour from the top (from the How to play window). */
@@ -477,7 +478,7 @@ function tick() {
   if (st.where !== w) return clearCoach();
   if (st.tab && app.ui.townTab !== st.tab && !app.ui.heroSheet && !app.ui.levelUp) {
     const name = document.querySelector(`[data-key="tab-${st.tab}"]`)?.textContent?.trim() ?? st.tab;
-    return show(g, { id: `go-${st.id}`, where: w, title: `Next: ${name}`, text: () => [P(`Click the `, B(name), ' tab to continue the tour.')], target: () => $(`[data-key="tab-${st.tab}"]`) });
+    return show(g, { id: `go-${st.id}`, where: w, title: tx('tutorial.next', { name }), text: () => [P(tx('tutorial.clickThe'), B(name), tx('tutorial.tabToContinueTheTour'))], target: () => $(`[data-key="tab-${st.tab}"]`) });
   }
   if (st.freeWhen?.(g)) return show(g, { ...st, id: `${st.id}~free`, free: true, target: undefined, dockTop: true });
   // A pop-up hides the step's target: wait until it closes (unless the target is inside it).
@@ -523,18 +524,18 @@ function show(g: GameState, st: Shown) {
     bubble.classList.toggle('collapsed', on);
     ring.classList.toggle('hidden', on);
     toggle.textContent = on ? 'Show' : '–';
-    toggle.setAttribute('aria-label', on ? 'Show tutorial' : 'Minimise tutorial');
+    toggle.setAttribute('aria-label', tx(on ? 'tutorial.showTutorial' : 'tutorial.minimiseTutorial'));
   };
   const toggle = h('button', { class: 'coach-min', on: { click: (e: Event) => { e.stopPropagation(); setCollapsed(!bubble.classList.contains('collapsed')); } } }, '–');
   const bubble = h('div', { class: `coach-bubble enter${st.free ? ' free' : ''}`, role: 'dialog', 'aria-label': st.title },
-    h('div', { class: 'coach-meta' }, isStep ? `Tutorial · ${idx + 1} of ${STEPS.length}` : st.tipOk ? 'Tip' : 'Tutorial', canCollapse ? toggle : null),
+    h('div', { class: 'coach-meta' }, isStep ? tx('tutorial.tutorialOf', { v: idx + 1, STEPSLength: STEPS.length }) : st.tipOk ? tx('tutorial.tip') : tx('tutorial.tutorial'), canCollapse ? toggle : null),
     h('h4', { on: { click: () => { if (bubble.classList.contains('collapsed')) setCollapsed(false); } } }, st.title),
     h('div', { class: 'coach-text' }, ...st.text(g).filter((x): x is Node | string => x !== null)),
     h('div', { class: 'row', style: 'margin-top:10px' },
-      h('button', { class: 'coach-skip', on: { click: () => { if (confirm('Skip the rest of the tutorial?')) finish(g, true); } } }, 'Skip tutorial'),
+      h('button', { class: 'coach-skip', on: { click: () => { if (confirm(tx('tutorial.skipTheRestOfThe'))) finish(g, true); } } }, tx('tutorial.skipTutorial')),
       h('span', { class: 'spacer' }),
-      st.tipOk ? h('button', { class: 'btn small', on: { click: dismissTip } }, 'Got it') : null,
-      st.next ? h('button', { class: 'btn small primary', 'data-coach': 'next', on: { click: next } }, st.id === 'welcome' ? 'Start the tour' : st.last ? 'Finish' : 'Next') : null));
+      st.tipOk ? h('button', { class: 'btn small', on: { click: dismissTip } }, tx('tutorial.gotIt')) : null,
+      st.next ? h('button', { class: 'btn small primary', 'data-coach': 'next', on: { click: next } }, st.id === 'welcome' ? tx('tutorial.startTheTour') : st.last ? tx('tutorial.finish') : tx('tutorial.next2')) : null));
   const root = h('div', { class: 'coach' }, st.next ? h('div', { class: 'coach-block' }) : null, ring, bubble);
   document.body.append(root);
   coach = { root, key: st.id, raf: 0, revealed: false };

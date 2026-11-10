@@ -24,6 +24,7 @@ export const LOCALES: { code: string; name: string }[] = [
 import enDialogue from '../locales/en/dialogue.json' with { type: 'json' };
 import enStory from '../locales/en/story.json' with { type: 'json' };
 import enGame from '../locales/en/game.json' with { type: 'json' };
+import enUi from '../locales/en/ui.json' with { type: 'json' };
 
 /** Other languages: one lazy chunk per file. Vite rewrites this call; under plain Node it doesn't exist. */
 let lazy: Record<string, () => Promise<Catalog>> = {};
@@ -32,7 +33,7 @@ try { lazy = import.meta.glob<Catalog>(['../locales/*/*.json', '!../locales/en/*
 const nsOf = (path: string) => /\/locales\/([^/]+)\/([^/]+)\.json$/.exec(path);
 
 /** catalogs[lang][namespace] */
-const catalogs: Record<string, Record<string, Catalog>> = { en: { dialogue: enDialogue, story: enStory, game: enGame } };
+const catalogs: Record<string, Record<string, Catalog>> = { en: { dialogue: enDialogue, story: enStory, game: enGame, ui: enUi } };
 
 let current = SOURCE_LOCALE;
 const listeners = new Set<() => void>();
@@ -127,13 +128,13 @@ export function lookup(ns: string, path: readonly string[]): unknown {
 }
 
 /** Fill `{name}` placeholders. Unknown placeholders are left alone (dialogue markup like {keeper} resolves later). */
-export function format(text: string, vars?: Record<string, string | number>): string {
+export function format(text: string, vars?: Record<string, unknown>): string {
   if (!vars) return text;
   return text.replace(/\{(\w+)\}/g, (m, k: string) => (k in vars ? String(vars[k]) : m));
 }
 
 /** A string at a path, or the joined path when it's missing everywhere (so gaps are visible, never blank). */
-export function text(ns: string, path: readonly string[], vars?: Record<string, string | number>): string {
+export function text(ns: string, path: readonly string[], vars?: Record<string, unknown>): string {
   const v = lookup(ns, path);
   return typeof v === 'string' ? format(v, vars) : `⟦${ns}:${path.join('/')}⟧`;
 }
@@ -151,7 +152,7 @@ export function resolveRef(r: string): string {
 }
 
 /** Dotted shorthand: `t('ui:menu.newGame', { n: 3 })`. Namespace defaults to `ui`. */
-export function t(key: string, vars?: Record<string, string | number>): string {
+export function t(key: string, vars?: Record<string, unknown>): string {
   const i = key.indexOf(':');
   const ns = i >= 0 ? key.slice(0, i) : 'ui';
   return text(ns, (i >= 0 ? key.slice(i + 1) : key).split('.'), vars);
@@ -161,11 +162,34 @@ export function t(key: string, vars?: Record<string, string | number>): string {
  * A pluralised string: the entry at `path` is an object keyed by plural category
  * (`one`, `few`, `many`, `other`…, per Intl.PluralRules for the language). `{n}` is the count.
  */
-export function plural(ns: string, path: readonly string[], n: number, vars?: Record<string, string | number>): string {
+export function plural(ns: string, path: readonly string[], n: number, vars?: Record<string, unknown>): string {
   let cat: string = 'other';
   try { cat = new Intl.PluralRules(current).select(n); } catch { /* keep 'other' */ }
   const v = lookup(ns, [...path, cat]);
   return text(ns, [...path, typeof v === 'string' ? cat : 'other'], { n, ...vars });
+}
+
+/** A UI string: `tx('title.continue')` reads ui.json → title.continue; vars fill {placeholders}. */
+export function tx(key: string, vars?: Record<string, unknown>): string {
+  return text('ui', key.split('.'), vars);
+}
+
+/** A pluralised UI string: ui.json holds { one, other, … } (Intl.PluralRules categories); `{n}` is the count. */
+export function txn(key: string, n: number, vars?: Record<string, unknown>): string {
+  return plural('ui', key.split('.'), n, vars);
+}
+
+/**
+ * Rich UI text: `**bold**` becomes a <b>. Returns pieces to spread into h(...),
+ * so a sentence with emphasis stays one translatable string.
+ */
+export function rich(s: string): (string | Node)[] {
+  return s.split(/\*\*(.+?)\*\*/g).map((part, i) => {
+    if (i % 2 === 0) return part;
+    const b = document.createElement('b');
+    b.textContent = part;
+    return b;
+  }).filter((p) => p !== '');
 }
 
 /** "a, b and c" in the current language. */

@@ -16,7 +16,7 @@ import { DRINKS, LEADS, LEAD_CHANCE, LEAD_PITY, MUSTER, RUMORS, type DrinkId, ty
 import type { QuestCond, QuestFx } from '../content/questTypes.ts';
 import { SCRIPTS, type DlgChoice, type DlgNode, type Script } from '../content/dialogue.ts';
 import { NPCS } from '../content/npcs.ts';
-import { ref, text } from '../i18n/index.ts';
+import { ref, text, tx } from '../i18n/index.ts';
 
 // ── state ───────────────────────────────────────────────────────────────────
 
@@ -71,10 +71,10 @@ export function applyFx(g: GameState, fx: QuestFx[] | undefined): string[] {
   for (const e of fx ?? []) {
     if ('flag' in e) addFlag(q, e.flag);
     else if ('unflag' in e) q.flags = q.flags.filter((f) => f !== e.unflag);
-    else if ('evidence' in e) { if (!q.flags.includes(`ev:${e.evidence}`)) { addFlag(q, `ev:${e.evidence}`); notes.push(`ev:${e.evidence}`); } }
+    else if ('evidence' in e) { if (!q.flags.includes(`ev:${e.evidence}`)) { addFlag(q, `ev:${e.evidence}`); notes.push(tx('metaQuest.ev', { evidence: e.evidence })); } }
     else if ('trust' in e) q.trust[e.trust[0]] = Math.max(0, Math.min(3, (q.trust[e.trust[0]] ?? 0) + e.trust[1]));
     else if ('resolve' in e) q.resolve = Math.max(0, Math.min(10, q.resolve + e.resolve));
-    else if ('lead' in e) { if (offerLead(g, e.lead)) notes.push(`lead:${e.lead}`); }
+    else if ('lead' in e) { if (offerLead(g, e.lead)) notes.push(tx('metaQuest.lead', { lead: e.lead })); }
     else if ('leadDone' in e) { addFlag(q, `leadDone:${e.leadDone}`); q.leads = q.leads.filter((l) => l.id !== e.leadDone); }
     else if ('fate' in e) {
       const [npc, f] = e.fate;
@@ -84,7 +84,7 @@ export function applyFx(g: GameState, fx: QuestFx[] | undefined): string[] {
     }
     else if ('gold' in e) g.profile.bankedGold = Math.max(0, g.profile.bankedGold + e.gold);
     else if ('rumor' in e) { if (!q.rumors.includes(e.rumor)) q.rumors.push(e.rumor); }
-    else if ('remember' in e) notes.push(`remember:${e.remember}`);
+    else if ('remember' in e) notes.push(tx('metaQuest.remember', { remember: e.remember }));
     else if ('muster' in e) completeMuster(g, e.muster);
   }
   return notes;
@@ -153,19 +153,19 @@ export function placeQuestRoom(g: GameState, exp: Expedition): string | null {
 
 export function drinkAvailable(g: GameState, id: DrinkId): string | null {
   const d = DRINKS[id];
-  if (!check(g, d.when)) return 'Not on the menu yet.';
-  if (awakened(g) && !tiamatSlain(g) && !d.rationed && !has(g, 'muster:shelter.cellar')) return 'Rationed. Stock the cellar to bring it back.';
+  if (!check(g, d.when)) return tx('metaQuest.notOnTheMenuYet');
+  if (awakened(g) && !tiamatSlain(g) && !d.rationed && !has(g, 'muster:shelter.cellar')) return tx('metaQuest.rationedStockTheCellarTo');
   return null;
 }
 
 export function buyDrink(g: GameState, id: string): string | null {
   const d = DRINKS[id as DrinkId];
-  if (!d) return 'No such drink.';
+  if (!d) return tx('metaQuest.noSuchDrink');
   const why = drinkAvailable(g, d.id);
   if (why) return why;
   const q = questOf(g);
-  if (q.drink) return 'You already have a drink waiting. Bet doesn\'t serve doubles.';
-  if (g.profile.bankedGold < d.price) return `${d.name} costs ${d.price} gold.`;
+  if (q.drink) return tx('metaQuest.youAlreadyHaveADrink');
+  if (g.profile.bankedGold < d.price) return tx('metaQuest.costsGold', { dName: d.name, price: d.price });
   g.profile.bankedGold -= d.price;
   q.drink = d.id;
   return null;
@@ -174,8 +174,8 @@ export function buyDrink(g: GameState, id: string): string | null {
 /** Sereth tends the heroes once per Keep day: a Tonic for the next run. */
 export function tend(g: GameState): string | null {
   const q = questOf(g);
-  if (!has(g, 'met:sereth') || ['faith', 'martyr'].includes(q.fate.sereth ?? '')) return 'Sereth isn\'t here.';
-  if (q.tendedDay === g.profile.townDay) return 'Sereth has already seen to your heroes today.';
+  if (!has(g, 'met:sereth') || ['faith', 'martyr'].includes(q.fate.sereth ?? '')) return tx('metaQuest.serethIsnTHere');
+  if (q.tendedDay === g.profile.townDay) return tx('metaQuest.serethHasAlreadySeenTo');
   q.tendedDay = g.profile.townDay;
   q.tended = true;
   return null;
@@ -200,7 +200,7 @@ export function hymnColour(g: GameState, party: Hero[]): Chromatic {
 }
 
 export function setHymn(g: GameState, colour: string): string | null {
-  if (!CHROMATIC.includes(colour as Chromatic)) return 'The hymn can only spare Ember, Verdant, Shadow, Frost or Storm.';
+  if (!CHROMATIC.includes(colour as Chromatic)) return tx('metaQuest.theHymnCanOnlySpare');
   questOf(g).hymn = colour;
   return null;
 }
@@ -236,7 +236,7 @@ export function onExpeditionEnd(g: GameState, exp: Expedition, kind: 'won' | 're
   if (exp.quest?.drink === 'spicedMead' && kind !== 'wiped') {
     const bonus = Math.min(150, Math.round(bankedGold * 0.1));
     g.profile.bankedGold += bonus;
-    if (bonus) res.notes.push(`Spiced Mead: +${bonus} gold.`);
+    if (bonus) res.notes.push(tx('metaQuest.spicedMeadGold', { bonus }));
   }
   // Timed leads count every expedition (Story mode forgives a wipe).
   for (const l of q.leads.slice()) {
@@ -246,7 +246,7 @@ export function onExpeditionEnd(g: GameState, exp: Expedition, kind: 'won' | 're
     if (l.runsLeft <= 0) {
       q.leads = q.leads.filter((x) => x !== l);
       addFlag(q, `leadFailed:${l.id}`);
-      if (l.id === 'LE') { q.fate.eren = 'captured'; res.notes.push('Eren did not come back from the Fourth Door.'); }
+      if (l.id === 'LE') { q.fate.eren = 'captured'; res.notes.push(tx('metaQuest.erenDidNotComeBack')); }
     }
   }
   if (kind === 'won' && firstClear && !exp.finale) {
@@ -271,7 +271,7 @@ export function rumorsTonight(g: GameState) {
 
 export function hearRumor(g: GameState, id: string): string | null {
   const r = RUMORS.find((x) => x.id === id);
-  if (!r || !check(g, r.when)) return 'Nobody is saying that tonight.';
+  if (!r || !check(g, r.when)) return tx('metaQuest.nobodyIsSayingThatTonight');
   const q = questOf(g);
   if (!q.rumors.includes(id)) { q.rumors.push(id); applyFx(g, r.fx); }
   return null;
@@ -300,14 +300,14 @@ export function musterTasks(g: GameState) {
 
 /** A Muster task from the board: takes its lead, pays its gold, or returns the scene to play. */
 export function musterAct(g: GameState, id: string): string | null {
-  if (!awakened(g) || tiamatSlain(g)) return 'The Muster is not called.';
+  if (!awakened(g) || tiamatSlain(g)) return tx('metaQuest.theMusterIsNotCalled');
   const m = MUSTER.find((x) => x.id === id) as MusterTask | undefined;
-  if (!m) return 'No such task.';
-  if (has(g, `muster:${id}`)) return 'Already done.';
-  if (!check(g, m.when)) return 'Not yet. You need more of the Keep behind you.';
+  if (!m) return tx('metaQuest.noSuchTask');
+  if (has(g, `muster:${id}`)) return tx('metaQuest.alreadyDone');
+  if (!check(g, m.when)) return tx('metaQuest.notYetYouNeedMore');
   if (m.lead) { offerLead(g, m.lead); return null; }
   if (m.gold) {
-    if (g.profile.bankedGold < m.gold) return `Needs ${m.gold} gold.`;
+    if (g.profile.bankedGold < m.gold) return tx('metaQuest.needsGold', { gold: m.gold });
     g.profile.bankedGold -= m.gold;
     applyFx(g, [{ muster: id }, { resolve: 1 }]);
     return null;
@@ -367,10 +367,10 @@ export interface TalkResult { next: string | null; roll?: { hero: string; skill:
  */
 export function talk(g: GameState, scriptId: string, nodeId: string, choice?: number): { error?: string; result?: TalkResult } {
   const s = script(scriptId);
-  if (!s) return { error: 'No such conversation.' };
-  if (!check(g, s.when) && !has(g, `talking:${s.id}`)) return { error: 'Not now.' };
+  if (!s) return { error: tx('metaQuest.noSuchConversation') };
+  if (!check(g, s.when) && !has(g, `talking:${s.id}`)) return { error: tx('metaQuest.notNow') };
   const node = s.nodes[nodeId];
-  if (!node) return { error: 'Lost the thread.' };
+  if (!node) return { error: tx('metaQuest.lostTheThread') };
   const q = questOf(g);
   addFlag(q, `talking:${s.id}`);
   const notes: string[] = [];
@@ -382,7 +382,7 @@ export function talk(g: GameState, scriptId: string, nodeId: string, choice?: nu
   const choices = visibleChoices(g, node);
   if (choices.length) {
     const c = choices[choice ?? -1];
-    if (!c) return { error: 'Choose an answer.' };
+    if (!c) return { error: tx('metaQuest.chooseAnAnswer') };
     let ok = true;
     if (c.check) {
       const best = bestAtKeep(g, c.check.skill);
@@ -406,7 +406,7 @@ export function talk(g: GameState, scriptId: string, nodeId: string, choice?: nu
 
 /** Mark something seen without a scene (barks, banners). */
 export function markSeen(g: GameState, flag: string): string | null {
-  if (!/^(bark|seen|note):/.test(flag)) return 'Not a seen-flag.';
+  if (!/^(bark|seen|note):/.test(flag)) return tx('metaQuest.notASeenFlag');
   addFlag(questOf(g), flag);
   return null;
 }

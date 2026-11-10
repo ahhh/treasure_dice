@@ -26,23 +26,25 @@ import { SPELLS } from '../content/spells.ts';
 import { CLASSES } from '../content/classes.ts';
 import { CHARM_BY_ID } from '../fortune/charms.ts';
 import { MATERIALS } from '../fortune/materials.ts';
+import uiContext from './ui-context.json';
 
 type Json = Record<string, unknown>;
 type Path = string[];
-type Ns = 'dialogue' | 'story' | 'game';
+type Ns = 'dialogue' | 'story' | 'game' | 'ui';
 
-const NAMESPACES: Ns[] = ['dialogue', 'story', 'game'];
+const NAMESPACES: Ns[] = ['dialogue', 'story', 'game', 'ui'];
 const D: Ns = 'dialogue';
 const S: Ns = 'story';
 const G: Ns = 'game';
+const U: Ns = 'ui';
 const root = document.getElementById('app')!;
 
 const st = {
   langs: {} as Record<string, string[]>,
   lang: 'en',
-  en: { dialogue: {}, story: {}, game: {} } as Record<Ns, Json>,
-  work: { dialogue: {}, story: {}, game: {} } as Record<Ns, Json>,
-  saved: { dialogue: '', story: '', game: '' } as Record<Ns, string>,
+  en: { dialogue: {}, story: {}, game: {}, ui: {} } as Record<Ns, Json>,
+  work: { dialogue: {}, story: {}, game: {}, ui: {} } as Record<Ns, Json>,
+  saved: { dialogue: '', story: '', game: '', ui: '' } as Record<Ns, string>,
   sel: `script:${SCRIPTS[0]?.id}`,
   q: '',
   status: '',
@@ -479,6 +481,29 @@ const looseView = (key: string) => {
     ...leaves(getAt(st.en[G], p), p).map((q) => field(G, q, { label: labelFor(q.slice(p.length), undefined) || pretty(p[0]), rows: 1 })))));
 };
 
+// ── interface views ─────────────────────────────────────────────────────────
+
+/** ui.json section → source file ("combatHero" → src/combat/hero.ts, "town" → src/ui/town.ts). */
+function sourceFile(section: string): string {
+  const m = /^(combat|dungeon|meta|fortune|content|rules|app)([A-Z]\w*)$/.exec(section);
+  return m ? `src/${m[1]}/${m[2][0].toLowerCase()}${m[2].slice(1)}.ts` : `src/ui/${section}.ts`;
+}
+
+const uiView = (section: string) => {
+  const ctxs = (uiContext as Record<string, Record<string, { line: number; code: string; file?: string }>>)[section] ?? {};
+  const file = sourceFile(section);
+  return view(
+    heading(`Interface · ${pretty(section)}`, `Strings from ${file}. {placeholders} are filled by the game; **bold** marks emphasis. Plural strings have one line per form (one, other…).`),
+    ...Object.keys((getAt(st.en[U], [section]) as Json) ?? {}).map((key) => {
+      const c = ctxs[key];
+      const base = [section, key];
+      return card(null,
+        h('div', { class: 'meta' }, chip(`${section}.${key}`, 'id'), c ? chip(`${c.file ?? file}:${c.line}`, 'when') : null),
+        ...leaves(getAt(st.en[U], base), base).map((p) => field(U, p, { label: p.length > 2 ? p.slice(2).join(' › ') : undefined, rows: 1 })),
+        c ? h('details', { class: 'who' }, h('summary', null, 'Where it is used'), h('code', { class: 'src' }, c.code)) : null);
+    }));
+};
+
 // ── layout ──────────────────────────────────────────────────────────────────
 
 interface Entry { key: string; label: string; sub: string; parts: [Ns, Path][]; search: string }
@@ -525,6 +550,7 @@ function entries(): { group: string; items: Entry[] }[] {
   }
   for (const [k, [label, path]] of Object.entries(GAME_TABLES)) add('Game · tables', `table:${k}`, label, path.join('.'), [[G, path]]);
   for (const [k, [title, , paths]] of Object.entries(LOOSE)) add('Game · tables', `loose:${k}`, title, '', paths.map((p) => [G, p] as [Ns, Path]));
+  for (const sec of Object.keys(st.en[U] ?? {})) add('Interface', `ui:${sec}`, pretty(sec), sourceFile(sec), [[U, [sec]]]);
   const q = st.q.trim().toLowerCase();
   return [...groups.entries()].map(([group, items]) => ({ group, items: q ? items.filter((e) => e.search.toLowerCase().includes(q)) : items })).filter((g) => g.items.length);
 }
@@ -565,7 +591,7 @@ function renderMain() {
   const s = kind === 'script' ? SCRIPTS.find((x) => x.id === id) : undefined;
   const e = kind === 'event' ? EVENTS[id] : undefined;
   const gameKinds = ['biome', 'items', 'monsters', 'spells', 'class', 'charms', 'table'];
-  main.append(s ? scriptView(s) : e ? eventView(e) : kind === 'barks' ? barksView(id) : gameKinds.includes(kind) ? gameView(kind, id) : kind === 'loose' ? looseView(id) : VIEWS[kind]?.() ?? h('p', null, 'Pick something on the left.'));
+  main.append(s ? scriptView(s) : e ? eventView(e) : kind === 'barks' ? barksView(id) : kind === 'ui' ? uiView(id) : gameKinds.includes(kind) ? gameView(kind, id) : kind === 'loose' ? looseView(id) : VIEWS[kind]?.() ?? h('p', null, 'Pick something on the left.'));
 }
 
 function renderBar() {

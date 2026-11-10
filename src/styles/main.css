@@ -567,3 +567,7 @@ body:has(.dlg-back) .toast { top: 64px; bottom: auto; }
 .task { display: flex; gap: 8px; align-items: center; padding: 6px 0; border-top: 1px solid rgba(233, 225, 207, .1); }
 .annotation { color: #9fd8a8; font-style: italic; border-left: 2px solid #4f8f5a; padding-left: 10px; }
 .lullaby { font-style: italic; margin: 2px 0; }
+
+.lang-picker { display: inline-flex; align-items: center; gap: 4px; }
+.lang-picker select { background: var(--win-b); color: var(--bone); border: 1px solid var(--brass-dark); border-radius: 6px; padding: 2px 6px; font: inherit; }
+.lang-picker select:disabled { opacity: .6; }

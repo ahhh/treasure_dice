@@ -4,6 +4,7 @@ import { hooks, makeCtx, endOfTurn, current, syncHeroes, type Ctx } from './core
 import { heroTurnStart, doReroll, doAct, doTalent, doToken, endHeroTurn, setEndOfTurnHook, turnExhausted, type CombatCmd, type CmdResult } from './hero.ts';
 import { enemyTurn, lairActions } from './ai.ts';
 import { afterCombat } from '../dungeon/explore.ts';
+import { tx } from '../i18n/index.ts';
 
 hooks.heroTurnStart = heroTurnStart;
 hooks.enemyTurn = enemyTurn;
@@ -12,11 +13,11 @@ setEndOfTurnHook(endOfTurn);
 
 export function combatDispatch(g: GameState, cmd: CombatCmd): CmdResult {
   const exp = g.expedition;
-  if (!exp?.combat || exp.combat.status !== 'active') return { ok: false, error: 'No active combat' };
+  if (!exp?.combat || exp.combat.status !== 'active') return { ok: false, error: tx('combatIndex.noActiveCombat') };
   const ctx: Ctx = makeCtx(g);
   ctx.combat.fx = [];
   const actor = current(ctx);
-  if (!actor || actor.side !== 'hero' || !ctx.combat.turn) return { ok: false, error: 'Not your turn' };
+  if (!actor || actor.side !== 'hero' || !ctx.combat.turn) return { ok: false, error: tx('combatIndex.notYourTurn') };
   let r: CmdResult;
   switch (cmd.type) {
     case 'reroll': r = doReroll(ctx, cmd.dice); break;

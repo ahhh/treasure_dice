@@ -10,7 +10,7 @@ import { createHero, derive, applyLevel, autoPrepare, fullRestore, makeItem, cho
 import { spellsForClass } from '../content/spells.ts';
 import { markOffers, applyMark } from '../fortune/dicepath.ts';
 import { trainingClosed } from './quest.ts';
-import { textTable } from '../i18n/index.ts';
+import { textTable, tx } from '../i18n/index.ts';
 
 export const SCHEMA_VERSION = 1;
 export const CONTENT_REVISION = 'td-1.2';
@@ -47,9 +47,9 @@ export function newGame(slot: number, mode: 'legacy' | 'story', seed = `KEEP-${D
     tutorial: { step: 0, tips: [] },
   };
   // The plan's starting trio.
-  g.roster.push(createHero(rng, 'fighter', 1, { name: 'Alaric Heartwood', ancestry: 'human', background: 'soldier', portrait: 'heroes/fighter_1' }));
-  g.roster.push(createHero(rng, 'cleric', 1, { name: 'Kelsey Coppervein', ancestry: 'dwarf', background: 'acolyte', portrait: 'heroes/cleric_1' }));
-  g.roster.push(createHero(rng, 'rogue', 1, { name: 'Pippen Underbough', ancestry: 'halfling', background: 'criminal', portrait: 'heroes/rogue_1' }));
+  g.roster.push(createHero(rng, 'fighter', 1, { name: tx('metaTown.alaricHeartwood'), ancestry: 'human', background: 'soldier', portrait: 'heroes/fighter_1' }));
+  g.roster.push(createHero(rng, 'cleric', 1, { name: tx('metaTown.kelseyCoppervein'), ancestry: 'dwarf', background: 'acolyte', portrait: 'heroes/cleric_1' }));
+  g.roster.push(createHero(rng, 'rogue', 1, { name: tx('metaTown.pippenUnderbough'), ancestry: 'halfling', background: 'criminal', portrait: 'heroes/rogue_1' }));
   g.vault.push(makeItem(rng, 'potionHealing', 0, [], 2));
   g.townRng = rng.state;
   refreshRecruits(g);
@@ -92,10 +92,10 @@ export function recruitCost(h: Hero, g?: GameState): number {
 
 export function hire(g: GameState, idx: number): string | null {
   const h = g.recruits[idx];
-  if (!h) return 'No such recruit.';
-  if (g.roster.filter((x) => x.status === 'alive').length >= rosterCap(g)) return 'The roster is full.';
+  if (!h) return tx('metaTown.noSuchRecruit');
+  if (g.roster.filter((x) => x.status === 'alive').length >= rosterCap(g)) return tx('metaTown.theRosterIsFull');
   const cost = recruitCost(h, g);
-  if (g.profile.bankedGold < cost) return `Hiring costs ${cost} gold.`;
+  if (g.profile.bankedGold < cost) return tx('metaTown.hiringCostsGold', { cost });
   g.profile.bankedGold -= cost;
   g.roster.push(h);
   g.recruits.splice(idx, 1);
@@ -104,7 +104,7 @@ export function hire(g: GameState, idx: number): string | null {
 
 export function rerollRecruits(g: GameState): string | null {
   const cost = 25;
-  if (g.profile.bankedGold < cost) return `Needs ${cost} gold.`;
+  if (g.profile.bankedGold < cost) return tx('metaTown.needsGold', { cost });
   g.profile.bankedGold -= cost;
   refreshRecruits(g);
   return null;
@@ -112,7 +112,7 @@ export function rerollRecruits(g: GameState): string | null {
 
 export function retire(g: GameState, heroId: string): string | null {
   const h = g.roster.find((x) => x.id === heroId);
-  if (!h || h.status !== 'alive') return 'Not available.';
+  if (!h || h.status !== 'alive') return tx('metaTown.notAvailable');
   for (const slot of Object.keys(h.equipment) as EquipSlot[]) {
     const it = h.equipment[slot];
     if (it) g.vault.push(it);
@@ -143,8 +143,8 @@ export function shopItems(g: GameState): string[] {
 
 export function buy(g: GameState, defId: string): string | null {
   const def = ITEMS[defId];
-  if (!def || !shopItems(g).includes(defId)) return 'Not in stock.';
-  if (g.profile.bankedGold < def.price) return 'Not enough gold.';
+  if (!def || !shopItems(g).includes(defId)) return tx('metaTown.notInStock');
+  if (g.profile.bankedGold < def.price) return tx('metaTown.notEnoughGold');
   g.profile.bankedGold -= def.price;
   const rng = townRng(g);
   const existing = def.kind === 'consumable' ? g.vault.find((i) => i.defId === defId && i.plus === 0 && !i.affixes.length) : undefined;
@@ -156,7 +156,7 @@ export function buy(g: GameState, defId: string): string | null {
 
 export function sell(g: GameState, uid: string): string | null {
   const idx = g.vault.findIndex((i) => i.uid === uid);
-  if (idx < 0) return 'Not in the vault.';
+  if (idx < 0) return tx('metaTown.notInTheVault');
   const it = g.vault[idx];
   const unit = { ...it, qty: 1 };
   g.profile.bankedGold += sellValue(unit);
@@ -169,44 +169,44 @@ export function sell(g: GameState, uid: string): string | null {
 
 export function canEquip(h: Hero, inst: ItemInstance, slot: EquipSlot): string | null {
   const def = ITEMS[inst.defId];
-  if (!def) return 'Unknown item.';
+  if (!def) return tx('metaTown.unknownItem');
   const cls = CLASSES[h.classId];
   switch (slot) {
     case 'mainHand':
-      if (def.kind !== 'weapon') return 'Not a weapon.';
+      if (def.kind !== 'weapon') return tx('metaTown.notAWeapon');
       return null;
     case 'offHand':
       if (def.kind === 'shield') {
-        if (!cls.armor.includes('shield') && !(h.classId === 'cleric' || h.classId === 'druid')) return `${cls.name}s are not trained with shields.`;
-        if (isTwoHanded(h.equipment.mainHand)) return 'Your main weapon needs both hands.';
+        if (!cls.armor.includes('shield') && !(h.classId === 'cleric' || h.classId === 'druid')) return tx('metaTown.sAreNotTrainedWith', { clsName: cls.name });
+        if (isTwoHanded(h.equipment.mainHand)) return tx('metaTown.yourMainWeaponNeedsBoth');
         return null;
       }
       if (def.kind === 'weapon') {
-        if (!def.weapon!.props.includes('light')) return 'Only light weapons go in the off hand.';
-        if (isTwoHanded(h.equipment.mainHand)) return 'Your main weapon needs both hands.';
+        if (!def.weapon!.props.includes('light')) return tx('metaTown.onlyLightWeaponsGoIn');
+        if (isTwoHanded(h.equipment.mainHand)) return tx('metaTown.yourMainWeaponNeedsBoth');
         return null;
       }
-      return 'Not an off-hand item.';
+      return tx('metaTown.notAnOffHandItem');
     case 'armor': {
-      if (def.kind !== 'armor') return 'Not armor.';
+      if (def.kind !== 'armor') return tx('metaTown.notArmor');
       const t = def.armor!.type;
       const protector = h.classId === 'cleric' && h.choices.divineOrder?.includes('protector');
       const warden = h.classId === 'druid' && h.choices.primalOrder?.includes('warden');
-      if (!cls.armor.includes(t) && !(t === 'heavy' && protector) && !(t === 'medium' && warden)) return `${cls.name}s are not trained in ${t} armor.`;
-      if (def.armor!.str && h.abilities.str < def.armor!.str) return `Needs Strength ${def.armor!.str}.`;
+      if (!cls.armor.includes(t) && !(t === 'heavy' && protector) && !(t === 'medium' && warden)) return tx('metaTown.sAreNotTrainedIn', { clsName: cls.name, t });
+      if (def.armor!.str && h.abilities.str < def.armor!.str) return tx('metaTown.needsStrength', { str: def.armor!.str });
       return null;
     }
     case 'trinket1': case 'trinket2':
-      if (def.kind !== 'trinket') return 'Not a trinket.';
+      if (def.kind !== 'trinket') return tx('metaTown.notATrinket');
       return null;
   }
 }
 
 export function equip(g: GameState, heroId: string, uid: string, slot: EquipSlot): string | null {
   const h = g.roster.find((x) => x.id === heroId);
-  if (!h) return 'No hero.';
+  if (!h) return tx('metaTown.noHero');
   const idx = g.vault.findIndex((i) => i.uid === uid);
-  if (idx < 0) return 'Not in the vault.';
+  if (idx < 0) return tx('metaTown.notInTheVault');
   const inst = g.vault[idx];
   const err = canEquip(h, inst, slot);
   if (err) return err;
@@ -223,7 +223,7 @@ export function equip(g: GameState, heroId: string, uid: string, slot: EquipSlot
 
 export function unequip(g: GameState, heroId: string, slot: EquipSlot): string | null {
   const h = g.roster.find((x) => x.id === heroId);
-  if (!h || !h.equipment[slot]) return 'Nothing there.';
+  if (!h || !h.equipment[slot]) return tx('metaTown.nothingThere');
   g.vault.push(h.equipment[slot]!);
   delete h.equipment[slot];
   h.hp = Math.min(h.hp, derive(h).maxHp);
@@ -238,12 +238,12 @@ export function enchantCost(inst: ItemInstance): number {
 
 export function enchant(g: GameState, uid: string): string | null {
   const inst = g.vault.find((i) => i.uid === uid) ?? g.roster.flatMap((h) => Object.values(h.equipment)).find((i) => i?.uid === uid);
-  if (!inst) return 'Item not found.';
+  if (!inst) return tx('metaTown.itemNotFound');
   const def = ITEMS[inst.defId];
-  if (!def || !['weapon', 'armor', 'shield'].includes(def.kind)) return 'Only weapons and armor take enchantments.';
-  if (inst.plus >= Math.min(3, g.profile.facility.enchanter)) return 'The Enchanter cannot go higher yet.';
+  if (!def || !['weapon', 'armor', 'shield'].includes(def.kind)) return tx('metaTown.onlyWeaponsAndArmorTake');
+  if (inst.plus >= Math.min(3, g.profile.facility.enchanter)) return tx('metaTown.theEnchanterCannotGoHigher');
   const cost = enchantCost(inst);
-  if (g.profile.bankedGold < cost) return `Needs ${cost} gold.`;
+  if (g.profile.bankedGold < cost) return tx('metaTown.needsGold', { cost });
   g.profile.bankedGold -= cost;
   inst.plus += 1;
   return null;
@@ -251,13 +251,13 @@ export function enchant(g: GameState, uid: string): string | null {
 
 export function upgradeFacility(g: GameState, id: string): string | null {
   const f = FACILITIES[id];
-  if (!f) return 'Unknown facility.';
+  if (!f) return tx('metaTown.unknownFacility');
   const lvl = g.profile.facility[id];
-  if (lvl >= f.max) return 'Already at maximum.';
+  if (lvl >= f.max) return tx('metaTown.alreadyAtMaximum');
   const { gold, sigils } = facilityCost(id, lvl);
   const total = Object.values(g.profile.sigils).reduce((a, b) => a + (b ?? 0), 0);
-  if (total < sigils) return `Needs ${sigils} boss sigils (you have ${total}).`;
-  if (g.profile.bankedGold < gold) return `Needs ${gold} gold.`;
+  if (total < sigils) return tx('metaTown.needsBossSigilsYouHave', { sigils, total });
+  if (g.profile.bankedGold < gold) return tx('metaTown.needsGold2', { gold });
   g.profile.bankedGold -= gold;
   g.profile.facility[id] = lvl + 1;
   if (id === 'guild') refreshRecruits(g);
@@ -279,12 +279,12 @@ export function trainingCost(g: GameState, h: Hero): number {
 
 export function train(g: GameState, heroId: string): string | null {
   const h = g.roster.find((x) => x.id === heroId);
-  if (!h || h.status !== 'alive') return 'Not available.';
-  if (h.pendingLevel) return 'Finish their pending level-up first.';
-  if (trainingClosed(g)) return 'The Training Grounds are closed: Drillmaster Kost is leading the evacuation.';
-  if (h.level >= trainingCap(g)) return `Training can only raise heroes to level ${trainingCap(g)}.`;
+  if (!h || h.status !== 'alive') return tx('metaTown.notAvailable');
+  if (h.pendingLevel) return tx('metaTown.finishTheirPendingLevelUp');
+  if (trainingClosed(g)) return tx('metaTown.theTrainingGroundsAreClosed');
+  if (h.level >= trainingCap(g)) return tx('metaTown.trainingCanOnlyRaiseHeroes', { trainingCap: trainingCap(g) });
   const cost = trainingCost(g, h);
-  if (g.profile.bankedGold < cost) return `Needs ${cost} gold.`;
+  if (g.profile.bankedGold < cost) return tx('metaTown.needsGold', { cost });
   g.profile.bankedGold -= cost;
   h.pendingLevel = true;
   return null;
@@ -311,7 +311,7 @@ export function levelUpPreview(h: Hero) {
 
 export function levelUp(g: GameState, heroId: string, ch: LevelChoices): string | null {
   const h = g.roster.find((x) => x.id === heroId);
-  if (!h || !h.pendingLevel) return 'No pending level.';
+  if (!h || !h.pendingLevel) return tx('metaTown.noPendingLevel');
   if (h.level >= 20) { h.pendingLevel = false; return null; }
   const next = h.level + 1;
   const feats = CLASSES[h.classId].features[next] ?? [];
@@ -319,22 +319,22 @@ export function levelUp(g: GameState, heroId: string, ch: LevelChoices): string 
   for (const f of feats) {
     if (!f.choice) continue;
     if (f.choice === 'asi') {
-      if (!ch.asi) return 'Choose an Ability Score Improvement or feat.';
-      if (ch.asi.mode === 'feat' && (!FEATS[ch.asi.feat] || (h.feats.includes(ch.asi.feat) && !FEATS[ch.asi.feat].repeatable))) return 'Invalid feat.';
+      if (!ch.asi) return tx('metaTown.chooseAnAbilityScoreImprovement');
+      if (ch.asi.mode === 'feat' && (!FEATS[ch.asi.feat] || (h.feats.includes(ch.asi.feat) && !FEATS[ch.asi.feat].repeatable))) return tx('metaTown.invalidFeat');
     } else if (f.choice === 'expertise') {
       const n = f.choiceCount ?? 2;
       const pick = (ch.expertise ?? []).filter((s) => h.skillProfs.includes(s as never) && !h.expertise.includes(s as never));
-      if (pick.length < Math.min(n, h.skillProfs.length - h.expertise.length)) return `Choose ${n} skills for Expertise.`;
+      if (pick.length < Math.min(n, h.skillProfs.length - h.expertise.length)) return tx('metaTown.chooseSkillsForExpertise', { n });
     } else {
       const opts = choiceOptions({ ...h, level: next }, f.choice);
       const have = h.choices[f.choice] ?? [];
       const pick = (ch.picks?.[f.choice] ?? []).filter((o) => opts.includes(o) && !have.includes(o));
-      if (pick.length < Math.min(f.choiceCount ?? 1, opts.filter((o) => !have.includes(o)).length)) return `Choose ${f.name}.`;
+      if (pick.length < Math.min(f.choiceCount ?? 1, opts.filter((o) => !have.includes(o)).length)) return tx('metaTown.choose', { fName: f.name });
     }
   }
   const marks = markOffers(h, next);
   const mark = marks[ch.mark ?? 0];
-  if (marks.length && !mark) return 'Choose a Dice Path mark.';
+  if (marks.length && !mark) return tx('metaTown.chooseADicePathMark');
   const hpFracMissing = derive(h).maxHp - h.hp;
   applyLevel(h, new Rng(g.townRng), next, false);
   for (const f of feats) {
@@ -371,10 +371,10 @@ export function levelUp(g: GameState, heroId: string, ch: LevelChoices): string 
 
 export function setPrepared(g: GameState, heroId: string, ids: string[]): string | null {
   const h = g.roster.find((x) => x.id === heroId);
-  if (!h) return 'No hero.';
+  if (!h) return tx('metaTown.noHero');
   const legal = new Set(spellsForClass(h).filter((s) => s.level > 0).map((s) => s.id));
   const pick = [...new Set(ids)].filter((id) => legal.has(id));
-  if (pick.length > maxPrepared(h)) return `You can prepare ${maxPrepared(h)} spells.`;
+  if (pick.length > maxPrepared(h)) return tx('metaTown.youCanPrepareSpells', { maxPrepared: maxPrepared(h) });
   h.prepared = pick;
   return null;
 }

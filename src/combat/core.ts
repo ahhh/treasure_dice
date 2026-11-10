@@ -8,7 +8,7 @@ import type {
 import { Rng } from '../engine/rng.ts';
 import { rollD20, combineAdvantage, roll, type Advantage } from '../engine/dice.ts';
 import { MONSTERS, tierName, tierIndex, monsterActions, monsterTraits } from '../content/monsters.ts';
-import { text } from '../i18n/index.ts';
+import { text, tx, lookup } from '../i18n/index.ts';
 
 const eliteName = (elite: boolean | undefined, name: string) => (elite ? text('game', ['format', 'elite'], { name }) : name);
 import { derive, mod } from '../rules/character.ts';
@@ -20,6 +20,8 @@ import { startCombatTray, handSize, endCombatTray, addGhostDie } from '../fortun
 import { CHARM_BY_ID } from '../fortune/charms.ts';
 import { CURSES, type CurseId } from '../fortune/curses.ts';
 import { BIOMES } from '../content/biomes.ts';
+import { condName } from '../content/terms.ts';
+import { SPELLS } from '../content/spells.ts';
 
 export interface Ctx {
   game: GameState;
@@ -205,7 +207,7 @@ export function startCombat(game: GameState, roomKey: string, entries: string[],
     const pool: CurseId[] = ['hunger', 'silence', 'oddDrown', 'evenMirror', 'ashen'];
     if (DIFFICULTY_MOD[exp.difficulty].eliteCurse || exp.depth >= 4) combat.curse = ctx.rng.pick(pool);
   }
-  if (combat.curse) log(ctx, `Curse — ${CURSES[combat.curse].name}: ${CURSES[combat.curse].text}`, 'warn');
+  if (combat.curse) log(ctx, tx('combatCore.curse', { name: CURSES[combat.curse].name, text: CURSES[combat.curse].text }), 'warn');
 
   // Initiative.
   for (const c of all(ctx)) {
@@ -238,9 +240,9 @@ export function startCombat(game: GameState, roomKey: string, entries: string[],
     if (d.features.has('perfectFocus')) h.resources.focus = Math.max(h.resources.focus ?? 0, 4);
     for (let i = 0; i < d.diceGear.openingWild; i++) {
       addGhostDie(exp.fortune, ctx.fortuneRng, 'bone', 6, 'wild', 'Wild die');
-      log(ctx, `${c.name}'s gear spills a Wild die onto the tray.`, 'fortune');
+      log(ctx, tx('combatCore.sGearSpillsAWild', { cName: c.name }), 'fortune');
     }
-    if (d.legend.openingHidden) { addCondition(ctx, c, { id: 'hidden', rounds: 3 }); log(ctx, `${c.name} vanishes in a puff of smoke.`, 'info'); }
+    if (d.legend.openingHidden) { addCondition(ctx, c, { id: 'hidden', rounds: 3 }); log(ctx, tx('combatCore.vanishesInAPuffOf', { cName: c.name }), 'info'); }
     if (d.features.has('superiorInspiration')) h.resources.inspiration = Math.max(h.resources.inspiration ?? 0, 2);
     if (d.features.has('persistentRage') && (h.resources.rage ?? 0) === 0) h.resources.rage = 1;
     if (exp.flags[`blessed:${h.id}`]) { addCondition(ctx, c, { id: 'blessed', rounds: 3, value: 4 }); delete exp.flags[`blessed:${h.id}`]; }
@@ -250,8 +252,8 @@ export function startCombat(game: GameState, roomKey: string, entries: string[],
     if (exp.flags.drinkWard) c.tempHp = Math.max(c.tempHp ?? 0, Math.round(d.maxHp * 0.15));
     if (exp.flags.kindred && kind === 'boss') addCondition(ctx, c, { id: 'blessed', rounds: 3, value: 4 });
   }
-  if (exp.flags.drinkWard) { delete exp.flags.drinkWard; log(ctx, 'The Kiln-Row Stout settles warm in every belly: the party is Warded.', 'info'); }
-  if (exp.flags.kindred && kind === 'boss') log(ctx, 'From far above, the whole Keep is singing. Kindred Chorus: the party is Blessed.', 'fortune');
+  if (exp.flags.drinkWard) { delete exp.flags.drinkWard; log(ctx, tx('combatCore.theKilnRowStoutSettles'), 'info'); }
+  if (exp.flags.kindred && kind === 'boss') log(ctx, tx('combatCore.fromFarAboveTheWhole'), 'fortune');
   applyBiomeAtStart(ctx);
   for (const ch of exp.fortune.charms) {
     const def = CHARM_BY_ID[ch.id];
@@ -268,26 +270,26 @@ function applyBiomeAtStart(ctx: Ctx) {
     case 'cinder':
       if (exp.meter >= 3) {
         for (const c of livingHeroes(ctx)) addCondition(ctx, c, { id: 'burning', rounds: 2, value: Math.max(1, Math.round(c.maxHp * 0.025 * exp.meter)) });
-        ctx.combat.biomeNote = `${b.meter.icon} Heat ${exp.meter}: the party is burning — Ember & Steel dice +1 Mult.`;
+        ctx.combat.biomeNote = tx('combatCore.heatThePartyIsBurning', { icon: b.meter.icon, meter: exp.meter });
       }
       break;
     case 'rootbound':
       if (exp.meter >= 3) {
         for (const c of livingEnemies(ctx)) addCondition(ctx, c, { id: 'regenerating', rounds: -1, value: Math.max(2, Math.round(c.maxHp * 0.04)) });
-        ctx.combat.biomeNote = `${b.meter.icon} Bloom ${exp.meter}: foes regenerate — Verdant dice +4 Chips.`;
+        ctx.combat.biomeNote = tx('combatCore.bloomFoesRegenerateVerdantDice', { icon: b.meter.icon, meter: exp.meter });
       }
       break;
     case 'drowned':
       if (exp.meter >= 1) {
         for (const c of livingEnemies(ctx)) if (!c.mon!.resist.includes('cold')) c.mon!.resist = [...c.mon!.resist, 'cold'];
-        ctx.combat.biomeNote = `${b.meter.icon} High water: Storm & Frost dice +2 Mult; foes resist cold.`;
+        ctx.combat.biomeNote = tx('combatCore.highWaterStormFrostDice', { icon: b.meter.icon });
       }
       break;
     case 'mirror':
-      if (room?.tags.includes('mirror')) ctx.combat.biomeNote = `${b.meter.icon} Mirrored room: dice reflections — rerolled dice show their opposite on a 1 in 4.`;
+      if (room?.tags.includes('mirror')) ctx.combat.biomeNote = tx('combatCore.mirroredRoomDiceReflectionsRerolled', { icon: b.meter.icon });
       break;
     case 'starfall':
-      if (exp.meter > 0) ctx.combat.biomeNote = `${b.meter.icon} Gravity ${exp.meter}: weightless — +1 reroll every turn.`;
+      if (exp.meter > 0) ctx.combat.biomeNote = tx('combatCore.gravityWeightless1RerollEvery', { icon: b.meter.icon, meter: exp.meter });
       break;
   }
   if (ctx.combat.biomeNote) log(ctx, ctx.combat.biomeNote, 'info');
@@ -330,7 +332,7 @@ export function advance(ctx: Ctx) {
       startOfTurn(ctx, c);
       if (checkEnd(ctx)) return;
       if (!c.dead && !c.downed) {
-        if (incapacitated(c)) log(ctx, `${c.name} can't act.`, 'info');
+        if (incapacitated(c)) log(ctx, tx('combatCore.canTAct', { cName: c.name }), 'info');
         else hooks.enemyTurn(ctx, c);
       }
       endOfTurn(ctx, c);
@@ -346,7 +348,7 @@ export function advance(ctx: Ctx) {
     if (checkEnd(ctx)) return;
     if (c.downed || c.dead) { endOfTurn(ctx, c); continue; }
     if (incapacitated(c)) {
-      log(ctx, `${c.name} is ${c.conditions.find((x) => ['paralyzed', 'stunned', 'unconscious', 'incapacitated'].includes(x.id))?.id ?? 'helpless'} and loses the turn.`, 'warn');
+      log(ctx, tx('combatCore.isAndLosesTheTurn', { cName: c.name, v: condName(c.conditions.find((x) => ['paralyzed', 'stunned', 'unconscious', 'incapacitated'].includes(x.id))?.id ?? '') || tx('combatCore.helpless') }), 'warn');
       endOfTurn(ctx, c);
       continue;
     }
@@ -356,7 +358,7 @@ export function advance(ctx: Ctx) {
 }
 
 function startRound(ctx: Ctx) {
-  log(ctx, `— Round ${ctx.combat.round} —`, 'info');
+  log(ctx, tx('combatCore.round', { round: ctx.combat.round }), 'info');
   hooks.roundStart(ctx);
 }
 
@@ -383,7 +385,7 @@ export function startOfTurn(ctx: Ctx, c: Combatant) {
       const target = livingEnemies(ctx)[0];
       if (target) {
         const dmg = Math.round((roll(ctx.rng, '1d8').total + (d.spellAbility ? d.mods[d.spellAbility] : 0)) * ECHO_SW * (sw.value ?? 1));
-        log(ctx, `${c.name}'s spiritual weapon strikes ${target.name}.`, 'hit');
+        log(ctx, tx('combatCore.sSpiritualWeaponStrikes', { cName: c.name, targetName: target.name }), 'hit');
         applyDamage(ctx, target, [{ type: 'force', amount: dmg }], { source: 'Spiritual Weapon', attacker: c, noFortune: true });
       }
     }
@@ -403,7 +405,7 @@ export function endOfTurn(ctx: Ctx, c: Combatant) {
       const bonus = c.mon ? c.mon.saves[x.save.ability] : heroSave(ctx, c, x.save.ability);
       const r = rollD20(ctx.rng).natural + bonus;
       if (r >= x.save.dc) {
-        log(ctx, `${c.name} shakes off ${x.id}.`, 'info');
+        log(ctx, tx('combatCore.shakesOff', { cName: c.name, xId: condName(x.id) }), 'info');
         continue;
       }
     }
@@ -472,12 +474,12 @@ export function savingThrow(ctx: Ctx, c: Combatant, ability: Ability, dc: number
       h.resources.indomitable -= 1;
       const r2 = rollD20(ctx.rng).natural + bonus + h.level;
       ok = r2 >= dc;
-      log(ctx, `${c.name} is Indomitable — rerolls the save (${ok ? 'success' : 'fail'}).`, 'info');
+      log(ctx, tx('combatCore.isIndomitableRerollsTheSave', { cName: c.name, result: tx(ok ? 'combatCore.success' : 'combatCore.fail') }), 'info');
     }
   }
   if (!ok && c.side === 'enemy' && opts.vsCondition && (ctx.combat.legendary[c.id] ?? 0) > 0) {
     ctx.combat.legendary[c.id] -= 1;
-    log(ctx, `${c.name} uses Legendary Resistance! (${ctx.combat.legendary[c.id]} left)`, 'warn');
+    log(ctx, tx('combatCore.usesLegendaryResistanceLeft', { cName: c.name, legendary: ctx.combat.legendary[c.id] }), 'warn');
     ok = true;
   }
   return ok;
@@ -514,25 +516,25 @@ export function applyDamage(ctx: Ctx, target: Combatant, parts: DmgPart[], opts:
   let total = 0;
   for (const p of parts) total += Math.round(p.amount * resistMult(ctx, target, p.type));
   if (total <= 0) {
-    if (parts.some((p) => p.amount > 0)) log(ctx, `${target.name} is unharmed.`, 'info');
+    if (parts.some((p) => p.amount > 0)) log(ctx, tx('combatCore.isUnharmed', { targetName: target.name }), 'info');
     return 0;
   }
   const heroHit = target.side === 'enemy' && opts.attacker?.side === 'hero' && !opts.noFortune;
   if (heroHit && hasTrait(target, 'uncannyDodge') && !target.used.reaction && !target.downed) {
     target.used.reaction = true;
     total = Math.round(total / 2);
-    log(ctx, `${target.name} twists away — Uncanny Dodge halves the hit.`, 'info');
+    log(ctx, tx('combatCore.twistsAwayUncannyDodgeHalves', { targetName: target.name }), 'info');
   }
   if (heroHit && opts.melee && hasTrait(target, 'retaliate') && opts.attacker && !opts.attacker.dead && !opts.attacker.downed) {
     const back = Math.round(target.mon!.dmgBase * 0.35);
-    log(ctx, `${target.name} retaliates against ${opts.attacker.name}!`, 'enemy');
+    log(ctx, tx('combatCore.retaliatesAgainst', { targetName: target.name, attackerName: opts.attacker.name }), 'enemy');
     applyDamage(ctx, opts.attacker, [{ type: 'force', amount: back }], { source: `${target.name} (Retaliation)`, attacker: target, noFortune: true });
   }
   const tHero = target.side === 'hero' && !target.downed ? heroOf(ctx, target) : undefined;
   const tLegend = tHero ? derive(tHero).legend : undefined;
   if (tLegend?.firstHitImmune && opts.attacker?.side === 'enemy' && !ctx.combat.once[`invuln:${target.id}`]) {
     ctx.combat.once[`invuln:${target.id}`] = true;
-    log(ctx, `The blow glances off ${target.name}'s Armor of Invulnerability.`, 'info');
+    log(ctx, tx('combatCore.theBlowGlancesOffS', { targetName: target.name }), 'info');
     return 0;
   }
   if (tLegend?.thorns && opts.melee && opts.attacker?.side === 'enemy' && !opts.attacker.dead) {
@@ -541,7 +543,7 @@ export function applyDamage(ctx: Ctx, target: Combatant, parts: DmgPart[], opts:
   // Downed hero hit → death save failure.
   if (target.side === 'hero' && target.downed) {
     target.deathSaves.f += opts.crit ? 2 : 1;
-    log(ctx, `${target.name} is struck while down! (${target.deathSaves.f}/3 failures)`, 'death');
+    log(ctx, tx('combatCore.isStruckWhileDown3', { targetName: target.name, f: target.deathSaves.f }), 'death');
     if (target.deathSaves.f >= 3) kill(ctx, target, opts.source);
     return 0;
   }
@@ -576,7 +578,7 @@ export function applyDamage(ctx: Ctx, target: Combatant, parts: DmgPart[], opts:
     const adv = !!h && (h.feats.includes('warCaster') || h.choices.invocation?.includes('eldritchMind'));
     const relentless = h && h.classId === 'ranger' && h.level >= 13 && target.concentration.spellId === 'huntersMark';
     if (!relentless && !savingThrow(ctx, target, 'con', dc, { advantage: adv })) {
-      log(ctx, `${target.name} loses concentration on ${target.concentration.spellId}.`, 'warn');
+      log(ctx, tx('combatCore.losesConcentrationOn', { targetName: target.name, spellId: SPELLS[target.concentration.spellId]?.name ?? target.concentration.spellId }), 'warn');
       endConcentration(ctx, target);
     }
   }
@@ -588,10 +590,10 @@ export function applyDamage(ctx: Ctx, target: Combatant, parts: DmgPart[], opts:
     const threshold = 1 - (target.mon.phase) / target.mon.phases;
     if (next <= target.mon.phases && target.hp / target.maxHp <= threshold) {
       target.mon.phase = next;
-      log(ctx, `${target.name} enters phase ${next}! Its fury grows.`, 'warn');
+      log(ctx, tx('combatCore.entersPhaseItsFuryGrows', { targetName: target.name, next }), 'warn');
       target.mon.dmgBase = Math.round(target.mon.dmgBase * 1.15);
       target.conditions = target.conditions.filter((c) => !['paralyzed', 'stunned', 'unconscious', 'incapacitated', 'banished'].includes(c.id));
-      fx(ctx, { kind: 'text', target: target.id, text: `PHASE ${next}` });
+      fx(ctx, { kind: 'text', target: target.id, text: tx('combatCore.phase', { next }) });
     }
   }
   return lost;
@@ -607,14 +609,14 @@ function dropToZero(ctx: Ctx, target: Combatant, opts: DmgOpts) {
   if (derive(h).legend.deathWard && !ctx.combat.once[`oath:${target.id}`]) {
     ctx.combat.once[`oath:${target.id}`] = true;
     target.hp = 1;
-    log(ctx, `${target.name}'s oath holds — 1 HP!`, 'heal');
+    log(ctx, tx('combatCore.sOathHolds1Hp', { targetName: target.name }), 'heal');
     return;
   }
   // Death Ward.
   if (has(target, 'deathWard')) {
     removeCondition(target, 'deathWard');
     target.hp = 1;
-    log(ctx, `${target.name}'s Death Ward flares — 1 HP!`, 'heal');
+    log(ctx, tx('combatCore.sDeathWardFlares1', { targetName: target.name }), 'heal');
     return;
   }
   // Relentless Rage.
@@ -625,7 +627,7 @@ function dropToZero(ctx: Ctx, target: Combatant, opts: DmgOpts) {
       ctx.combat.once[k] = true;
       ctx.exp.flags[k] = (ctx.exp.flags[k] ?? 0) + 1;
       target.hp = h.level * 2;
-      log(ctx, `${target.name} refuses to fall! (Relentless Rage)`, 'heal');
+      log(ctx, tx('combatCore.refusesToFallRelentlessRage', { targetName: target.name }), 'heal');
       return;
     }
   }
@@ -633,7 +635,7 @@ function dropToZero(ctx: Ctx, target: Combatant, opts: DmgOpts) {
   if ((h.resources.relentless ?? 0) > 0) {
     h.resources.relentless -= 1;
     target.hp = 1;
-    log(ctx, `${target.name} endures — 1 HP! (Relentless Endurance)`, 'heal');
+    log(ctx, tx('combatCore.endures1HpRelentlessEndurance', { targetName: target.name }), 'heal');
     return;
   }
   target.downed = true;
@@ -643,12 +645,12 @@ function dropToZero(ctx: Ctx, target: Combatant, opts: DmgOpts) {
   target.conditions = target.conditions.filter((c) => ['blessed'].includes(c.id));
   if (target.concentration) endConcentration(ctx, target);
   telemetry.sink?.down?.(ctx, { target, attacker: opts.attacker, source: opts.source });
-  log(ctx, `${target.name} falls unconscious!`, 'death');
+  log(ctx, tx('combatCore.fallsUnconscious', { targetName: target.name }), 'death');
   fx(ctx, { kind: 'down', target: target.id });
   // Periapt: auto-stabilise.
   if (Object.values(h.equipment).some((i) => i?.defId === 'periaptWound')) {
     target.stable = true;
-    log(ctx, `${target.name}'s periapt stabilises them.`, 'info');
+    log(ctx, tx('combatCore.sPeriaptStabilisesThem', { targetName: target.name }), 'info');
   }
   // Avalanche Idol resets.
   for (const ch of ctx.exp.fortune.charms) if (ch.id === 'avalanche') ch.counter = 1;
@@ -662,7 +664,7 @@ export function kill(ctx: Ctx, target: Combatant, source: string, attacker?: Com
   telemetry.sink?.kill?.(ctx, { target, attacker, source });
   if (target.side === 'enemy') {
     ctx.combat.kills += 1;
-    log(ctx, `${target.name} is destroyed!`, 'death');
+    log(ctx, tx('combatCore.isDestroyed', { targetName: target.name }), 'death');
     fx(ctx, { kind: 'kill', target: target.id });
     for (const ch of ctx.exp.fortune.charms) CHARM_BY_ID[ch.id]?.onKill?.(ch, ctx.exp.fortune);
     // Remove zones targeting it.
@@ -670,7 +672,7 @@ export function kill(ctx: Ctx, target: Combatant, source: string, attacker?: Com
     if (hasTrait(target, 'deathburst')) {
       const front = livingHeroes(ctx).filter((h) => h.rank === 'front');
       const type = target.mon!.actions.find((a) => a.damageType)?.damageType ?? 'force';
-      log(ctx, `${target.name} bursts as it dies!`, 'enemy');
+      log(ctx, tx('combatCore.burstsAsItDies', { targetName: target.name }), 'enemy');
       for (const h of front) {
         const ok = savingThrow(ctx, h, 'dex', target.mon!.saveDc);
         applyDamage(ctx, h, [{ type, amount: target.mon!.dmgBase * (ok ? 0.25 : 0.5) }], { source: `${target.name} (Death Burst)`, attacker: target });
@@ -682,19 +684,19 @@ export function kill(ctx: Ctx, target: Combatant, source: string, attacker?: Com
       const d = derive(h);
       if (h.classId === 'warlock' && h.level >= 3) {
         attacker.tempHp = Math.max(attacker.tempHp, Math.round((d.mods.cha + h.level) * VITALITY));
-        log(ctx, `${attacker.name} drinks in the kill (Dark One's Blessing).`, 'heal');
+        log(ctx, tx('combatCore.drinksInTheKillDark', { attackerName: attacker.name }), 'heal');
       }
       if (d.doubloonOnKill) ctx.exp.fortune.doubloons += d.doubloonOnKill;
       if (d.legend.onKill.healPct && !attacker.downed) heal(ctx, attacker, attacker.maxHp * d.legend.onKill.healPct, 'Nine Lives');
       if (d.legend.onKill.rerolls && ctx.combat.turn?.actorId === attacker.id) {
         ctx.exp.fortune.rerollsLeft += d.legend.onKill.rerolls;
-        log(ctx, `${attacker.name} steals a life: +${d.legend.onKill.rerolls} reroll.`, 'fortune');
+        log(ctx, tx('combatCore.stealsALifeReroll', { attackerName: attacker.name, rerolls: d.legend.onKill.rerolls }), 'fortune');
       }
     }
     if (!ctx.exp.journal.includes(target.refId) && !ctx.game.profile.codex.monsters.includes(target.refId)) ctx.game.profile.codex.monsters.push(target.refId);
   } else {
     const h = heroOf(ctx, target)!;
-    log(ctx, `${target.name} has died. (${source})`, 'death');
+    log(ctx, tx('combatCore.hasDied', { targetName: target.name, source: sourceName(source) }), 'death');
     fx(ctx, { kind: 'kill', target: target.id });
     ctx.combat.diedThisFight.push(h.id);
     if (ctx.game.mode === 'legacy') {
@@ -704,9 +706,18 @@ export function kill(ctx: Ctx, target: Combatant, source: string, attacker?: Com
   }
 }
 
+/**
+ * A damage or healing source as shown to the player. Sources are stable ids (the code compares
+ * some, e.g. 'Vampiric'); their display names live in ui.json → sources, else the id is shown.
+ */
+export function sourceName(source: string): string {
+  const v = lookup('ui', ['sources', source]);
+  return typeof v === 'string' ? v : source;
+}
+
 export function heal(ctx: Ctx, target: Combatant, amount: number, source: string): number {
   if (target.dead || amount <= 0) return 0;
-  if (has(target, 'noHeal')) { log(ctx, `${target.name} cannot heal.`, 'warn'); return 0; }
+  if (has(target, 'noHeal')) { log(ctx, tx('combatCore.cannotHeal', { targetName: target.name }), 'warn'); return 0; }
   const th = target.side === 'hero' ? heroOf(ctx, target) : undefined;
   if (th) {
     const taken = derive(th).legend.healTakenPct;
@@ -720,12 +731,12 @@ export function heal(ctx: Ctx, target: Combatant, amount: number, source: string
     target.downed = false;
     target.stable = false;
     target.deathSaves = { s: 0, f: 0 };
-    log(ctx, `${target.name} is back on their feet!`, 'heal');
+    log(ctx, tx('combatCore.isBackOnTheirFeet', { targetName: target.name }), 'heal');
   }
   const gained = target.hp - before;
   if (gained > 0) telemetry.sink?.heal?.(ctx, { target, amount: gained, source });
   if (gained > 0) {
-    log(ctx, `${target.name} recovers ${gained} HP (${source}).`, 'heal');
+    log(ctx, tx('combatCore.recoversHp', { targetName: target.name, gained, source: sourceName(source) }), 'heal');
     fx(ctx, { kind: 'heal', target: target.id, amount: gained });
   }
   return gained;
@@ -754,7 +765,7 @@ export function tickZone(ctx: Ctx, z: Combat['zones'][number]) {
       if (ok) amt = z.half ? Math.floor(amt / 2) : 0;
     }
     if (amt > 0) {
-      log(ctx, `${z.spellId === 'spiritGuardians' ? 'Spirit guardians' : 'The lingering spell'} burns ${t.name}.`, 'hit');
+      log(ctx, tx('combatCore.burns', { source: tx(z.spellId === 'spiritGuardians' ? 'combatCore.spiritGuardians' : 'combatCore.lingeringSpell'), tName: t.name }), 'hit');
       applyDamage(ctx, t, [{ type: z.dmgType, amount: amt }], { source: z.spellId, attacker: caster, noFortune: true });
     }
     if (z.condition && !t.dead) addCondition(ctx, t, { id: z.condition, rounds: 1 });
@@ -764,21 +775,21 @@ export function tickZone(ctx: Ctx, z: Combat['zones'][number]) {
 const ZONE_ECHO = ECHO;
 
 export function deathSave(ctx: Ctx, c: Combatant) {
-  if (c.stable) { log(ctx, `${c.name} is unconscious but stable.`, 'info'); return; }
+  if (c.stable) { log(ctx, tx('combatCore.isUnconsciousButStable', { cName: c.name }), 'info'); return; }
   const r = rollD20(ctx.rng).natural;
   if (r === 20) {
     c.downed = false;
     c.hp = 1;
     c.deathSaves = { s: 0, f: 0 };
-    log(ctx, `${c.name} rolls a natural 20 on a death save and rises!`, 'heal');
+    log(ctx, tx('combatCore.rollsANatural20On', { cName: c.name }), 'heal');
     return;
   }
   if (r === 1) c.deathSaves.f += 2;
   else if (r >= 10) c.deathSaves.s += 1;
   else c.deathSaves.f += 1;
-  log(ctx, `${c.name} death save: ${r} (${c.deathSaves.s} ✓ / ${c.deathSaves.f} ✗)`, r >= 10 ? 'info' : 'death');
+  log(ctx, tx('combatCore.deathSave', { cName: c.name, r, s: c.deathSaves.s, f: c.deathSaves.f }), r >= 10 ? 'info' : 'death');
   if (c.deathSaves.f >= 3) kill(ctx, c, 'failed death saves');
-  else if (c.deathSaves.s >= 3) { c.stable = true; log(ctx, `${c.name} stabilises.`, 'info'); }
+  else if (c.deathSaves.s >= 3) { c.stable = true; log(ctx, tx('combatCore.stabilises', { cName: c.name }), 'info'); }
 }
 
 export function checkEnd(ctx: Ctx): boolean {
@@ -786,13 +797,13 @@ export function checkEnd(ctx: Ctx): boolean {
   if (combat.status !== 'active') return true;
   if (livingEnemies(ctx).length === 0) {
     combat.status = 'victory';
-    log(ctx, 'Victory!', 'loot');
+    log(ctx, tx('combatCore.victory'), 'loot');
     hooks.victory(ctx);
     return true;
   }
   if (livingHeroes(ctx).length === 0) {
     combat.status = 'defeat';
-    log(ctx, 'The party has fallen...', 'death');
+    log(ctx, tx('combatCore.thePartyHasFallen'), 'death');
     return true;
   }
   return false;

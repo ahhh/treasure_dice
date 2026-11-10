@@ -23,7 +23,11 @@ The editor covers:
   and affixes, monsters and their actions, spells, classes and their features, feats and other
   class options, species, backgrounds, skills, dice, hands, curses, charms and omens, tokens,
   facilities, the tutorial rooms, and the formats that assemble names (“Veteran {name}”,
-  “{prefix} {name}{plus} {suffix}”).
+  “{prefix} {name}{plus} {suffix}”). `terms` holds small vocabularies shown by id: condition
+  names, damage types, weapon properties and masteries, armor types, item kinds, ancestry.
+- **Interface** (`ui.json`): every button, label, tooltip, toast, journal and combat-log line,
+  and the tutorial, one section per source file. Each string shows its key, the file and line
+  that uses it and the code around it (from src/dev/ui-context.json).
 
 Edit, then **Save** (⌘S): the JSON on disk changes, an open game tab swaps the new text in
 without reloading, and the editor keeps your place. Commit the file as usual. Link straight
@@ -31,6 +35,13 @@ to an entry with its id: `/dev/text.html#event:q_stalledCart`, `#evidence`, `#sc
 
 The editor only exists on the dev server (`scripts/vite-locales.ts`, `apply: 'serve'`); it is
 not in the production build.
+
+## Choosing a language
+
+Players pick a language from the 🌐 menu on the title screen or in How to Play. The choice is
+saved per device (localStorage); a first visit picks the best match for the browser's
+languages. `?lang=fr` overrides it for a session. The menu lists every language that has a
+folder in src/locales, by its own name (“Français”).
 
 ## Translating
 
@@ -84,6 +95,24 @@ next to the English they were made with. Show them with `roomName`, `roomText` a
 back to the stored English for saves from before localisation. The journal log is history: it
 keeps the language it was written in.
 
+## Writing UI code
+
+- `tx('town.buy')`, `tx('town.facilityLevel', { level })`: a ui.json string.
+- `txn('tavern.expeditionLeft', n)`: a plural. The entry is `{ "one": "…{n}…", "other": "…{n}…" }`
+  (add `few`, `many`… per Intl.PluralRules in languages that need them).
+- `h('p', null, ...rich(tx('tutorial.x')))`: `**bold**` in the string becomes a `<b>`, so a
+  sentence with emphasis stays one string a translator can reorder.
+- Whole sentences only: never build one from translated pieces plus English glue. A
+  conditional bit of a sentence is its own key passed in as a placeholder, or two keys.
+- Never call `tx` at module load (a top-level const): it would freeze in the language the game
+  started in. Use a function or a getter (`get title() { return tx('…'); }`).
+- Damage and healing sources are stable ids the code may compare (`'Vampiric'`); show them with
+  `sourceName()`, which reads ui.json → sources.
+- Show ids from the vocabularies above with `term(group, id)` / `condName(id)` (src/content/terms.ts).
+
+`tests/i18n.test.ts` fails if code asks for a ui.json key that doesn't exist, or ui.json keeps a
+string nothing uses.
+
 ## Code API
 
 ```ts
@@ -98,5 +127,8 @@ await setLocale('fr');                   // loads that language's chunks, then r
 1. Dialogue scenes, barks, heads, eulogy: **done**.
 2. Story content (events, chapters, leads, evidence, rumours, drinks, Muster, NPC names): **done**.
 3. Game data names and descriptions, plus saved room and theme text: **done**.
-4. UI strings in `src/ui/*` (buttons, labels, tutorial, tooltips) into `ui.json`, plus a
-   language menu in settings.
+4. Interface text, plus the language menu: **done**.
+
+Not translated on purpose: hero and Keeper names (proper names), the journal and combat log
+already written (history keeps the language it was written in), a fallen hero's recorded cause
+of death, and the dev text editor itself.

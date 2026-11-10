@@ -5,7 +5,7 @@
 import type { BiomeId, Difficulty, Expedition, Facing, GameState, Hero, RelDir, Room, Skill, BoonOffer, LogEntry, HandType } from '../engine/types.ts';
 import { Rng, makeStreams, stream } from '../engine/rng.ts';
 import { rollD20, roll } from '../engine/dice.ts';
-import { ref, resolveRef, text } from '../i18n/index.ts';
+import { ref, resolveRef, text, tx } from '../i18n/index.ts';
 import { generateDungeon, tierFor, DIRS, DELTA, rollEncounter, key, parseKey } from './generator.ts';
 import { BIOMES, BIOME_ORDER } from '../content/biomes.ts';
 import { EVENTS, type Outcome } from '../content/events.ts';
@@ -42,17 +42,17 @@ const living = (g: GameState) => party(g).filter((h) => h.status === 'alive');
 export interface StartOpts { partyIds: string[]; biome: BiomeId; difficulty: Difficulty; seed: string; size?: 'short' | 'normal' | 'long'; tutorial?: boolean; finale?: boolean }
 
 export function startExpedition(g: GameState, o: StartOpts): string | null {
-  if (o.partyIds.length !== 3) return 'Choose exactly three heroes.';
+  if (o.partyIds.length !== 3) return tx('dungeonExplore.chooseExactlyThreeHeroes');
   const heroes = o.partyIds.map((id) => g.roster.find((h) => h.id === id));
-  if (heroes.some((h) => !h || h.status !== 'alive')) return 'Only living heroes can join.';
-  if (heroes.some((h) => h!.pendingLevel)) return 'Finish level-ups first.';
-  if (o.tutorial && o.finale) return 'Pick one: the tutorial or the finale.';
+  if (heroes.some((h) => !h || h.status !== 'alive')) return tx('dungeonExplore.onlyLivingHeroesCanJoin');
+  if (heroes.some((h) => h!.pendingLevel)) return tx('dungeonExplore.finishLevelUpsFirst');
+  if (o.tutorial && o.finale) return tx('dungeonExplore.pickOneTheTutorialOr');
   if (o.tutorial) { o = { ...o, biome: 'cinder', difficulty: 'explorer', seed: TUTORIAL_SEED, size: 'short' }; }
   if (o.finale) {
     const blocked = finaleBlocked(heroes as Hero[], g);
     if (blocked) return blocked;
     o = { ...o, biome: 'starfall', size: 'long' };
-  } else if (!o.tutorial && !g.profile.unlockedBiomes.includes(o.biome)) return 'That echo is still sealed.';
+  } else if (!o.tutorial && !g.profile.unlockedBiomes.includes(o.biome)) return tx('dungeonExplore.thatEchoIsStillSealed');
   const levels = heroes.map((h) => h!.level).sort((a, b) => a - b);
   // Effective level weights the strongest heroes but never ignores a weak link (plan §4.5).
   const partyLevel = Math.max(1, Math.round((levels[0] + levels[1] * 1.5 + levels[2] * 1.5) / 4));
@@ -121,11 +121,11 @@ export function startExpedition(g: GameState, o: StartOpts): string | null {
   // The Queen's Due: the drink Bet poured, and maybe a lead's quest room.
   onExpeditionStart(g, exp, heroes as Hero[], MAX_TOKENS);
   revealAround(exp);
-  if (o.tutorial) xlog(exp, 'The Training Cellar: a short, gentle dungeon beneath the Keep. Your goal: take the Boss Sigil and beat the practice forge.', 'info');
+  if (o.tutorial) xlog(exp, tx('dungeonExplore.theTrainingCellarAShort'), 'info');
   else if (o.finale) xlog(exp, `${FINALE.name}: ${FINALE.premise}`, 'warn');
-  else xlog(exp, `${b.name}: ${themeText(exp, 'anomaly')}. Your goal: ${themeText(exp, 'objective')}.`, 'info');
-  xlog(exp, `Rumour has it ${themeText(exp, 'boss')} waits in the deepest chamber.`, 'info');
-  if (exp.quest?.lead) xlog(exp, `📜 Your lead is somewhere in here: ${LEADS[exp.quest.lead].title}.`, 'warn');
+  else xlog(exp, tx('dungeonExplore.yourGoal', { bName: b.name, themeText: themeText(exp, 'anomaly'), themeText2: themeText(exp, 'objective') }), 'info');
+  xlog(exp, tx('dungeonExplore.rumourHasItWaitsIn', { themeText: themeText(exp, 'boss') }), 'info');
+  if (exp.quest?.lead) xlog(exp, tx('dungeonExplore.yourLeadIsSomewhereIn', { title: LEADS[exp.quest.lead].title }), 'warn');
   g.profile.stats.expeditions += 1;
   // Face into the dungeon.
   const start = map.rooms[map.start];
@@ -154,27 +154,27 @@ export function exitsView(g: GameState): ExitView[] {
   return (['forward', 'left', 'right', 'back'] as RelDir[]).map((rel) => {
     const dir = absoluteDir(exp, rel);
     const e = room.exits[dir];
-    if (!e || (e.hidden && !exp.searched.includes(`${room.key}:${dir}`))) return { rel, dir, state: 'wall', label: 'Wall' };
+    if (!e || (e.hidden && !exp.searched.includes(`${room.key}:${dir}`))) return { rel, dir, state: 'wall', label: tx('dungeonExplore.wall') };
     const lockReason = doorBlocked(exp, e.lock);
     if (lockReason) return { rel, dir, state: 'locked', lock: e.lock, to: e.to, label: lockReason };
-    return { rel, dir, state: 'open', to: e.to, visited: exp.visited.includes(e.to), label: exp.visited.includes(e.to) ? exp.map.rooms[e.to].name : 'Unexplored' };
+    return { rel, dir, state: 'open', to: e.to, visited: exp.visited.includes(e.to), label: exp.visited.includes(e.to) ? exp.map.rooms[e.to].name : tx('dungeonExplore.unexplored') };
   });
 }
 
 function doorBlocked(exp: Expedition, lock?: string): string | null {
   if (!lock) return null;
-  if (lock === 'sigil' && !exp.keys.includes('sigil')) return 'Sealed — needs the Boss Sigil';
-  if (lock === 'water' && exp.meter >= 1) return 'Flooded — lower the water';
-  if (lock === 'mirror' && !exp.flags.mirrorOpen) return 'A door that exists only in reflection';
+  if (lock === 'sigil' && !exp.keys.includes('sigil')) return tx('dungeonExplore.sealedNeedsTheBossSigil');
+  if (lock === 'water' && exp.meter >= 1) return tx('dungeonExplore.floodedLowerTheWater');
+  if (lock === 'mirror' && !exp.flags.mirrorOpen) return tx('dungeonExplore.aDoorThatExistsOnly');
   return null;
 }
 
 export function canAct(g: GameState): string | null {
   const exp = g.expedition;
-  if (!exp || exp.status !== 'active') return 'No active expedition';
-  if (exp.combat && exp.combat.status === 'active') return 'In combat';
-  if (exp.spoils || exp.boons || exp.lootChoice) return 'Claim your spoils first';
-  if (exp.event && exp.event.stage !== 'result') return 'Resolve the event first';
+  if (!exp || exp.status !== 'active') return tx('dungeonExplore.noActiveExpedition');
+  if (exp.combat && exp.combat.status === 'active') return tx('dungeonExplore.inCombat');
+  if (exp.spoils || exp.boons || exp.lootChoice) return tx('dungeonExplore.claimYourSpoilsFirst');
+  if (exp.event && exp.event.stage !== 'result') return tx('dungeonExplore.resolveTheEventFirst');
   return null;
 }
 
@@ -185,7 +185,7 @@ export function move(g: GameState, rel: RelDir): string | null {
   const room = exp.map.rooms[exp.pos];
   const dir = absoluteDir(exp, rel);
   const e = room.exits[dir];
-  if (!e || (e.hidden && !exp.searched.includes(`${room.key}:${dir}`))) return 'A wall blocks the way.';
+  if (!e || (e.hidden && !exp.searched.includes(`${room.key}:${dir}`))) return tx('dungeonExplore.aWallBlocksTheWay');
   const blocked = doorBlocked(exp, e.lock);
   if (blocked) return blocked;
   exp.event = undefined;
@@ -227,7 +227,7 @@ function biomeStep(g: GameState) {
       break;
     case 'mirror':
       if (room.tags.includes('mirror') && !exp.visited.slice(0, -1).includes(room.key)) exp.meter = Math.min(b.meter.max, exp.meter + 1);
-      if (exp.meter >= 3 && !exp.flags.mirrorOpen) { exp.flags.mirrorOpen = 1; xlog(exp, '🪞 Your reflections step aside: hidden mirror-doors shimmer into being!', 'loot'); }
+      if (exp.meter >= 3 && !exp.flags.mirrorOpen) { exp.flags.mirrorOpen = 1; xlog(exp, tx('dungeonExplore.yourReflectionsStepAsideHidden'), 'loot'); }
       break;
     case 'starfall':
       if (room.tags.includes('anchor')) exp.meter = 0;
@@ -237,7 +237,7 @@ function biomeStep(g: GameState) {
   if (exp.meter !== before) {
     const arrow = exp.meter > before ? '▲' : '▼';
     xlog(exp, `${b.meter.icon} ${b.meter.name} ${arrow} ${exp.meter}`, exp.meter > before ? 'warn' : 'info');
-    if (exp.biome === 'starfall' && exp.meter !== 0) xlog(exp, 'Gravity turns — your directions rotate!', 'warn');
+    if (exp.biome === 'starfall' && exp.meter !== 0) xlog(exp, tx('dungeonExplore.gravityTurnsYourDirectionsRotate'), 'warn');
   }
 }
 
@@ -247,8 +247,8 @@ function enterRoom(g: GameState) {
   xlog(exp, `${roomName(room)}. ${roomText(room)}`);
   if (room.encounter && !room.encounter.cleared) {
     const kind = room.encounter.kind;
-    if (kind === 'ambush') xlog(exp, 'Ambush!', 'warn');
-    if (kind === 'boss') xlog(exp, `The air thickens. ${themeText(exp, 'boss')} awaits.`, 'warn');
+    if (kind === 'ambush') xlog(exp, tx('dungeonExplore.ambush'), 'warn');
+    if (kind === 'boss') xlog(exp, tx('dungeonExplore.theAirThickensAwaits', { themeText: themeText(exp, 'boss') }), 'warn');
     startCombat(g, room.key, room.encounter.monsters, kind);
     return;
   }
@@ -287,7 +287,7 @@ export function search(g: GameState): string | null {
   const exp = g.expedition!;
   const room = exp.map.rooms[exp.pos];
   const flag = `searched:${room.key}`;
-  if (exp.flags[flag]) return 'You have already searched here.';
+  if (exp.flags[flag]) return tx('dungeonExplore.youHaveAlreadySearchedHere');
   exp.flags[flag] = 1;
   const { hero, bonus } = bestCheck(g, 'perception');
   const dc = 12 + (exp.tier === 'mythic' ? 3 : exp.tier === 'heroic' ? 2 : exp.tier === 'veteran' ? 1 : 0);
@@ -304,12 +304,12 @@ export function search(g: GameState): string | null {
       found = true;
     }
   }
-  if (found) xlog(exp, `${hero.name} finds a hidden passage! (Perception ${total})`, 'loot');
+  if (found) xlog(exp, tx('dungeonExplore.findsAHiddenPassagePerception', { heroName: hero.name, total }), 'loot');
   else if (total >= dc + 3 && stream(exp.rng, 'loot').chance(0.35)) {
     const gold = Math.round(goldReward(exp.partyLevel, 'normal') * 0.4);
     exp.carriedGold += gold;
-    xlog(exp, `${hero.name} spots a loose stone hiding ${gold} gold. (Perception ${total})`, 'loot');
-  } else xlog(exp, `${hero.name} searches carefully but finds nothing. (Perception ${total})`);
+    xlog(exp, tx('dungeonExplore.spotsALooseStoneHiding', { heroName: hero.name, gold, total }), 'loot');
+  } else xlog(exp, tx('dungeonExplore.searchesCarefullyButFindsNothing', { heroName: hero.name, total }));
   return null;
 }
 
@@ -322,8 +322,8 @@ export function eventOptions(g: GameState) {
   return ev.options.map((o) => {
     let usable = true;
     let reason = '';
-    if (o.cost?.gold && exp.carriedGold < o.cost.gold) { usable = false; reason = `Needs ${o.cost.gold} carried gold`; }
-    if (o.cost?.doubloons && exp.fortune.doubloons < o.cost.doubloons) { usable = false; reason = `Needs ${o.cost.doubloons} doubloons`; }
+    if (o.cost?.gold && exp.carriedGold < o.cost.gold) { usable = false; reason = tx('dungeonExplore.needsCarriedGold', { gold: o.cost.gold }); }
+    if (o.cost?.doubloons && exp.fortune.doubloons < o.cost.doubloons) { usable = false; reason = tx('dungeonExplore.needsDoubloons', { doubloons: o.cost.doubloons }); }
     const spellHelper = o.spell ? spellFor(g, o.spell) : null;
     const best = o.check?.skill ? bestCheck(g, o.check.skill) : null;
     const dc = o.check ? o.check.dc + tierDc(exp) : 0;
@@ -349,10 +349,10 @@ function spellFor(g: GameState, tag: string): { hero: Hero; spell: string } | nu
 
 export function chooseEvent(g: GameState, idx: number, useSpell = false): string | null {
   const exp = g.expedition!;
-  if (!exp.event || exp.event.stage !== 'choose') return 'No event';
+  if (!exp.event || exp.event.stage !== 'choose') return tx('dungeonExplore.noEvent');
   const opts = eventOptions(g);
   const o = opts[idx];
-  if (!o) return 'Invalid choice';
+  if (!o) return tx('dungeonExplore.invalidChoice');
   if (!o.usable) return o.reason;
   if (o.cost?.gold) exp.carriedGold -= o.cost.gold;
   if (o.cost?.doubloons) exp.fortune.doubloons -= o.cost.doubloons;
@@ -366,7 +366,7 @@ export function chooseEvent(g: GameState, idx: number, useSpell = false): string
         const lvl = h.slots.findIndex((n, i) => i >= SPELLS[sp].level && n > 0);
         if (lvl > 0) h.slots[lvl] -= 1;
       }
-      lines.push(`${o.spellHelper.hero.name} uses ${SPELLS[sp]?.name ?? "thieves' tools"} — automatic success.`);
+      lines.push(tx('dungeonExplore.usesAutomaticSuccess', { heroName: o.spellHelper.hero.name, means: SPELLS[sp]?.name ?? tx('dungeonExplore.thievesTools') }));
     } else {
       const rng = stream(exp.rng, 'narrative');
       const skill = o.check.skill!;
@@ -378,7 +378,7 @@ export function chooseEvent(g: GameState, idx: number, useSpell = false): string
       const total = r + bonus;
       success = total >= o.dc;
       void d;
-      lines.push(`${hero.name} tries ${SKILL_NAMES[skill]}: ${total} vs DC ${o.dc} — ${success ? 'success!' : 'failure.'}`);
+      lines.push(tx('dungeonExplore.triesVsDc', { heroName: hero.name, SKILL_NAMES: SKILL_NAMES[skill], total, dc: o.dc, result: tx(success ? 'dungeonExplore.successResult' : 'dungeonExplore.failureResult') }));
     }
   }
   const outcomes = success ? o.success : o.failure ?? [];
@@ -401,19 +401,19 @@ function applyOutcome(g: GameState, o: Outcome): string | null {
   const L = exp.partyLevel;
   switch (o.type) {
     case 'text': return o.leadOpen ? `${o.t} ${text('story', ['leadOpen'])}` : o.t;
-    case 'gold': { const n = Math.round(goldReward(L, 'normal') * (0.8 + loot.next()) * o.amount); exp.carriedGold += n; return `+${n} gold.`; }
-    case 'doubloons': exp.fortune.doubloons += o.n; return `+${o.n} doubloons.`;
-    case 'item': { const it = rollItem(loot, L, exp.biome, { boost: o.tier }); exp.carriedItems.push(it); return `Found: ${itemName(it)}.`; }
-    case 'heal': for (const h of living(g)) h.hp = Math.min(derive(h).maxHp, h.hp + Math.round(derive(h).maxHp * o.pct)); return `The party recovers ${Math.round(o.pct * 100)}% HP.`;
+    case 'gold': { const n = Math.round(goldReward(L, 'normal') * (0.8 + loot.next()) * o.amount); exp.carriedGold += n; return tx('dungeonExplore.gold', { n }); }
+    case 'doubloons': exp.fortune.doubloons += o.n; return tx('dungeonExplore.doubloons', { n: o.n });
+    case 'item': { const it = rollItem(loot, L, exp.biome, { boost: o.tier }); exp.carriedItems.push(it); return tx('dungeonExplore.found', { itemName: itemName(it) }); }
+    case 'heal': for (const h of living(g)) h.hp = Math.min(derive(h).maxHp, h.hp + Math.round(derive(h).maxHp * o.pct)); return tx('dungeonExplore.thePartyRecoversHp', { v: Math.round(o.pct * 100) });
     case 'damage': {
       const victims = o.who === 'party' ? living(g) : [loot.pick(living(g))];
       for (const h of victims) h.hp = Math.max(1, h.hp - Math.round(derive(h).maxHp * o.pct));
-      return o.who === 'party' ? 'The party is hurt.' : `${victims[0].name} is hurt.`;
+      return o.who === 'party' ? tx('dungeonExplore.thePartyIsHurt') : tx('dungeonExplore.isHurt', { name: victims[0].name });
     }
     case 'quest': {
       const notes = applyFx(g, o.fx);
       const found = notes.filter((n) => n.startsWith('ev:')).map((n) => EVIDENCE[n.slice(3)]?.name).filter(Boolean);
-      if (found.length) { exp.flags.questFound = (exp.flags.questFound ?? 0) + found.length; return `📜 Evidence: ${found.join(', ')}.`; }
+      if (found.length) { exp.flags.questFound = (exp.flags.questFound ?? 0) + found.length; return tx('dungeonExplore.evidence', { found: found.join(', ') }); }
       return null;
     }
     case 'combat': {
@@ -429,56 +429,56 @@ function applyOutcome(g: GameState, o: Outcome): string | null {
     case 'meter': {
       const b = BIOMES[exp.biome];
       if (o.set !== undefined) {
-        if (exp.biome === 'drowned') { exp.meter = exp.meter >= 1 ? 0 : 1; return exp.meter ? '🌊 The water rises.' : '🌊 The water drains away — flooded passages open.'; }
+        if (exp.biome === 'drowned') { exp.meter = exp.meter >= 1 ? 0 : 1; return exp.meter ? tx('dungeonExplore.theWaterRises') : tx('dungeonExplore.theWaterDrainsAwayFlooded'); }
         exp.meter = o.set;
       } else exp.meter = Math.max(0, Math.min(b.meter.max, exp.meter + o.delta));
       return `${b.meter.icon} ${b.meter.name}: ${exp.meter}.`;
     }
     case 'reveal': {
       for (const k of exp.map.criticalPath) if (!exp.seen.includes(k)) exp.seen.push(k);
-      return 'The path to the boss is revealed on your map.';
+      return tx('dungeonExplore.thePathToTheBoss');
     }
     case 'key':
       if (!exp.keys.includes('sigil')) exp.keys.push('sigil');
-      return '🔑 You hold the Boss Sigil.';
+      return tx('dungeonExplore.youHoldTheBossSigil');
     case 'omen':
       return grantOmen(exp, loot.pick(HANDS.slice(1, 8)).id);
     case 'die': {
       const o2 = makeOffer(loot, exp.fortune, 'die', new Set());
-      if (o2?.die) { exp.fortune.bag.push(o2.die); return `${o2.die.name} joins your dice bag.`; }
+      if (o2?.die) { exp.fortune.bag.push(o2.die); return tx('dungeonExplore.joinsYourDiceBag', { dieName: o2.die.name }); }
       return null;
     }
     case 'token': {
       const id = o.id ?? loot.pick(Object.keys(TOKENS));
-      if (exp.fortune.tokens.length >= 3) return 'Your token pouch is full.';
+      if (exp.fortune.tokens.length >= 3) return tx('dungeonExplore.yourTokenPouchIsFull');
       exp.fortune.tokens.push(id);
-      return `Gained a ${TOKENS[id].name}.`;
+      return tx('dungeonExplore.gainedA', { name: TOKENS[id].name });
     }
     case 'charm': {
       const pool = CHARMS.filter((c) => (!o.rarity || c.rarity === o.rarity) && !exp.fortune.charms.some((x) => x.id === c.id));
       const c = loot.pick(pool.length ? pool : CHARMS);
       exp.boons = { offers: [{ kind: 'charm', id: c.id }], source: 'event', picks: 1 };
-      return `A charm: ${c.name}!`;
+      return tx('dungeonExplore.aCharm', { cName: c.name });
     }
     case 'boons':
       exp.boons = { offers: rollBoons(loot, exp.fortune, o.source), source: o.source, picks: 1 };
-      return 'Fortune smiles — choose a boon.';
+      return tx('dungeonExplore.fortuneSmilesChooseABoon');
     case 'resources':
       for (const h of living(g)) shortRest(h);
-      return 'The party feels refreshed.';
+      return tx('dungeonExplore.thePartyFeelsRefreshed');
     case 'condition':
       for (const h of living(g)) exp.flags[`${o.id}:${h.id}`] = 1;
-      return o.id === 'blessed' ? 'The party feels blessed (next fight).' : o.id === 'poisoned' ? 'The party feels sick (next fight).' : 'Dread follows you (next fight).';
+      return o.id === 'blessed' ? tx('dungeonExplore.thePartyFeelsBlessedNext') : o.id === 'poisoned' ? tx('dungeonExplore.thePartyFeelsSickNext') : tx('dungeonExplore.dreadFollowsYouNextFight');
     case 'wheel': return spinWheel(g);
     case 'gamble': {
       const a = roll(loot, '1d6').total, b = roll(loot, '1d6').total;
-      if (a > b) { exp.fortune.doubloons += 10; return `You roll ${a}, the ghost rolls ${b}. You win 10 doubloons!`; }
-      if (a === b) { exp.fortune.doubloons += 5; return `You both roll ${a}. Your wager is returned.`; }
-      return `You roll ${a}, the ghost rolls ${b}. The ghost cackles and pockets your coins.`;
+      if (a > b) { exp.fortune.doubloons += 10; return tx('dungeonExplore.youRollTheGhostRolls', { a, b }); }
+      if (a === b) { exp.fortune.doubloons += 5; return tx('dungeonExplore.youBothRollYourWager', { a }); }
+      return tx('dungeonExplore.youRollTheGhostRolls2', { a, b });
     }
     case 'sacrifice':
       exp.event!.stage = 'pickDie';
-      return 'Choose a die to give to the altar.';
+      return tx('dungeonExplore.chooseADieToGive');
   }
   return null;
 }
@@ -489,29 +489,29 @@ function grantOmen(exp: Expedition, hand: HandType): string {
   const r = applyOffer(exp.fortune, offer);
   if (r.ok) return r.text;
   exp.boons = { offers: [offer], source: 'event', picks: 1 };
-  return `${offerTitle(offer)} appears, but your charm slots are full.`;
+  return tx('dungeonExplore.appearsButYourCharmSlots', { offerTitle: offerTitle(offer) });
 }
 
 function spinWheel(g: GameState): string {
   const exp = g.expedition!;
   const loot = stream(exp.rng, 'loot');
   const r = loot.next();
-  if (r < 0.28) { exp.fortune.doubloons += 8; return '🪙 The wheel lands on the COIN: +8 doubloons!'; }
-  if (r < 0.48) { applyOutcome(g, { type: 'charm', rarity: loot.chance(0.3) ? 'rare' : 'uncommon' }); return '👑 The CROWN: a charm appears!'; }
-  if (r < 0.63) return `✨ The STAR: ${applyOutcome(g, { type: 'omen' })}`;
-  if (r < 0.75) return `🎲 The DIE: ${applyOutcome(g, { type: 'die' })}`;
-  if (r < 0.85) { applyOutcome(g, { type: 'heal', pct: 0.4 }); return '❤ The HEART: the party is healed.'; }
-  if (r < 0.96) { applyOutcome(g, { type: 'damage', pct: 0.15, who: 'party' }); return '💀 The SKULL: a curse lashes the party!'; }
+  if (r < 0.28) { exp.fortune.doubloons += 8; return tx('dungeonExplore.theWheelLandsOnThe'); }
+  if (r < 0.48) { applyOutcome(g, { type: 'charm', rarity: loot.chance(0.3) ? 'rare' : 'uncommon' }); return tx('dungeonExplore.theCrownACharmAppears'); }
+  if (r < 0.63) return tx('dungeonExplore.theStar', { applyOutcome: applyOutcome(g, { type: 'omen' }) });
+  if (r < 0.75) return tx('dungeonExplore.theDie', { applyOutcome: applyOutcome(g, { type: 'die' }) });
+  if (r < 0.85) { applyOutcome(g, { type: 'heal', pct: 0.4 }); return tx('dungeonExplore.theHeartThePartyIs'); }
+  if (r < 0.96) { applyOutcome(g, { type: 'damage', pct: 0.15, who: 'party' }); return tx('dungeonExplore.theSkullACurseLashes'); }
   applyOutcome(g, { type: 'charm', rarity: 'legendary' });
-  return '🐉 JACKPOT! A legendary charm!';
+  return tx('dungeonExplore.jackpotALegendaryCharm');
 }
 
 export function sacrificeDie(g: GameState, dieUid: string): string | null {
   const exp = g.expedition!;
-  if (exp.event?.stage !== 'pickDie') return 'Nothing to sacrifice to.';
-  if (exp.fortune.bag.length <= 8) return 'Your bag must keep at least 8 dice.';
+  if (exp.event?.stage !== 'pickDie') return tx('dungeonExplore.nothingToSacrificeTo');
+  if (exp.fortune.bag.length <= 8) return tx('dungeonExplore.yourBagMustKeepAt');
   const die = exp.fortune.bag.find((d) => d.uid === dieUid);
-  if (!die) return 'Pick a die.';
+  if (!die) return tx('dungeonExplore.pickADie');
   exp.fortune.bag = exp.fortune.bag.filter((d) => d.uid !== dieUid);
   const fav = (Object.entries(exp.fortune.handsPlayed).sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))[0]?.[0] ?? 'pair') as HandType;
   exp.fortune.doubloons += 2;
@@ -529,7 +529,7 @@ export function closeEvent(g: GameState) {
 export function reopenEvent(g: GameState): string | null {
   const exp = g.expedition!;
   const room = exp.map.rooms[exp.pos];
-  if (!room.eventId || room.eventDone) return 'Nothing here.';
+  if (!room.eventId || room.eventDone) return tx('dungeonExplore.nothingHere');
   exp.event = { roomKey: room.key, eventId: room.eventId, stage: 'choose' };
   return null;
 }
@@ -541,23 +541,23 @@ export function takeLoot(g: GameState): string | null {
   if (err) return err;
   const exp = g.expedition!;
   const room = exp.map.rooms[exp.pos];
-  if (!room.loot || room.loot.taken) return 'Nothing to take.';
-  if (room.encounter && !room.encounter.cleared) return 'Defeat the guardians first.';
+  if (!room.loot || room.loot.taken) return tx('dungeonExplore.nothingToTake');
+  if (room.encounter && !room.encounter.cleared) return tx('dungeonExplore.defeatTheGuardiansFirst');
   const loot = stream(exp.rng, 'loot');
   room.loot.taken = true;
   if (room.loot.gold) {
     const n = Math.round(goldReward(exp.partyLevel, 'elite') * (0.7 + loot.next() * 0.6) * DIFFICULTY_MOD[exp.difficulty].gold);
     exp.carriedGold += n;
-    xlog(exp, `+${n} gold.`, 'loot');
+    xlog(exp, tx('dungeonExplore.gold', { n }), 'loot');
   }
   for (const _ of room.loot.items) {
     const it = rollItem(loot, exp.partyLevel, exp.biome, { boost: (room.secret ? 1 : 0) + DIFFICULTY_MOD[exp.difficulty].rank });
     exp.carriedItems.push(it);
-    xlog(exp, `Found ${itemName(it)}.`, 'loot');
+    xlog(exp, tx('dungeonExplore.found2', { itemName: itemName(it) }), 'loot');
   }
   if (!exp.tutorial && loot.chance(room.secret ? LEGEND_CHANCE.secret : LEGEND_CHANCE.treasure)) {
     const lg = rollLegendary(loot, exp.partyLevel, ownedLegends(g));
-    if (lg) { exp.carriedItems.push(lg); xlog(exp, `✦ A legend lies in the hoard: ${itemName(lg)}!`, 'loot'); }
+    if (lg) { exp.carriedItems.push(lg); xlog(exp, tx('dungeonExplore.aLegendLiesInThe', { itemName: itemName(lg) }), 'loot'); }
   }
   if (room.loot.charm) exp.boons = { offers: rollBoons(loot, exp.fortune, 'treasure'), source: 'treasure', picks: 1 };
   return null;
@@ -584,8 +584,8 @@ export function afterCombat(g: GameState) {
     if (exp.quest?.onWin) {
       const found = applyFx(g, exp.quest.onWin).filter((n) => n.startsWith('ev:')).map((n) => EVIDENCE[n.slice(3)]?.name).filter(Boolean);
       exp.quest.onWin = undefined;
-      for (const f of found) { xlog(exp, `📜 Evidence: ${f}.`, 'info'); exp.spoils?.items.push(`📜 ${f}`); }
-      xlog(exp, '📜 The way is clear. You did what you came for.', 'info');
+      for (const f of found) { xlog(exp, tx('dungeonExplore.evidence2', { f }), 'info'); exp.spoils?.items.push(`📜 ${f}`); }
+      xlog(exp, tx('dungeonExplore.theWayIsClearYou'), 'info');
     }
   }
   if ((combat.status === 'defeat' || combat.status === 'fled') && exp.quest?.onWin) exp.quest.onWin = undefined;
@@ -595,7 +595,7 @@ export function afterCombat(g: GameState) {
       for (const h of party(g)) if (h.status === 'alive' || combat.diedThisFight.includes(h.id)) { h.status = 'alive'; h.hp = 1; }
       exp.carriedGold = 0;
       exp.carriedItems = [];
-      xlog(exp, exp.tutorial ? 'The Keep\'s trainers drag you out of the cellar. Nobody dies in practice.' : 'Story mode: the Keep\'s rescuers drag you home, empty-handed.', 'warn');
+      xlog(exp, exp.tutorial ? tx('dungeonExplore.theKeepSTrainersDrag') : tx('dungeonExplore.storyModeTheKeepS'), 'warn');
       finishExpedition(g, 'wiped');
     } else {
       for (const h of party(g)) if (h.status === 'alive') { h.status = 'dead'; h.history.deathCause = `fell in ${BIOMES[exp.biome].name}`; }
@@ -606,7 +606,7 @@ export function afterCombat(g: GameState) {
   if (combat.status === 'fled') {
     endCombatTray(exp.fortune);
     exp.combat = undefined;
-    if (exp.prev) { exp.pos = exp.prev; xlog(exp, 'You retreat to the previous room.', 'warn'); }
+    if (exp.prev) { exp.pos = exp.prev; xlog(exp, tx('dungeonExplore.youRetreatToThePrevious'), 'warn'); }
   }
 }
 
@@ -637,7 +637,7 @@ function grantSpoils(g: GameState) {
   }
   if (kind === 'elite' && !exp.tutorial && loot.chance(LEGEND_CHANCE.elite)) {
     const lg = rollLegendary(loot, exp.partyLevel, ownedLegends(g));
-    if (lg) { exp.carriedItems.push(lg); items.push(`✦ ${itemName(lg)}`); xlog(exp, `✦ The elite carried a legend: ${itemName(lg)}!`, 'loot'); }
+    if (lg) { exp.carriedItems.push(lg); items.push(`✦ ${itemName(lg)}`); xlog(exp, tx('dungeonExplore.theEliteCarriedALegend', { itemName: itemName(lg) }), 'loot'); }
   }
   exp.depth += 1;
   exp.fortune.rank += 1;
@@ -666,9 +666,9 @@ function grantSpoils(g: GameState) {
       const it = rollMagicItem(loot, exp.partyLevel, exp.biome, rank);
       exp.carriedItems.push(it);
       items.push(`✦ ${itemName(it)}`);
-      xlog(exp, `Bonus for braving a ${exp.difficulty} echo: ${itemName(it)}.`, 'loot');
+      xlog(exp, tx('dungeonExplore.bonusForBravingAEcho', { difficulty: exp.difficulty, itemName: itemName(it) }), 'loot');
     }
-    xlog(exp, `${themeText(exp, 'boss')} is defeated! The echo begins to fade.`, 'loot');
+    xlog(exp, tx('dungeonExplore.isDefeatedTheEchoBegins', { themeText: themeText(exp, 'boss') }), 'loot');
   }
   endCombatTray(exp.fortune);
 }
@@ -686,9 +686,9 @@ export function closeSpoils(g: GameState) {
 
 export function pickBoon(g: GameState, idx: number, target?: { dieUid?: string; face?: number; replaceCharm?: number }): string | null {
   const exp = g.expedition!;
-  if (!exp.boons) return 'No boons to pick.';
+  if (!exp.boons) return tx('dungeonExplore.noBoonsToPick');
   const o = exp.boons.offers[idx];
-  if (!o || o.sold) return 'Invalid boon.';
+  if (!o || o.sold) return tx('dungeonExplore.invalidBoon');
   const r = applyOffer(exp.fortune, o, target);
   if (!r.ok) return r.reason;
   if (o.kind === 'charm' && !g.profile.codex.charms.includes(o.id)) g.profile.codex.charms.push(o.id);
@@ -703,7 +703,7 @@ export function skipBoon(g: GameState): string | null {
   const exp = g.expedition!;
   if (!exp.boons) return null;
   exp.fortune.doubloons += 2;
-  xlog(exp, 'You skip the boon and pocket 2 doubloons.', 'fortune');
+  xlog(exp, tx('dungeonExplore.youSkipTheBoonAnd'), 'fortune');
   finishBoons(g);
   return null;
 }
@@ -717,11 +717,11 @@ function finishBoons(g: GameState) {
 
 export function pickLoot(g: GameState, idx: number): string | null {
   const exp = g.expedition!;
-  if (!exp.lootChoice) return 'Nothing to choose.';
+  if (!exp.lootChoice) return tx('dungeonExplore.nothingToChoose');
   const it = exp.lootChoice.items[idx];
-  if (!it) return 'Invalid choice.';
+  if (!it) return tx('dungeonExplore.invalidChoice2');
   exp.carriedItems.push(it);
-  xlog(exp, `You claim ${itemName(it)}.`, 'loot');
+  xlog(exp, tx('dungeonExplore.youClaim', { itemName: itemName(it) }), 'loot');
   exp.lootChoice = undefined;
   return null;
 }
@@ -731,16 +731,16 @@ export function pickLoot(g: GameState, idx: number): string | null {
 export function shopBuy(g: GameState, idx: number, target?: { dieUid?: string; face?: number; replaceCharm?: number }): string | null {
   const exp = g.expedition!;
   const shop = exp.shop;
-  if (!shop) return 'No shop here.';
+  if (!shop) return tx('dungeonExplore.noShopHere');
   const o = shop.offers[idx];
-  if (!o || o.sold) return 'Sold out.';
-  if ((o.price ?? 0) > exp.fortune.doubloons) return 'Not enough doubloons.';
+  if (!o || o.sold) return tx('dungeonExplore.soldOut');
+  if ((o.price ?? 0) > exp.fortune.doubloons) return tx('dungeonExplore.notEnoughDoubloons');
   const r = applyOffer(exp.fortune, o, target);
   if (!r.ok) return r.reason;
   exp.fortune.doubloons -= o.price ?? 0;
   o.sold = true;
   if (o.kind === 'charm' && !g.profile.codex.charms.includes(o.id)) g.profile.codex.charms.push(o.id);
-  xlog(exp, `Bought ${offerTitle(o)}. ${r.text}`, 'fortune');
+  xlog(exp, tx('dungeonExplore.bought', { offerTitle: offerTitle(o), rText: r.text }), 'fortune');
   persistShop(exp);
   return null;
 }
@@ -748,8 +748,8 @@ export function shopBuy(g: GameState, idx: number, target?: { dieUid?: string; f
 export function shopReroll(g: GameState): string | null {
   const exp = g.expedition!;
   const shop = exp.shop;
-  if (!shop) return 'No shop here.';
-  if (exp.fortune.doubloons < shop.rerollCost) return 'Not enough doubloons.';
+  if (!shop) return tx('dungeonExplore.noShopHere');
+  if (exp.fortune.doubloons < shop.rerollCost) return tx('dungeonExplore.notEnoughDoubloons');
   exp.fortune.doubloons -= shop.rerollCost;
   shop.offers = rollShop(stream(exp.rng, 'loot'), exp.fortune);
   shop.rerollCost += 1;
@@ -761,12 +761,12 @@ export function shopReroll(g: GameState): string | null {
 export function sellCharm(g: GameState, idx: number): string | null {
   const exp = g.expedition!;
   const ch = exp.fortune.charms[idx];
-  if (!ch) return 'No such charm.';
+  if (!ch) return tx('dungeonExplore.noSuchCharm');
   const def = CHARM_BY_ID[ch.id];
   const value = Math.max(1, Math.floor(({ common: 4, uncommon: 6, rare: 8, legendary: 12 }[def.rarity]) / 2));
   exp.fortune.charms.splice(idx, 1);
   exp.fortune.doubloons += value;
-  xlog(exp, `Sold ${def.name} for ${value} doubloons.`, 'fortune');
+  xlog(exp, tx('dungeonExplore.soldForDoubloons', { defName: def.name, value }), 'fortune');
   return null;
 }
 
@@ -791,12 +791,12 @@ export function rest(g: GameState, kind: 'short' | 'long'): string | null {
   const exp = g.expedition!;
   const room = exp.map.rooms[exp.pos];
   const supplies = exp.carriedItems.findIndex((i) => i.defId === 'campSupplies');
-  if (room.type !== 'camp' && !(kind === 'short' && supplies >= 0)) return 'You can only rest at a camp.';
-  if (room.encounter && !room.encounter.cleared) return 'Not while enemies remain.';
+  if (room.type !== 'camp' && !(kind === 'short' && supplies >= 0)) return tx('dungeonExplore.youCanOnlyRestAt');
+  if (room.encounter && !room.encounter.cleared) return tx('dungeonExplore.notWhileEnemiesRemain');
   const flag = `rested:${room.key}`;
   if (kind === 'short') {
     if (room.type === 'camp' && exp.flags[flag]) {
-      if (supplies < 0) return 'You have already rested here.';
+      if (supplies < 0) return tx('dungeonExplore.youHaveAlreadyRestedHere');
     }
     if (room.type !== 'camp' || exp.flags[flag]) {
       const s = exp.carriedItems[supplies];
@@ -817,7 +817,7 @@ export function rest(g: GameState, kind: 'short' | 'long'): string | null {
         for (let l = Math.min(5, 9); l >= 1 && budget > 0; l--) {
           while (budget >= l && h.slots[l] < max[l]) { h.slots[l] += 1; budget -= l; }
         }
-        xlog(exp, `${h.name} recovers spell slots.`, 'heal');
+        xlog(exp, tx('dungeonExplore.recoversSpellSlots', { hName: h.name }), 'heal');
       }
       if (Object.values(h.equipment).some((i) => i?.defId === 'pearlPower') && !exp.flags[`pearl:${h.id}`]) {
         exp.flags[`pearl:${h.id}`] = 1;
@@ -825,15 +825,15 @@ export function rest(g: GameState, kind: 'short' | 'long'): string | null {
       }
     }
     exp.shortRests += 1;
-    xlog(exp, 'The party takes a short rest. Hit dice spent, short-rest powers restored.', 'heal');
+    xlog(exp, tx('dungeonExplore.thePartyTakesAShort'), 'heal');
     return null;
   }
-  if (exp.longRestUsed) return 'You have already taken a long rest this expedition.';
-  if (room.type !== 'camp') return 'Long rests need a camp.';
+  if (exp.longRestUsed) return tx('dungeonExplore.youHaveAlreadyTakenA');
+  if (room.type !== 'camp') return tx('dungeonExplore.longRestsNeedACamp');
   exp.longRestUsed = true;
   for (const h of living(g)) fullRestore(h);
   exp.depth += 1;
-  xlog(exp, 'The party sleeps. Fully restored — but the dungeon stirs, and its foes grow stronger.', 'warn');
+  xlog(exp, tx('dungeonExplore.thePartySleepsFullyRestored'), 'warn');
   return null;
 }
 
@@ -842,23 +842,23 @@ export function useItemExplore(g: GameState, uid: string, heroId: string): strin
   if (err) return err;
   const exp = g.expedition!;
   const idx = exp.carriedItems.findIndex((i) => i.uid === uid);
-  if (idx < 0) return 'No such item.';
+  if (idx < 0) return tx('dungeonExplore.noSuchItem');
   const inst = exp.carriedItems[idx];
   const def = ITEMS[inst.defId];
   const target = g.roster.find((h) => h.id === heroId);
-  if (!def.consumable?.explore || !target) return 'Cannot use that here.';
+  if (!def.consumable?.explore || !target) return tx('dungeonExplore.cannotUseThatHere');
   const consume = () => { if ((inst.qty ?? 1) > 1) inst.qty! -= 1; else exp.carriedItems.splice(idx, 1); };
   const rng = stream(exp.rng, 'narrative');
   const d = derive(target);
   switch (def.consumable.effect) {
     case 'heal': case 'scroll': {
-      if (target.status !== 'alive') return 'They are beyond potions.';
+      if (target.status !== 'alive') return tx('dungeonExplore.theyAreBeyondPotions');
       let amt: number;
       if (def.consumable.effect === 'scroll') amt = (roll(rng, '2d8').total + 3) * VITALITY;
       else amt = roll(rng, def.consumable.dice!).total * VITALITY;
       target.hp = Math.min(d.maxHp, Math.round(target.hp + amt));
       consume();
-      xlog(exp, `${target.name} uses ${def.name}.`, 'heal');
+      xlog(exp, tx('dungeonExplore.uses', { targetName: target.name, defName: def.name }), 'heal');
       return null;
     }
     case 'elixir': case 'cleanse':
@@ -868,17 +868,17 @@ export function useItemExplore(g: GameState, uid: string, heroId: string): strin
     case 'camp':
       return rest(g, 'short');
     case 'revive': {
-      if (target.status !== 'dead' || !exp.partyIds.includes(target.id)) return 'Choose a fallen party member.';
-      if (exp.map.rooms[exp.pos].type !== 'camp') return 'Revival rites need a camp.';
+      if (target.status !== 'dead' || !exp.partyIds.includes(target.id)) return tx('dungeonExplore.chooseAFallenPartyMember');
+      if (exp.map.rooms[exp.pos].type !== 'camp') return tx('dungeonExplore.revivalRitesNeedACamp');
       target.status = 'alive';
       target.hp = 1;
       delete target.history.deathCause;
       consume();
-      xlog(exp, `${target.name} draws breath again!`, 'heal');
+      xlog(exp, tx('dungeonExplore.drawsBreathAgain', { targetName: target.name }), 'heal');
       return null;
     }
   }
-  return 'Nothing happens.';
+  return tx('dungeonExplore.nothingHappens');
 }
 
 export function castExplore(g: GameState, casterId: string, spellId: string, targetId?: string): string | null {
@@ -887,10 +887,10 @@ export function castExplore(g: GameState, casterId: string, spellId: string, tar
   const exp = g.expedition!;
   const h = g.roster.find((x) => x.id === casterId);
   const s = SPELLS[spellId];
-  if (!h || !s || h.status !== 'alive') return 'Invalid caster.';
-  if (!castableSpells(h).some((x) => x.id === spellId)) return 'Not prepared.';
+  if (!h || !s || h.status !== 'alive') return tx('dungeonExplore.invalidCaster');
+  if (!castableSpells(h).some((x) => x.id === spellId)) return tx('dungeonExplore.notPrepared');
   const lvl = s.level === 0 ? 0 : h.slots.findIndex((n, i) => i >= s.level && n > 0);
-  if (s.level > 0 && lvl < 1) return 'No slots.';
+  if (s.level > 0 && lvl < 1) return tx('dungeonExplore.noSlots');
   const d = derive(h);
   const m = d.spellAbility ? d.mods[d.spellAbility] : 0;
   const rng = stream(exp.rng, 'narrative');
@@ -898,46 +898,46 @@ export function castExplore(g: GameState, casterId: string, spellId: string, tar
   const pay = () => { if (s.level > 0) h.slots[lvl] -= 1; };
   switch (s.explore) {
     case 'heal': {
-      if (!target || target.status !== 'alive') return 'Pick a living ally.';
+      if (!target || target.status !== 'alive') return tx('dungeonExplore.pickALivingAlly');
       const amt = (roll(rng, upcast(s, lvl)).total + m + (d.features.has('discipleOfLife') ? 2 + lvl : 0)) * VITALITY;
       target.hp = Math.min(derive(target).maxHp, Math.round(target.hp + amt));
       pay();
-      xlog(exp, `${h.name} casts ${s.name} on ${target.name}.`, 'heal');
+      xlog(exp, tx('dungeonExplore.castsOn', { hName: h.name, sName: s.name, targetName: target.name }), 'heal');
       return null;
     }
     case 'partyHeal': {
       for (const x of living(g)) x.hp = Math.min(derive(x).maxHp, Math.round(x.hp + (roll(rng, upcast(s, lvl)).total + m) * VITALITY));
       pay();
-      xlog(exp, `${h.name} casts ${s.name}. The party is healed.`, 'heal');
+      xlog(exp, tx('dungeonExplore.castsThePartyIsHealed', { hName: h.name, sName: s.name }), 'heal');
       return null;
     }
     case 'revive': {
-      if (!target || target.status !== 'dead' || !exp.partyIds.includes(target.id)) return 'Pick a fallen party member.';
+      if (!target || target.status !== 'dead' || !exp.partyIds.includes(target.id)) return tx('dungeonExplore.pickAFallenPartyMember');
       const cost = s.id === 'revivify' ? 300 : s.id === 'raiseDead' ? 500 : 1000;
-      if (s.id === 'revivify' && !exp.flags[`recent:${target.id}`] && !exp.fallen.includes(target.id)) return 'Too long dead for Revivify.';
-      if (s.id !== 'revivify' && exp.map.rooms[exp.pos].type !== 'camp') return 'This rite needs a camp.';
-      if (exp.carriedGold < cost) return `Needs ${cost} carried gold for components.`;
+      if (s.id === 'revivify' && !exp.flags[`recent:${target.id}`] && !exp.fallen.includes(target.id)) return tx('dungeonExplore.tooLongDeadForRevivify');
+      if (s.id !== 'revivify' && exp.map.rooms[exp.pos].type !== 'camp') return tx('dungeonExplore.thisRiteNeedsACamp');
+      if (exp.carriedGold < cost) return tx('dungeonExplore.needsCarriedGoldForComponents', { cost });
       exp.carriedGold -= cost;
       target.status = 'alive';
       target.hp = s.id === 'trueResurrection' ? derive(target).maxHp : 1;
       delete target.history.deathCause;
       exp.fallen = exp.fallen.filter((x) => x !== target.id);
       pay();
-      xlog(exp, `${h.name} casts ${s.name}. ${target.name} returns to life!`, 'heal');
+      xlog(exp, tx('dungeonExplore.castsReturnsToLife', { hName: h.name, sName: s.name, targetName: target.name }), 'heal');
       return null;
     }
     case 'light': case 'guidance':
       exp.flags.guidance = 1;
-      xlog(exp, `${h.name} casts ${s.name}: +1d4 on the next check.`, 'info');
+      xlog(exp, tx('dungeonExplore.casts1d4OnTheNext', { hName: h.name, sName: s.name }), 'info');
       return null;
     case 'aid': {
       pay();
       for (const x of living(g)) x.hp = Math.min(derive(x).maxHp, x.hp + Math.round(5 * lvl * VITALITY));
-      xlog(exp, `${h.name} casts Aid.`, 'heal');
+      xlog(exp, tx('dungeonExplore.castsAid', { hName: h.name }), 'heal');
       return null;
     }
   }
-  return 'That spell has no use here.';
+  return tx('dungeonExplore.thatSpellHasNoUse');
 }
 
 function upcast(s: { dice?: string; upcast?: string; level: number }, lvl: number): string {
@@ -954,7 +954,7 @@ export function retreat(g: GameState): string | null {
   const err = canAct(g);
   if (err) return err;
   const exp = g.expedition!;
-  if (exp.pos !== exp.map.start) return 'You can only retreat from the entrance.';
+  if (exp.pos !== exp.map.start) return tx('dungeonExplore.youCanOnlyRetreatFrom');
   finishExpedition(g, 'retreated');
   return null;
 }
@@ -963,7 +963,7 @@ export function exitDungeon(g: GameState): string | null {
   const err = canAct(g);
   if (err) return err;
   const exp = g.expedition!;
-  if (!exp.bossDefeated) return 'The boss still stands.';
+  if (!exp.bossDefeated) return tx('dungeonExplore.theBossStillStands');
   finishExpedition(g, 'won');
   return null;
 }

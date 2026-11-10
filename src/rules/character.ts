@@ -12,7 +12,7 @@ import { portraitsFor } from '../content/portraits.ts';
 import { VITALITY } from './balance.ts';
 import { SPELLS, spellsForClass } from '../content/spells.ts';
 import { markOffers, applyMark } from '../fortune/dicepath.ts';
-import { bindText } from '../i18n/index.ts';
+import { bindText, tx } from '../i18n/index.ts';
 
 export const SKILL_ABILITY: Record<Skill, Ability> = {
   athletics: 'str', acrobatics: 'dex', sleightOfHand: 'dex', stealth: 'dex',
@@ -21,16 +21,11 @@ export const SKILL_ABILITY: Record<Skill, Ability> = {
   deception: 'cha', intimidation: 'cha', performance: 'cha', persuasion: 'cha',
 };
 
-export const SKILL_NAMES: Record<Skill, string> = {
-  athletics: 'Athletics', acrobatics: 'Acrobatics', sleightOfHand: 'Sleight of Hand', stealth: 'Stealth',
-  arcana: 'Arcana', history: 'History', investigation: 'Investigation', nature: 'Nature', religion: 'Religion',
-  animalHandling: 'Animal Handling', insight: 'Insight', medicine: 'Medicine', perception: 'Perception', survival: 'Survival',
-  deception: 'Deception', intimidation: 'Intimidation', performance: 'Performance', persuasion: 'Persuasion',
-};
+/** Skill names: game.json → skills. */
+export const SKILL_NAMES = bindText({} as Record<Skill, string>, 'game', ['skills']);
 
-export const ABILITY_NAMES: Record<Ability, string> = {
-  str: 'Strength', dex: 'Dexterity', con: 'Constitution', int: 'Intelligence', wis: 'Wisdom', cha: 'Charisma',
-};
+/** Ability names: game.json → abilities. */
+export const ABILITY_NAMES = bindText({} as Record<Ability, string>, 'game', ['abilities']);
 
 export const mod = (score: number) => Math.floor((score - 10) / 2);
 
@@ -346,7 +341,7 @@ function weaponProfile(
     const die = Math.max(monk ? maDie : 0, gearDie);
     const claws = equipped(hero).some((i) => i.defId === 'demonArmor');
     return {
-      name: 'Unarmed Strike', toHit: mods[ability] + pb + (claws ? 1 : 0), dice: die ? `1d${die}` : '1', bonus: mods[ability] + (claws ? 1 : 0),
+      name: tx('rulesCharacter.unarmedStrike'), toHit: mods[ability] + pb + (claws ? 1 : 0), dice: die ? `1d${die}` : '1', bonus: mods[ability] + (claws ? 1 : 0),
       type: monk && hero.level >= 6 ? 'force' : claws && gearDie >= die ? 'slashing' : 'bludgeoning', ranged: false, reach: false, props: [], ability,
       onHit: [], heavy: false, light: true, plus: 0,
     };

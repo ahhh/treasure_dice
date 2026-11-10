@@ -31,24 +31,19 @@ import { ANNOTATIONS, dissent, EVIDENCE, LULLABY, TRACKS } from '../content/ques
 import { KEEPER_BY_TAB, NPCS } from '../content/npcs.ts';
 import { barkLine, eulogyLine, scriptTitle } from '../i18n/dialogue.ts';
 import type { Where } from '../content/dialogue.ts';
+import { tx } from '../i18n/index.ts';
+import { term } from '../content/terms.ts';
 
-const ALL_TABS: [string, string, string][] = [
-  ['guild', 'Guild Hall', 'town/guild'],
-  ['tavern', 'The Low Lantern', 'town/tavern'],
-  ['chronicle', 'Chronicle', 'town/door'],
-  ['cartographer', 'Cartographer', 'town/cartographer'],
-  ['armory', 'Armory', 'town/armory'],
-  ['apothecary', 'Apothecary', 'town/apothecary'],
-  ['enchanter', 'Enchanter', 'town/enchanter'],
-  ['training', 'Training Grounds', 'town/training'],
-  ['vault', 'Vault', 'town/vault'],
-  ['codex', 'Codex', 'town/keep'],
-];
+/** The Keep's tabs: [id, label, art]. A function so labels follow the language. */
+const allTabs = (): [string, string, string][] => ([
+  ['guild', 'town/guild'], ['tavern', 'town/tavern'], ['chronicle', 'town/door'], ['cartographer', 'town/cartographer'], ['armory', 'town/armory'],
+  ['apothecary', 'town/apothecary'], ['enchanter', 'town/enchanter'], ['training', 'town/training'], ['vault', 'town/vault'], ['codex', 'town/keep'],
+] as const).map(([id, art]) => [id, tx(`town.tab.${id}`), art]);
 
 /** The Low Lantern appears once the guided tour is over; once Tiamat wakes it moves to the top. */
 function tabsFor(): [string, string, string][] {
   const g = app.game!;
-  const tabs = ALL_TABS.filter(([id]) => id !== 'tavern' || tavernOpen(g));
+  const tabs = allTabs().filter(([id]) => id !== 'tavern' || tavernOpen(g));
   if (awakened(g) && !tiamatSlain(g)) tabs.sort((a, b) => Number(b[0] === 'tavern') - Number(a[0] === 'tavern'));
   return tabs;
 }
@@ -90,24 +85,24 @@ function keeperScenes(tab: string): HTMLElement | null {
   if (!list.length) return null;
   return h('div', { class: 'win keeper-call' }, ...list.map((sc) => h('div', { class: 'row' },
     h('span', { class: 'grow' }, h('b', null, NPCS[sc.speaker]?.name ?? ''), ` — ${scriptTitle(sc.id)}`),
-    btn('Talk', () => openDialogue(sc.id), { cls: 'small primary', key: `scene-${sc.id}` }))));
+    btn(tx('town.talk'), () => openDialogue(sc.id), { cls: 'small primary', key: `scene-${sc.id}` }))));
 }
 
 export function topbar(): HTMLElement {
   const g = app.game!;
   const sig = Object.values(g.profile.sigils).reduce((a, b) => a + (b ?? 0), 0);
   return h('div', { class: 'topbar' },
-    h('span', { class: 'title' }, awakened(g) && !tiamatSlain(g) ? 'The Lantern Keep — Under the Dragon' : 'The Lantern Keep'),
-    questOf(g).drink ? h('span', { class: 'stat', title: 'A drink is waiting for your next run' }, '🍺') : null,
-    h('span', { class: 'stat', title: 'Banked gold — safe from wipes' }, h('span', { class: 'coin' }), h('b', { class: 'gold' }, fmt(g.profile.bankedGold)), 'gold'),
-    h('span', { class: 'stat', title: 'Boss sigils unlock facility upgrades' }, h('b', null, sig), 'sigils'),
-    h('span', { class: 'stat muted' }, `Day ${g.profile.townDay}`),
-    h('span', { class: 'stat muted' }, g.mode === 'legacy' ? 'Legacy mode' : 'Story mode'),
+    h('span', { class: 'title' }, awakened(g) && !tiamatSlain(g) ? tx('town.theLanternKeepUnderThe') : tx('town.theLanternKeep')),
+    questOf(g).drink ? h('span', { class: 'stat', title: tx('town.aDrinkIsWaitingFor') }, '🍺') : null,
+    h('span', { class: 'stat', title: tx('town.bankedGoldSafeFromWipes') }, h('span', { class: 'coin' }), h('b', { class: 'gold' }, fmt(g.profile.bankedGold)), tx('town.goldWord')),
+    h('span', { class: 'stat', title: tx('town.bossSigilsUnlockFacilityUpgrades') }, h('b', null, sig), tx('town.sigilsWord')),
+    h('span', { class: 'stat muted' }, tx('town.day', { townDay: g.profile.townDay })),
+    h('span', { class: 'stat muted' }, g.mode === 'legacy' ? tx('town.legacyMode') : tx('town.storyMode')),
     h('span', { class: 'spacer' }),
-    btn('How to play', () => { app.ui.modal = { kind: 'help' }; render(); }, { cls: 'small' }),
-    btn(g.settings.fast ? 'Fast: on' : 'Fast: off', () => { g.settings.fast = !g.settings.fast; render(); }, { cls: 'small' }),
-    btn(g.settings.sound ? 'Sound: on' : 'Sound: off', () => { g.settings.sound = !g.settings.sound; setGame(g); render(); }, { cls: 'small' }),
-    btn('Save & quit', async () => { await saveGame(g); setGame(null); render(); }, { cls: 'small' }),
+    btn(tx('town.howToPlay'), () => { app.ui.modal = { kind: 'help' }; render(); }, { cls: 'small' }),
+    btn(g.settings.fast ? tx('town.fastOn') : tx('town.fastOff'), () => { g.settings.fast = !g.settings.fast; render(); }, { cls: 'small' }),
+    btn(g.settings.sound ? tx('town.soundOn') : tx('town.soundOff'), () => { g.settings.sound = !g.settings.sound; setGame(g); render(); }, { cls: 'small' }),
+    btn(tx('town.saveQuit'), async () => { await saveGame(g); setGame(null); render(); }, { cls: 'small' }),
   );
 }
 
@@ -121,8 +116,8 @@ export function townScreen(): HTMLElement {
   const bannerKey = t[0] === 'tavern' ? tavernArt() : t[0] === 'guild' && awakened(g) && !tiamatSlain(g) ? 'town/keep_awakened' : t[2];
   return h('div', null, topbar(),
     h('div', { class: 'town' },
-      h('nav', { class: 'town-nav', 'aria-label': 'Keep facilities' }, ...TABS.map(([id, name]) =>
-        btn([name, id === 'guild' && pending ? h('span', { class: 'badge red', style: 'margin-left:6px' }, `${pending} level-up`) : null, id === 'tavern' && news ? h('span', { class: 'badge red', style: 'margin-left:6px' }, '!') : null], () => { app.ui.townTab = id; render(); }, { cls: tab === id ? 'on' : '', key: `tab-${id}` }))),
+      h('nav', { class: 'town-nav', 'aria-label': tx('town.keepFacilities') }, ...TABS.map(([id, name]) =>
+        btn([name, id === 'guild' && pending ? h('span', { class: 'badge red', style: 'margin-left:6px' }, tx('town.levelUp', { pending })) : null, id === 'tavern' && news ? h('span', { class: 'badge red', style: 'margin-left:6px' }, '!') : null], () => { app.ui.townTab = id; render(); }, { cls: tab === id ? 'on' : '', key: `tab-${id}` }))),
       h('main', null,
         h('div', { class: 'town-banner', style: bgStyle(bannerKey, 'linear-gradient(135deg,#26346a,#0b1230)') }, h('h1', null, t[1])),
         keeperBark(t[0]),
@@ -142,11 +137,11 @@ function heroCard(hero: Hero, opts: { onClick?: () => void; sel?: boolean; extra
     h('div', { class: 'grow col', style: 'gap:3px;min-width:0' },
       h('b', null, hero.name),
       h('span', { class: 'small muted' }, heroLine(hero)),
-      hero.status === 'alive' ? hpBar(hero.hp, d.maxHp) : h('span', { class: 'small danger' }, hero.status === 'dead' ? `Fallen — ${hero.history.deathCause ?? ''}` : 'Retired'),
-      h('span', { class: 'small muted' }, `AC ${d.ac} · ${hero.history.clears} clears · ${hero.history.kills} kills`),
-      hero.pendingLevel ? h('span', { class: 'badge red' }, 'Level up ready') : null,
+      hero.status === 'alive' ? hpBar(hero.hp, d.maxHp) : h('span', { class: 'small danger' }, hero.status === 'dead' ? tx('town.fallen', { v: hero.history.deathCause ?? '' }) : tx('town.retired')),
+      h('span', { class: 'small muted' }, tx('town.acClearsKills', { ac: d.ac, clears: hero.history.clears, kills: hero.history.kills })),
+      hero.pendingLevel ? h('span', { class: 'badge red' }, tx('town.levelUpReady')) : null,
       opts.extra ?? null),
-    h('span', { class: 'lvl' }, `Lv ${hero.level}`));
+    h('span', { class: 'lvl' }, tx('town.lv', { level: hero.level })));
 }
 
 function guildTab(): HTMLElement {
@@ -155,19 +150,19 @@ function guildTab(): HTMLElement {
   const fallen = g.roster.filter((x) => x.status === 'dead');
   return h('div', { class: 'col' },
     h('div', { class: 'win', 'data-tut': 'roster' },
-      h('h2', null, `Roster (${alive.length}/${rosterCap(g)})`),
-      h('p', { class: 'small muted' }, 'Click a hero to see their sheet, gear and spells.'),
+      h('h2', null, tx('town.roster', { aliveLength: alive.length, rosterCap: rosterCap(g) })),
+      h('p', { class: 'small muted' }, tx('town.clickAHeroToSee')),
       h('div', { class: 'cards' }, ...alive.map((hero) => heroCard(hero, {
         onClick: () => { app.ui.heroSheet = hero.id; render(); },
-        extra: hero.pendingLevel ? h('span', { 'data-tut': 'levelup' }, btn('Level up', () => { app.ui.levelUp = hero.id; render(); }, { cls: 'primary small' })) : null,
+        extra: hero.pendingLevel ? h('span', { 'data-tut': 'levelup' }, btn(tx('town.levelUp2'), () => { app.ui.levelUp = hero.id; render(); }, { cls: 'primary small' })) : null,
       })))),
     h('div', { class: 'win', 'data-tut': 'recruits' },
-      h('div', { class: 'row' }, h('h2', { class: 'grow' }, 'Recruits'), btn('New faces (25 gold)', () => run({ type: 'rerollRecruits' }), { cls: 'small' })),
+      h('div', { class: 'row' }, h('h2', { class: 'grow' }, tx('town.recruits')), btn(tx('town.newFaces25Gold'), () => run({ type: 'rerollRecruits' }), { cls: 'small' })),
       h('div', { class: 'cards' }, ...g.recruits.map((hero, i) => heroCard(hero, {
         onClick: () => { app.ui.heroSheet = `recruit:${i}`; render(); },
-        extra: btn(recruitCost(hero, g) ? `Hire — ${recruitCost(hero, g)} gold` : 'Hire — volunteers (free)', () => { const r = run({ type: 'hire', idx: i }); if (r.ok) sfx.coin(); }, { cls: 'small primary', disabled: g.profile.bankedGold < recruitCost(hero, g) }),
+        extra: btn(recruitCost(hero, g) ? tx('town.hireGold', { recruitCost: recruitCost(hero, g) }) : tx('town.hireVolunteersFree'), () => { const r = run({ type: 'hire', idx: i }); if (r.ok) sfx.coin(); }, { cls: 'small primary', disabled: g.profile.bankedGold < recruitCost(hero, g) }),
       })))),
-    fallen.length ? h('div', { class: 'win' }, h('h2', null, 'The Wall of the Fallen'),
+    fallen.length ? h('div', { class: 'win' }, h('h2', null, tx('town.theWallOfTheFallen')),
       h('div', { class: 'cards' }, ...fallen.map((hero) => heroCard(hero)))) : null,
   );
 }
@@ -193,33 +188,33 @@ function cartTab(): HTMLElement {
   const spread = levels.length ? Math.max(...levels) - Math.min(...levels) : 0;
   return h('div', { class: 'col' },
     tutorialOn ? h('div', { class: 'win tutorial-call' },
-      h('h2', null, 'The Training Cellar'),
-      h('p', { class: 'prose' }, 'A short, gentle practice dungeon under the Keep: one fight, a treasure room, the Boss Sigil and a sparring boss. Nobody can die there, and your heroes come back one level stronger.'),
-      btn('Enter the Training Cellar', () => {
+      h('h2', null, tx('town.theTrainingCellar')),
+      h('p', { class: 'prose' }, tx('town.aShortGentlePracticeDungeon')),
+      btn(tx('town.enterTheTrainingCellar'), () => {
         const r = run({ type: 'startExpedition', partyIds: ui.party, biome: 'cinder', difficulty: 'explorer', seed: 'TUTORIAL', tutorial: true });
         if (r.ok) sfx.fanfare();
       }, { cls: 'primary big', disabled: ui.party.length !== 3, key: 'start-tutorial' })) : null,
     h('div', { class: 'win', 'data-tut': 'party' },
-      h('h2', null, 'Choose your three'),
-      spread >= 4 ? h('p', { class: 'small danger' }, `Level spread of ${spread}: the dungeon is tuned to the party as a whole, so your weakest hero will struggle. Consider the Training Grounds.`) : null,
+      h('h2', null, tx('town.chooseYourThree')),
+      spread >= 4 ? h('p', { class: 'small danger' }, tx('town.levelSpreadOfTheDungeon', { spread })) : null,
       h('div', { class: 'cards' }, ...alive.map((hero) => heroCard(hero, {
-        sel: ui.party.includes(hero.id), onClick: () => (hero.pendingLevel ? toast('Finish their level-up in the Guild Hall first.') : toggle(hero.id)),
+        sel: ui.party.includes(hero.id), onClick: () => (hero.pendingLevel ? toast(tx('town.finishTheirLevelUpIn')) : toggle(hero.id)),
       })))),
     h('div', { class: 'win' },
-      h('h2', null, 'Choose an echo'),
+      h('h2', null, tx('town.chooseAnEcho')),
       h('div', { class: 'biome-pick', 'data-tut': 'biomes' }, ...BIOME_ORDER.map((b) => {
         const def = BIOMES[b];
         const open = g.profile.unlockedBiomes.includes(b);
         return h('button', { class: `biome-card ${ui.biome === b ? 'sel' : ''} ${open ? '' : 'locked'}`, style: bgStyle(`scenes/${b}_corridor`, `linear-gradient(135deg, ${def.color}, #0b1230)`), disabled: !open, on: { click: () => { ui.biome = b; render(); } } },
-          h('b', null, def.name), h('span', { class: 'small' }, open ? def.tagline : 'Sealed — clear the previous echo'), open && g.profile.sigils[b] ? h('span', { class: 'small gold' }, `Cleared ×${g.profile.sigils[b]}`) : null,
+          h('b', null, def.name), h('span', { class: 'small' }, open ? def.tagline : tx('town.sealedClearThePreviousEcho')), open && g.profile.sigils[b] ? h('span', { class: 'small gold' }, tx('town.cleared', { sigils: g.profile.sigils[b] })) : null,
           ...(open ? leadsFor(g, b) : []).map((l) => h('span', { class: `lead-chip ${l.runsLeft !== undefined ? 'timed' : ''}`, title: l.def.brief }, `📜 ${l.def.title}${l.runsLeft !== undefined ? ` · ${l.runsLeft} left` : ''}`)));
       }), h('button', { class: `biome-card finale ${finale ? 'sel' : ''} ${hasChampion ? '' : 'locked'}`, style: bgStyle('monsters/starfall_tiamat', 'linear-gradient(135deg, #7a1f2b, #2b1550 55%, #0b1230)'), disabled: !hasChampion, 'data-key': 'biome-finale', title: sealed ?? FINALE.tagline, on: { click: () => { ui.biome = 'finale'; render(); } } },
-        h('b', null, `👑 ${FINALE.name}`), h('span', { class: 'small' }, sealed ?? FINALE.tagline), storyOf(g).tiamat ? h('span', { class: 'small gold' }, `Tiamat slain ×${storyOf(g).tiamat}`) : null)),
+        h('b', null, `👑 ${FINALE.name}`), h('span', { class: 'small' }, sealed ?? FINALE.tagline), storyOf(g).tiamat ? h('span', { class: 'small gold' }, tx('town.tiamatSlain', { tiamat: storyOf(g).tiamat })) : null)),
       finale
         ? h('div', null, h('p', { class: 'prose' }, FINALE.premise),
-          h('p', { class: 'small muted' }, 'Final stage: a long Starfall dungeon, and Tiamat on her throne in place of its boss. Her Chromatic Dominion curse debuffs Ember, Verdant, Shadow, Frost and Storm dice and cuts Mult to ×0.75.'),
+          h('p', { class: 'small muted' }, tx('town.finalStageALongStarfall')),
           trackDone(g, 'break') ? h('div', { class: 'row', style: 'margin:4px 0' },
-            h('span', { class: 'small gold' }, '✦ Silenced Hymn spares:'),
+            h('span', { class: 'small gold' }, tx('town.silencedHymnSpares')),
             ...CHROMATIC.map((c) => btn(c[0].toUpperCase() + c.slice(1), () => run({ type: 'setHymn', colour: c }), { cls: `small ${hymnColour(g, partyHeroes.filter(Boolean)) === c ? 'on' : ''}`, key: `hymn-${c}` }))) : null,
           ...(['shelter', 'break', 'unite'] as const).filter((t) => has(g, { shelter: 'muster:shelter.cellar', break: 'muster:break.precentor', unite: 'muster:unite.light' }[t]) && (t !== 'shelter' || (has(g, 'muster:shelter.hands') && has(g, 'muster:shelter.hearths'))) && (t !== 'break' || (has(g, 'muster:break.stores') && has(g, 'muster:break.due')))).map((t) => h('p', { class: 'small gold' }, `✦ ${TRACKS[t].boon}`)),
           finaleBlocked(partyHeroes, g) ? h('p', { class: 'small danger' }, finaleBlocked(partyHeroes, g)) : null)
@@ -227,27 +222,27 @@ function cartTab(): HTMLElement {
           h('p', { class: 'prose' }, BIOMES[ui.biome as BiomeId].premise),
           h('p', { class: 'small muted' }, `${BIOMES[ui.biome as BiomeId].meter.icon} ${BIOMES[ui.biome as BiomeId].meter.name}: ${BIOMES[ui.biome as BiomeId].meter.text}`)),
       h('div', { class: 'row' },
-        h('span', null, 'Difficulty'),
-        ...DIFFICULTY_ORDER.map((d) => btn(d[0].toUpperCase() + d.slice(1), () => { ui.difficulty = d; render(); }, { cls: `small ${ui.difficulty === d ? 'on' : ''} ${d === 'deadly' ? 'deadly' : ''}`, title: DIFFICULTY_INFO[d] })),
+        h('span', null, tx('town.difficulty')),
+        ...DIFFICULTY_ORDER.map((d) => btn(tx(`town.difficultyName.${d}`), () => { ui.difficulty = d; render(); }, { cls: `small ${ui.difficulty === d ? 'on' : ''} ${d === 'deadly' ? 'deadly' : ''}`, title: DIFFICULTY_INFO[d] })),
       ),
       h('div', { class: 'row', style: 'margin-top:6px' },
-        h('span', null, 'Length'),
-        ...(['short', 'normal', 'long'] as const).map((s) => btn(s[0].toUpperCase() + s.slice(1), () => { ui.size = s; render(); }, { cls: `small ${ui.size === s ? 'on' : ''}` })),
+        h('span', null, tx('town.length')),
+        ...(['short', 'normal', 'long'] as const).map((s) => btn(tx(`town.size.${s}`), () => { ui.size = s; render(); }, { cls: `small ${ui.size === s ? 'on' : ''}` })),
       ),
-      h('p', { class: `small ${DIFFICULTY_MOD[ui.difficulty].rank ? 'gold' : 'muted'}` }, `${ui.difficulty[0].toUpperCase() + ui.difficulty.slice(1)}: ${DIFFICULTY_INFO[ui.difficulty]}`),
+      h('p', { class: `small ${DIFFICULTY_MOD[ui.difficulty].rank ? 'gold' : 'muted'}` }, tx('town.difficultyLine', { name: tx(`town.difficultyName.${ui.difficulty}`), info: DIFFICULTY_INFO[ui.difficulty] })),
       h('div', { class: 'row', style: 'margin-top:8px' },
-        h('label', { for: 'seed' }, 'Seed'),
+        h('label', { for: 'seed' }, tx('town.seed')),
         h('input', { id: 'seed', value: ui.seed, style: 'background:#0b1230;color:inherit;border:1px solid #556;padding:6px;border-radius:4px;font:inherit;width:160px', on: { change: (e: Event) => { ui.seed = (e.target as HTMLInputElement).value.trim().toUpperCase() || randomSeed(); } } }),
-        btn('Random', () => { ui.seed = randomSeed(); render(); }, { cls: 'small' }),
+        btn(tx('town.random'), () => { ui.seed = randomSeed(); render(); }, { cls: 'small' }),
         h('span', { class: 'spacer' }),
-        btn(finale ? 'Open the Sixth Door' : `Open the ${doorName(ui.biome as BiomeId)}`, () => {
+        btn(finale ? tx('town.openTheSixthDoor') : tx('town.openThe', { doorName: doorName(ui.biome as BiomeId) }), () => {
           const r = run(finale
             ? { type: 'startExpedition', partyIds: ui.party, biome: 'starfall', difficulty: ui.difficulty, seed: ui.seed, finale: true }
             : { type: 'startExpedition', partyIds: ui.party, biome: ui.biome as BiomeId, difficulty: ui.difficulty, seed: ui.seed, size: ui.size });
           if (r.ok) { ui.seed = ''; sfx.fanfare(); }
         }, { cls: 'primary big', disabled: ui.party.length !== 3 || (finale && !!finaleBlocked(partyHeroes, g)), key: 'start-exp' }),
       ),
-      h('p', { class: 'small muted' }, 'Consumables in the Vault (up to six stacks) are packed automatically. Your Fortune — dice bag, charms, omens, doubloons — starts fresh in every echo.'),
+      h('p', { class: 'small muted' }, tx('town.consumablesInTheVaultUp')),
     ),
   );
 }
@@ -264,7 +259,7 @@ function chronicleTab(): HTMLElement {
       banner(`story/${PROLOGUE.id}`, PROLOGUE.title), h('div', { class: 'chapter-head' }, PROLOGUE.head), h('h2', null, PROLOGUE.title), ...PROLOGUE.text.map(para), ...notes('prologue'),
       h('div', { class: 'heads' }, ...BIOME_ORDER.map((b) => {
         const broken = (g.profile.sigils[b] ?? 0) > 0;
-        return h('div', { class: `head ${broken ? 'broken' : ''}`, style: `--hc:${HEADS[b].color}`, title: `${HEADS[b].name} (${HEADS[b].breath}) feeds ${BIOMES[b].name}${broken ? ' — broken' : ''}` },
+        return h('div', { class: `head ${broken ? 'broken' : ''}`, style: `--hc:${HEADS[b].color}`, title: tx('town.feeds', { name: HEADS[b].name, breath: HEADS[b].breath, name2: BIOMES[b].name, broken: broken ? tx('town.brokenSuffix') : '' }) },
           h('span', { class: 'head-dot' }), h('span', { class: 'small' }, BIOMES[b].name.replace(/^The /, '')));
       }))),
     ...BIOME_ORDER.map((b) => {
@@ -272,23 +267,23 @@ function chronicleTab(): HTMLElement {
       const earned = (g.profile.sigils[b] ?? 0) > 0;
       return h('div', { class: `win chronicle ${earned ? '' : 'sealed'}` },
         h('div', { class: 'chapter-head' }, `${c.head} · ${BIOMES[b].name}`),
-        earned ? [banner(`story/${c.id}`, c.title), h('h2', null, c.title), ...c.text.map(para), ...notes(b)] : h('p', { class: 'muted' }, `Break ${BIOMES[b].name} to read this chapter.`));
+        earned ? [banner(`story/${c.id}`, c.title), h('h2', null, c.title), ...c.text.map(para), ...notes(b)] : h('p', { class: 'muted' }, tx('town.breakToReadThisChapter', { name: BIOMES[b].name })));
     }),
-    has(g, 'warned') ? h('div', { class: 'win chronicle' }, h('div', { class: 'chapter-head' }, 'A Dissent, entered before the Fifth Door'), h('p', { class: 'prose' }, 'A Keeper of this house warned that the Doors were never meant to be broken. The Guild read the warning and pressed on.'), ...(awakened(g) ? [h('p', { class: 'prose annotation' }, `✒ ${dissent()}`)] : [])) : null,
-    awakened(g) ? h('div', { class: 'win chronicle' }, banner('story/lullaby', "The Wardens' Lullaby"), h('div', { class: 'chapter-head' }, 'Copied from the inside of the Sixth Door'), h('h2', null, "The Wardens' Lullaby"), ...LULLABY.map((l) => h('p', { class: 'prose lullaby' }, l))) : null,
+    has(g, 'warned') ? h('div', { class: 'win chronicle' }, h('div', { class: 'chapter-head' }, tx('town.aDissentEnteredBeforeThe')), h('p', { class: 'prose' }, tx('town.aKeeperOfThisHouse')), ...(awakened(g) ? [h('p', { class: 'prose annotation' }, `✒ ${dissent()}`)] : [])) : null,
+    awakened(g) ? h('div', { class: 'win chronicle' }, banner('story/lullaby', tx('town.theWardensLullaby')), h('div', { class: 'chapter-head' }, tx('town.copiedFromTheInsideOf')), h('h2', null, tx('town.theWardensLullaby')), ...LULLABY.map((l) => h('p', { class: 'prose lullaby' }, l))) : null,
     h('div', { class: 'win chronicle finale-win' },
-      h('div', { class: 'chapter-head' }, 'The Final Stage'),
+      h('div', { class: 'chapter-head' }, tx('town.theFinalStage')),
       banner(`story/${FINALE.id}`, FINALE.name),
       h('h2', null, `👑 ${FINALE.name}`),
       para(FINALE.premise),
       h('p', { class: finaleSealed(g) ? 'muted' : 'gold' }, !finaleSealed(g)
-        ? 'All five echoes are broken and you have a champion at the height of their power. Choose the Dragon Throne in the Cartographer.'
-        : `Requires all five echoes cleared (${5 - echoesUncleared(g).length}/5) and a level ${FINALE_LEVEL} hero in the party. Your strongest living hero is level ${best || '—'}.`),
-      story.tiamat ? [banner(`story/${EPILOGUE.id}`, EPILOGUE.title), h('div', { class: 'chapter-head', style: 'margin-top:10px' }, EPILOGUE.head), h('h3', null, EPILOGUE.title), ...EPILOGUE.text.map(para), h('p', { class: 'gold' }, `Tiamat slain ×${story.tiamat}.`)] : null),
+        ? tx('town.allFiveEchoesAreBroken')
+        : tx('town.requiresAllFiveEchoesCleared', { v: 5 - echoesUncleared(g).length, FINALE_LEVEL, v2: best || '—' })),
+      story.tiamat ? [banner(`story/${EPILOGUE.id}`, EPILOGUE.title), h('div', { class: 'chapter-head', style: 'margin-top:10px' }, EPILOGUE.head), h('h3', null, EPILOGUE.title), ...EPILOGUE.text.map(para), h('p', { class: 'gold' }, tx('town.tiamatSlain2', { tiamat: story.tiamat }))] : null),
     h('div', { class: 'win' },
-      h('h2', null, 'Share your legends'),
-      h('p', { class: 'small muted' }, 'A card with your three best heroes, the echoes you have broken, and your record. Save it as an image or share it.'),
-      h('span', { 'data-tut': 'share' }, btn('🖼 Make a share card', () => openShareCard(g), { cls: 'primary', key: 'share-card' }))),
+      h('h2', null, tx('town.shareYourLegends')),
+      h('p', { class: 'small muted' }, tx('town.aCardWithYourThree')),
+      h('span', { 'data-tut': 'share' }, btn(tx('town.makeAShareCard'), () => openShareCard(g), { cls: 'primary', key: 'share-card' }))),
   );
 }
 
@@ -299,12 +294,12 @@ function shopTab(kind: 'gear' | 'consumable'): HTMLElement {
   for (const id of ids) (groups[ITEMS[id].kind] ??= []).push(id);
   const level = g.profile.facility[kind === 'gear' ? 'armory' : 'apothecary'];
   return h('div', { class: 'col' },
-    h('div', { class: 'win' }, h('div', { class: 'row' }, h('h2', { class: 'grow' }, kind === 'gear' ? 'Armory stock' : 'Apothecary stock'), h('span', { class: 'small muted' }, `Facility level ${level}`)),
-      ...Object.entries(groups).map(([k, list]) => h('div', null, h('h3', null, k[0].toUpperCase() + k.slice(1)),
+    h('div', { class: 'win' }, h('div', { class: 'row' }, h('h2', { class: 'grow' }, kind === 'gear' ? tx('town.armoryStock') : tx('town.apothecaryStock')), h('span', { class: 'small muted' }, tx('town.facilityLevel', { level }))),
+      ...Object.entries(groups).map(([k, list]) => h('div', null, h('h3', null, term('itemKinds', k)),
         h('div', { class: 'list' }, ...list.sort((a, b) => ITEMS[a].price - ITEMS[b].price).map((id) => {
           const d = ITEMS[id];
           return h('div', { class: 'item-row' }, itemIcon(id), h('div', { class: 'grow' }, h('b', null, d.name), h('div', { class: 'small muted' }, itemSummary(id))),
-            h('span', { class: 'gold' }, `${d.price} g`), btn('Buy', () => { if (run({ type: 'buy', defId: id }).ok) sfx.coin(); }, { cls: 'small', disabled: g.profile.bankedGold < d.price }));
+            h('span', { class: 'gold' }, tx('town.priceG', { price: d.price })), btn(tx('town.buy'), () => { if (run({ type: 'buy', defId: id }).ok) sfx.coin(); }, { cls: 'small', disabled: g.profile.bankedGold < d.price }));
         }))))),
   );
 }
@@ -313,10 +308,10 @@ export function itemSummary(defId: string, inst?: ItemInstance): string {
   const d = ITEMS[defId];
   if (!d) return '';
   const bits: string[] = [];
-  if (d.legend) bits.push('✦ Legendary');
-  if (d.weapon) bits.push(`${d.weapon.dice}${d.weapon.versatile ? ` (${d.weapon.versatile})` : ''} ${d.weapon.type}`, d.weapon.props.join(', '), `mastery: ${d.weapon.mastery}`, d.weapon.martial ? 'martial' : 'simple');
-  if (d.armor) bits.push(`AC ${d.armor.base}${d.armor.type === 'heavy' ? '' : d.armor.dexCap !== undefined ? ' + DEX (max 2)' : ' + DEX'}`, d.armor.type, d.armor.str ? `STR ${d.armor.str}` : '');
-  if (d.shield) bits.push('+2 AC');
+  if (d.legend) bits.push(tx('town.legendary'));
+  if (d.weapon) bits.push(`${d.weapon.dice}${d.weapon.versatile ? ` (${d.weapon.versatile})` : ''} ${term('damageTypes', d.weapon.type)}`, d.weapon.props.map((p) => term('weaponProps', p)).join(', '), tx('town.mastery', { mastery: term('masteries', d.weapon.mastery) }), term('weaponClass', d.weapon.martial ? 'martial' : 'simple'));
+  if (d.armor) bits.push(tx('town.ac', { base: d.armor.base, dex: d.armor.type === 'heavy' ? '' : tx(d.armor.dexCap !== undefined ? 'town.plusDexMax2' : 'town.plusDex') }), term('armorTypes', d.armor.type), d.armor.str ? tx('town.str', { str: d.armor.str }) : '');
+  if (d.shield) bits.push(tx('town.n2Ac'));
   if (d.text) bits.push(d.text);
   if (inst) for (const a of inst.affixes) bits.push(AFFIXES[a]?.text ?? a);
   if (d.legend) bits.push(`“${d.legend.lore}”`);
@@ -327,15 +322,15 @@ function vaultTab(): HTMLElement {
   const g = app.game!;
   return h('div', { class: 'col' },
     h('div', { class: 'win' },
-      h('h2', null, `Vault (${g.vault.length} items)`),
-      h('p', { class: 'small muted' }, 'Equip gear from a hero\'s sheet in the Guild Hall. Selling returns 40% of value.'),
-      g.vault.length === 0 ? h('p', { class: 'muted' }, 'Empty. Treasure carried home from a dungeon lands here.') : null,
+      h('h2', null, tx('town.vaultItems', { vaultLength: g.vault.length })),
+      h('p', { class: 'small muted' }, tx('town.equipGearFromAHero')),
+      g.vault.length === 0 ? h('p', { class: 'muted' }, tx('town.emptyTreasureCarriedHomeFrom')) : null,
       h('div', { class: 'list' }, ...g.vault.map((it) => h('div', { class: 'item-row' }, itemIcon(it.defId),
         h('div', { class: 'grow' }, h('b', null, itemName(it)), h('div', { class: 'small muted' }, itemSummary(it.defId, it))),
-        btn(`Sell ${sellValue({ ...it, qty: 1 })} g`, () => { if (run({ type: 'sell', uid: it.uid }).ok) sfx.coin(); }, { cls: 'small' }))))),
-    h('div', { class: 'win' }, h('h2', null, 'Backups'),
-      h('p', { class: 'small muted' }, 'Browser storage can be cleared. Export a backup file now and then.'),
-      btn('Export save file', () => download(`treasure-dice-slot${g.slot}.json`, exportSave(g)))),
+        btn(tx('town.sellG', { sellValue: sellValue({ ...it, qty: 1 }) }), () => { if (run({ type: 'sell', uid: it.uid }).ok) sfx.coin(); }, { cls: 'small' }))))),
+    h('div', { class: 'win' }, h('h2', null, tx('town.backups')),
+      h('p', { class: 'small muted' }, tx('town.browserStorageCanBeCleared')),
+      btn(tx('town.exportSaveFile'), () => download(`treasure-dice-slot${g.slot}.json`, exportSave(g)))),
   );
 }
 
@@ -348,22 +343,22 @@ function enchantTab(): HTMLElement {
   ].filter(({ it }) => ['weapon', 'armor', 'shield'].includes(ITEMS[it.defId]?.kind));
   return h('div', { class: 'col' },
     facilityWin(),
-    h('div', { class: 'win' }, h('h2', null, `Enchant (up to +${cap})`),
+    h('div', { class: 'win' }, h('h2', null, tx('town.enchantUpTo', { cap })),
       h('div', { class: 'list' }, ...gear.map(({ it, owner }) => h('div', { class: 'item-row' }, itemIcon(it.defId),
-        h('div', { class: 'grow' }, h('b', null, itemName(it)), h('div', { class: 'small muted' }, owner ? `Equipped by ${owner}` : 'In the vault')),
-        it.plus >= cap ? h('span', { class: 'small muted' }, 'At cap') : btn(`+${it.plus + 1} for ${enchantCost(it)} g`, () => { if (run({ type: 'enchant', uid: it.uid }).ok) sfx.coin(); }, { cls: 'small', disabled: g.profile.bankedGold < enchantCost(it) }))))),
+        h('div', { class: 'grow' }, h('b', null, itemName(it)), h('div', { class: 'small muted' }, owner ? tx('town.equippedBy', { owner }) : tx('town.inTheVault'))),
+        it.plus >= cap ? h('span', { class: 'small muted' }, tx('town.atCap')) : btn(tx('town.forG', { v: it.plus + 1, enchantCost: enchantCost(it) }), () => { if (run({ type: 'enchant', uid: it.uid }).ok) sfx.coin(); }, { cls: 'small', disabled: g.profile.bankedGold < enchantCost(it) }))))),
   );
 }
 
 function facilityWin(): HTMLElement {
   const g = app.game!;
   const sig = Object.values(g.profile.sigils).reduce((a, b) => a + (b ?? 0), 0);
-  return h('div', { class: 'win' }, h('h2', null, 'Keep upgrades'),
+  return h('div', { class: 'win' }, h('h2', null, tx('town.keepUpgrades')),
     h('div', { class: 'list' }, ...Object.entries(FACILITIES).map(([id, f]) => {
       const lvl = g.profile.facility[id];
       const cost = facilityCost(id, lvl);
-      return h('div', { class: 'item-row' }, h('div', { class: 'grow' }, h('b', null, `${f.name} — level ${lvl}`), h('div', { class: 'small muted' }, f.text)),
-        lvl >= f.max ? h('span', { class: 'small muted' }, 'Maxed') : btn(`Upgrade: ${cost.gold} g${cost.sigils ? `, ${cost.sigils} sigils` : ''}`, () => { if (run({ type: 'upgrade', id }).ok) sfx.fanfare(); }, { cls: 'small', disabled: g.profile.bankedGold < cost.gold || sig < cost.sigils }));
+      return h('div', { class: 'item-row' }, h('div', { class: 'grow' }, h('b', null, tx('town.level', { fName: f.name, lvl })), h('div', { class: 'small muted' }, f.text)),
+        lvl >= f.max ? h('span', { class: 'small muted' }, tx('town.maxed')) : btn(tx('town.upgradeG', { gold: cost.gold, sigils: cost.sigils ? tx('town.upgradeSigils', { sigils: cost.sigils }) : '' }), () => { if (run({ type: 'upgrade', id }).ok) sfx.fanfare(); }, { cls: 'small', disabled: g.profile.bankedGold < cost.gold || sig < cost.sigils }));
     })));
 }
 
@@ -372,11 +367,11 @@ function trainingTab(): HTMLElement {
   const cap = trainingCap(g);
   const alive = g.roster.filter((x) => x.status === 'alive');
   return h('div', { class: 'col' },
-    trainingClosed(g) ? h('div', { class: 'win' }, h('p', { class: 'danger' }, 'The Training Grounds are closed while Drillmaster Kost leads the evacuation. They reopen when Tiamat falls.')) : null,
-    h('div', { class: 'win' }, h('h2', null, 'Reserve training'),
-      h('p', { class: 'prose' }, `Pay to raise a benched hero by one level, up to level ${cap} (two below your strongest trio). Clearing dungeons is the only other way to level.`),
+    trainingClosed(g) ? h('div', { class: 'win' }, h('p', { class: 'danger' }, tx('town.theTrainingGroundsAreClosed'))) : null,
+    h('div', { class: 'win' }, h('h2', null, tx('town.reserveTraining')),
+      h('p', { class: 'prose' }, tx('town.payToRaiseABenched', { cap })),
       h('div', { class: 'cards' }, ...alive.map((hero) => heroCard(hero, {
-        extra: hero.level < cap && !hero.pendingLevel ? btn(`Train — ${trainingCost(g, hero)} g`, () => { if (run({ type: 'train', heroId: hero.id }).ok) { app.ui.levelUp = hero.id; render(); } }, { cls: 'small primary', disabled: g.profile.bankedGold < trainingCost(g, hero) }) : null,
+        extra: hero.level < cap && !hero.pendingLevel ? btn(tx('town.trainG', { trainingCost: trainingCost(g, hero) }), () => { if (run({ type: 'train', heroId: hero.id }).ok) { app.ui.levelUp = hero.id; render(); } }, { cls: 'small primary', disabled: g.profile.bankedGold < trainingCost(g, hero) }) : null,
       })))),
     facilityWin(),
   );
@@ -386,27 +381,27 @@ function codexTab(): HTMLElement {
   const g = app.game!;
   const s = g.profile.stats;
   return h('div', { class: 'col' },
-    h('div', { class: 'win' }, h('h2', null, 'Records'),
+    h('div', { class: 'win' }, h('h2', null, tx('town.records')),
       h('table', { class: 'mini' }, ...[
-        ['Expeditions', s.expeditions], ['Echoes cleared', s.clears], ['Retreats', s.retreats], ['Wipes', s.wipes], ['Heroes lost', s.deaths], ['Best single hand', fmt(s.bestScore)],
+        [tx('town.stat.expeditions'), s.expeditions], [tx('town.stat.clears'), s.clears], [tx('town.stat.retreats'), s.retreats], [tx('town.stat.wipes'), s.wipes], [tx('town.stat.deaths'), s.deaths], [tx('town.stat.bestScore'), fmt(s.bestScore)],
       ].map(([k, v]) => h('tr', null, h('th', null, String(k)), h('td', null, String(v)))))),
-    tavernOpen(g) ? h('div', { class: 'win' }, h('h2', null, `Journal: The Queen's Due (${Object.values(EVIDENCE).filter((e) => has(g, `ev:${e.id}`)).length}/${Object.keys(EVIDENCE).length})`),
+    tavernOpen(g) ? h('div', { class: 'win' }, h('h2', null, tx('town.journalTheQueenSDue', { length: Object.values(EVIDENCE).filter((e) => has(g, `ev:${e.id}`)).length, length2: Object.keys(EVIDENCE).length })),
       h('div', { class: 'list' }, ...Object.values(EVIDENCE).map((e) => has(g, `ev:${e.id}`)
         ? h('div', { class: 'item-row' }, h('div', { class: 'icon', style: 'width:56px;height:56px' }, art(e.art, e.name)), h('div', { class: 'grow' }, h('b', null, e.name), h('div', { class: 'small prose' }, e.text), awakened(g) && e.after ? h('div', { class: 'small annotation' }, `✒ ${e.after}`) : null))
         : h('div', { class: 'item-row muted' }, h('div', { class: 'icon', style: 'width:56px;height:56px' }), h('span', null, '???'))))) : null,
-    h('div', { class: 'win' }, h('h2', null, `Charms found (${g.profile.codex.charms.length}/${CHARMS.length})`),
-      h('div', { class: 'charm-bar' }, ...CHARMS.map((c) => g.profile.codex.charms.includes(c.id) ? charmEl(c.id) : h('div', { class: 'charm empty', title: 'Undiscovered' })))),
-    h('div', { class: 'win' }, h('h2', null, `Bestiary (${g.profile.codex.monsters.length})`),
+    h('div', { class: 'win' }, h('h2', null, tx('town.charmsFound', { charmsLength: g.profile.codex.charms.length, CHARMSLength: CHARMS.length })),
+      h('div', { class: 'charm-bar' }, ...CHARMS.map((c) => g.profile.codex.charms.includes(c.id) ? charmEl(c.id) : h('div', { class: 'charm empty', title: tx('town.undiscovered') })))),
+    h('div', { class: 'win' }, h('h2', null, tx('town.bestiary', { monstersLength: g.profile.codex.monsters.length })),
       h('div', { class: 'cards' }, ...g.profile.codex.monsters.map((id) => MONSTERS[id]).filter(Boolean).map((m) => h('div', { class: 'item-row' },
         h('div', { class: 'icon', style: 'width:56px;height:56px' }, art(`monsters/${m.biome}_${m.id}`, m.name)), h('div', null, h('b', null, m.name), h('div', { class: 'small muted' }, m.flavor)))))),
-    h('div', { class: 'win' }, h('h2', null, 'Hands'),
-      h('table', { class: 'mini' }, h('tr', null, h('th', null, 'Hand'), h('th', null, 'Chips'), h('th', null, 'Mult'), h('th', null, 'Per Omen')),
+    h('div', { class: 'win' }, h('h2', null, tx('town.hands')),
+      h('table', { class: 'mini' }, h('tr', null, h('th', null, tx('town.hand')), h('th', null, tx('town.chips')), h('th', null, tx('town.mult')), h('th', null, tx('town.perOmen'))),
         ...HANDS.map((x) => h('tr', null, h('td', null, x.name, g.profile.codex.hands.includes(x.id) ? '' : ' ?'), h('td', { class: 'chipc' }, x.chips), h('td', { class: 'multc' }, `×${x.mult}`), h('td', { class: 'small muted' }, `+${x.lvChips} / +${x.lvMult}`))))),
   );
 }
 
 // ── hero sheet (also used in dungeons, read-only) ──────────────────────────
 
-export const SLOT_NAMES: Record<EquipSlot, string> = { mainHand: 'Main hand', offHand: 'Off hand', armor: 'Armor', trinket1: 'Trinket', trinket2: 'Trinket' };
+export const SLOT_NAMES: Record<EquipSlot, string> = { get mainHand() { return tx('town.mainHand'); }, get offHand() { return tx('town.offHand'); }, get armor() { return tx('town.armor'); }, get trinket1() { return tx('town.trinket'); }, get trinket2() { return tx('town.trinket'); } };
 
 export { CLASSES, heroCard };

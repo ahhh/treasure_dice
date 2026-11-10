@@ -8,6 +8,7 @@ import { roll, rollD20, combineAdvantage, average } from '../engine/dice.ts';
 import {
   type Ctx, telemetry, heroOf, log, fx, livingEnemies, livingHeroes, heroes, has, cond, addCondition, removeCondition,
   applyDamage, heal, savingThrow, endConcentration, advance, incapacitated, alive, kill, type DmgPart, enemies,
+  sourceName,
 } from './core.ts';
 import { derive, SKILL_NAMES, type Derived, type WeaponProfile } from '../rules/character.ts';
 import { SKILL_TRICKS } from '../content/skilltricks.ts';
@@ -23,6 +24,9 @@ import { HAND_RANK, handContains } from '../fortune/hands.ts';
 import { VITALITY, ECHO, HEAL_MULT_SLOPE } from '../rules/balance.ts';
 import { METAMAGIC } from '../content/classes.ts';
 import type { Effect, PlayedDie } from '../fortune/charms.ts';
+import { tx, txn } from '../i18n/index.ts';
+import { HAND_BY_ID } from '../fortune/hands.ts';
+import { condName, term } from '../content/terms.ts';
 
 export type FortuneUse = 'attack' | 'spell' | 'heal' | 'guard' | 'dc' | 'none';
 export type TargetKind = 'enemy' | 'enemies' | 'rank' | 'ally' | 'allies' | 'self' | 'fallenAlly';
@@ -54,8 +58,8 @@ export type CombatCmd =
 export interface CmdResult { ok: boolean; error?: string; score?: ScoreOutput }
 
 const RES_NAME: Record<string, string> = {
-  rage: 'Rage', secondWind: 'Second Wind', actionSurge: 'Action Surge', channel: 'Channel Divinity', layOnHands: 'Lay on Hands',
-  inspiration: 'Inspiration', wildShape: 'Wild Shape', focus: 'Focus', sorcery: 'Sorcery Points', innateSorcery: 'Innate Sorcery',
+  get rage() { return tx('combatHero.rage'); }, get secondWind() { return tx('combatHero.secondWind'); }, get actionSurge() { return tx('combatHero.actionSurge'); }, get channel() { return tx('combatHero.channelDivinity'); }, get layOnHands() { return tx('combatHero.layOnHands'); },
+  get inspiration() { return tx('combatHero.inspiration'); }, get wildShape() { return tx('combatHero.wildShape'); }, get focus() { return tx('combatHero.focus'); }, get sorcery() { return tx('combatHero.sorceryPoints'); }, get innateSorcery() { return tx('combatHero.innateSorcery'); },
 };
 
 // ── turn start ──────────────────────────────────────────────────────────────
@@ -77,7 +81,7 @@ export function heroTurnStart(ctx: Ctx, c: Combatant) {
     // refill happens via spendDice with nothing spent
     spendDice(run, ctx.fortuneRng, [], size);
   }
-  log(ctx, `${c.name}'s turn.`, 'info');
+  log(ctx, tx('combatHero.sTurn', { cName: c.name }), 'info');
 }
 
 function trayLimit(ctx: Ctx): number {
@@ -118,8 +122,8 @@ export function legalTargets(ctx: Ctx, kind: TargetKind, melee: boolean): Combat
 }
 
 function costFree(ctx: Ctx, c: Combatant, cost: ActionOption['cost']): string | null {
-  if (cost === 'action' && c.used.action) return 'Action already used';
-  if (cost === 'bonus' && c.used.bonus) return 'Bonus action already used';
+  if (cost === 'action' && c.used.action) return tx('combatHero.actionAlreadyUsed');
+  if (cost === 'bonus' && c.used.bonus) return tx('combatHero.bonusActionAlreadyUsed');
   void ctx;
   return null;
 }
@@ -165,25 +169,25 @@ export function listActions(ctx: Ctx): ActionOption[] {
   const backMelee = meleeMain && c.rank === 'back' && !d.main.reach && frontEnemies(ctx).length > 0;
 
   // Attacks.
-  add({ key: 'attack', group: 'attack', name: wild ? 'Beast Strike' : `Attack — ${d.main.name}`, text: attackText(d, wild), cost: 'action', target: 'enemy', fortune: 'attack', melee: meleeMain || wild },
-    backMelee && !wild ? 'Back rank: move forward or use a ranged weapon' : null);
-  if (d.offhand && d.offhand.light && !wild) add({ key: 'offhand', group: 'attack', name: `Off-hand — ${d.offhand.name}`, text: 'Bonus Action: one attack with your off-hand weapon.', cost: 'bonus', target: 'enemy', fortune: 'attack', melee: !d.offhand.ranged });
-  if (h.classId === 'monk' && !wild) add({ key: 'martialArts', group: 'attack', name: 'Martial Arts Strike', text: `Bonus Action: an unarmed strike (1d${d.martialArtsDie}).`, cost: 'bonus', target: 'enemy', fortune: 'attack', melee: true });
+  add({ key: 'attack', group: 'attack', name: wild ? tx('combatHero.beastStrike') : tx('combatHero.attack', { mainName: d.main.name }), text: attackText(d, wild), cost: 'action', target: 'enemy', fortune: 'attack', melee: meleeMain || wild },
+    backMelee && !wild ? tx('combatHero.backRankMoveForwardOr') : null);
+  if (d.offhand && d.offhand.light && !wild) add({ key: 'offhand', group: 'attack', name: tx('combatHero.offHand', { offhandName: d.offhand.name }), text: tx('combatHero.bonusActionOneAttackWith'), cost: 'bonus', target: 'enemy', fortune: 'attack', melee: !d.offhand.ranged });
+  if (h.classId === 'monk' && !wild) add({ key: 'martialArts', group: 'attack', name: tx('combatHero.martialArtsStrike'), text: tx('combatHero.bonusActionAnUnarmedStrike', { martialArtsDie: d.martialArtsDie }), cost: 'bonus', target: 'enemy', fortune: 'attack', melee: true });
   if (h.classId === 'paladin' && h.level >= 2 && !wild) {
     const sm = SPELLS.divineSmite;
     const slots = slotOptions(h, sm);
     const free = freeCast(h, sm);
-    add({ key: 'smite', group: 'attack', name: 'Smite Attack', text: 'Attack, and on the first hit spend a slot: +2d8 radiant (+1d8 per slot above 1st, +1d8 vs fiends/undead). Oath Seal: +1 Mult per slot level.', cost: 'action', target: 'enemy', fortune: 'attack', melee: true, slots: free ? [1, ...slots] : slots },
-      c.used.bonus ? 'Needs your bonus action too' : !slots.length && !free ? 'No spell slots' : backMelee ? 'Back rank' : null);
+    add({ key: 'smite', group: 'attack', name: tx('combatHero.smiteAttack'), text: tx('combatHero.attackAndOnTheFirst'), cost: 'action', target: 'enemy', fortune: 'attack', melee: true, slots: free ? [1, ...slots] : slots },
+      c.used.bonus ? tx('combatHero.needsYourBonusActionToo') : !slots.length && !free ? tx('combatHero.noSpellSlots') : backMelee ? tx('combatHero.backRank') : null);
   }
-  if (h.classId === 'monk' && h.level >= 5) add({ key: 'stunningStrike', group: 'attack', name: 'Stunning Strike', text: '1 Focus: attack; on the first hit the target makes a CON save or is stunned.', cost: 'action', target: 'enemy', fortune: 'attack', melee: true, resource: 'focus' }, (h.resources.focus ?? 0) < 1 ? 'No Focus' : backMelee ? 'Back rank' : null);
-  if (h.classId === 'monk' && h.level >= 17) add({ key: 'quiveringPalm', group: 'attack', name: 'Quivering Palm', text: '4 Focus: on hit, CON save or 10d12 force (half on success).', cost: 'action', target: 'enemy', fortune: 'attack', melee: true }, (h.resources.focus ?? 0) < 4 ? 'Needs 4 Focus' : null);
+  if (h.classId === 'monk' && h.level >= 5) add({ key: 'stunningStrike', group: 'attack', name: tx('combatHero.stunningStrike'), text: tx('combatHero.n1FocusAttackOnThe'), cost: 'action', target: 'enemy', fortune: 'attack', melee: true, resource: 'focus' }, (h.resources.focus ?? 0) < 1 ? tx('combatHero.noFocus') : backMelee ? tx('combatHero.backRank') : null);
+  if (h.classId === 'monk' && h.level >= 17) add({ key: 'quiveringPalm', group: 'attack', name: tx('combatHero.quiveringPalm'), text: tx('combatHero.n4FocusOnHitCon'), cost: 'action', target: 'enemy', fortune: 'attack', melee: true }, (h.resources.focus ?? 0) < 4 ? tx('combatHero.needs4Focus') : null);
   if (h.classId === 'rogue' && h.level >= 5) {
-    add({ key: 'cunning:poison', group: 'attack', name: 'Cunning Strike: Poison', text: 'Attack; trade a Sneak Attack die to poison the target (CON save).', cost: 'action', target: 'enemy', fortune: 'attack', melee: meleeMain }, backMelee ? 'Back rank' : null);
-    add({ key: 'cunning:trip', group: 'attack', name: 'Cunning Strike: Trip', text: 'Attack; trade a Sneak Attack die to knock the target prone (DEX save).', cost: 'action', target: 'enemy', fortune: 'attack', melee: meleeMain }, backMelee ? 'Back rank' : null);
+    add({ key: 'cunning:poison', group: 'attack', name: tx('combatHero.cunningStrikePoison'), text: tx('combatHero.attackTradeASneakAttack'), cost: 'action', target: 'enemy', fortune: 'attack', melee: meleeMain }, backMelee ? tx('combatHero.backRank') : null);
+    add({ key: 'cunning:trip', group: 'attack', name: tx('combatHero.cunningStrikeTrip'), text: tx('combatHero.attackTradeASneakAttack2'), cost: 'action', target: 'enemy', fortune: 'attack', melee: meleeMain }, backMelee ? tx('combatHero.backRank') : null);
   }
-  if (h.classId === 'barbarian' && h.level >= 9) add({ key: 'brutalStrike', group: 'attack', name: 'Brutal Strike', text: `While Reckless: forgo advantage on one attack for +${h.level >= 17 ? '2d10' : '1d10'} and push the target back.`, cost: 'action', target: 'enemy', fortune: 'attack', melee: true }, !has(c, 'reckless') ? 'Requires Reckless Attack this turn' : backMelee ? 'Back rank' : null);
-  if (h.classId === 'ranger' && h.level >= 11) add({ key: 'volley', group: 'attack', name: 'Volley', text: 'Ranged attack against every foe in one rank.', cost: 'action', target: 'rank', fortune: 'attack' }, !d.main.ranged ? 'Needs a ranged weapon' : null);
+  if (h.classId === 'barbarian' && h.level >= 9) add({ key: 'brutalStrike', group: 'attack', name: tx('combatHero.brutalStrike'), text: tx('combatHero.whileRecklessForgoAdvantageOn', { v: h.level >= 17 ? '2d10' : '1d10' }), cost: 'action', target: 'enemy', fortune: 'attack', melee: true }, !has(c, 'reckless') ? tx('combatHero.requiresRecklessAttackThisTurn') : backMelee ? tx('combatHero.backRank') : null);
+  if (h.classId === 'ranger' && h.level >= 11) add({ key: 'volley', group: 'attack', name: 'Volley', text: tx('combatHero.rangedAttackAgainstEveryFoe'), cost: 'action', target: 'rank', fortune: 'attack' }, !d.main.ranged ? tx('combatHero.needsARangedWeapon') : null);
 
   // Skills (class features).
   for (const o of featureActions(ctx, c, h, d)) add(o, o.reason);
@@ -197,11 +201,11 @@ export function listActions(ctx: Ctx): ActionOption[] {
       const free = freeCast(h, s);
       const cost = s.cost === 'reaction' ? 'bonus' : s.cost;
       let reason: string | null = null;
-      if (s.level > 0 && !slots.length && !free) reason = 'No spell slots';
-      if (s.melee && c.rank === 'back' && frontEnemies(ctx).length > 0 && s.id !== 'thornWhip') reason = reason ?? 'Touch spell: move to the front';
-      if (s.target === 'fallenAlly' && !legalTargets(ctx, 'fallenAlly', false).length) reason = reason ?? 'No ally has fallen this fight';
-      if (s.special === 'revivify' && ctx.exp.carriedGold < 300) reason = reason ?? 'Needs 300 carried gold';
-      if (s.special === 'raiseDead' || s.special === 'revivifyFull') reason = reason ?? (s.special === 'raiseDead' ? 'Cast at a safe room' : null);
+      if (s.level > 0 && !slots.length && !free) reason = tx('combatHero.noSpellSlots');
+      if (s.melee && c.rank === 'back' && frontEnemies(ctx).length > 0 && s.id !== 'thornWhip') reason = reason ?? tx('combatHero.touchSpellMoveToThe');
+      if (s.target === 'fallenAlly' && !legalTargets(ctx, 'fallenAlly', false).length) reason = reason ?? tx('combatHero.noAllyHasFallenThis');
+      if (s.special === 'revivify' && ctx.exp.carriedGold < 300) reason = reason ?? tx('combatHero.needs300CarriedGold');
+      if (s.special === 'raiseDead' || s.special === 'revivifyFull') reason = reason ?? (s.special === 'raiseDead' ? tx('combatHero.castAtASafeRoom') : null);
       const fortune = spellFortune(s);
       add({
         key: `spell:${s.id}`, group: 'magic', name: s.name + (s.level ? ` (${ordinal(s.level)})` : ' (cantrip)'), text: s.text, cost, target: s.target,
@@ -219,16 +223,16 @@ export function listActions(ctx: Ctx): ActionOption[] {
     let target: TargetKind = cons.target === 'party' ? 'self' : cons.target === 'enemies' ? 'enemies' : cons.target;
     if (cons.effect === 'scroll' && cons.spell) target = SPELLS[cons.spell].target;
     let reason: string | null = null;
-    if (cons.effect === 'smoke' && ctx.combat.kind === 'boss') reason = 'Cannot flee a boss';
-    if (cons.effect === 'scroll' && cons.spell === 'revivify' && !legalTargets(ctx, 'fallenAlly', false).length) reason = 'No ally has fallen this fight';
+    if (cons.effect === 'smoke' && ctx.combat.kind === 'boss') reason = tx('combatHero.cannotFleeABoss');
+    if (cons.effect === 'scroll' && cons.spell === 'revivify' && !legalTargets(ctx, 'fallenAlly', false).length) reason = tx('combatHero.noAllyHasFallenThis');
     add({ key: `item:${inst.uid}`, group: 'item', name: `${def.name}${inst.qty && inst.qty > 1 ? ` ×${inst.qty}` : ''}`, text: def.text ?? '', cost: fast ? 'bonus' : 'action', target, fortune: cons.effect === 'heal' ? 'heal' : cons.effect === 'bomb' || cons.effect === 'holy' ? 'spell' : cons.effect === 'scroll' && cons.spell ? spellFortune(SPELLS[cons.spell]) : 'none' }, reason);
   }
 
   // Guard.
-  add({ key: 'guard', group: 'guard', name: 'Guard', text: '+2 AC until your next turn and gain Ward (temp HP) scaled by your Fortune hand. Foes are drawn to guarding heroes in the front.', cost: 'action', target: 'self', fortune: 'guard' });
+  add({ key: 'guard', group: 'guard', name: 'Guard', text: tx('combatHero.n2AcUntilYourNext'), cost: 'action', target: 'self', fortune: 'guard' });
   const freeMove = (h.classId === 'barbarian' && h.level >= 5) || (h.classId === 'monk' && h.level >= 9);
-  add({ key: 'rank', group: 'guard', name: c.rank === 'front' ? 'Fall Back' : 'Step Forward', text: freeMove ? 'Switch ranks (free for you).' : 'Switch ranks.', cost: freeMove ? 'free' : 'bonus', target: 'self', fortune: 'none' },
-    ctx.combat.turn!.flags.moved ? 'Already moved this turn' : has(c, 'restrained') ? 'Restrained' : null);
+  add({ key: 'rank', group: 'guard', name: c.rank === 'front' ? tx('combatHero.fallBack') : tx('combatHero.stepForward'), text: freeMove ? tx('combatHero.switchRanksFreeForYou') : tx('combatHero.switchRanks'), cost: freeMove ? 'free' : 'bonus', target: 'self', fortune: 'none' },
+    ctx.combat.turn!.flags.moved ? tx('combatHero.alreadyMovedThisTurn') : has(c, 'restrained') ? tx('combatHero.restrained') : null);
   return out;
 }
 
@@ -237,9 +241,9 @@ function ordinal(n: number) {
 }
 
 function attackText(d: Derived, wild: boolean): string {
-  if (wild) return 'Claws and fangs: 1d8 + WIS per attack.';
+  if (wild) return tx('combatHero.clawsAndFangs1d8Wis');
   const n = d.attacks;
-  return `${n > 1 ? `${n} attacks` : '1 attack'}: +${d.main.toHit} to hit, ${d.main.dice}${d.main.bonus >= 0 ? '+' : ''}${d.main.bonus} ${d.main.type}${d.main.mastery ? ` · ${d.main.mastery}` : ''}.`;
+  return tx('combatHero.toHit', { attacks: txn('combatHero.attacks', n), toHit: d.main.toHit, dice: d.main.dice, v2: d.main.bonus >= 0 ? '+' : '', bonus: d.main.bonus, type: term('damageTypes', d.main.type), v3: d.main.mastery ? ` · ${d.main.mastery}` : '' });
 }
 
 export function spellFortune(s: SpellDef): FortuneUse {
@@ -261,42 +265,42 @@ function featureActions(ctx: Ctx, c: Combatant, h: Hero, d: Derived): (Omit<Acti
   const t = ctx.combat.turn!;
   const o = (key: string, name: string, text: string, cost: ActionOption['cost'], target: TargetKind, fortune: FortuneUse, reason: string | null = null, resource?: string) =>
     out.push({ key: `feat:${key}`, group: 'skill', name, text, cost, target, fortune, reason, resource });
-  if (F.has('rage')) o('rage', 'Rage', `+${d.rageDamage} damage on Strength attacks; resist physical damage.`, 'bonus', 'self', 'none', has(c, 'raging') ? 'Already raging' : r('rage') < 1 ? 'No Rage left' : d.armored && ITEMS[h.equipment.armor!.defId]?.armor?.type === 'heavy' ? 'Heavy armor' : null, 'rage');
-  if (F.has('recklessAttack')) o('reckless', 'Reckless Attack', 'Advantage on your attacks this turn; foes have advantage against you.', 'free', 'self', 'none', has(c, 'reckless') ? 'Already reckless' : null);
-  if (F.has('secondWind')) o('secondWind', 'Second Wind', `Heal 1d10 + ${h.level} (× vitality).`, 'bonus', 'self', 'heal', r('secondWind') < 1 ? 'No uses left' : null, 'secondWind');
-  if (F.has('actionSurge')) o('actionSurge', 'Action Surge', 'Regain your action and gain an extra Fortune play.', 'free', 'self', 'none', r('actionSurge') < 1 ? 'No uses left' : t.flags.surged ? 'Once per turn' : !c.used.action ? 'Use your action first' : null, 'actionSurge');
-  if (F.has('layOnHands')) o('layOnHands', 'Lay on Hands', `Heal from a pool of ${r('layOnHands')} (× vitality).${h.level >= 14 ? ' Removes conditions.' : ''}`, 'bonus', 'ally', 'none', r('layOnHands') < 1 ? 'Pool empty' : null, 'layOnHands');
+  if (F.has('rage')) o('rage', tx('combatHero.rage'), tx('combatHero.damageOnStrengthAttacksResist', { rageDamage: d.rageDamage }), 'bonus', 'self', 'none', has(c, 'raging') ? tx('combatHero.alreadyRaging') : r('rage') < 1 ? tx('combatHero.noRageLeft') : d.armored && ITEMS[h.equipment.armor!.defId]?.armor?.type === 'heavy' ? tx('combatHero.heavyArmor') : null, 'rage');
+  if (F.has('recklessAttack')) o('reckless', tx('combatHero.recklessAttack'), tx('combatHero.advantageOnYourAttacksThis'), 'free', 'self', 'none', has(c, 'reckless') ? tx('combatHero.alreadyReckless') : null);
+  if (F.has('secondWind')) o('secondWind', tx('combatHero.secondWind'), tx('combatHero.heal1d10Vitality', { level: h.level }), 'bonus', 'self', 'heal', r('secondWind') < 1 ? tx('combatHero.noUsesLeft') : null, 'secondWind');
+  if (F.has('actionSurge')) o('actionSurge', tx('combatHero.actionSurge'), tx('combatHero.regainYourActionAndGain'), 'free', 'self', 'none', r('actionSurge') < 1 ? tx('combatHero.noUsesLeft') : t.flags.surged ? tx('combatHero.oncePerTurn') : !c.used.action ? tx('combatHero.useYourActionFirst') : null, 'actionSurge');
+  if (F.has('layOnHands')) o('layOnHands', tx('combatHero.layOnHands'), tx('combatHero.healFromAPoolOf', { r: r('layOnHands'), removes: h.level >= 14 ? tx('combatHero.removesConditions') : '' }), 'bonus', 'ally', 'none', r('layOnHands') < 1 ? tx('combatHero.poolEmpty') : null, 'layOnHands');
   if (F.has('divineSpark')) {
     const n = h.level >= 18 ? 4 : h.level >= 13 ? 3 : h.level >= 7 ? 2 : 1;
-    o('sparkHeal', 'Divine Spark (Heal)', `Heal ${n}d8 + WIS.`, 'action', 'ally', 'heal', r('channel') < 1 ? 'No Channel Divinity' : null, 'channel');
-    o('sparkHarm', 'Divine Spark (Smite)', `${n}d8 + WIS radiant, CON save for half.`, 'action', 'enemy', 'spell', r('channel') < 1 ? 'No Channel Divinity' : null, 'channel');
+    o('sparkHeal', tx('combatHero.divineSparkHeal'), tx('combatHero.healD8Wis', { n }), 'action', 'ally', 'heal', r('channel') < 1 ? tx('combatHero.noChannelDivinity') : null, 'channel');
+    o('sparkHarm', tx('combatHero.divineSparkSmite'), tx('combatHero.d8WisRadiantConSave', { n }), 'action', 'enemy', 'spell', r('channel') < 1 ? tx('combatHero.noChannelDivinity') : null, 'channel');
   }
-  if (F.has('turnUndead')) o('turnUndead', 'Turn Undead', 'Undead make a WIS save or flee in terror (frightened, incapacitated).', 'action', 'enemies', 'dc', r('channel') < 1 ? 'No Channel Divinity' : !livingEnemies(ctx).some((e) => e.mon?.tags.includes('undead')) ? 'No undead here' : null, 'channel');
-  if (F.has('preserveLife')) o('preserveLife', 'Preserve Life', `Restore ${5 * h.level} (× vitality) HP split among wounded allies.`, 'action', 'allies', 'none', r('channel') < 1 ? 'No Channel Divinity' : null, 'channel');
-  if (F.has('sacredWeapon')) o('sacredWeapon', 'Sacred Weapon', `+${Math.max(1, d.mods.cha)} to attack rolls for 10 rounds.`, 'bonus', 'self', 'none', r('channel') < 1 ? 'No Channel Divinity' : has(c, 'sacredWeapon') ? 'Active' : null, 'channel');
-  if (F.has('abjureFoes')) o('abjureFoes', 'Abjure Foes', 'Foes make a WIS save or are frightened.', 'action', 'enemies', 'dc', r('channel') < 1 ? 'No Channel Divinity' : null, 'channel');
-  if (F.has('bardicInspiration')) o('inspire', 'Bardic Inspiration', `Add a d${d.inspirationDie} Inspiration die to the Fortune Tray.`, 'bonus', 'self', 'none', r('inspiration') < 1 ? 'No Inspiration left' : null, 'inspiration');
+  if (F.has('turnUndead')) o('turnUndead', tx('combatHero.turnUndead'), tx('combatHero.undeadMakeAWisSave'), 'action', 'enemies', 'dc', r('channel') < 1 ? tx('combatHero.noChannelDivinity') : !livingEnemies(ctx).some((e) => e.mon?.tags.includes('undead')) ? tx('combatHero.noUndeadHere') : null, 'channel');
+  if (F.has('preserveLife')) o('preserveLife', tx('combatHero.preserveLife'), tx('combatHero.restoreVitalityHpSplitAmong', { v: 5 * h.level }), 'action', 'allies', 'none', r('channel') < 1 ? tx('combatHero.noChannelDivinity') : null, 'channel');
+  if (F.has('sacredWeapon')) o('sacredWeapon', tx('combatHero.sacredWeapon'), tx('combatHero.toAttackRollsFor10', { v: Math.max(1, d.mods.cha) }), 'bonus', 'self', 'none', r('channel') < 1 ? tx('combatHero.noChannelDivinity') : has(c, 'sacredWeapon') ? tx('combatHero.active') : null, 'channel');
+  if (F.has('abjureFoes')) o('abjureFoes', tx('combatHero.abjureFoes'), tx('combatHero.foesMakeAWisSave'), 'action', 'enemies', 'dc', r('channel') < 1 ? tx('combatHero.noChannelDivinity') : null, 'channel');
+  if (F.has('bardicInspiration')) o('inspire', tx('combatHero.bardicInspiration'), tx('combatHero.addADInspirationDie', { inspirationDie: d.inspirationDie }), 'bonus', 'self', 'none', r('inspiration') < 1 ? tx('combatHero.noInspirationLeft') : null, 'inspiration');
   if (F.has('wildShape')) {
-    o('wildShape', has(c, 'wildShape') ? 'Revert Form' : 'Wild Shape', has(c, 'wildShape') ? 'Return to your normal form.' : `Become a beast: ${h.level * 2} × vitality temp HP; claws 1d8 + WIS.`, 'bonus', 'self', 'none', !has(c, 'wildShape') && r('wildShape') < 1 ? 'No Wild Shape left' : null, 'wildShape');
-    if (F.has('landsAid')) o('landsAid', "Land's Aid", 'Spend Wild Shape: a rank of foes takes necrotic damage (CON half) and an ally heals.', 'action', 'rank', 'spell', r('wildShape') < 1 ? 'No Wild Shape left' : null, 'wildShape');
+    o('wildShape', has(c, 'wildShape') ? tx('combatHero.revertForm') : tx('combatHero.wildShape'), has(c, 'wildShape') ? tx('combatHero.returnToYourNormalForm') : tx('combatHero.becomeABeastVitalityTemp', { v: h.level * 2 }), 'bonus', 'self', 'none', !has(c, 'wildShape') && r('wildShape') < 1 ? tx('combatHero.noWildShapeLeft') : null, 'wildShape');
+    if (F.has('landsAid')) o('landsAid', tx('combatHero.landSAid'), tx('combatHero.spendWildShapeARank'), 'action', 'rank', 'spell', r('wildShape') < 1 ? tx('combatHero.noWildShapeLeft') : null, 'wildShape');
   }
-  if (F.has('wildResurgence')) o('wildResurgence', 'Wild Resurgence', 'Spend your lowest spell slot to regain a Wild Shape use.', 'free', 'self', 'none', t.flags.resurgence ? 'Once per turn' : !h.slots.some((x, i) => i > 0 && x > 0) ? 'No slots' : null);
-  if (F.has('flurryOfBlows')) o('flurry', 'Flurry of Blows', `1 Focus: ${h.level >= 10 ? 'three' : 'two'} unarmed strikes — plays a second hand of up to 3 dice.`, 'bonus', 'enemy', 'attack', r('focus') < 1 ? 'No Focus' : c.rank === 'back' && frontEnemies(ctx).length ? 'Back rank' : null, 'focus');
-  if (F.has('patientDefense')) o('patientDefense', 'Patient Defense', '1 Focus: Dodge until your next turn.', 'bonus', 'self', 'none', r('focus') < 1 ? 'No Focus' : null, 'focus');
-  if (F.has('wholenessOfBody')) o('wholeness', 'Wholeness of Body', `Heal 1d${d.martialArtsDie} + WIS (× vitality).`, 'bonus', 'self', 'heal', r('wholeness') < 1 ? 'No uses' : null, 'wholeness');
-  if (F.has('superiorDefense')) o('superiorDefense', 'Superior Defense', '3 Focus: resist all damage but force.', 'free', 'self', 'none', r('focus') < 3 ? 'Needs 3 Focus' : has(c, 'superiorDefense') ? 'Active' : null, 'focus');
-  if (F.has('cunningAction')) o('hide', 'Cunning Action: Hide', 'Your next attack has advantage.', 'bonus', 'self', 'none', has(c, 'hidden') ? 'Already hidden' : null);
-  if (F.has('steadyAim')) o('steadyAim', 'Steady Aim', 'Advantage on your next attack.', 'bonus', 'self', 'none', has(c, 'hidden') ? 'Already aiming' : null);
-  if (F.has('innateSorcery')) o('innateSorcery', 'Innate Sorcery', '+1 spell DC and advantage on spell attacks for 10 rounds.', 'bonus', 'self', 'none', r('innateSorcery') < 1 ? 'No uses' : has(c, 'innateSorcery') ? 'Active' : null, 'innateSorcery');
-  if (F.has('hurlThroughHell')) o('hurl', 'Hurl Through Hell', '8d10 psychic; CHA save negates.', 'action', 'enemy', 'spell', r('hurl') < 1 ? 'Used' : null, 'hurl');
-  if (F.has('tireless')) o('tireless', 'Tireless', 'Gain 1d8 + WIS temp HP (× vitality).', 'action', 'self', 'none', r('tireless') < 1 ? 'No uses' : null, 'tireless');
-  if (F.has('naturesVeil')) o('naturesVeil', "Nature's Veil", 'Become invisible until your next turn ends.', 'bonus', 'self', 'none', ctx.combat.once[`${h.id}:veil`] ? 'Once per fight' : null);
-  if (F.has('intimidatingPresence')) o('intimidate', 'Intimidating Presence', 'Foes make a WIS save or are frightened.', 'bonus', 'enemies', 'dc', r('intimidate') < 1 ? 'Used' : null, 'intimidate');
-  if (F.has('divineIntervention')) o('intervention', 'Divine Intervention', `Heal the party to at least half HP and cleanse them${h.level >= 20 ? '; revive the fallen' : ''}.`, 'action', 'allies', 'none', r('intervention') < 1 ? 'Used' : null, 'intervention');
-  if (F.has('holyNimbus')) o('nimbus', 'Holy Nimbus', 'Radiant aura scorches foes each turn; advantage on saves.', 'bonus', 'self', 'none', ctx.combat.once[`${h.id}:nimbus`] || ctx.exp.flags[`nimbus:${h.id}`] ? 'Once per rest' : null);
+  if (F.has('wildResurgence')) o('wildResurgence', tx('combatHero.wildResurgence'), tx('combatHero.spendYourLowestSpellSlot'), 'free', 'self', 'none', t.flags.resurgence ? tx('combatHero.oncePerTurn') : !h.slots.some((x, i) => i > 0 && x > 0) ? tx('combatHero.noSlots') : null);
+  if (F.has('flurryOfBlows')) o('flurry', tx('combatHero.flurryOfBlows'), tx('combatHero.n1FocusUnarmedStrikesPlays', { v: h.level >= 10 ? 'three' : 'two' }), 'bonus', 'enemy', 'attack', r('focus') < 1 ? tx('combatHero.noFocus') : c.rank === 'back' && frontEnemies(ctx).length ? tx('combatHero.backRank') : null, 'focus');
+  if (F.has('patientDefense')) o('patientDefense', tx('combatHero.patientDefense'), tx('combatHero.n1FocusDodgeUntilYour'), 'bonus', 'self', 'none', r('focus') < 1 ? tx('combatHero.noFocus') : null, 'focus');
+  if (F.has('wholenessOfBody')) o('wholeness', tx('combatHero.wholenessOfBody'), tx('combatHero.heal1dWisVitality', { martialArtsDie: d.martialArtsDie }), 'bonus', 'self', 'heal', r('wholeness') < 1 ? tx('combatHero.noUses') : null, 'wholeness');
+  if (F.has('superiorDefense')) o('superiorDefense', tx('combatHero.superiorDefense'), tx('combatHero.n3FocusResistAllDamage'), 'free', 'self', 'none', r('focus') < 3 ? tx('combatHero.needs3Focus') : has(c, 'superiorDefense') ? tx('combatHero.active') : null, 'focus');
+  if (F.has('cunningAction')) o('hide', tx('combatHero.cunningActionHide'), tx('combatHero.yourNextAttackHasAdvantage'), 'bonus', 'self', 'none', has(c, 'hidden') ? tx('combatHero.alreadyHidden') : null);
+  if (F.has('steadyAim')) o('steadyAim', tx('combatHero.steadyAim'), tx('combatHero.advantageOnYourNextAttack'), 'bonus', 'self', 'none', has(c, 'hidden') ? tx('combatHero.alreadyAiming') : null);
+  if (F.has('innateSorcery')) o('innateSorcery', tx('combatHero.innateSorcery'), tx('combatHero.n1SpellDcAndAdvantage'), 'bonus', 'self', 'none', r('innateSorcery') < 1 ? tx('combatHero.noUses') : has(c, 'innateSorcery') ? tx('combatHero.active') : null, 'innateSorcery');
+  if (F.has('hurlThroughHell')) o('hurl', tx('combatHero.hurlThroughHell'), tx('combatHero.n8d10PsychicChaSaveNegates'), 'action', 'enemy', 'spell', r('hurl') < 1 ? tx('combatHero.used') : null, 'hurl');
+  if (F.has('tireless')) o('tireless', tx('combatHero.tireless'), tx('combatHero.gain1d8WisTempHp'), 'action', 'self', 'none', r('tireless') < 1 ? tx('combatHero.noUses') : null, 'tireless');
+  if (F.has('naturesVeil')) o('naturesVeil', tx('combatHero.natureSVeil'), tx('combatHero.becomeInvisibleUntilYourNext'), 'bonus', 'self', 'none', ctx.combat.once[`${h.id}:veil`] ? tx('combatHero.oncePerFight') : null);
+  if (F.has('intimidatingPresence')) o('intimidate', tx('combatHero.intimidatingPresence'), tx('combatHero.foesMakeAWisSave'), 'bonus', 'enemies', 'dc', r('intimidate') < 1 ? tx('combatHero.used') : null, 'intimidate');
+  if (F.has('divineIntervention')) o('intervention', tx('combatHero.divineIntervention'), tx('combatHero.healThePartyToAt', { v: h.level >= 20 ? '; revive the fallen' : '' }), 'action', 'allies', 'none', r('intervention') < 1 ? tx('combatHero.used') : null, 'intervention');
+  if (F.has('holyNimbus')) o('nimbus', tx('combatHero.holyNimbus'), tx('combatHero.radiantAuraScorchesFoesEach'), 'bonus', 'self', 'none', ctx.combat.once[`${h.id}:nimbus`] || ctx.exp.flags[`nimbus:${h.id}`] ? tx('combatHero.oncePerRest') : null);
   if (h.ancestry === 'dragonborn') {
     const n = h.level >= 17 ? 4 : h.level >= 11 ? 3 : h.level >= 5 ? 2 : 1;
-    o('breath', 'Breath Weapon', `A rank of foes: DEX save, ${n}d10 fire.`, 'action', 'rank', 'spell', r('breath') < 1 ? 'No uses' : null, 'breath');
+    o('breath', tx('combatHero.breathWeapon'), tx('combatHero.aRankOfFoesDex', { n }), 'action', 'rank', 'spell', r('breath') < 1 ? tx('combatHero.noUses') : null, 'breath');
   }
   return out;
 }
@@ -305,22 +309,22 @@ function featureActions(ctx: Ctx, c: Combatant, h: Hero, d: Derived): (Omit<Acti
 
 export function doReroll(ctx: Ctx, dice: number[]): CmdResult {
   const a = actor(ctx);
-  if (!a) return { ok: false, error: 'No active hero' };
+  if (!a) return { ok: false, error: tx('combatHero.noActiveHero') };
   const run = ctx.exp.fortune;
   const curse = ctx.combat.curse ? CURSES[ctx.combat.curse] : undefined;
   const valid = dice.filter((i) => run.tray[i]);
-  if (!valid.length) return { ok: false, error: 'Select dice to reroll' };
+  if (!valid.length) return { ok: false, error: tx('combatHero.selectDiceToReroll') };
   let viaBlood = false;
   if (run.rerollsLeft <= 0) {
     // Barbarian Blood Dice.
     if (a.h.classId === 'barbarian' && has(a.c, 'raging')) {
       const cost = Math.round((2 + a.h.level) * VITALITY);
-      if (a.c.hp <= cost) return { ok: false, error: 'Too wounded to bleed for luck' };
+      if (a.c.hp <= cost) return { ok: false, error: tx('combatHero.tooWoundedToBleedFor') };
       a.c.hp -= cost;
-      log(ctx, `${a.c.name} bleeds for luck (−${cost} HP).`, 'fortune');
+      log(ctx, tx('combatHero.bleedsForLuckHp', { cName: a.c.name, cost }), 'fortune');
       run.rerollsLeft += 1;
       viaBlood = true;
-    } else return { ok: false, error: 'No rerolls left' };
+    } else return { ok: false, error: tx('combatHero.noRerollsLeft') };
   }
   trayReroll(run, ctx.fortuneRng, valid);
   // Mirror rooms: reflections invert some rerolled dice.
@@ -337,7 +341,7 @@ export function doReroll(ctx: Ctx, dice: number[]): CmdResult {
 
 export function doTalent(ctx: Ctx, cmd: { id: string; die?: number; value?: number; delta?: 1 | -1 }): CmdResult {
   const a = actor(ctx);
-  if (!a) return { ok: false, error: 'No active hero' };
+  if (!a) return { ok: false, error: tx('combatHero.noActiveHero') };
   const { c, h } = a;
   const run = ctx.exp.fortune;
   const t = ctx.combat.turn!;
@@ -346,46 +350,46 @@ export function doTalent(ctx: Ctx, cmd: { id: string; die?: number; value?: numb
   const onceKey = `${h.id}:${cmd.id}`;
   switch (cmd.id) {
     case 'steadyHand': {
-      if (h.classId !== 'fighter') return { ok: false, error: 'Fighters only' };
-      if (t.flags.steadyHand) return { ok: false, error: 'Once per turn' };
-      if (!td) return { ok: false, error: 'Pick a die' };
-      if (!nudge(run, die, cmd.delta ?? 1)) return { ok: false, error: 'That die has no such face' };
+      if (h.classId !== 'fighter') return { ok: false, error: tx('combatHero.fightersOnly') };
+      if (t.flags.steadyHand) return { ok: false, error: tx('combatHero.oncePerTurn') };
+      if (!td) return { ok: false, error: tx('combatHero.pickADie') };
+      if (!nudge(run, die, cmd.delta ?? 1)) return { ok: false, error: tx('combatHero.thatDieHasNoSuch') };
       t.flags.steadyHand = true;
-      log(ctx, `${c.name} nudges a die to ${faceValue(run, td)} (Steady Hand).`, 'fortune');
+      log(ctx, tx('combatHero.nudgesADieToSteady', { cName: c.name, faceValue: faceValue(run, td) }), 'fortune');
       return { ok: true };
     }
     case 'sanctify': {
-      if (h.classId !== 'cleric') return { ok: false, error: 'Clerics only' };
-      if (ctx.combat.once[onceKey]) return { ok: false, error: 'Once per combat' };
-      if (!td) return { ok: false, error: 'Pick a die' };
+      if (h.classId !== 'cleric') return { ok: false, error: tx('combatHero.clericsOnly') };
+      if (ctx.combat.once[onceKey]) return { ok: false, error: tx('combatHero.oncePerCombat') };
+      if (!td) return { ok: false, error: tx('combatHero.pickADie') };
       run.tray.splice(die, 1);
       if (!td.ghost) run.discard.push(td.dieUid); else run.bag = run.bag.filter((x) => x.uid !== td.dieUid);
       addGhostDie(run, ctx.fortuneRng, 'sun', 6);
       ctx.combat.once[onceKey] = true;
-      log(ctx, `${c.name} sanctifies a die — a blazing Sun 6!`, 'fortune');
+      log(ctx, tx('combatHero.sanctifiesADieABlazing', { cName: c.name }), 'fortune');
       return { ok: true };
     }
     case 'overgrowth': {
-      if (h.classId !== 'druid') return { ok: false, error: 'Druids only' };
-      if (ctx.combat.once[onceKey]) return { ok: false, error: 'Once per combat' };
-      if (!td) return { ok: false, error: 'Pick a die' };
+      if (h.classId !== 'druid') return { ok: false, error: tx('combatHero.druidsOnly') };
+      if (ctx.combat.once[onceKey]) return { ok: false, error: tx('combatHero.oncePerCombat') };
+      if (!td) return { ok: false, error: tx('combatHero.pickADie') };
       const src = run.bag.find((x) => x.uid === td.dieUid);
       addGhostDie(run, ctx.fortuneRng, src?.material ?? 'verdant', faceValue(run, td));
       ctx.combat.once[onceKey] = true;
-      log(ctx, `${c.name} grows a copy of the ${faceValue(run, td)}.`, 'fortune');
+      log(ctx, tx('combatHero.growsACopyOfThe', { cName: c.name, faceValue: faceValue(run, td) }), 'fortune');
       return { ok: true };
     }
     case 'darkBargain': case 'ownLuck': {
-      if (h.classId !== 'warlock') return { ok: false, error: 'Warlocks only' };
-      if (!td || cmd.value === undefined) return { ok: false, error: 'Pick a die and a value' };
+      if (h.classId !== 'warlock') return { ok: false, error: tx('combatHero.warlocksOnly') };
+      if (!td || cmd.value === undefined) return { ok: false, error: tx('combatHero.pickADieAndA') };
       if (cmd.id === 'darkBargain') {
-        if (ctx.combat.once[onceKey]) return { ok: false, error: 'Once per combat' };
+        if (ctx.combat.once[onceKey]) return { ok: false, error: tx('combatHero.oncePerCombat') };
         const cost = Math.round(c.maxHp * 0.1);
-        if (c.hp <= cost) return { ok: false, error: 'Too wounded' };
+        if (c.hp <= cost) return { ok: false, error: tx('combatHero.tooWounded') };
         c.hp -= cost;
         ctx.combat.once[onceKey] = true;
       } else {
-        if ((h.resources.ownLuck ?? 0) < 1) return { ok: false, error: 'No uses left' };
+        if ((h.resources.ownLuck ?? 0) < 1) return { ok: false, error: tx('combatHero.noUsesLeft') };
         h.resources.ownLuck -= 1;
       }
       if (!forceValue(run, die, cmd.value)) {
@@ -395,49 +399,49 @@ export function doTalent(ctx: Ctx, cmd: { id: string; die?: number; value?: numb
         if (!td.ghost) run.discard.push(td.dieUid);
         addGhostDie(run, ctx.fortuneRng, src?.material ?? 'shadow', cmd.value);
       }
-      log(ctx, `${c.name} bargains with the dark: a die turns to ${cmd.value}.`, 'fortune');
+      log(ctx, tx('combatHero.bargainsWithTheDarkA', { cName: c.name, cmdValue: cmd.value }), 'fortune');
       return { ok: true };
     }
     case 'scry': {
-      if (h.classId !== 'wizard') return { ok: false, error: 'Wizards only' };
-      if (t.flags.scry) return { ok: false, error: 'Once per turn' };
-      if (!td) return { ok: false, error: 'Pick a die' };
+      if (h.classId !== 'wizard') return { ok: false, error: tx('combatHero.wizardsOnly') };
+      if (t.flags.scry) return { ok: false, error: tx('combatHero.oncePerTurn') };
+      if (!td) return { ok: false, error: tx('combatHero.pickADie') };
       const next = run.drawPile[run.drawPile.length - 1];
-      if (!next) return { ok: false, error: 'The bag is empty' };
+      if (!next) return { ok: false, error: tx('combatHero.theBagIsEmpty') };
       run.drawPile.pop();
       run.drawPile.push(td.dieUid);
       const nd = { dieUid: next, face: 0 };
       rollTrayDie(run, ctx.fortuneRng, nd);
       run.tray[die] = nd;
       t.flags.scry = true;
-      log(ctx, `${c.name} swaps a die with the next in the bag (Arcane Foresight).`, 'fortune');
+      log(ctx, tx('combatHero.swapsADieWithThe', { cName: c.name }), 'fortune');
       return { ok: true };
     }
     case 'surgeReroll': {
-      if (h.classId !== 'sorcerer' || (h.resources.sorcery ?? 0) < 1) return { ok: false, error: 'Needs 1 Sorcery Point' };
+      if (h.classId !== 'sorcerer' || (h.resources.sorcery ?? 0) < 1) return { ok: false, error: tx('combatHero.needs1SorceryPoint') };
       h.resources.sorcery -= 1;
       run.rerollsLeft += 1;
-      log(ctx, `${c.name} spends a Sorcery Point for a reroll.`, 'fortune');
+      log(ctx, tx('combatHero.spendsASorceryPointFor', { cName: c.name }), 'fortune');
       return { ok: true };
     }
     case 'surgeFlip': {
-      if (h.classId !== 'sorcerer' || (h.resources.sorcery ?? 0) < 2) return { ok: false, error: 'Needs 2 Sorcery Points' };
-      if (!td) return { ok: false, error: 'Pick a die' };
-      if (!flip(run, die)) return { ok: false, error: 'That die has no opposite face' };
+      if (h.classId !== 'sorcerer' || (h.resources.sorcery ?? 0) < 2) return { ok: false, error: tx('combatHero.needs2SorceryPoints') };
+      if (!td) return { ok: false, error: tx('combatHero.pickADie') };
+      if (!flip(run, die)) return { ok: false, error: tx('combatHero.thatDieHasNoOpposite') };
       h.resources.sorcery -= 2;
-      log(ctx, `${c.name} flips a die to ${faceValue(run, td)} (Wild Surge).`, 'fortune');
+      log(ctx, tx('combatHero.flipsADieToWild', { cName: c.name, faceValue: faceValue(run, td) }), 'fortune');
       return { ok: true };
     }
     case 'luck': {
-      if ((h.resources.luck ?? 0) < 1) return { ok: false, error: 'No Luck left' };
+      if ((h.resources.luck ?? 0) < 1) return { ok: false, error: tx('combatHero.noLuckLeft') };
       h.resources.luck -= 1;
       run.rerollsLeft += 1;
-      log(ctx, `${c.name} spends Luck for a reroll.`, 'fortune');
+      log(ctx, tx('combatHero.spendsLuckForAReroll', { cName: c.name }), 'fortune');
       return { ok: true };
     }
   }
   if (cmd.id.startsWith('trick:')) return doSkillTrick(ctx, a, cmd.id.slice(6) as Skill, die);
-  return { ok: false, error: 'Unknown talent' };
+  return { ok: false, error: tx('combatHero.unknownTalent') };
 }
 
 function tricksUsed(ctx: Ctx, h: Hero): number {
@@ -456,110 +460,110 @@ function replaceWithGhost(ctx: Ctx, i: number, material: Material, value: number
 function doSkillTrick(ctx: Ctx, a: { c: Combatant; h: Hero; d: Derived }, skill: Skill, die: number): CmdResult {
   const { c, h, d } = a;
   const trick = SKILL_TRICKS[skill];
-  if (!trick) return { ok: false, error: 'Unknown trick' };
-  if (!d.proficient.includes(skill)) return { ok: false, error: `Needs ${SKILL_NAMES[skill]} proficiency` };
+  if (!trick) return { ok: false, error: tx('combatHero.unknownTrick') };
+  if (!d.proficient.includes(skill)) return { ok: false, error: tx('combatHero.needsProficiency', { SKILL_NAMES: SKILL_NAMES[skill] }) };
   const key = `${h.id}:trick:${skill}`;
-  if (ctx.combat.once[key]) return { ok: false, error: 'Used this fight' };
-  if (tricksUsed(ctx, h) >= d.tricks) return { ok: false, error: 'No skill tricks left this fight' };
+  if (ctx.combat.once[key]) return { ok: false, error: tx('combatHero.usedThisFight') };
+  if (tricksUsed(ctx, h) >= d.tricks) return { ok: false, error: tx('combatHero.noSkillTricksLeftThis') };
   const run = ctx.exp.fortune;
   const t = ctx.combat.turn!;
   const rng = ctx.fortuneRng;
   const td = run.tray[die];
-  if (trick.needs === 'die' && !td) return { ok: false, error: 'Pick a die' };
+  if (trick.needs === 'die' && !td) return { ok: false, error: tx('combatHero.pickADie') };
   const src = td ? run.bag.find((x) => x.uid === td.dieUid) : undefined;
   const v = td ? faceValue(run, td) : 0;
   let msg = '';
   switch (skill) {
     case 'athletics':
-      if (!nudge(run, die, 1)) return { ok: false, error: 'That die has no higher face' };
-      msg = `heaves a die up to ${faceValue(run, td)}`;
+      if (!nudge(run, die, 1)) return { ok: false, error: tx('combatHero.thatDieHasNoHigher') };
+      msg = tx('combatHero.heavesADieUpTo', { faceValue: faceValue(run, td) });
       break;
     case 'acrobatics':
-      if (!flip(run, die)) return { ok: false, error: 'That die has no opposite face' };
-      msg = `tumbles a die over to ${faceValue(run, td)}`;
+      if (!flip(run, die)) return { ok: false, error: tx('combatHero.thatDieHasNoOpposite') };
+      msg = tx('combatHero.tumblesADieOverTo', { faceValue: faceValue(run, td) });
       break;
     case 'sleightOfHand': {
       const next = run.drawPile.pop();
-      if (!next) return { ok: false, error: 'The bag is empty' };
+      if (!next) return { ok: false, error: tx('combatHero.theBagIsEmpty') };
       run.drawPile.push(td.dieUid);
       const nd = { dieUid: next, face: 0 };
       rollTrayDie(run, rng, nd);
       run.tray[die] = nd;
-      msg = 'palms a die and swaps in a fresh one';
+      msg = tx('combatHero.palmsADieAndSwaps');
       break;
     }
     case 'stealth':
       rollTrayDie(run, rng, td);
-      msg = `quietly rerolls a die: ${faceValue(run, td)}`;
+      msg = tx('combatHero.quietlyRerollsADie', { faceValue: faceValue(run, td) });
       break;
     case 'arcana':
       replaceWithGhost(ctx, die, heroColour(h), v, undefined, 'Attuned');
-      msg = `attunes a ${v} to their colour`;
+      msg = tx('combatHero.attunesAToTheirColour', { v });
       break;
     case 'history': {
       const counts = new Map<number, number>();
       run.tray.forEach((x, i) => { if (i !== die) counts.set(faceValue(run, x), (counts.get(faceValue(run, x)) ?? 0) + 1); });
-      if (!counts.size) return { ok: false, error: 'No other dice on the tray' };
+      if (!counts.size) return { ok: false, error: tx('combatHero.noOtherDiceOnThe') };
       const want = [...counts.entries()].sort((p, q) => q[1] - p[1] || q[0] - p[0])[0][0];
       if (!forceValue(run, die, want)) replaceWithGhost(ctx, die, src?.material ?? 'bone', want, undefined, 'Precedent');
-      msg = `recalls an old pattern: a die becomes ${want}`;
+      msg = tx('combatHero.recallsAnOldPatternA', { want });
       break;
     }
     case 'investigation': {
       const peek = run.drawPile.slice(-3);
-      if (!peek.length) return { ok: false, error: 'The bag is empty' };
+      if (!peek.length) return { ok: false, error: tx('combatHero.theBagIsEmpty') };
       const rolled = peek.map((uid) => { const nd = { dieUid: uid, face: 0 }; rollTrayDie(run, rng, nd); return nd; });
       const best = rolled.reduce((p, q) => (faceValue(run, q) > faceValue(run, p) ? q : p));
       run.drawPile = run.drawPile.filter((u) => u !== best.dieUid);
       run.drawPile.unshift(td.dieUid);
       run.tray[die] = best;
-      msg = `deduces the best die in the bag: a ${faceValue(run, best)}`;
+      msg = tx('combatHero.deducesTheBestDieIn', { faceValue: faceValue(run, best) });
       break;
     }
     case 'nature': {
       let n = 0;
       for (const x of run.tray) if (faceValue(run, x) <= 2) { rollTrayDie(run, rng, x); n++; }
-      if (!n) return { ok: false, error: 'No 1s or 2s on the tray' };
-      msg = `reads the weather and rerolls ${n} low ${n > 1 ? 'dice' : 'die'}`;
+      if (!n) return { ok: false, error: tx('combatHero.no1sOr2sOn') };
+      msg = txn('combatHero.readsTheWeatherAndRerolls', n);
       break;
     }
     case 'animalHandling': {
       const before = run.tray.length;
       refill(run, rng, before + 1);
-      if (run.tray.length === before) return { ok: false, error: 'The bag is empty' };
-      msg = 'whistles up an extra die';
+      if (run.tray.length === before) return { ok: false, error: tx('combatHero.theBagIsEmpty') };
+      msg = tx('combatHero.whistlesUpAnExtraDie');
       break;
     }
     case 'insight':
       run.rerollsLeft += 1;
-      msg = 'reads the room: +1 reroll';
+      msg = tx('combatHero.readsTheRoom1Reroll');
       break;
     case 'medicine': {
       run.tray.forEach((x) => { x.jinxed = false; });
       for (const bd of run.bag) bd.faces = bd.faces.map((f) => (f.mod === 'cursed' ? { v: f.v } : f));
-      msg = 'mends the dice: jinxes and curses lifted';
+      msg = tx('combatHero.mendsTheDiceJinxesAnd');
       break;
     }
     case 'perception':
       replaceWithGhost(ctx, die, src?.material ?? 'bone', v, 'keen', 'Spotted');
-      msg = `spots an opening: the ${v} turns Keen`;
+      msg = tx('combatHero.spotsAnOpeningTheTurns', { v });
       break;
     case 'survival':
-      if (v > 2) return { ok: false, error: 'Pick a 1 or a 2' };
+      if (v > 2) return { ok: false, error: tx('combatHero.pickA1OrA') };
       if (!forceValue(run, die, 5)) replaceWithGhost(ctx, die, src?.material ?? 'bone', 5, undefined, 'Make Do');
-      msg = `makes do: a ${v} becomes a 5`;
+      msg = tx('combatHero.makesDoABecomesA', { v });
       break;
     case 'deception':
       replaceWithGhost(ctx, die, src?.material ?? 'bone', v, 'wild', 'Bluff');
-      msg = 'bluffs: a die turns Wild';
+      msg = tx('combatHero.bluffsADieTurnsWild');
       break;
     case 'persuasion':
       addGhostDie(run, rng, src?.material ?? 'bone', v, undefined, 'Rally');
-      msg = `rallies a copy of the ${v}`;
+      msg = tx('combatHero.ralliesACopyOfThe', { v });
       break;
-    case 'religion': t.flags.prayer = true; msg = 'prays: +2 Mult on the next hand'; break;
-    case 'intimidation': t.flags.menace = true; msg = 'glares down the foes: +Mult per foe on the next hand'; break;
-    case 'performance': t.flags.showstopper = true; msg = 'readies a showstopper: ×1.5 on a Straight or better'; break;
+    case 'religion': t.flags.prayer = true; msg = tx('combatHero.prays2MultOnThe'); break;
+    case 'intimidation': t.flags.menace = true; msg = tx('combatHero.glaresDownTheFoesMult'); break;
+    case 'performance': t.flags.showstopper = true; msg = tx('combatHero.readiesAShowstopper15'); break;
   }
   ctx.combat.once[key] = true;
   log(ctx, `${c.name} ${msg} (${SKILL_NAMES[skill]}: ${trick.name}).`, 'fortune');
@@ -577,27 +581,27 @@ export function listTalents(ctx: Ctx): TalentOption[] {
   const out: TalentOption[] = [];
   const add = (id: string, name: string, text: string, needs: TalentOption['needs'], reason: string | null) => out.push({ id, name, text, needs, usable: !reason, reason: reason ?? undefined });
   switch (h.classId) {
-    case 'fighter': add('steadyHand', 'Steady Hand', 'Nudge a die ±1.', 'dieDelta', t.flags.steadyHand ? 'Used this turn' : null); break;
-    case 'cleric': add('sanctify', 'Sanctify', 'Turn a die into a Sun 6.', 'die', once('sanctify') ? 'Used this fight' : null); break;
-    case 'druid': add('overgrowth', 'Overgrowth', 'Copy a die.', 'die', once('overgrowth') ? 'Used this fight' : null); break;
+    case 'fighter': add('steadyHand', tx('combatHero.steadyHand'), tx('combatHero.nudgeADie1'), 'dieDelta', t.flags.steadyHand ? tx('combatHero.usedThisTurn') : null); break;
+    case 'cleric': add('sanctify', tx('combatHero.sanctify'), tx('combatHero.turnADieIntoA'), 'die', once('sanctify') ? tx('combatHero.usedThisFight') : null); break;
+    case 'druid': add('overgrowth', tx('combatHero.overgrowth'), tx('combatHero.copyADie'), 'die', once('overgrowth') ? tx('combatHero.usedThisFight') : null); break;
     case 'warlock':
-      add('darkBargain', 'Dark Bargain', 'Pay 10% HP: set a die to any value.', 'dieValue', once('darkBargain') ? 'Used this fight' : null);
-      if (h.level >= 6) add('ownLuck', "Dark One's Own Luck", `Set a die to any value (${h.resources.ownLuck ?? 0} left).`, 'dieValue', (h.resources.ownLuck ?? 0) < 1 ? 'None left' : null);
+      add('darkBargain', tx('combatHero.darkBargain'), tx('combatHero.pay10HpSetA'), 'dieValue', once('darkBargain') ? tx('combatHero.usedThisFight') : null);
+      if (h.level >= 6) add('ownLuck', tx('combatHero.darkOneSOwnLuck'), tx('combatHero.setADieToAny', { v: h.resources.ownLuck ?? 0 }), 'dieValue', (h.resources.ownLuck ?? 0) < 1 ? tx('combatHero.noneLeft') : null);
       break;
-    case 'wizard': add('scry', 'Arcane Foresight', 'Swap a die with the next in the bag.', 'die', t.flags.scry ? 'Used this turn' : null); break;
+    case 'wizard': add('scry', tx('combatHero.arcaneForesight'), tx('combatHero.swapADieWithThe'), 'die', t.flags.scry ? tx('combatHero.usedThisTurn') : null); break;
     case 'sorcerer':
-      add('surgeReroll', 'Wild Surge: Reroll', '1 Sorcery Point: +1 reroll.', 'none', (h.resources.sorcery ?? 0) < 1 ? 'No points' : null);
-      add('surgeFlip', 'Wild Surge: Flip', '2 Sorcery Points: flip a die (7 − value).', 'die', (h.resources.sorcery ?? 0) < 2 ? 'Needs 2 points' : null);
+      add('surgeReroll', tx('combatHero.wildSurgeReroll'), tx('combatHero.n1SorceryPoint1Reroll'), 'none', (h.resources.sorcery ?? 0) < 1 ? tx('combatHero.noPoints') : null);
+      add('surgeFlip', tx('combatHero.wildSurgeFlip'), tx('combatHero.n2SorceryPointsFlipA'), 'die', (h.resources.sorcery ?? 0) < 2 ? tx('combatHero.needs2Points') : null);
       break;
   }
-  if (h.feats.includes('lucky')) add('luck', 'Lucky', `Spend Luck for a reroll (${h.resources.luck ?? 0} left).`, 'none', (h.resources.luck ?? 0) < 1 ? 'None left' : null);
+  if (h.feats.includes('lucky')) add('luck', tx('combatHero.lucky'), tx('combatHero.spendLuckForAReroll', { v: h.resources.luck ?? 0 }), 'none', (h.resources.luck ?? 0) < 1 ? tx('combatHero.noneLeft') : null);
   // Skill tricks from proficient skills.
   const left = a.d.tricks - tricksUsed(ctx, h);
   for (const s of a.d.proficient) {
     const tr = SKILL_TRICKS[s];
     if (!tr) continue;
-    add(`trick:${s}`, `${tr.name} (${SKILL_NAMES[s]})`, `${tr.text} Skill trick — ${Math.max(0, left)} left this fight.`, tr.needs,
-      once(`trick:${s}`) ? 'Used this fight' : left <= 0 ? 'No skill tricks left' : null);
+    add(`trick:${s}`, `${tr.name} (${SKILL_NAMES[s]})`, tx('combatHero.skillTrickLeftThisFight', { trText: tr.text, v: Math.max(0, left) }), tr.needs,
+      once(`trick:${s}`) ? tx('combatHero.usedThisFight') : left <= 0 ? tx('combatHero.noSkillTricksLeft') : null);
   }
   return out;
 }
@@ -608,40 +612,40 @@ export function nextBagDie(ctx: Ctx): string | undefined {
 
 export function doToken(ctx: Ctx, cmd: { id: string; die?: number; value?: number }): CmdResult {
   const a = actor(ctx);
-  if (!a) return { ok: false, error: 'No active hero' };
+  if (!a) return { ok: false, error: tx('combatHero.noActiveHero') };
   const run = ctx.exp.fortune;
   const idx = run.tokens.indexOf(cmd.id);
-  if (idx < 0) return { ok: false, error: 'You have no such token' };
+  if (idx < 0) return { ok: false, error: tx('combatHero.youHaveNoSuchToken') };
   switch (cmd.id) {
     case 'mulligan':
       for (let i = 0; i < run.tray.length; i++) rollTrayDie(run, ctx.fortuneRng, run.tray[i]);
-      log(ctx, 'Mulligan! The whole tray is rerolled.', 'fortune');
+      log(ctx, tx('combatHero.mulliganTheWholeTrayIs'), 'fortune');
       break;
     case 'fateCoin': {
       const td = run.tray[cmd.die ?? -1];
-      if (!td || cmd.value === undefined) return { ok: false, error: 'Pick a die and value' };
+      if (!td || cmd.value === undefined) return { ok: false, error: tx('combatHero.pickADieAndValue') };
       if (!forceValue(run, cmd.die!, cmd.value)) {
         const src = run.bag.find((x) => x.uid === td.dieUid);
         run.tray.splice(cmd.die!, 1);
         if (!td.ghost) run.discard.push(td.dieUid);
         addGhostDie(run, ctx.fortuneRng, src?.material ?? 'bone', cmd.value);
       }
-      log(ctx, `Fate Coin: a die turns to ${cmd.value}.`, 'fortune');
+      log(ctx, tx('combatHero.fateCoinADieTurns', { cmdValue: cmd.value }), 'fortune');
       break;
     }
     case 'loadedCoin':
       ctx.combat.turn!.loaded = true;
-      log(ctx, 'Loaded Coin: the next attack roll will be a natural 20.', 'fortune');
+      log(ctx, tx('combatHero.loadedCoinTheNextAttack'), 'fortune');
       break;
     case 'encore':
       ctx.combat.turn!.plays += 1;
-      log(ctx, 'Encore! Play another hand this turn.', 'fortune');
+      log(ctx, tx('combatHero.encorePlayAnotherHandThis'), 'fortune');
       break;
     case 'tonic':
       heal(ctx, a.c, a.c.maxHp * 0.3, 'Tonic Coin');
       break;
     default:
-      return { ok: false, error: 'Unknown token' };
+      return { ok: false, error: tx('combatHero.unknownToken') };
   }
   run.tokens.splice(idx, 1);
   return { ok: true };
@@ -660,12 +664,12 @@ function canPlay(ctx: Ctx, dice: number[]): string | null {
   if (!dice.length) return null;
   const t = ctx.combat.turn!;
   const run = ctx.exp.fortune;
-  if (t.playsUsed >= t.plays) return 'No Fortune plays left this turn';
-  if (dice.length > t.playLimit) return `You may play at most ${t.playLimit} dice`;
-  if (new Set(dice).size !== dice.length) return 'Duplicate dice';
+  if (t.playsUsed >= t.plays) return tx('combatHero.noFortunePlaysLeftThis');
+  if (dice.length > t.playLimit) return tx('combatHero.youMayPlayAtMost', { playLimit: t.playLimit });
+  if (new Set(dice).size !== dice.length) return tx('combatHero.duplicateDice');
   for (const i of dice) {
-    if (!run.tray[i]) return 'Invalid die';
-    if (run.tray[i].jinxed) return 'A jinxed die cannot be played — reroll it first';
+    if (!run.tray[i]) return tx('combatHero.invalidDie');
+    if (run.tray[i].jinxed) return tx('combatHero.aJinxedDieCannotBe');
   }
   return null;
 }
@@ -674,12 +678,13 @@ function biomeDie(ctx: Ctx): ((d: PlayedDie) => Effect | null) | undefined {
   const exp = ctx.exp;
   if (exp.biome === 'cinder' && exp.meter >= 3) return (d) => (d.material === 'ember' || d.material === 'steel' ? { mult: 1, note: 'Forge-hot' } : null);
   if (exp.biome === 'rootbound' && exp.meter >= 3) return (d) => (d.material === 'verdant' ? { chips: 4, note: 'Bloom' } : null);
-  if (exp.biome === 'drowned' && exp.meter >= 1) return (d) => (d.material === 'storm' || d.material === 'frost' ? { mult: 2, note: 'High water' } : null);
+  if (exp.biome === 'drowned' && exp.meter >= 1) return (d) => (d.material === 'storm' || d.material === 'frost' ? { mult: 2, note: tx('combatHero.highWater') } : null);
   return undefined;
 }
 
 /** Score a Fortune play for this action (or a dice-less baseline). */
-function score(ctx: Ctx, base: number, label: string, p: PlayCtx): ScoreOutput {
+function score(ctx: Ctx, base: number, source: string, p: PlayCtx): ScoreOutput {
+  const label = sourceName(source);
   const a = actor(ctx)!;
   const run = ctx.exp.fortune;
   const marked = !!p.target && (p.target.conditions.some((x) => (x.id === 'marked' || x.id === 'hexed') && x.sourceId === a.c.id));
@@ -699,14 +704,14 @@ function score(ctx: Ctx, base: number, label: string, p: PlayCtx): ScoreOutput {
     extraDie: biomeDie(ctx),
     extraHand: (hand: HandType) => {
       const out = extra.slice();
-      if (quarry && handContains(hand, 'straight')) out.push({ label: 'Quarry', effect: { xmult: 2 } });
+      if (quarry && handContains(hand, 'straight')) out.push({ label: tx('combatHero.quarry'), effect: { xmult: 2 } });
       // Dice-touched gear.
       for (const g of a.d.diceGear.hands) if (g.hands.includes(hand)) out.push({ label: g.name, effect: { mult: g.mult, xmult: g.xmult } });
       // Pending skill tricks (spent when the play commits).
       const f = ctx.combat.turn?.flags ?? {};
-      if (f.prayer) out.push({ label: 'Prayer', effect: { mult: 2 } });
-      if (f.menace) out.push({ label: 'Menace', effect: { mult: livingEnemies(ctx).length } });
-      if (f.showstopper && HAND_RANK[hand] >= HAND_RANK.straight) out.push({ label: 'Showstopper', effect: { xmult: 1.5 } });
+      if (f.prayer) out.push({ label: tx('combatHero.prayer'), effect: { mult: 2 } });
+      if (f.menace) out.push({ label: tx('combatHero.menace'), effect: { mult: livingEnemies(ctx).length } });
+      if (f.showstopper && HAND_RANK[hand] >= HAND_RANK.straight) out.push({ label: tx('combatHero.showstopper'), effect: { xmult: 1.5 } });
       return out;
     },
   });
@@ -724,8 +729,8 @@ function commitPlay(ctx: Ctx, p: PlayCtx, s: ScoreOutput) {
   run.lastHand = s.hand;
   if (s.total > run.bestScore) run.bestScore = s.total;
   if (!ctx.game.profile.codex.hands.includes(s.hand)) ctx.game.profile.codex.hands.push(s.hand);
-  if (s.doubloons) { run.doubloons += s.doubloons; log(ctx, `+${s.doubloons} doubloon${s.doubloons > 1 ? 's' : ''}!`, 'loot'); }
-  if (s.shattered.length) log(ctx, `${s.shattered.length > 1 ? 'Glass dice shatter' : 'A glass die shatters'}!`, 'fortune');
+  if (s.doubloons) { run.doubloons += s.doubloons; log(ctx, txn('combatHero.doubloon', s.doubloons), 'loot'); }
+  if (s.shattered.length) log(ctx, txn('combatHero.glassShatters', s.shattered.length), 'fortune');
   spendDice(run, ctx.fortuneRng, p.dice, trayLimit(ctx), s.shattered);
   ctx.combat.lastScore = s;
   log(ctx, `${handName(s.hand)}: ${s.chips} × ${s.mult} = ${s.total.toLocaleString()}`, 'fortune');
@@ -738,7 +743,7 @@ function commitPlay(ctx: Ctx, p: PlayCtx, s: ScoreOutput) {
 }
 
 function handName(h: HandType) {
-  return ({ high: 'High Die', pair: 'Pair', twoPair: 'Two Pair', three: 'Three of a Kind', straight: 'Straight', set: 'Set', fullHouse: 'Full House', four: 'Four of a Kind', straightSet: 'Straight Set', five: 'Five of a Kind', fullSet: 'Full Set', hoard: 'Dragon Hoard' } as Record<HandType, string>)[h];
+  return HAND_BY_ID[h]?.name ?? h;
 }
 
 function healAmount(base: number, s: ScoreOutput, ctx: Ctx): number {
@@ -768,7 +773,7 @@ function dealScored(ctx: Ctx, attacker: Combatant, target: Combatant, parts: Dmg
   const carries = opts.spill === true || (opts.spill !== false && charmPassives(ctx.exp.fortune).overkill);
   const next = livingEnemies(ctx).sort((a, b) => (a.rank === target.rank ? -1 : 1) - (b.rank === target.rank ? -1 : 1))[0];
   if (carries && over > 4 && next) {
-    log(ctx, `Overkill! ${Math.round(over / 2)} carries into ${next.name}.`, 'hit');
+    log(ctx, tx('combatHero.overkillCarriesInto', { v: Math.round(over / 2), nextName: next.name }), 'hit');
     applyDamage(ctx, next, [{ type: parts[0].type, amount: over / 2 }], { source: 'Overkill', attacker });
   } else if (over > 0) telemetry.sink?.wasted?.(ctx, { attacker, amount: over });
   return dealt;
@@ -835,8 +840,8 @@ function rollAttack(ctx: Ctx, att: Combatant, tgt: Combatant, toHit: number, opt
   // Boon of Combat Prowess / Stroke of Luck.
   if (!hit && h) {
     const t = ctx.combat.turn!;
-    if (h.choices.epicBoon?.includes('combatProwess') && !t.flags.prowess) { t.flags.prowess = true; hit = true; log(ctx, `${att.name}'s Combat Prowess turns a miss into a hit!`, 'fortune'); }
-    else if ((h.resources.strokeOfLuck ?? 0) > 0) { h.resources.strokeOfLuck -= 1; hit = true; log(ctx, `${att.name}: Stroke of Luck!`, 'fortune'); }
+    if (h.choices.epicBoon?.includes('combatProwess') && !t.flags.prowess) { t.flags.prowess = true; hit = true; log(ctx, tx('combatHero.sCombatProwessTurnsA', { attName: att.name }), 'fortune'); }
+    else if ((h.resources.strokeOfLuck ?? 0) > 0) { h.resources.strokeOfLuck -= 1; hit = true; log(ctx, tx('combatHero.strokeOfLuck', { attName: att.name }), 'fortune'); }
   }
   if (!hit && h && h.level >= 13 && h.classId === 'fighter') ctx.combat.turn!.flags[`studied:${tgt.id}`] = true;
   return { hit, crit: hit && crit, natural: nat };
@@ -903,7 +908,7 @@ function applyMastery(ctx: Ctx, att: Combatant, h: Hero, d: Derived, w: WeaponPr
   switch (w.mastery) {
     case 'graze':
       if (missed && d.mods[w.ability] > 0) {
-        log(ctx, `Graze: ${tgt.name} is nicked anyway.`, 'hit');
+        log(ctx, tx('combatHero.grazeIsNickedAnyway', { tgtName: tgt.name }), 'hit');
         applyDamage(ctx, tgt, [{ type: w.type, amount: d.mods[w.ability] * ECHO }], { source: 'Graze', attacker: att, noFortune: true });
       }
       return;
@@ -912,7 +917,7 @@ function applyMastery(ctx: Ctx, att: Combatant, h: Hero, d: Derived, w: WeaponPr
       const other = livingEnemies(ctx).find((e) => e.id !== tgt.id && e.rank === 'front');
       if (other) {
         const dmg = roll(ctx.rng, w.dice).total * ECHO;
-        log(ctx, `Cleave! ${att.name} carries the swing into ${other.name}.`, 'hit');
+        log(ctx, tx('combatHero.cleaveCarriesTheSwingInto', { attName: att.name, otherName: other.name }), 'hit');
         applyDamage(ctx, other, [{ type: w.type, amount: dmg }], { source: 'Cleave', attacker: att, noFortune: true, melee: true });
       }
       return;
@@ -921,12 +926,12 @@ function applyMastery(ctx: Ctx, att: Combatant, h: Hero, d: Derived, w: WeaponPr
   if (missed || tgt.dead) return;
   switch (w.mastery) {
     case 'push':
-      if (tgt.rank === 'front' && !tgt.mon?.boss) { tgt.rank = 'back'; log(ctx, `${tgt.name} is shoved to the back rank.`, 'info'); }
+      if (tgt.rank === 'front' && !tgt.mon?.boss) { tgt.rank = 'back'; log(ctx, tx('combatHero.isShovedToTheBack', { tgtName: tgt.name }), 'info'); }
       break;
     case 'sap': addCondition(ctx, tgt, { id: 'weakened', rounds: 1 }); break;
     case 'slow': addCondition(ctx, tgt, { id: 'slowed', rounds: 1 }); break;
     case 'topple':
-      if (!savingThrow(ctx, tgt, 'con', masteryDc)) { addCondition(ctx, tgt, { id: 'prone', rounds: 1 }); log(ctx, `${tgt.name} is knocked prone!`, 'info'); }
+      if (!savingThrow(ctx, tgt, 'con', masteryDc)) { addCondition(ctx, tgt, { id: 'prone', rounds: 1 }); log(ctx, tx('combatHero.isKnockedProne', { tgtName: tgt.name }), 'info'); }
       break;
     case 'vex': addCondition(ctx, tgt, { id: 'faerieFire', rounds: 1 }); break;
     case 'nick': break;
@@ -964,7 +969,7 @@ function weaponVolley(ctx: Ctx, dice: number[], tgt: Combatant, spec: AttackSpec
     if (tgt.dead) break;
     const r = rollAttack(ctx, c, tgt, s.w.toHit, { melee, critMin: d.critMin, noAdv: spec.noAdv });
     if (!r.hit) {
-      log(ctx, `${c.name} misses ${tgt.name} (${r.natural}).`, 'miss');
+      log(ctx, tx('combatHero.misses', { cName: c.name, tgtName: tgt.name, natural: r.natural }), 'miss');
       fx(ctx, { kind: 'miss', target: tgt.id, actor: c.id });
       applyMastery(ctx, c, h, d, s.w, tgt, true);
       continue;
@@ -981,16 +986,16 @@ function weaponVolley(ctx: Ctx, dice: number[], tgt: Combatant, spec: AttackSpec
         const n = Math.max(0, d.sneakDice + (spec.sneakDiceDelta ?? 0));
         if (n > 0) {
           parts.push({ type: s.w.type, amount: roll(ctx.rng, `${n}d6`, { crit: r.crit }).total });
-          log(ctx, `Sneak Attack! (+${n}d6)`, 'hit');
+          log(ctx, tx('combatHero.sneakAttackD6', { n }), 'hit');
         }
       }
     }
-    log(ctx, `${c.name} ${r.crit ? 'CRITS' : 'hits'} ${tgt.name}${r.crit ? '!' : '.'}`, r.crit ? 'crit' : 'hit');
+    log(ctx, tx(r.crit ? 'combatHero.critsTarget' : 'combatHero.hitsTarget', { attacker: c.name, target: tgt.name }), r.crit ? 'crit' : 'hit');
     applyMastery(ctx, c, h, d, s.w, tgt, false);
     hadAdv = false;
   }
   if (!anyHit) {
-    if (dice.length) log(ctx, 'All attacks missed — your dice return to the tray.', 'fortune');
+    if (dice.length) log(ctx, tx('combatHero.allAttacksMissedYourDice'), 'fortune');
     return { ok: true };
   }
   const base = parts.reduce((x, p) => x + p.amount, 0);
@@ -1000,7 +1005,7 @@ function weaponVolley(ctx: Ctx, dice: number[], tgt: Combatant, spec: AttackSpec
   if (d.lifesteal > 0) heal(ctx, c, s.total * d.lifesteal, 'Vampiric');
   // Vorpal: a crit finishes off a badly wounded foe.
   if (anyCrit && d.legend.execute && !tgt.dead && !tgt.mon?.boss && tgt.hp <= tgt.maxHp * 0.25) {
-    log(ctx, `Snicker-snack! ${c.name}'s vorpal blade finishes ${tgt.name}.`, 'crit');
+    log(ctx, tx('combatHero.snickerSnackSVorpalBlade', { cName: c.name, tgtName: tgt.name }), 'crit');
     kill(ctx, tgt, 'Vorpal Sword', c);
   }
   spec.afterHit?.(tgt);
@@ -1012,11 +1017,11 @@ function weaponVolley(ctx: Ctx, dice: number[], tgt: Combatant, spec: AttackSpec
 
 export function doAct(ctx: Ctx, cmd: Extract<CombatCmd, { type: 'act' }>): CmdResult {
   const a = actor(ctx);
-  if (!a) return { ok: false, error: 'No active hero' };
+  if (!a) return { ok: false, error: tx('combatHero.noActiveHero') };
   const { c, h, d } = a;
   const opt = listActions(ctx).find((o) => o.key === cmd.key);
-  if (!opt) return { ok: false, error: 'Unknown action' };
-  if (!opt.usable) return { ok: false, error: opt.reason ?? 'Not usable' };
+  if (!opt) return { ok: false, error: tx('combatHero.unknownAction') };
+  if (!opt.usable) return { ok: false, error: opt.reason ?? tx('combatHero.notUsable') };
   const dice = opt.fortune === 'none' ? [] : cmd.dice;
   const playErr = canPlay(ctx, dice);
   if (playErr) return { ok: false, error: playErr };
@@ -1031,7 +1036,7 @@ export function doAct(ctx: Ctx, cmd: Extract<CombatCmd, { type: 'act' }>): CmdRe
   if (opt.target === 'enemies') targets = livingEnemies(ctx);
   if ((opt.target === 'enemy' || opt.target === 'ally' || opt.target === 'fallenAlly' || opt.target === 'rank') && !targets.length) {
     if (legal.length === 1) targets = [legal[0]];
-    else return { ok: false, error: 'Choose a target' };
+    else return { ok: false, error: tx('combatHero.chooseATarget') };
   }
   if (opt.target === 'rank') {
     const rank = targets[0].rank;
@@ -1051,7 +1056,7 @@ function resolve(ctx: Ctx, opt: ActionOption, cmd: Extract<CombatCmd, { type: 'a
 
   if (key === 'attack' || key.startsWith('cunning:') || key === 'brutalStrike' || key === 'stunningStrike' || key === 'quiveringPalm') {
     spend(ctx, c, 'action');
-    const spec: AttackSpec = { attacks: d.attacks, weapon: d.main, wild, label: wild ? 'Beast Strike' : d.main.name };
+    const spec: AttackSpec = { attacks: d.attacks, weapon: d.main, wild, label: wild ? tx('combatHero.beastStrike') : d.main.name };
     // Nick: off-hand light attack folds into the Attack action.
     if (d.offhand && d.main.mastery === 'nick' && !wild) spec.offhand = d.offhand;
     if (key.startsWith('cunning:')) {
@@ -1060,18 +1065,18 @@ function resolve(ctx: Ctx, opt: ActionOption, cmd: Extract<CombatCmd, { type: 'a
       spec.afterHit = (x) => {
         if (x.dead) return;
         const dc = 8 + d.mods.dex + d.pb;
-        if (kind === 'poison' && !savingThrow(ctx, x, 'con', dc, { vsCondition: true })) { addCondition(ctx, x, { id: 'poisoned', rounds: 3, save: { ability: 'con', dc } }); log(ctx, `${x.name} is poisoned.`, 'info'); }
-        if (kind === 'trip' && !savingThrow(ctx, x, 'dex', dc, { vsCondition: true })) { addCondition(ctx, x, { id: 'prone', rounds: 1 }); log(ctx, `${x.name} is tripped!`, 'info'); }
+        if (kind === 'poison' && !savingThrow(ctx, x, 'con', dc, { vsCondition: true })) { addCondition(ctx, x, { id: 'poisoned', rounds: 3, save: { ability: 'con', dc } }); log(ctx, tx('combatHero.isPoisoned', { xName: x.name }), 'info'); }
+        if (kind === 'trip' && !savingThrow(ctx, x, 'dex', dc, { vsCondition: true })) { addCondition(ctx, x, { id: 'prone', rounds: 1 }); log(ctx, tx('combatHero.isTripped', { xName: x.name }), 'info'); }
       };
     }
     if (key === 'brutalStrike') {
       spec.noAdv = true;
       spec.onFirstHit = (_x, crit) => [{ type: d.main.type, amount: roll(ctx.rng, h.level >= 17 ? '2d10' : '1d10', { crit }).total }];
-      spec.afterHit = (x) => { if (!x.dead && !x.mon?.boss && x.rank === 'front') { x.rank = 'back'; log(ctx, `${x.name} is hurled back!`, 'info'); } if (h.level >= 13) addCondition(ctx, x, { id: 'staggered', rounds: 2 }); };
+      spec.afterHit = (x) => { if (!x.dead && !x.mon?.boss && x.rank === 'front') { x.rank = 'back'; log(ctx, tx('combatHero.isHurledBack', { xName: x.name }), 'info'); } if (h.level >= 13) addCondition(ctx, x, { id: 'staggered', rounds: 2 }); };
     }
     if (key === 'stunningStrike') {
       h.resources.focus -= 1;
-      spec.afterHit = (x) => { if (!x.dead && !savingThrow(ctx, x, 'con', 8 + d.pb + d.mods.wis, { vsCondition: true })) { addCondition(ctx, x, { id: 'stunned', rounds: 1 }); log(ctx, `${x.name} is STUNNED!`, 'crit'); } else log(ctx, `${x.name} resists the stun.`, 'info'); };
+      spec.afterHit = (x) => { if (!x.dead && !savingThrow(ctx, x, 'con', 8 + d.pb + d.mods.wis, { vsCondition: true })) { addCondition(ctx, x, { id: 'stunned', rounds: 1 }); log(ctx, tx('combatHero.isStunned', { xName: x.name }), 'crit'); } else log(ctx, tx('combatHero.resistsTheStun', { xName: x.name }), 'info'); };
     }
     if (key === 'quiveringPalm') {
       h.resources.focus -= 4;
@@ -1079,7 +1084,7 @@ function resolve(ctx: Ctx, opt: ActionOption, cmd: Extract<CombatCmd, { type: 'a
         if (x.dead) return;
         const ok = savingThrow(ctx, x, 'con', 8 + d.pb + d.mods.wis);
         const dmg = roll(ctx.rng, '10d12').total * ECHO * (ok ? 0.5 : 1);
-        log(ctx, `Quivering Palm resonates through ${x.name}!`, 'crit');
+        log(ctx, tx('combatHero.quiveringPalmResonatesThrough', { xName: x.name }), 'crit');
         applyDamage(ctx, x, [{ type: 'force', amount: dmg }], { source: 'Quivering Palm', attacker: c, noFortune: true });
       };
     }
@@ -1089,30 +1094,30 @@ function resolve(ctx: Ctx, opt: ActionOption, cmd: Extract<CombatCmd, { type: 'a
   if (key === 'smite') {
     const slot = cmd.slot ?? (h.resources.freeSmite ? 1 : (opt.slots ?? [])[0]);
     const usingFree = (h.resources.freeSmite ?? 0) > 0 && (cmd.slot === undefined || cmd.slot === 1) && !(h.slots[1] > 0 && cmd.meta?.includes('useSlot'));
-    if (!usingFree && !(h.slots[slot] > 0)) return { ok: false, error: 'No slot of that level' };
+    if (!usingFree && !(h.slots[slot] > 0)) return { ok: false, error: tx('combatHero.noSlotOfThatLevel') };
     spend(ctx, c, 'action');
     c.used.bonus = true;
     let smote = false;
     const spec: AttackSpec = {
-      attacks: d.attacks, weapon: d.main, label: `${d.main.name} + Smite`,
+      attacks: d.attacks, weapon: d.main, label: tx('combatHero.smite', { mainName: d.main.name }),
       onFirstHit: (x, crit) => {
         smote = true;
         if (usingFree) h.resources.freeSmite -= 1; else h.slots[slot] -= 1;
         const n = 2 + (slot - 1) + (x.mon?.tags.some((tg) => tg === 'undead' || tg === 'fiend') ? 1 : 0);
-        log(ctx, `Divine Smite! (${ordinal(slot)})`, 'crit');
+        log(ctx, tx('combatHero.divineSmite', { ordinal: ordinal(slot) }), 'crit');
         if (d.features.has('smiteOfProtection')) for (const al of livingHeroes(ctx)) addCondition(ctx, al, { id: 'shielded', rounds: 1, value: 2, untilTurnStart: true });
         return [{ type: 'radiant', amount: roll(ctx.rng, `${n}d8`, { crit }).total }];
       },
-      extraHand: [{ label: 'Oath Seal', effect: { mult: slot } }],
+      extraHand: [{ label: tx('combatHero.oathSeal'), effect: { mult: slot } }],
     };
     const r = weaponVolley(ctx, dice, tgt, spec);
-    if (!smote) log(ctx, 'The smite finds no mark — the slot is kept.', 'info');
+    if (!smote) log(ctx, tx('combatHero.theSmiteFindsNoMark'), 'info');
     return finishAct(ctx, r);
   }
 
   if (key === 'offhand' || key === 'martialArts') {
     spend(ctx, c, 'bonus');
-    const w = key === 'offhand' ? d.offhand! : { ...d.main, name: 'Unarmed Strike', dice: `1d${d.martialArtsDie}`, bonus: Math.max(d.mods.dex, d.mods.str), toHit: Math.max(d.mods.dex, d.mods.str) + d.pb, props: [], ranged: false, mastery: undefined, onHit: [], type: h.level >= 6 ? 'force' as const : 'bludgeoning' as const };
+    const w = key === 'offhand' ? d.offhand! : { ...d.main, name: tx('combatHero.unarmedStrike'), dice: `1d${d.martialArtsDie}`, bonus: Math.max(d.mods.dex, d.mods.str), toHit: Math.max(d.mods.dex, d.mods.str) + d.pb, props: [], ranged: false, mastery: undefined, onHit: [], type: h.level >= 6 ? 'force' as const : 'bludgeoning' as const };
     return finishAct(ctx, weaponVolley(ctx, dice, tgt, { attacks: 1, weapon: w, label: w.name }));
   }
 
@@ -1121,7 +1126,7 @@ function resolve(ctx: Ctx, opt: ActionOption, cmd: Extract<CombatCmd, { type: 'a
     const parts: { t: Combatant; parts: DmgPart[]; crit: boolean }[] = [];
     for (const x of targets) {
       const r = rollAttack(ctx, c, x, d.main.toHit, { melee: false, critMin: d.critMin });
-      if (!r.hit) { log(ctx, `${c.name}'s arrow misses ${x.name}.`, 'miss'); continue; }
+      if (!r.hit) { log(ctx, tx('combatHero.sArrowMisses', { cName: c.name, xName: x.name }), 'miss'); continue; }
       const hd = weaponHitDamage(ctx, c, h, d, d.main, x, r.crit, false, {});
       parts.push({ t: x, parts: hd.parts, crit: r.crit });
     }
@@ -1144,7 +1149,7 @@ function resolve(ctx: Ctx, opt: ActionOption, cmd: Extract<CombatCmd, { type: 'a
     const gm = charmPassives(ctx.exp.fortune).guardMult;
     const ward = Math.round(base * VITALITY * (1 + (s.mult - 1) * 0.35) * gm + (dice.length ? (s.chips - base) * 0.5 : 0));
     c.tempHp = Math.max(c.tempHp, ward);
-    log(ctx, `${c.name} takes a guarding stance (+2 AC, ${ward} Ward).`, 'info');
+    log(ctx, tx('combatHero.takesAGuardingStance2', { cName: c.name, ward }), 'info');
     fx(ctx, { kind: 'ward', target: c.id, amount: ward });
     commitPlay(ctx, { dice, use: 'guard' }, s);
     return finishAct(ctx, { ok: true, score: s });
@@ -1155,10 +1160,10 @@ function resolve(ctx: Ctx, opt: ActionOption, cmd: Extract<CombatCmd, { type: 'a
     t.flags.moved = true;
     c.rank = c.rank === 'front' ? 'back' : 'front';
     ctx.exp.flags[`rank:${h.id}`] = c.rank === 'back' ? 1 : 2;
-    log(ctx, `${c.name} moves to the ${c.rank} rank.`, 'info');
+    log(ctx, tx('combatHero.movesToTheRank', { cName: c.name, rank: c.rank }), 'info');
     if (!livingHeroes(ctx).some((x) => x.rank === 'front')) {
       c.rank = 'front';
-      log(ctx, 'Someone must hold the front — the move fails.', 'warn');
+      log(ctx, tx('combatHero.someoneMustHoldTheFront'), 'warn');
     }
     return { ok: true };
   }
@@ -1166,7 +1171,7 @@ function resolve(ctx: Ctx, opt: ActionOption, cmd: Extract<CombatCmd, { type: 'a
   if (key.startsWith('spell:')) return finishAct(ctx, castSpell(ctx, SPELLS[key.slice(6)], cmd.slot, targets, dice, cmd.meta ?? [], opt.cost));
   if (key.startsWith('feat:')) return finishAct(ctx, useFeature(ctx, key.slice(5), targets, dice, opt));
   if (key.startsWith('item:')) return finishAct(ctx, useItem(ctx, key.slice(5), targets, dice, opt));
-  return { ok: false, error: 'Unhandled action' };
+  return { ok: false, error: tx('combatHero.unhandledAction') };
 }
 
 function finishAct(ctx: Ctx, r: CmdResult): CmdResult {
@@ -1186,7 +1191,7 @@ export function castSpell(ctx: Ctx, spell: SpellDef, slotIn: number | undefined,
     if (slotIn !== undefined && opts.includes(slotIn)) slot = slotIn;
     else if (free && (slotIn === undefined || slotIn === spell.level)) slot = spell.level;
     else if (opts.length) slot = opts[0];
-    else if (!free) return { ok: false, error: 'No spell slots' };
+    else if (!free) return { ok: false, error: tx('combatHero.noSpellSlots') };
     if (h.classId === 'warlock' && spell.level <= 5 && !free) slot = opts.find((l) => l >= spell.level) ?? slot;
   }
   if (fromItem) slot = itemSlot ?? spell.level;
@@ -1194,7 +1199,7 @@ export function castSpell(ctx: Ctx, spell: SpellDef, slotIn: number | undefined,
   const mm = new Set(meta.filter((m) => METAMAGIC[m] && h.choices.metamagic?.includes(m)));
   let mmCost = 0;
   for (const m of mm) mmCost += METAMAGIC[m].cost;
-  if (mmCost > (h.resources.sorcery ?? 0)) return { ok: false, error: 'Not enough Sorcery Points' };
+  if (mmCost > (h.resources.sorcery ?? 0)) return { ok: false, error: tx('combatHero.notEnoughSorceryPoints') };
   let effCost = cost;
   if (mm.has('quickened') && cost === 'action') effCost = 'bonus';
   const err = costFree(ctx, c, effCost);
@@ -1218,8 +1223,8 @@ export function castSpell(ctx: Ctx, spell: SpellDef, slotIn: number | undefined,
   const cantrip = spell.level === 0;
   const tierDice = cantrip ? d.cantripDice : 1;
   const extra: { label: string; effect: Effect }[] = [];
-  if (mm.has('empowered')) extra.push({ label: 'Empowered', effect: { mult: 2 } });
-  if (d.features.has('sculptSpells') && targets.length >= 3 && spell.kind === 'save') extra.push({ label: 'Sculpt Spells', effect: { mult: 2 } });
+  if (mm.has('empowered')) extra.push({ label: tx('combatHero.empowered'), effect: { mult: 2 } });
+  if (d.features.has('sculptSpells') && targets.length >= 3 && spell.kind === 'save') extra.push({ label: tx('combatHero.sculptSpells'), effect: { mult: 2 } });
   const overchannel = meta.includes('overchannel') && (h.resources.overchannel ?? 0) > 0 && spell.level > 0 && spell.level <= 5;
   if (overchannel) h.resources.overchannel -= 1;
   const rollDice = (expr: string, crit = false) => roll(ctx.rng, expr, { crit, maximize: overchannel }).total;
@@ -1245,7 +1250,7 @@ export function castSpell(ctx: Ctx, spell: SpellDef, slotIn: number | undefined,
   }
   const label = `${spell.name}${slot > spell.level ? ` (${ordinal(slot)})` : ''}`;
   const tgt = targets[0];
-  log(ctx, `${c.name} casts ${label}.`, 'info');
+  log(ctx, tx('combatHero.casts', { cName: c.name, label }), 'info');
 
   switch (spell.kind) {
     case 'attack': {
@@ -1261,7 +1266,7 @@ export function castSpell(ctx: Ctx, spell: SpellDef, slotIn: number | undefined,
         let r = rollAttack(ctx, c, x, d.spellAttack, { melee: !!spell.melee, spell: true });
         if (!r.hit && mm.has('seeking')) r = rollAttack(ctx, c, x, d.spellAttack, { melee: !!spell.melee, spell: true });
         if (!r.hit) {
-          log(ctx, `${spell.name} misses ${x.name}.`, 'miss');
+          log(ctx, tx('combatHero.misses2', { spellName: spell.name, xName: x.name }), 'miss');
           fx(ctx, { kind: 'miss', target: x.id, actor: c.id });
           if (cantrip && d.features.has('potentCantrip')) parts.push({ type: dmgType, amount: Math.floor((rollDice(diceExpr) + dmgBonus(spell)) / 2) });
           continue;
@@ -1281,7 +1286,7 @@ export function castSpell(ctx: Ctx, spell: SpellDef, slotIn: number | undefined,
         }
       }
       if (!parts.length) {
-        if (dice.length) log(ctx, 'The spell missed — your dice return to the tray.', 'fortune');
+        if (dice.length) log(ctx, tx('combatHero.theSpellMissedYourDice'), 'fortune');
         return { ok: true };
       }
       const base = parts.reduce((x, p) => x + p.amount, 0);
@@ -1289,13 +1294,13 @@ export function castSpell(ctx: Ctx, spell: SpellDef, slotIn: number | undefined,
       dealScored(ctx, c, tgt, parts, s.total, { crit, source: spell.name, melee: !!spell.melee, spill: CARRY_SPELLS.has(spell.id) || undefined });
       if (!tgt.dead && hits) {
         if (spell.condition) addCondition(ctx, tgt, { id: spell.condition.id, rounds: spell.condition.rounds, sourceId: c.id });
-        if (spell.special === 'pull' && tgt.rank === 'back' && !tgt.mon?.boss) { tgt.rank = 'front'; log(ctx, `${tgt.name} is yanked forward!`, 'info'); }
-        if (spell.id === 'eldritchBlast' && h.choices.invocation?.includes('repellingBlast') && tgt.rank === 'front' && !tgt.mon?.boss) { tgt.rank = 'back'; log(ctx, `${tgt.name} is blasted back.`, 'info'); }
+        if (spell.special === 'pull' && tgt.rank === 'back' && !tgt.mon?.boss) { tgt.rank = 'front'; log(ctx, tx('combatHero.isYankedForward', { tgtName: tgt.name }), 'info'); }
+        if (spell.id === 'eldritchBlast' && h.choices.invocation?.includes('repellingBlast') && tgt.rank === 'front' && !tgt.mon?.boss) { tgt.rank = 'back'; log(ctx, tx('combatHero.isBlastedBack', { tgtName: tgt.name }), 'info'); }
       }
       if (spell.special === 'drain') heal(ctx, c, s.total * 0.5, 'Vampiric Touch');
       if (mm.has('twinned') && targets.length === 1) {
         const other = livingEnemies(ctx).find((e) => e.id !== tgt.id);
-        if (other) { log(ctx, 'Twinned!', 'fortune'); dealScored(ctx, c, other, parts, s.total, { source: spell.name, spill: false }); }
+        if (other) { log(ctx, tx('combatHero.twinned'), 'fortune'); dealScored(ctx, c, other, parts, s.total, { source: spell.name, spill: false }); }
       }
       commitPlay(ctx, { dice, use: 'spell', target: tgt }, s);
       return { ok: true, score: s };
@@ -1360,32 +1365,32 @@ export function castSpell(ctx: Ctx, spell: SpellDef, slotIn: number | undefined,
         default:
           for (const x of list) addCondition(ctx, x, { id: spell.condition!.id, rounds: spell.condition!.rounds, value: spell.condition!.value, concentrationOf: concTag, untilTurnStart: spell.id === 'shield' });
       }
-      log(ctx, `${spell.name} takes hold.`, 'info');
+      log(ctx, tx('combatHero.takesHold', { spellName: spell.name }), 'info');
       return { ok: true };
     }
     case 'debuff': {
       const s = dice.length ? score(ctx, 0, label, { dice, use: 'spell' }) : undefined;
       const bonusDc = s ? dcBonus(s, true) : 0;
-      if (bonusDc) log(ctx, `Fortune sharpens the spell: DC +${bonusDc}.`, 'fortune');
+      if (bonusDc) log(ctx, tx('combatHero.fortuneSharpensTheSpellDc', { bonusDc }), 'fortune');
       let list = targets;
       if (spell.maxTargets) list = list.slice(0, spell.maxTargets);
       for (const x of list) {
         if (x.dead) continue;
-        if (spell.special === 'humanoid' && !x.mon?.tags.includes('humanoid')) { log(ctx, `${x.name} is not a humanoid — unaffected.`, 'miss'); continue; }
-        if (spell.special === 'banish' && x.mon?.boss) { log(ctx, `${x.name} is anchored to this place.`, 'miss'); continue; }
+        if (spell.special === 'humanoid' && !x.mon?.tags.includes('humanoid')) { log(ctx, tx('combatHero.isNotAHumanoidUnaffected', { xName: x.name }), 'miss'); continue; }
+        if (spell.special === 'banish' && x.mon?.boss) { log(ctx, tx('combatHero.isAnchoredToThisPlace', { xName: x.name }), 'miss'); continue; }
         if (!spell.save) {
           addCondition(ctx, x, { id: spell.condition!.id, rounds: spell.condition!.rounds, value: spell.condition!.value, sourceId: c.id, concentrationOf: concTag });
-          log(ctx, `${x.name} is ${spell.condition!.id}.`, 'info');
+          log(ctx, tx('combatHero.is', { xName: x.name, id: condName(spell.condition!.id) }), 'info');
           continue;
         }
         const ok = savingThrow(ctx, x, spell.save, dc + bonusDc, { vsCondition: true, disadvantage: mm.has('heightened') });
-        if (ok) { log(ctx, `${x.name} resists ${spell.name}.`, 'miss'); continue; }
+        if (ok) { log(ctx, tx('combatHero.resists', { xName: x.name, spellName: spell.name }), 'miss'); continue; }
         addCondition(ctx, x, {
           id: spell.special === 'banish' ? 'banished' : spell.condition!.id, rounds: spell.condition!.rounds, value: spell.condition!.value, sourceId: c.id,
           concentrationOf: concTag, save: spell.condition!.saveEnds ? { ability: spell.save, dc: dc + bonusDc } : undefined,
         });
         if (spell.special === 'command') addCondition(ctx, x, { id: 'incapacitated', rounds: 1 });
-        log(ctx, `${x.name} is ${spell.special === 'banish' ? 'banished' : spell.condition!.id}!`, 'hit');
+        log(ctx, tx('combatHero.is2', { xName: x.name, state: spell.special === 'banish' ? tx('combatHero.banished') : condName(spell.condition!.id) }), 'hit');
       }
       if (s) commitPlay(ctx, { dice, use: 'spell' }, s);
       return { ok: true, score: s };
@@ -1411,7 +1416,7 @@ export function castSpell(ctx: Ctx, spell: SpellDef, slotIn: number | undefined,
     case 'special':
       return castSpecial(ctx, spell, slot, targets, dice, label, mod, dc, extra, concTag);
   }
-  return { ok: false, error: 'Unhandled spell' };
+  return { ok: false, error: tx('combatHero.unhandledSpell') };
 }
 
 function castSpecial(ctx: Ctx, spell: SpellDef, slot: number, targets: Combatant[], dice: number[], label: string, mod: number, dc: number, extra: { label: string; effect: Effect }[], concTag?: string): CmdResult {
@@ -1429,13 +1434,13 @@ function castSpecial(ctx: Ctx, spell: SpellDef, slot: number, targets: Combatant
     }
     case 'revivify': case 'revivifyFull': {
       const h = heroOf(ctx, tgt);
-      if (!h) return { ok: false, error: 'No target' };
+      if (!h) return { ok: false, error: tx('combatHero.noTarget') };
       if (spell.special === 'revivify') ctx.exp.carriedGold -= 300;
       tgt.dead = false; tgt.downed = false; tgt.hp = spell.special === 'revivifyFull' ? tgt.maxHp : 1; tgt.deathSaves = { s: 0, f: 0 };
       h.status = 'alive';
       delete h.history.deathCause;
       ctx.combat.diedThisFight = ctx.combat.diedThisFight.filter((x) => x !== h.id);
-      log(ctx, `${tgt.name} gasps back to life!`, 'heal');
+      log(ctx, tx('combatHero.gaspsBackToLife', { tgtName: tgt.name }), 'heal');
       fx(ctx, { kind: 'heal', target: tgt.id, amount: tgt.hp });
       return { ok: true };
     }
@@ -1445,16 +1450,16 @@ function castSpecial(ctx: Ctx, spell: SpellDef, slot: number, targets: Combatant
       tgt.conditions = spell.special === 'cleanse'
         ? (() => { const i = tgt.conditions.findIndex((x) => bad.includes(x.id)); return tgt.conditions.filter((_, j) => j !== i); })()
         : tgt.conditions.filter((x) => !bad.includes(x.id));
-      log(ctx, before !== tgt.conditions.length ? `${tgt.name} is cleansed.` : `${tgt.name} had nothing to cleanse.`, 'heal');
+      log(ctx, before !== tgt.conditions.length ? tx('combatHero.isCleansed', { tgtName: tgt.name }) : tx('combatHero.hadNothingToCleanse', { tgtName: tgt.name }), 'heal');
       return { ok: true };
     }
     case 'dispel':
       tgt.conditions = tgt.conditions.filter((x) => !['shielded', 'blessed', 'regenerating', 'hasted', 'stoneskin', 'invisible', 'blurred'].includes(x.id));
-      log(ctx, `${tgt.name}'s magic unravels.`, 'hit');
+      log(ctx, tx('combatHero.sMagicUnravels', { tgtName: tgt.name }), 'hit');
       return { ok: true };
     case 'pwStun':
-      if (tgt.hp <= tgt.maxHp * 0.4 && !tgt.mon?.boss) { addCondition(ctx, tgt, { id: 'stunned', rounds: 10, save: { ability: 'con', dc } }); log(ctx, `${tgt.name} is stunned by the word!`, 'crit'); }
-      else { addCondition(ctx, tgt, { id: 'slowed', rounds: 2 }); log(ctx, `${tgt.name} staggers.`, 'hit'); }
+      if (tgt.hp <= tgt.maxHp * 0.4 && !tgt.mon?.boss) { addCondition(ctx, tgt, { id: 'stunned', rounds: 10, save: { ability: 'con', dc } }); log(ctx, tx('combatHero.isStunnedByTheWord', { tgtName: tgt.name }), 'crit'); }
+      else { addCondition(ctx, tgt, { id: 'slowed', rounds: 2 }); log(ctx, tx('combatHero.staggers', { tgtName: tgt.name }), 'hit'); }
       return { ok: true };
     case 'pwKill': {
       if (tgt.hp <= tgt.maxHp * 0.35 && !tgt.mon?.boss) { kill(ctx, tgt, 'Power Word Kill', c); return { ok: true }; }
@@ -1468,7 +1473,7 @@ function castSpecial(ctx: Ctx, spell: SpellDef, slot: number, targets: Combatant
       const t = ctx.combat.turn!;
       t.plays += 2;
       t.extraActions = 2;
-      log(ctx, 'Time stops. You act twice more.', 'fortune');
+      log(ctx, tx('combatHero.timeStopsYouActTwice'), 'fortune');
       return { ok: true };
     }
   }
@@ -1489,11 +1494,11 @@ function useFeature(ctx: Ctx, id: string, targets: Combatant[], dice: number[], 
       take('rage');
       addCondition(ctx, c, { id: 'raging', rounds: h.level >= 15 ? -1 : 10, value: d.rageDamage });
       if (d.features.has('instinctivePounce')) c.rank = 'front';
-      log(ctx, `${c.name} flies into a RAGE!`, 'crit');
+      log(ctx, tx('combatHero.fliesIntoARage', { cName: c.name }), 'crit');
       return { ok: true };
     case 'reckless':
       addCondition(ctx, c, { id: 'reckless', rounds: 1, untilTurnStart: true });
-      log(ctx, `${c.name} attacks recklessly!`, 'warn');
+      log(ctx, tx('combatHero.attacksRecklessly', { cName: c.name }), 'warn');
       return { ok: true };
     case 'secondWind': {
       take('secondWind');
@@ -1509,7 +1514,7 @@ function useFeature(ctx: Ctx, id: string, targets: Combatant[], dice: number[], 
       c.used.action = false;
       t.plays += 1;
       t.flags.surged = true;
-      log(ctx, `${c.name} surges into action!`, 'crit');
+      log(ctx, tx('combatHero.surgesIntoAction', { cName: c.name }), 'crit');
       return { ok: true };
     case 'layOnHands': {
       const pool = h.resources.layOnHands ?? 0;
@@ -1543,13 +1548,13 @@ function useFeature(ctx: Ctx, id: string, targets: Combatant[], dice: number[], 
       const dc = (id === 'intimidate' ? 8 + d.pb + d.mods.str : d.spellDc) + bonus;
       for (const x of targets) {
         if (id === 'turnUndead' && !x.mon?.tags.includes('undead')) continue;
-        if (savingThrow(ctx, x, 'wis', dc, { vsCondition: true })) { log(ctx, `${x.name} stands firm.`, 'miss'); continue; }
+        if (savingThrow(ctx, x, 'wis', dc, { vsCondition: true })) { log(ctx, tx('combatHero.standsFirm', { xName: x.name }), 'miss'); continue; }
         addCondition(ctx, x, { id: 'frightened', rounds: 3, save: { ability: 'wis', dc } });
         if (id === 'turnUndead') {
           addCondition(ctx, x, { id: 'incapacitated', rounds: 1 });
           if (h.level >= 5) applyDamage(ctx, x, [{ type: 'radiant', amount: roll(ctx.rng, `${Math.max(1, d.mods.wis)}d8`).total * ECHO }], { source: 'Sear Undead', attacker: c, noFortune: true });
         }
-        log(ctx, `${x.name} is terrified!`, 'hit');
+        log(ctx, tx('combatHero.isTerrified', { xName: x.name }), 'hit');
       }
       if (s) commitPlay(ctx, { dice, use: 'spell' }, s);
       return { ok: true, score: s };
@@ -1567,22 +1572,22 @@ function useFeature(ctx: Ctx, id: string, targets: Combatant[], dice: number[], 
     case 'sacredWeapon':
       take('channel');
       addCondition(ctx, c, { id: 'sacredWeapon', rounds: 10, value: Math.max(1, d.mods.cha) });
-      log(ctx, `${c.name}'s weapon blazes with holy light.`, 'info');
+      log(ctx, tx('combatHero.sWeaponBlazesWithHoly', { cName: c.name }), 'info');
       return { ok: true };
     case 'inspire': {
       take('inspiration');
       const v = Math.min(9, roll(ctx.rng, `1d${d.inspirationDie}`).total);
       addGhostDie(ctx.exp.fortune, ctx.fortuneRng, 'arcane', v);
-      log(ctx, `${c.name} plays a rousing chord — an Inspiration die (${v}) joins the tray!`, 'fortune');
+      log(ctx, tx('combatHero.playsARousingChordAn', { cName: c.name, v }), 'fortune');
       return { ok: true };
     }
     case 'wildShape':
-      if (has(c, 'wildShape')) { removeCondition(c, 'wildShape'); log(ctx, `${c.name} returns to their true form.`, 'info'); c.used.bonus = false; return { ok: true }; }
+      if (has(c, 'wildShape')) { removeCondition(c, 'wildShape'); log(ctx, tx('combatHero.returnsToTheirTrueForm', { cName: c.name }), 'info'); c.used.bonus = false; return { ok: true }; }
       take('wildShape');
       addCondition(ctx, c, { id: 'wildShape', rounds: -1 });
       c.tempHp = Math.max(c.tempHp, Math.round(h.level * 2 * VITALITY));
       c.rank = 'front';
-      log(ctx, `${c.name} takes the shape of a great beast!`, 'crit');
+      log(ctx, tx('combatHero.takesTheShapeOfA', { cName: c.name }), 'crit');
       return { ok: true };
     case 'landsAid': {
       take('wildShape');
@@ -1600,11 +1605,11 @@ function useFeature(ctx: Ctx, id: string, targets: Combatant[], dice: number[], 
     }
     case 'wildResurgence': {
       const lvl = h.slots.findIndex((x, i) => i > 0 && x > 0);
-      if (lvl < 1) return { ok: false, error: 'No slots' };
+      if (lvl < 1) return { ok: false, error: tx('combatHero.noSlots') };
       h.slots[lvl] -= 1;
       h.resources.wildShape = (h.resources.wildShape ?? 0) + 1;
       t.flags.resurgence = true;
-      log(ctx, `${c.name} trades a spell slot for Wild Shape.`, 'info');
+      log(ctx, tx('combatHero.tradesASpellSlotFor', { cName: c.name }), 'info');
       return { ok: true };
     }
     case 'flurry': {
@@ -1613,16 +1618,16 @@ function useFeature(ctx: Ctx, id: string, targets: Combatant[], dice: number[], 
       t.plays += 1;
       const limit = t.playLimit;
       t.playLimit = 3;
-      if (dice.length > 3) { t.playLimit = limit; return { ok: false, error: 'Flurry plays at most 3 dice' }; }
-      const w = { ...d.main, name: 'Flurry of Blows', dice: `1d${d.martialArtsDie}`, bonus: Math.max(d.mods.dex, d.mods.str), toHit: Math.max(d.mods.dex, d.mods.str) + d.pb, props: [] as never[], ranged: false, mastery: undefined, onHit: [], type: h.level >= 6 ? 'force' as const : 'bludgeoning' as const };
+      if (dice.length > 3) { t.playLimit = limit; return { ok: false, error: tx('combatHero.flurryPlaysAtMost3') }; }
+      const w = { ...d.main, name: tx('combatHero.flurryOfBlows'), dice: `1d${d.martialArtsDie}`, bonus: Math.max(d.mods.dex, d.mods.str), toHit: Math.max(d.mods.dex, d.mods.str) + d.pb, props: [] as never[], ranged: false, mastery: undefined, onHit: [], type: h.level >= 6 ? 'force' as const : 'bludgeoning' as const };
       const r = weaponVolley(ctx, dice, tgt, {
-        attacks: h.level >= 10 ? 3 : 2, weapon: w, label: 'Flurry of Blows',
+        attacks: h.level >= 10 ? 3 : 2, weapon: w, label: tx('combatHero.flurryOfBlows'),
         afterHit: (x) => {
           if (h.level < 3 || x.dead) return;
           const dc = 8 + d.pb + d.mods.wis;
           if (!savingThrow(ctx, x, 'dex', dc, { vsCondition: true })) {
-            if (x.rank === 'front' && !x.mon?.boss && ctx.rng.chance(0.5)) { x.rank = 'back'; log(ctx, `${x.name} is sent flying!`, 'info'); }
-            else { addCondition(ctx, x, { id: 'prone', rounds: 1 }); log(ctx, `${x.name} is knocked down!`, 'info'); }
+            if (x.rank === 'front' && !x.mon?.boss && ctx.rng.chance(0.5)) { x.rank = 'back'; log(ctx, tx('combatHero.isSentFlying', { xName: x.name }), 'info'); }
+            else { addCondition(ctx, x, { id: 'prone', rounds: 1 }); log(ctx, tx('combatHero.isKnockedDown', { xName: x.name }), 'info'); }
           }
         },
       });
@@ -1634,7 +1639,7 @@ function useFeature(ctx: Ctx, id: string, targets: Combatant[], dice: number[], 
       addCondition(ctx, c, { id: 'dodging', rounds: 1, untilTurnStart: true });
       if (h.level >= 10) c.tempHp = Math.max(c.tempHp, roll(ctx.rng, `2d${d.martialArtsDie}`).total * VITALITY);
       if (h.level >= 11) t.flags.moved = false;
-      log(ctx, `${c.name} flows into a defensive stance.`, 'info');
+      log(ctx, tx('combatHero.flowsIntoADefensiveStance', { cName: c.name }), 'info');
       return { ok: true };
     case 'wholeness': {
       take('wholeness');
@@ -1655,13 +1660,13 @@ function useFeature(ctx: Ctx, id: string, targets: Combatant[], dice: number[], 
     case 'innateSorcery':
       take('innateSorcery');
       addCondition(ctx, c, { id: 'innateSorcery', rounds: 10 });
-      log(ctx, `Magic surges through ${c.name}'s blood.`, 'info');
+      log(ctx, tx('combatHero.magicSurgesThroughSBlood', { cName: c.name }), 'info');
       return { ok: true };
     case 'hurl': {
       take('hurl');
       const base = roll(ctx.rng, '8d10').total;
       const ok = savingThrow(ctx, tgt, 'cha', d.spellDc);
-      if (ok) { log(ctx, `${tgt.name} resists the pull of hell.`, 'miss'); return { ok: true }; }
+      if (ok) { log(ctx, tx('combatHero.resistsThePullOfHell', { tgtName: tgt.name }), 'miss'); return { ok: true }; }
       const s = score(ctx, base, 'Hurl Through Hell', { dice, use: 'spell', target: tgt });
       dealScored(ctx, c, tgt, [{ type: 'psychic', amount: base }], s.total, { source: 'Hurl Through Hell' });
       commitPlay(ctx, { dice, use: 'spell', target: tgt }, s);
@@ -1683,13 +1688,13 @@ function useFeature(ctx: Ctx, id: string, targets: Combatant[], dice: number[], 
             const xh = heroOf(ctx, x)!;
             x.dead = false; x.hp = 1; xh.status = 'alive';
             ctx.combat.diedThisFight = ctx.combat.diedThisFight.filter((y) => y !== x.id);
-            log(ctx, `${x.name} is returned by divine will!`, 'heal');
+            log(ctx, tx('combatHero.isReturnedByDivineWill', { xName: x.name }), 'heal');
           } else continue;
         }
         if (x.hp < x.maxHp / 2) heal(ctx, x, x.maxHp / 2 - x.hp, 'Divine Intervention');
         x.conditions = x.conditions.filter((y) => ['blessed', 'raging', 'shielded', 'hasted'].includes(y.id));
       }
-      log(ctx, 'The heavens answer!', 'crit');
+      log(ctx, tx('combatHero.theHeavensAnswer'), 'crit');
       return { ok: true };
     }
     case 'nimbus':
@@ -1712,7 +1717,7 @@ function useFeature(ctx: Ctx, id: string, targets: Combatant[], dice: number[], 
       return { ok: true, score: s };
     }
   }
-  return { ok: false, error: `Unknown feature ${id}` };
+  return { ok: false, error: tx('combatHero.unknownFeature', { id }) };
 }
 
 // ── items ───────────────────────────────────────────────────────────────────
@@ -1721,7 +1726,7 @@ function useItem(ctx: Ctx, uid: string, targets: Combatant[], dice: number[], op
   const a = actor(ctx)!;
   const { c, h, d } = a;
   const idx = ctx.exp.carriedItems.findIndex((i) => i.uid === uid);
-  if (idx < 0) return { ok: false, error: 'Item not found' };
+  if (idx < 0) return { ok: false, error: tx('combatHero.itemNotFound') };
   const inst = ctx.exp.carriedItems[idx];
   const def = ITEMS[inst.defId];
   const cons = def.consumable!;
@@ -1749,7 +1754,7 @@ function useItem(ctx: Ctx, uid: string, targets: Combatant[], dice: number[], op
     }
     case 'cleanse':
       tgt.conditions = tgt.conditions.filter((x) => x.id !== 'poisoned' && x.id !== 'burning');
-      log(ctx, `${tgt.name} is cured.`, 'heal');
+      log(ctx, tx('combatHero.isCured', { tgtName: tgt.name }), 'heal');
       return { ok: true };
     case 'elixir':
       tgt.conditions = tgt.conditions.filter((x) => !['poisoned', 'blinded', 'paralyzed', 'frightened', 'burning', 'stunned', 'noHeal'].includes(x.id));
@@ -1771,7 +1776,7 @@ function useItem(ctx: Ctx, uid: string, targets: Combatant[], dice: number[], op
       return { ok: true };
     case 'smoke':
       ctx.combat.status = 'fled';
-      log(ctx, 'Smoke fills the room — the party slips away!', 'warn');
+      log(ctx, tx('combatHero.smokeFillsTheRoomThe'), 'warn');
       return { ok: true };
     case 'fortune':
       ctx.exp.fortune.tokens.push('mulligan');
@@ -1789,7 +1794,7 @@ export function endHeroTurn(ctx: Ctx) {
     if (ctx.combat.round === 1 && (ctx.combat.extraTurns[a.c.id] ?? 0) > 0) {
       ctx.combat.extraTurns[a.c.id] -= 1;
       a.c.used = { action: false, bonus: false, reaction: false, fortune: false, extraFortune: 0 };
-      log(ctx, `${a.c.name} moves again (Thief's Reflexes)!`, 'fortune');
+      log(ctx, tx('combatHero.movesAgainThiefSReflexes', { cName: a.c.name }), 'fortune');
       heroTurnStart(ctx, a.c);
       return;
     }

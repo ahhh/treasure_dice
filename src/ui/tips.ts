@@ -6,6 +6,7 @@
  * The sheet closes with its ✕, a tap anywhere outside it, or Escape.
  */
 import { h } from './dom.ts';
+import { tx } from '../i18n/index.ts';
 
 export interface TipAction { label: string; primary?: boolean; run: () => void }
 export interface Tip { title: string; text?: string; actions?: TipAction[] }
@@ -29,12 +30,12 @@ export function showTip(tip: Tip) {
   const sheet = h('div', { class: 'tip-sheet', role: 'dialog', 'aria-label': tip.title },
     h('div', { class: 'row tip-head' },
       h('b', { class: 'grow' }, tip.title),
-      h('button', { class: 'tip-x', 'aria-label': 'Close', on: { click: (e: Event) => { e.stopPropagation(); closeTip(); } } }, '✕')),
+      h('button', { class: 'tip-x', 'aria-label': tx('tips.close'), on: { click: (e: Event) => { e.stopPropagation(); closeTip(); } } }, '✕')),
     tip.text ? h('p', { class: 'tip-text' }, tip.text) : null,
     tip.actions?.length
       ? h('div', { class: 'row tip-actions' },
         ...tip.actions.map((a) => h('button', { class: `btn small ${a.primary ? 'primary' : ''}`, on: { click: (e: Event) => { e.stopPropagation(); closeTip(); a.run(); } } }, a.label)),
-        h('button', { class: 'btn small', on: { click: (e: Event) => { e.stopPropagation(); closeTip(); } } }, 'Not now'))
+        h('button', { class: 'btn small', on: { click: (e: Event) => { e.stopPropagation(); closeTip(); } } }, tx('tips.notNow')))
       : null);
   // The scrim catches the "tap elsewhere" so dismissing never presses whatever sits underneath.
   const root = h('div', { class: 'tip-root' }, h('div', { class: 'tip-scrim', on: { click: (e: Event) => { e.stopPropagation(); closeTip(); } } }), sheet);

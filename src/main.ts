@@ -1,7 +1,8 @@
 import './styles/main.css';
 import { app, render } from './ui/app.ts';
 import { loadManifest } from './ui/art.ts';
-import { setLocale, onLocaleChange, setCatalog, locale, type Catalog } from './i18n/index.ts';
+import { onLocaleChange, setCatalog, locale, type Catalog } from './i18n/index.ts';
+import { initLanguage } from './ui/language.ts';
 import { titleScreen } from './ui/title.ts';
 import { townScreen } from './ui/town.ts';
 import { exploreScreen, move } from './ui/explore.ts';
@@ -64,9 +65,7 @@ installTutorial();
 installTips();
 void loadManifest().then(render);
 onLocaleChange(render);
-// ?lang=fr previews a translation (a settings menu comes with UI localisation).
-const lang = new URLSearchParams(location.search).get('lang');
-if (lang) void setLocale(lang);
+void initLanguage();
 render();
 
 // Dev: the text editor saved a locale file; swap it in without a reload.

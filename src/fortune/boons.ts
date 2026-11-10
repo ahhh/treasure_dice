@@ -9,7 +9,7 @@ import { CHARMS, CHARM_BY_ID, CHARM_PRICE, newCharm, charmText, omenId, omenLeve
 import { HANDS, HAND_BY_ID } from './hands.ts';
 import { SPECIAL_DICE, SPECIAL_BY_ID, makeDie, MATERIALS } from './materials.ts';
 import { charmSlots, MAX_TOKENS } from './tray.ts';
-import { bindText, textTable } from '../i18n/index.ts';
+import { bindText, textTable, tx } from '../i18n/index.ts';
 
 export interface TokenDef { id: string; name: string; text: string; price: number }
 
@@ -164,9 +164,9 @@ export function offerTitle(o: BoonOffer): string {
     case 'die': return o.die?.name ?? SPECIAL_BY_ID[o.id]?.name ?? 'Die';
     case 'face': return `${o.face![0].toUpperCase()}${o.face!.slice(1)} Face`;
     case 'token': return TOKENS[o.id]?.name ?? o.id;
-    case 'remove': return 'Smash a Die';
+    case 'remove': return tx('fortuneBoons.smashADie');
     case 'upgrade': return UPGRADES[o.id]?.name ?? o.id;
-    case 'heal': return 'Healing Spring';
+    case 'heal': return tx('fortuneBoons.healingSpring');
     case 'gold': return 'Treasure';
   }
 }
@@ -176,14 +176,14 @@ export function offerText(o: BoonOffer): string {
     case 'charm': return CHARM_BY_ID[o.id] ? charmText(CHARM_BY_ID[o.id]) : '';
     case 'omen': {
       const h = HAND_BY_ID[o.hand!];
-      return `${h.name} +1 level while held: +${h.lvChips} chips, +${h.lvMult} mult. Takes a charm slot.`;
+      return tx('fortuneBoons.n1LevelWhileHeldChips', { hName: h.name, lvChips: h.lvChips, lvMult: h.lvMult });
     }
     case 'die': return `${SPECIAL_BY_ID[o.id]?.text ?? ''} (${MATERIALS[o.die!.material].name})`;
-    case 'face': return `Enchant one face of a die in your bag: ${FACE_TEXT[o.face!]}`;
+    case 'face': return tx('fortuneBoons.enchantOneFaceOfA', { FACE_TEXT: FACE_TEXT[o.face!] });
     case 'token': return TOKENS[o.id]?.text ?? '';
-    case 'remove': return 'Remove one die from your bag permanently. Thinner bag, better odds.';
+    case 'remove': return tx('fortuneBoons.removeOneDieFromYour');
     case 'upgrade': return UPGRADES[o.id]?.text ?? '';
-    case 'heal': return 'Heal the party.';
+    case 'heal': return tx('fortuneBoons.healTheParty');
     case 'gold': return 'Gold.';
   }
 }
@@ -206,33 +206,33 @@ export function applyOffer(run: FortuneRun, o: BoonOffer, target?: { dieUid?: st
     case 'charm':
     case 'omen': {
       if (run.charms.length >= charmSlots(run)) {
-        if (target?.replaceCharm === undefined) return { ok: false, reason: 'Charm slots full — choose one to replace.' };
+        if (target?.replaceCharm === undefined) return { ok: false, reason: tx('fortuneBoons.charmSlotsFullChooseOne') };
         run.charms.splice(target.replaceCharm, 1);
       }
       run.charms.push(newCharm(o.id));
       if (o.kind === 'charm') run.seenCharms.push(o.id);
-      else return { ok: true, text: `Gained ${CHARM_BY_ID[o.id].name}: ${HAND_BY_ID[o.hand!].name} is now Lv.${1 + (omenLevels(run)[o.hand!] ?? 0)}.` };
-      return { ok: true, text: `Gained ${CHARM_BY_ID[o.id].name}.` };
+      else return { ok: true, text: tx('fortuneBoons.gainedIsNowLv', { name: CHARM_BY_ID[o.id].name, name2: HAND_BY_ID[o.hand!].name, v: 1 + (omenLevels(run)[o.hand!] ?? 0) }) };
+      return { ok: true, text: tx('fortuneBoons.gained', { name: CHARM_BY_ID[o.id].name }) };
     }
     case 'die':
       run.bag.push(o.die!);
-      return { ok: true, text: `${o.die!.name ?? 'A die'} joins your bag.` };
+      return { ok: true, text: tx('fortuneBoons.joinsYourBag', { die: o.die!.name ?? tx('fortuneBoons.aDie') }) };
     case 'face': {
       const die = run.bag.find((d) => d.uid === target?.dieUid);
-      if (!die || target?.face === undefined) return { ok: false, reason: 'Pick a die and a face.' };
+      if (!die || target?.face === undefined) return { ok: false, reason: tx('fortuneBoons.pickADieAndA') };
       die.faces[target.face] = { v: die.faces[target.face].v, mod: o.face };
-      return { ok: true, text: `Enchanted a face: ${o.face}.` };
+      return { ok: true, text: tx('fortuneBoons.enchantedAFace', { face: o.face }) };
     }
     case 'token':
-      if (run.tokens.length >= MAX_TOKENS) return { ok: false, reason: 'Token pouch full (3).' };
+      if (run.tokens.length >= MAX_TOKENS) return { ok: false, reason: tx('fortuneBoons.tokenPouchFull3') };
       run.tokens.push(o.id);
-      return { ok: true, text: `Pocketed a ${TOKENS[o.id].name}.` };
+      return { ok: true, text: tx('fortuneBoons.pocketedA', { name: TOKENS[o.id].name }) };
     case 'remove': {
-      if (run.bag.length <= 8) return { ok: false, reason: 'Your bag must keep at least 8 dice.' };
+      if (run.bag.length <= 8) return { ok: false, reason: tx('fortuneBoons.yourBagMustKeepAt') };
       const before = run.bag.length;
       run.bag = run.bag.filter((d) => d.uid !== target?.dieUid);
-      if (run.bag.length === before) return { ok: false, reason: 'Pick a die to smash.' };
-      return { ok: true, text: 'Smashed a die.' };
+      if (run.bag.length === before) return { ok: false, reason: tx('fortuneBoons.pickADieToSmash') };
+      return { ok: true, text: tx('fortuneBoons.smashedADie') };
     }
     case 'upgrade':
       if (o.id === 'handSize') run.bonusHandSize += 1;
@@ -240,7 +240,7 @@ export function applyOffer(run: FortuneRun, o: BoonOffer, target?: { dieUid?: st
       else if (o.id === 'charmSlot') run.charmSlots += 1;
       else if (o.id === 'chisel') {
         const die = run.bag.find((d) => d.uid === target?.dieUid);
-        if (!die) return { ok: false, reason: 'Pick a die to chisel.' };
+        if (!die) return { ok: false, reason: tx('fortuneBoons.pickADieToChisel') };
         let top = 0;
         die.faces.forEach((f, i) => { if (f.v > die.faces[top].v) top = i; });
         die.faces = die.faces.map((f, i) => (i === top ? f : { ...f, v: Math.min(9, f.v + 1) }));

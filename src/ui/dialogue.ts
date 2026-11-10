@@ -17,6 +17,7 @@ import { SKILL_NAMES } from '../rules/character.ts';
 import { script, resolveNode, visibleChoices, bestAtKeep, has, readyScripts, type TalkResult } from '../meta/quest.ts';
 import type { DlgNode, Where } from '../content/dialogue.ts';
 import { lineText, choiceLabel } from '../i18n/dialogue.ts';
+import { tx } from '../i18n/index.ts';
 
 interface DlgUi { script: string; node: string; cursor: number; roll?: TalkResult['roll']; roller?: string; log: { who: string; text: string }[]; showLog?: boolean }
 
@@ -61,8 +62,8 @@ function nodeOf(): DlgNode | null {
 function rawText(g: GameState, n: DlgNode): string {
   let t = lineText(g, dlg!.script, dlg!.node, n);
   t = t.replace(/\{keeper\}/g, g.profile.keeperName || 'Keeper');
-  t = t.replace(/\{hero\}/g, dlg?.roller ?? 'Your hero');
-  t = t.replace(/\{best:(\w+)\}/g, (_, sk) => bestAtKeep(g, sk)?.hero.name ?? 'Your hero');
+  t = t.replace(/\{hero\}/g, dlg?.roller ?? tx('dialogue.yourHero'));
+  t = t.replace(/\{best:(\w+)\}/g, (_, sk) => bestAtKeep(g, sk)?.hero.name ?? tx('dialogue.yourHero'));
   return t;
 }
 const visible = (t: string) => t.replace(/\|/g, '');
@@ -123,9 +124,9 @@ function close() {
 function notesToast(notes: string[]) {
   for (const n of notes) {
     const [kind, id] = n.split(':');
-    if (kind === 'ev') toast(`📜 Evidence: ${EVIDENCE[id]?.name ?? id}`, true);
-    else if (kind === 'lead') toast(`📜 New lead: ${LEADS[id]?.title ?? id}`, true);
-    else if (kind === 'remember') toast(`${NPCS[id]?.name ?? id} will remember that.`, true);
+    if (kind === 'ev') toast(tx('dialogue.evidence', { v: EVIDENCE[id]?.name ?? id }), true);
+    else if (kind === 'lead') toast(tx('dialogue.newLead', { v: LEADS[id]?.title ?? id }), true);
+    else if (kind === 'remember') toast(tx('dialogue.willRememberThat', { v: NPCS[id]?.name ?? id }), true);
   }
 }
 
@@ -136,7 +137,7 @@ function step(choice?: number) {
   if (!n) return close();
   dlg.log.push({ who: speakerName(g, n.who), text: visible(rawText(g, n)) });
   const r = run({ type: 'talk', script: dlg.script, node: dlg.node, choice }, { silent: true });
-  if (!r.ok || !r.talk) { toast(r.error ?? 'The conversation drifts off.'); return close(); }
+  if (!r.ok || !r.talk) { toast(r.error ?? tx('dialogue.theConversationDriftsOff')); return close(); }
   notesToast(r.talk.notes);
   if (r.talk.roll) {
     sfx.roll(2);
@@ -181,12 +182,12 @@ export function dialogueKeys(e: KeyboardEvent): boolean {
 
 export function speakerName(g: GameState, who: string): string {
   if (who === 'narrator') return '';
-  if (who === 'hero') return dlg?.roller ?? 'Your hero';
+  if (who === 'hero') return dlg?.roller ?? tx('dialogue.yourHero');
   if (who.startsWith('head:')) return '???';
   const n = NPCS[who];
   if (!n) return who;
   if (!n.alias || has(g, `met:${who}`)) return n.name;
-  if (who === 'corvin' && has(g, 'corvin.coat')) return 'Man in a Good Coat';
+  if (who === 'corvin' && has(g, 'corvin.coat')) return tx('dialogue.manInAGoodCoat');
   return n.alias;
 }
 
@@ -202,14 +203,14 @@ function heroByName(g: GameState, name?: string): Hero | undefined {
 function portraitFor(g: GameState, n: DlgNode): HTMLElement | null {
   if (n.who === 'narrator') return null;
   if (n.who === 'hero') { const hero = heroByName(g, dlg?.roller); return hero ? heroPortrait(hero) : null; }
-  if (n.who.startsWith('head:')) { const e = HEAD_EYES[n.who.slice(5)]; return e ? art(e.key, 'An eye', 'dlg-face') : null; }
+  if (n.who.startsWith('head:')) { const e = HEAD_EYES[n.who.slice(5)]; return e ? art(e.key, tx('dialogue.anEye'), 'dlg-face') : null; }
   return npcPortrait(n.who, n.mood);
 }
 
 function rollChip(r: NonNullable<TalkResult['roll']>): HTMLElement {
   return h('div', { class: `dlg-roll ${r.ok ? 'ok' : 'bad'}` },
     h('span', { class: 'd20' }, r.natural),
-    `${r.hero} · ${SKILL_NAMES[r.skill]} ${r.total} vs DC ${r.dc} — ${r.ok ? 'success' : 'failure'}`);
+    tx('dialogue.vsDc', { hero: r.hero, SKILL_NAMES: SKILL_NAMES[r.skill], total: r.total, dc: r.dc, result: tx(r.ok ? 'dialogue.success' : 'dialogue.failure') }));
 }
 
 export function dialogueBox(): HTMLElement | null {
@@ -218,10 +219,10 @@ export function dialogueBox(): HTMLElement | null {
   const n = nodeOf();
   if (!n) { dlg = null; return null; }
   if (dlg.showLog) {
-    return h('div', { class: 'dlg-back', role: 'dialog', 'aria-label': 'Conversation log', on: { click: () => { dlg!.showLog = false; render(); } } },
-      h('div', { class: 'dlg dlg-log' }, h('div', { class: 'dlg-name' }, 'Log'),
+    return h('div', { class: 'dlg-back', role: 'dialog', 'aria-label': tx('dialogue.conversationLog'), on: { click: () => { dlg!.showLog = false; render(); } } },
+      h('div', { class: 'dlg dlg-log' }, h('div', { class: 'dlg-name' }, tx('dialogue.log')),
         h('div', { class: 'dlg-logbody' }, ...dlg.log.map((l) => h('p', null, l.who ? h('b', null, `${l.who}: `) : null, l.text))),
-        h('div', { class: 'small muted' }, 'L or click to close')));
+        h('div', { class: 'small muted' }, tx('dialogue.lOrClickToClose'))));
   }
   const text = rawText(g, n);
   const head = n.who.startsWith('head:') ? HEAD_EYES[n.who.slice(5)] : undefined;
@@ -238,7 +239,7 @@ export function dialogueBox(): HTMLElement | null {
     h('p', { class: 'sr-only', 'aria-live': 'polite' }, `${name ? `${name}: ` : ''}${visible(text)}`),
     !typing && !choices.length ? h('span', { class: 'dlg-more', 'aria-hidden': 'true' }, '▼') : null,
   );
-  return h('div', { class: 'dlg-back', role: 'dialog', 'aria-modal': 'true', 'aria-label': name || 'Story' },
+  return h('div', { class: 'dlg-back', role: 'dialog', 'aria-modal': 'true', 'aria-label': name || tx('dialogue.story') },
     h('div', { class: `dlg-wrap ${isHero ? 'right' : ''}` },
       face ? h('div', { class: 'dlg-portrait', style: `--sc:${color}` }, face) : null,
       h('div', { class: 'dlg-col' },
@@ -248,7 +249,7 @@ export function dialogueBox(): HTMLElement | null {
             h('span', { class: 'cur' }, i === dlg!.cursor ? '▶' : ''),
             c.check ? h('span', { class: 'dlg-check' }, `🎲 ${SKILL_NAMES[c.check.skill]} ${c.check.dc}`) : null,
             choiceLabel(dlg!.script, dlg!.node, n.choices!.indexOf(c))))) : null,
-        h('div', { class: 'dlg-help' }, typing ? 'Space: finish line' : choices.length ? '↑↓ choose · Enter confirm' : 'Space: next · Esc: skip · L: log'))));
+        h('div', { class: 'dlg-help' }, typing ? tx('dialogue.spaceFinishLine') : choices.length ? tx('dialogue.chooseEnterConfirm') : tx('dialogue.spaceNextEscSkipL')))));
 }
 
 /** A one-line, non-blocking bark in the corner (facility keepers). */

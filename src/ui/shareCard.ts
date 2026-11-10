@@ -11,6 +11,7 @@ import { CLASSES } from '../content/classes.ts';
 import { SPECIES } from '../content/origins.ts';
 import { BIOMES, BIOME_ORDER } from '../content/biomes.ts';
 import { HEADS, FINALE_LEVEL, storyOf } from '../content/story.ts';
+import { tx } from '../i18n/index.ts';
 
 export const W = 1080, H = 1350;
 const HEAD = '"TD Digits", "Pixelify Sans", system-ui, sans-serif';
@@ -20,12 +21,12 @@ const PRISM = ['#e4643a', '#5aa9ff', '#5fae5b', '#dfe8f5', '#9b7bff', '#e4643a']
 
 interface RankDef { n: string; sub: string; a: string; b: string }
 const RANKS: RankDef[] = [
-  { n: 'Lantern-Bearer', sub: 'A Keep just finding its feet', a: '#c9a24a', b: '#7a5a1a' },
-  { n: 'Echo-Breaker', sub: 'Heroes the echoes have learned to fear', a: '#8fd3ff', b: '#3d6bff' },
-  { n: 'Doorwarden', sub: 'Keepers of the Sixth Door', a: '#c8e070', b: '#3f8f4a' },
-  { n: 'Mythic Keeper', sub: 'Legends in the making', a: '#ffb347', b: '#e2403a' },
-  { n: 'Champion of the Keep', sub: 'Ready to face the Dragon Queen', a: '#f2c14e', b: '#b3233a' },
-  { n: 'Dragonslayer', sub: 'Tiamat has fallen', a: '#ffe08a', b: '#ff6bd5' },
+  { get n() { return tx('shareCard.rank.lanternBearer'); }, get sub() { return tx('shareCard.aKeepJustFindingIts'); }, a: '#c9a24a', b: '#7a5a1a' },
+  { get n() { return tx('shareCard.rank.echoBreaker'); }, get sub() { return tx('shareCard.heroesTheEchoesHaveLearned'); }, a: '#8fd3ff', b: '#3d6bff' },
+  { get n() { return tx('shareCard.rank.doorwarden'); }, get sub() { return tx('shareCard.keepersOfTheSixthDoor'); }, a: '#c8e070', b: '#3f8f4a' },
+  { get n() { return tx('shareCard.rank.mythicKeeper'); }, get sub() { return tx('shareCard.legendsInTheMaking'); }, a: '#ffb347', b: '#e2403a' },
+  { get n() { return tx('shareCard.rank.championOfTheKeep'); }, get sub() { return tx('shareCard.readyToFaceTheDragon'); }, a: '#f2c14e', b: '#b3233a' },
+  { get n() { return tx('shareCard.rank.dragonslayer'); }, get sub() { return tx('shareCard.tiamatHasFallen'); }, a: '#ffe08a', b: '#ff6bd5' },
 ];
 
 /** The Keep's three best heroes: living first, by level, clears and kills. */
@@ -148,7 +149,7 @@ async function heroPanel(g: CanvasRenderingContext2D, hero: Hero, x: number, y: 
   g.fill();
   g.lineWidth = 4; g.strokeStyle = hero.level >= FINALE_LEVEL ? '#fff2c0' : col; g.stroke();
   g.restore();
-  text(g, 'LV', bx, by - 8, { font: `600 16px ${HEAD}`, fill: hero.level >= FINALE_LEVEL ? '#3a2208' : '#c9cfe6' });
+  text(g, tx('shareCard.lv2'), bx, by - 8, { font: `600 16px ${HEAD}`, fill: hero.level >= FINALE_LEVEL ? '#3a2208' : '#c9cfe6' });
   text(g, String(hero.level), bx, by + 24, { font: `600 34px ${HEAD}`, fill: hero.level >= FINALE_LEVEL ? '#3a2208' : '#ffffff' });
   // Place ribbon.
   text(g, ['I', 'II', 'III'][place], px + 24, py + 42, { font: `600 30px ${HEAD}`, fill: '#f2c14e', align: 'left', glow: '#000', blur: 10 });
@@ -156,7 +157,7 @@ async function heroPanel(g: CanvasRenderingContext2D, hero: Hero, x: number, y: 
   const ty = py + pw + 46;
   text(g, hero.name, x + w / 2, ty, { font: `700 34px ${BODY}`, fill: dead ? '#9aa0b8' : '#ffffff', maxW: w - 30 });
   text(g, `${cls.name} ${hero.level}${hero.level >= 3 ? ` · ${cls.subclass.name.replace(/^(Path|College|Domain|Circle|Way|Oath|School) of (the )?/, '')}` : ''}`, x + w / 2, ty + 34, { font: `600 22px ${HEAD}`, fill: col === '#000000' ? '#c9cfe6' : lighten(col), maxW: w - 30 });
-  text(g, dead ? `Fallen · ${hero.history.deathCause ?? ''}` : `${SPECIES[hero.ancestry]?.name ?? hero.ancestry}`, x + w / 2, ty + 64, { font: `italic 20px ${BODY}`, fill: dead ? '#ff8a80' : '#b8bfd8', maxW: w - 30 });
+  text(g, dead ? tx('shareCard.fallen', { v: hero.history.deathCause ?? '' }) : `${SPECIES[hero.ancestry]?.name ?? hero.ancestry}`, x + w / 2, ty + 64, { font: `italic 20px ${BODY}`, fill: dead ? '#ff8a80' : '#b8bfd8', maxW: w - 30 });
   // Stats.
   const sy = ty + 100;
   const stats: [number, string][] = [[hero.history.clears, 'clears'], [hero.history.kills, 'kills'], [hero.history.expeditions, 'delves']];
@@ -169,7 +170,7 @@ async function heroPanel(g: CanvasRenderingContext2D, hero: Hero, x: number, y: 
 
 function lighten(hex: string): string {
   const n = (i: number) => Math.min(255, Math.round(parseInt(hex.slice(i, i + 2), 16) * 0.5 + 128));
-  return `rgb(${n(1)},${n(3)},${n(5)})`;
+  return tx('shareCard.rgb', { n: n(1), n2: n(3), n3: n(5) });
 }
 
 /** Draws the card for `game` onto `canvas` and returns it. */
@@ -208,8 +209,8 @@ export async function renderShareCard(game: GameState, canvas: HTMLCanvasElement
   frame(g, tier, R);
 
   // Header.
-  text(g, 'TREASURE DICE', W / 2, 112, { font: `600 70px ${HEAD}`, spacing: 6, fill: grad(g, 0, 60, 0, 120, ['#ffe9a8', '#c9a24a']), glow: '#000', blur: 16 });
-  text(g, 'ECHOES OF THE SIXTH DOOR · KEEPER\'S RECORD', W / 2, 150, { font: `600 20px ${HEAD}`, spacing: 4, fill: R.a });
+  text(g, tx('shareCard.treasureDice2'), W / 2, 112, { font: `600 70px ${HEAD}`, spacing: 6, fill: grad(g, 0, 60, 0, 120, ['#ffe9a8', '#c9a24a']), glow: '#000', blur: 16 });
+  text(g, tx('shareCard.echoesOfTheSixthDoor'), W / 2, 150, { font: `600 20px ${HEAD}`, spacing: 4, fill: R.a });
   if (game.profile.keeperName) text(g, game.profile.keeperName.toUpperCase(), W / 2, 210, { font: `700 30px ${BODY}`, spacing: 4, fill: '#ffffff', maxW: 900 });
   const rankFill = tier >= 5 ? grad(g, 160, 0, W - 160, 0, PRISM) : grad(g, 0, 220, 0, 280, [R.a, R.b]);
   text(g, R.n.toUpperCase(), W / 2, 272, { font: `600 64px ${HEAD}`, spacing: 3, fill: rankFill, glow: tier ? R.b : '#000', blur: 8 + tier * 5, maxW: 960 });
@@ -224,13 +225,13 @@ export async function renderShareCard(game: GameState, canvas: HTMLCanvasElement
     else {
       g.save(); g.strokeStyle = 'rgba(233,225,207,.18)'; g.setLineDash([10, 8]); g.lineWidth = 2;
       g.beginPath(); g.roundRect(x, y0, pw, 560, 18); g.stroke(); g.restore();
-      text(g, 'An empty seat', x + pw / 2, y0 + 290, { font: `italic 24px ${BODY}`, fill: '#5d6684' });
+      text(g, tx('shareCard.anEmptySeat'), x + pw / 2, y0 + 290, { font: `italic 24px ${BODY}`, fill: '#5d6684' });
     }
   }
 
   // Tiamat's heads: one per echo broken.
   const hy = 990;
-  text(g, 'ECHOES BROKEN', W / 2, hy - 44, { font: `600 18px ${HEAD}`, spacing: 4, fill: '#8a93b8' });
+  text(g, tx('shareCard.echoesBroken'), W / 2, hy - 44, { font: `600 18px ${HEAD}`, spacing: 4, fill: '#8a93b8' });
   BIOME_ORDER.forEach((b, i) => {
     const x = W / 2 + (i - 2) * 150, n = game.profile.sigils[b] ?? 0, col = HEADS[b].color;
     g.save();
@@ -256,7 +257,7 @@ export async function renderShareCard(game: GameState, canvas: HTMLCanvasElement
   g.restore();
   const s = game.profile.stats;
   const cells: [string, string][] = [
-    [String(s.expeditions), 'Expeditions'], [String(s.clears), 'Dungeons cleared'], [s.bestScore >= 1e6 ? `${(s.bestScore / 1e6).toFixed(1)}M` : s.bestScore.toLocaleString(), 'Best hand'], [story.tiamat ? `👑×${story.tiamat}` : '—', 'Tiamat slain'],
+    [String(s.expeditions), 'Expeditions'], [String(s.clears), tx('shareCard.dungeonsCleared')], [s.bestScore >= 1e6 ? `${(s.bestScore / 1e6).toFixed(1)}M` : s.bestScore.toLocaleString(), tx('shareCard.bestHand')], [story.tiamat ? `👑×${story.tiamat}` : '—', tx('shareCard.tiamatSlain')],
   ];
   cells.forEach(([v, l], i) => {
     const x = px + (pwid / 4) * (i + 0.5);
@@ -265,7 +266,7 @@ export async function renderShareCard(game: GameState, canvas: HTMLCanvasElement
   });
 
   // Footer.
-  text(g, `${game.mode === 'legacy' ? 'Legacy' : 'Story'} mode · Day ${game.profile.townDay} · ${game.roster.filter((x) => x.status === 'dead').length} fallen`, W / 2, 1268, { font: `italic 22px ${BODY}`, fill: '#c9cfe6' });
+  text(g, tx('shareCard.modeDayFallen', { mode: tx(game.mode === 'legacy' ? 'shareCard.legacy' : 'shareCard.story'), townDay: game.profile.townDay, length: game.roster.filter((x) => x.status === 'dead').length }), W / 2, 1268, { font: `italic 22px ${BODY}`, fill: '#c9cfe6' });
   text(g, SITE, W / 2, 1300, { font: `600 16px ${HEAD}`, spacing: 4, fill: R.a, alpha: 0.8 });
   return canvas;
 }
@@ -285,7 +286,7 @@ export function shareModal(): HTMLElement {
   const game = app.game!;
   const close = () => { app.ui.modal = undefined; canvasEl = null; render(); };
   // Keep one canvas across re-renders so typing a name doesn't flash the preview.
-  const canvas = canvasEl ?? (canvasEl = h('canvas', { class: 'share-card', width: W, height: H, 'aria-label': 'Share card preview' }));
+  const canvas = canvasEl ?? (canvasEl = h('canvas', { class: 'share-card', width: W, height: H, 'aria-label': tx('shareCard.shareCardPreview') }));
   if (!canvas.dataset.drawn) { canvas.dataset.drawn = '1'; void renderShareCard(game, canvas); }
   const file = async () => {
     const blob = await blobOf(canvas);
@@ -294,23 +295,23 @@ export function shareModal(): HTMLElement {
   const canShare = !!(navigator.canShare && navigator.canShare({ files: [new File([''], 'x.png', { type: 'image/png' })] }));
   let timer = 0;
   const top = topThree(game);
-  return h('div', { class: 'modal-back', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Share card', on: { click: (e: Event) => { if (e.target === e.currentTarget) close(); } } },
+  return h('div', { class: 'modal-back', role: 'dialog', 'aria-modal': 'true', 'aria-label': tx('shareCard.shareCard'), on: { click: (e: Event) => { if (e.target === e.currentTarget) close(); } } },
     h('div', { class: 'win modal narrow share-sheet' },
-      h('h2', null, '🖼 Share your legends'),
+      h('h2', null, tx('shareCard.shareYourLegends')),
       canvas,
-      h('input', { class: 'field', placeholder: 'Keeper name (optional)', maxlength: 24, value: game.profile.keeperName ?? '', 'aria-label': 'Keeper name',
+      h('input', { class: 'field', placeholder: tx('shareCard.keeperNameOptional'), maxlength: 24, value: game.profile.keeperName ?? '', 'aria-label': tx('shareCard.keeperName'),
         on: { input: (e: Event) => { game.profile.keeperName = (e.target as HTMLInputElement).value.trim() || undefined; persist(); clearTimeout(timer); timer = window.setTimeout(() => void renderShareCard(game, canvas), 250); } } }),
-      h('p', { class: 'small muted' }, top.length ? `Featuring ${top.map((x) => `${x.name} (Lv ${x.level})`).join(', ')}. Level heroes up, break echoes and slay Tiamat to upgrade your card.` : 'Recruit some heroes first.'),
+      h('p', { class: 'small muted' }, top.length ? tx('shareCard.featuringLevelHeroesUpBreak', { map: top.map((x) => tx('shareCard.lv', { xName: x.name, level: x.level })).join(', ') }) : tx('shareCard.recruitSomeHeroesFirst')),
       h('div', { class: 'row', style: 'margin-top:8px' },
         h('span', { class: 'spacer' }),
-        btn('⬇ Save image', async () => {
+        btn(tx('shareCard.saveImage'), async () => {
           const f = await file();
           const a = h('a', { href: URL.createObjectURL(f), download: f.name });
           document.body.appendChild(a); a.click(); a.remove();
           setTimeout(() => URL.revokeObjectURL(a.href), 5000);
         }, { cls: canShare ? '' : 'primary', key: 'share-save' }),
-        canShare ? btn('📤 Share', async () => {
-          try { await navigator.share({ files: [await file()], title: 'Treasure Dice', text: `${RANKS[rankOf(game)].n} of the Lantern Keep: ${SITE}` }); } catch (e) { if ((e as Error).name !== 'AbortError') toast('Sharing failed. Try Save image instead.'); }
+        canShare ? btn(tx('shareCard.share'), async () => {
+          try { await navigator.share({ files: [await file()], title: tx('shareCard.treasureDice'), text: tx('shareCard.ofTheLanternKeep', { n: RANKS[rankOf(game)].n, SITE }) }); } catch (e) { if ((e as Error).name !== 'AbortError') toast(tx('shareCard.sharingFailedTrySaveImage')); }
         }, { cls: 'primary', key: 'share-go' }) : null,
-        btn('Close', close, { key: 'share-close' }))));
+        btn(tx('shareCard.close'), close, { key: 'share-close' }))));
 }
