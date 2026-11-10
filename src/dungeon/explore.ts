@@ -39,6 +39,9 @@ const living = (g: GameState) => party(g).filter((h) => h.status === 'alive');
 
 // ── start ───────────────────────────────────────────────────────────────────
 
+/** Heroes at this level or higher are too seasoned for the Training Cellar. */
+export const TUTORIAL_MAX_LEVEL = 4;
+
 export interface StartOpts { partyIds: string[]; biome: BiomeId; difficulty: Difficulty; seed: string; size?: 'short' | 'normal' | 'long'; tutorial?: boolean; finale?: boolean }
 
 export function startExpedition(g: GameState, o: StartOpts): string | null {
@@ -47,6 +50,7 @@ export function startExpedition(g: GameState, o: StartOpts): string | null {
   if (heroes.some((h) => !h || h.status !== 'alive')) return tx('dungeonExplore.onlyLivingHeroesCanJoin');
   if (heroes.some((h) => h!.pendingLevel)) return tx('dungeonExplore.finishLevelUpsFirst');
   if (o.tutorial && o.finale) return tx('dungeonExplore.pickOneTheTutorialOr');
+  if (o.tutorial && heroes.some((h) => h!.level >= TUTORIAL_MAX_LEVEL)) return tx('dungeonExplore.trainingCellarTooExperienced', { level: TUTORIAL_MAX_LEVEL });
   if (o.tutorial) { o = { ...o, biome: 'cinder', difficulty: 'explorer', seed: TUTORIAL_SEED, size: 'short' }; }
   if (o.finale) {
     const blocked = finaleBlocked(heroes as Hero[], g);

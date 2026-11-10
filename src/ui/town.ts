@@ -25,6 +25,7 @@ import { openShareCard } from './shareCard.ts';
 import { tavernTab, tavernArt, tavernNews } from './tavern.ts';
 import { autoDialogue, openDialogue, bark, staticBox } from './dialogue.ts';
 import { dispatch } from '../app/commands.ts';
+import { TUTORIAL_MAX_LEVEL } from '../dungeon/explore.ts';
 import { persist } from './app.ts';
 import { tavernOpen, heads, awakened, tiamatSlain, readyScripts, leadsFor, has, trainingClosed, questOf, trackDone, hymnColour, CHROMATIC } from '../meta/quest.ts';
 import { ANNOTATIONS, dissent, EVIDENCE, LULLABY, TRACKS } from '../content/quest.ts';
@@ -186,14 +187,16 @@ function cartTab(): HTMLElement {
   const tutorialOn = !!g.tutorial;
   const levels = partyHeroes.map((x) => x.level);
   const spread = levels.length ? Math.max(...levels) - Math.min(...levels) : 0;
+  const tooSeasoned = levels.some((l) => l >= TUTORIAL_MAX_LEVEL);
   return h('div', { class: 'col' },
     tutorialOn ? h('div', { class: 'win tutorial-call' },
       h('h2', null, tx('town.theTrainingCellar')),
       h('p', { class: 'prose' }, tx('town.aShortGentlePracticeDungeon')),
+      tooSeasoned ? h('p', { class: 'small danger' }, tx('town.cellarTooExperienced', { level: TUTORIAL_MAX_LEVEL })) : null,
       btn(tx('town.enterTheTrainingCellar'), () => {
         const r = run({ type: 'startExpedition', partyIds: ui.party, biome: 'cinder', difficulty: 'explorer', seed: 'TUTORIAL', tutorial: true });
         if (r.ok) sfx.fanfare();
-      }, { cls: 'primary big', disabled: ui.party.length !== 3, key: 'start-tutorial' })) : null,
+      }, { cls: 'primary big', disabled: ui.party.length !== 3 || tooSeasoned, key: 'start-tutorial' })) : null,
     h('div', { class: 'win', 'data-tut': 'party' },
       h('h2', null, tx('town.chooseYourThree')),
       spread >= 4 ? h('p', { class: 'small danger' }, tx('town.levelSpreadOfTheDungeon', { spread })) : null,
