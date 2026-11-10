@@ -20,7 +20,11 @@ const out: Entry[] = [];
 
 for (const p of PORTRAITS) {
   const c = CLASSES[p.classId];
-  out.push({ key: p.key, kind: 'portrait', group: `class:${p.classId}`, name: `${c.name} (${p.ancestry})`, subject: `${p.look}. A ${c.name.toLowerCase()} — ${c.summary}`, anchor: p.key.endsWith('_1') });
+  if (!c) continue; // a class whose rules haven't landed yet
+  // Legacy heroes keep their old subjects; grid portraits (class × species × sex) are painted text-only.
+  const name = p.legacy ? `${c.name} (${p.ancestry})` : `${c.name} · ${p.ancestry} · ${p.sex}`;
+  const subject = p.legacy ? `${p.look}. A ${c.name.toLowerCase()} — ${c.summary}` : `${p.look}. A ${p.sex === 'male' ? 'male' : 'female'} ${p.ancestry} ${c.name.toLowerCase()}.`;
+  out.push({ key: p.key, kind: 'portrait', group: `class:${p.classId}`, name, subject, anchor: p.key.endsWith('_1') });
 }
 
 const seenBiome = new Set<string>();

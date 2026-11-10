@@ -3,6 +3,7 @@
  * whether Tiamat has fallen, and the lifetime record, drawn on a canvas and
  * offered as a PNG to save or share. Higher achievements earn richer frames.
  */
+import { subclassOf } from '../content/subclasses.ts';
 import type { GameState, Hero } from '../engine/types.ts';
 import { h, btn } from './dom.ts';
 import { app, render, persist, toast } from './app.ts';
@@ -156,7 +157,7 @@ async function heroPanel(g: CanvasRenderingContext2D, hero: Hero, x: number, y: 
   // Name and class.
   const ty = py + pw + 46;
   text(g, hero.name, x + w / 2, ty, { font: `700 34px ${BODY}`, fill: dead ? '#9aa0b8' : '#ffffff', maxW: w - 30 });
-  text(g, `${cls.name} ${hero.level}${hero.level >= 3 ? ` · ${cls.subclass.name.replace(/^(Path|College|Domain|Circle|Way|Oath|School) of (the )?/, '')}` : ''}`, x + w / 2, ty + 34, { font: `600 22px ${HEAD}`, fill: col === '#000000' ? '#c9cfe6' : lighten(col), maxW: w - 30 });
+  text(g, `${cls.name} ${hero.level}${hero.level >= 3 && subclassOf(hero) ? ` · ${subclassOf(hero)!.name.replace(/^(Path|College|Domain|Circle|Way|Oath|School|Order) of (the )?/, '').replace(/ (Domain|Magic|Bloodline|Sorcery)$/, '')}` : ''}`, x + w / 2, ty + 34, { font: `600 22px ${HEAD}`, fill: col === '#000000' ? '#c9cfe6' : lighten(col), maxW: w - 30 });
   text(g, dead ? tx('shareCard.fallen', { v: hero.history.deathCause ?? '' }) : `${SPECIES[hero.ancestry]?.name ?? hero.ancestry}`, x + w / 2, ty + 64, { font: `italic 20px ${BODY}`, fill: dead ? '#ff8a80' : '#b8bfd8', maxW: w - 30 });
   // Stats.
   const sy = ty + 100;

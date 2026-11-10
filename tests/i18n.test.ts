@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { SUBCLASSES } from '../src/content/subclasses.ts';
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { SCRIPTS } from '../src/content/dialogue.ts';
 import { lineText, choiceLabel, scriptTitle } from '../src/i18n/dialogue.ts';
@@ -125,10 +126,16 @@ describe('game data text', () => {
       if (m.boss) expect(m.boss.title && m.boss.intro, m.id).toBeTruthy();
     }
     for (const sp of Object.values(SPELLS)) expect(sp.name && sp.text, sp.id).toBeTruthy();
+    const missing = /⟦/;
     for (const c of Object.values(CLASSES)) {
-      expect(c.name && c.summary && c.subclass.name && c.fortuneTalent.name, c.id).toBeTruthy();
-      for (const r of c.resources) expect(r.name, `${c.id}/${r.id}`).toBeTruthy();
-      for (const list of Object.values(c.features)) for (const f of list) expect(f.name && f.text, `${c.id}/${f.id}`).toBeTruthy();
+      expect(c.name + c.summary + c.subclassLabel + c.fortuneTalent.name + c.fortuneTalent.text, c.id).not.toMatch(missing);
+      for (const r of c.resources) expect(r.name, `${c.id}/${r.id}`).not.toMatch(missing);
+      for (const list of Object.values(c.levels)) for (const f of list) expect(f.name + f.text, `${c.id}/${f.id}`).not.toMatch(missing);
+    }
+    for (const list of Object.values(SUBCLASSES)) for (const sc of list) {
+      expect(sc.name + sc.summary, `${sc.classId}/${sc.id}`).not.toMatch(missing);
+      for (const r of sc.resources) expect(r.name, `${sc.id}/${r.id}`).not.toMatch(missing);
+      for (const fs of Object.values(sc.levels)) for (const f of fs) expect(f.name + f.text, `${sc.id}/${f.id}`).not.toMatch(missing);
     }
     for (const c of Object.values(CHARM_BY_ID)) { expect(c.name, c.id).toBeTruthy(); expect(charmText(c), c.id).not.toMatch(/\{\w+\}/); }
     for (const h of HANDS) expect(h.name && h.blurb, h.id).toBeTruthy();

@@ -7,7 +7,8 @@ import { art, bgStyle, banner, firstArt } from './art.ts';
 import { heroPortrait, heroLine, hpBar, boonCard, bagView, itemIcon, doubloons, charmEl, dieFace, signatureDice } from './widgets.ts';
 import { heroDice, heroColour, markTitle, markText, TRAIT_LEVELS, RECOLOUR_LEVEL } from '../fortune/dicepath.ts';
 import { SKILL_TRICKS } from '../content/skilltricks.ts';
-import { CLASSES, featuresUpTo, FEATS, FIGHTING_STYLES, METAMAGIC, INVOCATIONS, EPIC_BOONS } from '../content/classes.ts';
+import { CLASSES, FEATS, FIGHTING_STYLES, METAMAGIC, INVOCATIONS, EPIC_BOONS } from '../content/classes.ts';
+import { featuresUpTo, subclassOf, subclassById } from '../content/subclasses.ts';
 import { ITEMS, itemName } from '../content/items.ts';
 import { SPECIES, BACKGROUNDS } from '../content/origins.ts';
 import { spellsForClass, SPELLS } from '../content/spells.ts';
@@ -56,14 +57,14 @@ export function heroSheet(id: string): HTMLElement {
   const cls = CLASSES[hero.classId];
   const inDungeon = !!g.expedition;
   const editable = !recruit && !inDungeon && hero.status === 'alive';
-  const feats = featuresUpTo(hero.classId, hero.level);
+  const feats = featuresUpTo(hero);
   const spells = spellsForClass(hero);
   const prepared = prepEdit ?? hero.prepared;
   const vaultFor = (slot: EquipSlot) => g.vault.filter((it) => !canEquip(hero, it, slot));
   return modal([
     h('div', { class: 'sheet' },
       h('div', { class: 'col' }, heroPortrait(hero, 'lg'), h('b', null, hero.name), h('span', { class: 'small muted' }, heroLine(hero)),
-        h('span', { class: 'small' }, hero.level < 3 ? tx('modals.subclassAtLevel3', { name: cls.subclass.name }) : cls.subclass.name),
+        h('span', { class: 'small' }, hero.level < 3 ? tx('modals.subclassAtLevel3', { name: cls.subclassLabel }) : subclassOf(hero)?.name ?? ''),
         h('span', { class: 'small muted' }, `${SPECIES[hero.ancestry]?.name} · ${BACKGROUNDS[hero.background]?.name}`)),
       h('div', { class: 'col' },
         h('div', { class: 'row' }, h('span', null, tx('modals.hp', { hp: hero.hp, maxHp: d.maxHp })), h('span', null, tx('modals.ac', { ac: d.ac })), h('span', null, tx('modals.init', { mod: mod(d.init) })), h('span', null, tx('modals.prof', { mod: mod(d.pb) })),
@@ -77,7 +78,7 @@ export function heroSheet(id: string): HTMLElement {
         h('div', { class: 'small' }, h('b', null, tx('modals.skills')), d.proficient.map((s) => `${SKILL_NAMES[s]} ${mod(d.skills[s])}${hero.expertise.includes(s) ? '★' : ''}`).join(', ')),
         h('div', { class: 'small' }, h('b', null, tx('modals.skillTricksPerFight', { tricks: d.tricks })), d.proficient.map((s) => `${SKILL_TRICKS[s].name} — ${SKILL_TRICKS[s].text}`).join(' · ')),
         hero.feats.length ? h('div', { class: 'small' }, h('b', null, tx('modals.feats')), hero.feats.map((f) => FEATS[f]?.name ?? f).join(', ')) : null,
-        Object.keys(hero.choices).length ? h('div', { class: 'small' }, h('b', null, tx('modals.choices')), Object.values(hero.choices).flat().map((c) => FIGHTING_STYLES[c]?.name ?? METAMAGIC[c]?.name ?? INVOCATIONS[c]?.name ?? EPIC_BOONS[c]?.name ?? c).join(', ')) : null,
+        Object.keys(hero.choices).length ? h('div', { class: 'small' }, h('b', null, tx('modals.choices')), Object.entries(hero.choices).flatMap(([k, v]) => (k === 'subclass' ? [] : v)).map((c) => FIGHTING_STYLES[c]?.name ?? METAMAGIC[c]?.name ?? INVOCATIONS[c]?.name ?? EPIC_BOONS[c]?.name ?? c).join(', ')) : null,
       )),
     h('h3', { style: 'margin-top:12px' }, tx('modals.equipment')),
     h('div', { class: 'list' }, ...EQUIP_SLOTS.map((slot) => {
@@ -126,8 +127,14 @@ export function levelUpModal(id: string): HTMLElement {
     st.picks[key] = cur.includes(opt) ? cur.filter((x) => x !== opt) : [...cur, opt].slice(-max);
     render();
   };
-  const choiceName = (kind: string, o: string) => FIGHTING_STYLES[o]?.name ?? METAMAGIC[o]?.name ?? INVOCATIONS[o]?.name ?? EPIC_BOONS[o]?.name ?? (kind === 'expertise' ? SKILL_NAMES[o as keyof typeof SKILL_NAMES] : o[0].toUpperCase() + o.slice(1));
-  const choiceText = (o: string) => FIGHTING_STYLES[o]?.text ?? METAMAGIC[o]?.text ?? INVOCATIONS[o]?.text ?? EPIC_BOONS[o]?.text ?? '';
+  const choiceName = (kind: string, o: string) => (kind === 'subclass' ? subclassById(hero.classId, o)?.name : undefined) ?? FIGHTING_STYLES[o]?.name ?? METAMAGIC[o]?.name ?? INVOCATIONS[o]?.name ?? EPIC_BOONS[o]?.name ?? (kind === 'expertise' ? SKILL_NAMES[o as keyof typeof SKILL_NAMES] : o[0].toUpperCase() + o.slice(1));
+  const subText = (o: string) => {
+    const sc = subclassById(hero.classId, o);
+    if (!sc) return '';
+    const plan = Object.entries(sc.levels).map(([l, fs]) => tx('modals.subclassLevelPlan', { level: l, names: fs.map((f) => f.name).join(', ') })).join(' · ');
+    return `${sc.summary} ${plan}`;
+  };
+  const choiceText = (o: string, kind = '') => (kind === 'subclass' ? subText(o) : '') || (FIGHTING_STYLES[o]?.text ?? METAMAGIC[o]?.text ?? INVOCATIONS[o]?.text ?? EPIC_BOONS[o]?.text ?? '');
   const sheetSelect = (val: string, on: (v: string) => void, opts: [string, string][]) => h('select', { style: 'background:#0b1230;color:inherit;border:1px solid #556;border-radius:4px;padding:4px', on: { change: (e: Event) => on((e.target as HTMLSelectElement).value) } }, ...opts.map(([v, l]) => h('option', { value: v, selected: v === val }, l)));
   const confirmLevel = () => {
     const ch: LevelChoices = { picks: st.picks, expertise: st.expertise, mark: st.mark };
@@ -147,14 +154,14 @@ export function levelUpModal(id: string): HTMLElement {
           st.asiMode !== 'feat' ? h('div', { class: 'row', style: 'margin-top:6px' },
             sheetSelect(st.a, (v) => { st.a = v as Ability; }, ABILITIES.map((a) => [a, `${ABILITY_NAMES[a]} (${hero.abilities[a]})`])),
             st.asiMode === 'split' ? sheetSelect(st.b, (v) => { st.b = v as Ability; }, ABILITIES.map((a) => [a, `${ABILITY_NAMES[a]} (${hero.abilities[a]})`])) : null)
-            : h('div', { class: 'col', style: 'margin-top:6px' }, ...Object.entries(FEATS).filter(([k, f]) => !hero.feats.includes(k) || f.repeatable).map(([k, f]) => btn([h('b', null, f.name), ' — ', h('span', { class: 'small muted' }, f.text)], () => { st.feat = k; render(); }, { cls: `small ${st.feat === k ? 'on' : ''}` }))));
+            : h('div', { class: 'col', style: 'margin-top:6px' }, ...Object.entries(FEATS).filter(([k, f]) => (!f.species || f.species === hero.ancestry) && (!hero.feats.includes(k) || f.repeatable)).map(([k, f]) => btn([h('b', null, f.name), ' — ', h('span', { class: 'small muted' }, f.text)], () => { st.feat = k; render(); }, { cls: `small ${st.feat === k ? 'on' : ''}` }))));
       }
       const key = feature.choice!;
       const max = feature.choiceCount ?? (key === 'expertise' ? 2 : 1);
       const opts = key === 'expertise' ? hero.skillProfs.filter((s) => !hero.expertise.includes(s)) : options.filter((o) => !(hero.choices[key] ?? []).includes(o));
       const cur = key === 'expertise' ? st.expertise : st.picks[key] ?? [];
       return h('div', { class: 'win', style: 'margin-top:8px' }, h('h3', null, tx('modals.choose', { featureName: feature.name, max })),
-        h('div', { class: 'col' }, ...opts.map((o) => btn([h('b', null, choiceName(key, o)), choiceText(o) ? h('span', { class: 'small muted' }, ` — ${choiceText(o)}`) : null], () => {
+        h('div', { class: 'col' }, ...opts.map((o) => btn([h('b', null, choiceName(key, o)), choiceText(o, key) ? h('span', { class: 'small muted' }, ` — ${choiceText(o, key)}`) : null], () => {
           if (key === 'expertise') { st.expertise = st.expertise.includes(o) ? st.expertise.filter((x) => x !== o) : [...st.expertise, o].slice(-max); render(); } else sel(key, o, max);
         }, { cls: `small ${cur.includes(o) ? 'on' : ''}` }))));
     }),

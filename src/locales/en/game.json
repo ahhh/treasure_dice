@@ -6,7 +6,7 @@
       "premise": "Dwarven forge-halls that never cooled. Iron doors, slag rivers, and a heat that builds with every step.",
       "meter": {
         "name": "Heat",
-        "text": "Hot rooms raise Heat. At 3+, fights begin with the party burning — but Ember and Steel dice score +1 Mult. Cooling cisterns reset it."
+        "text": "Hot rooms raise Heat. At 3+, fights begin with the party burning but Ember and Steel dice score +1 Mult. Find a cooling cistern to reset it."
       },
       "rooms": {
         "corridor": [
@@ -69,7 +69,7 @@
         "A cart of slag has frozen mid-pour.",
         "Rune-plates on the wall have half melted.",
         "Chains sway though there is no wind.",
-        "A dwarf-sized helmet lies cooling on the floor.",
+        "A dwarf-sized helmet lies steaming on the floor.",
         "Old soot handprints climb the wall."
       ],
       "civilizations": [
@@ -110,7 +110,7 @@
       "premise": "A necropolis swallowed by a living forest. Every footstep wakes the spores.",
       "meter": {
         "name": "Bloom",
-        "text": "Every step raises Bloom. At 3+, foes regenerate — but Verdant dice score +4 Chips. Quiet groves reset it."
+        "text": "Every step raises Bloom. At 3+, foes regenerate, but Verdant dice score +4 Chips. Quiet groves reset your Bloom level."
       },
       "rooms": {
         "corridor": [
@@ -2548,1295 +2548,807 @@
   "classes": {
     "barbarian": {
       "name": "Barbarian",
-      "subclass": {
-        "name": "Path of the Berserker"
-      },
       "summary": "A storm of fury that shrugs off blows and hits like a landslide.",
+      "subclassLabel": "Primal Path",
       "fortuneTalent": {
         "name": "Blood Dice",
         "text": "While Raging, you may reroll without spending rerolls by paying HP (2 + your level, doubled by vitality)."
       },
-      "resources": [
-        {
+      "resources": {
+        "rage": {
           "name": "Rage"
-        },
-        {
-          "name": "Intimidating Presence"
         }
-      ],
+      },
       "features": {
-        "1": {
-          "0": {
-            "name": "Rage",
-            "text": "Bonus Action: +rage damage on Strength attacks, resistance to bludgeoning, piercing and slashing for 10 rounds."
-          },
-          "1": {
-            "name": "Unarmored Defense",
-            "text": "Without armor, AC = 10 + DEX + CON (shield allowed)."
-          }
+        "rage": {
+          "name": "Rage",
+          "text": "Bonus Action: +rage damage on Strength attacks, resistance to bludgeoning, piercing and slashing for 10 rounds."
         },
-        "2": [
-          {
-            "name": "Reckless Attack",
-            "text": "Gain advantage on Strength attacks this turn; attacks against you have advantage until your next turn."
-          },
-          {
-            "name": "Danger Sense",
-            "text": "Advantage on Dexterity saving throws."
-          }
-        ],
-        "3": [
-          {
-            "name": "Frenzy",
-            "text": "While Raging and Reckless, your first hit each turn deals extra d6s equal to your rage damage."
-          },
-          {
-            "name": "Primal Knowledge",
-            "text": "Gain a skill proficiency; Strength powers some checks while raging."
-          }
-        ],
-        "5": {
-          "1": {
-            "name": "Fast Movement",
-            "text": "Advantage on initiative is gained at level 7; here you may always switch ranks freely."
-          }
+        "unarmoredDefense": {
+          "name": "Unarmored Defense",
+          "text": "Without armor, AC = 10 + DEX + CON (shield allowed)."
         },
-        "6": [
-          {
-            "name": "Mindless Rage",
-            "text": "While Raging you are immune to charmed and frightened."
-          }
-        ],
-        "7": [
-          {
-            "name": "Feral Instinct",
-            "text": "Advantage on initiative rolls."
-          },
-          {
-            "name": "Instinctive Pounce",
-            "text": "Entering Rage also moves you to the front rank."
-          }
-        ],
-        "9": [
-          {
-            "name": "Brutal Strike",
-            "text": "Forgo Reckless advantage on one attack to add 1d10 damage and push or hamstring the target."
-          }
-        ],
-        "10": [
-          {
-            "name": "Retaliation",
-            "text": "When a melee attack damages you, strike back with your reaction."
-          }
-        ],
-        "11": [
-          {
-            "name": "Relentless Rage",
-            "text": "While Raging, dropping to 0 HP instead leaves you at 1 HP on a DC 10 CON save (DC rises by 5 each use)."
-          }
-        ],
-        "13": [
-          {
-            "name": "Improved Brutal Strike",
-            "text": "Brutal Strike may also stagger: the target has disadvantage on its next save."
-          }
-        ],
-        "14": [
-          {
-            "name": "Intimidating Presence",
-            "text": "Bonus Action, once per long rest: enemies make a WIS save or are frightened."
-          }
-        ],
-        "15": [
-          {
-            "name": "Persistent Rage",
-            "text": "Rage lasts the whole combat and initiative restores a use if you have none."
-          }
-        ],
-        "17": [
-          {
-            "name": "Improved Brutal Strike II",
-            "text": "Brutal Strike deals 2d10."
-          }
-        ],
-        "18": [
-          {
-            "name": "Indomitable Might",
-            "text": "Strength checks and saves use at least your Strength score."
-          }
-        ],
-        "20": [
-          {
-            "name": "Primal Champion",
-            "text": "Strength and Constitution +4 (max 25)."
-          }
-        ]
+        "recklessAttack": {
+          "name": "Reckless Attack",
+          "text": "Gain advantage on Strength attacks this turn; attacks against you have advantage until your next turn."
+        },
+        "dangerSense": {
+          "name": "Danger Sense",
+          "text": "Advantage on Dexterity saving throws."
+        },
+        "primalKnowledge": {
+          "name": "Primal Knowledge",
+          "text": "Gain a skill proficiency; Strength powers some checks while raging."
+        },
+        "fastMovement": {
+          "name": "Fast Movement",
+          "text": "Advantage on initiative is gained at level 7; here you may always switch ranks freely."
+        },
+        "feralInstinct": {
+          "name": "Feral Instinct",
+          "text": "Advantage on initiative rolls."
+        },
+        "instinctivePounce": {
+          "name": "Instinctive Pounce",
+          "text": "Entering Rage also moves you to the front rank."
+        },
+        "brutalStrike": {
+          "name": "Brutal Strike",
+          "text": "Forgo Reckless advantage on one attack to add 1d10 damage and push or hamstring the target."
+        },
+        "relentlessRage": {
+          "name": "Relentless Rage",
+          "text": "While Raging, dropping to 0 HP instead leaves you at 1 HP on a DC 10 CON save (DC rises by 5 each use)."
+        },
+        "improvedBrutalStrike": {
+          "name": "Improved Brutal Strike",
+          "text": "Brutal Strike may also stagger: the target has disadvantage on its next save."
+        },
+        "persistentRage": {
+          "name": "Persistent Rage",
+          "text": "Rage lasts the whole combat and initiative restores a use if you have none."
+        },
+        "improvedBrutalStrike2": {
+          "name": "Improved Brutal Strike II",
+          "text": "Brutal Strike deals 2d10."
+        },
+        "indomitableMight": {
+          "name": "Indomitable Might",
+          "text": "Strength checks and saves use at least your Strength score."
+        },
+        "primalChampion": {
+          "name": "Primal Champion",
+          "text": "Strength and Constitution +4 (max 25)."
+        }
       }
     },
     "bard": {
       "name": "Bard",
-      "subclass": {
-        "name": "College of Lore"
-      },
       "summary": "Words and music shape the dice — a bard turns luck into a party resource.",
+      "subclassLabel": "Bard College",
       "fortuneTalent": {
         "name": "Inspiration Dice",
         "text": "Bardic Inspiration places a bonus die (your Inspiration die roll, Arcane) straight onto the tray."
       },
-      "resources": [
-        {
+      "resources": {
+        "inspiration": {
           "name": "Bardic Inspiration"
         }
-      ],
+      },
       "features": {
-        "1": {
-          "0": {
-            "name": "Bardic Inspiration",
-            "text": "Bonus Action: add an Inspiration die (d6, d8 at 5, d10 at 10, d12 at 15) to the Fortune Tray as a ghost die."
-          }
+        "bardicInspiration": {
+          "name": "Bardic Inspiration",
+          "text": "Bonus Action: add an Inspiration die (d6, d8 at 5, d10 at 10, d12 at 15) to the Fortune Tray as a ghost die."
         },
-        "2": [
-          {
-            "name": "Expertise",
-            "text": "Double proficiency in two skills."
-          },
-          {
-            "name": "Jack of All Trades",
-            "text": "Add half proficiency to checks without proficiency."
-          }
-        ],
-        "3": [
-          {
-            "name": "Cutting Words",
-            "text": "Reaction: when an ally is hit, spend Inspiration to reduce the damage by your Inspiration die."
-          },
-          {
-            "name": "Bonus Proficiencies",
-            "text": "Gain proficiency in three skills."
-          }
-        ],
-        "5": [
-          {
-            "name": "Font of Inspiration",
-            "text": "Inspiration recharges on a short rest."
-          }
-        ],
-        "6": [
-          {
-            "name": "Magical Discoveries",
-            "text": "Learn spells from any list (Cleric, Druid or Wizard)."
-          }
-        ],
-        "7": [
-          {
-            "name": "Countercharm",
-            "text": "Allies have advantage on saves against charmed and frightened."
-          }
-        ],
-        "10": [
-          {
-            "name": "Magical Secrets",
-            "text": "Prepare spells from the Cleric, Druid and Wizard lists."
-          }
-        ],
-        "14": [
-          {
-            "name": "Peerless Skill",
-            "text": "Add an Inspiration die to failed checks."
-          }
-        ],
-        "18": [
-          {
-            "name": "Superior Inspiration",
-            "text": "Start each combat with at least two Inspiration uses."
-          }
-        ],
-        "20": [
-          {
-            "name": "Words of Creation",
-            "text": "Power Word Heal and Power Word Kill always prepared; may target two creatures."
-          }
-        ]
+        "expertise": {
+          "name": "Expertise",
+          "text": "Double proficiency in two skills."
+        },
+        "jackOfAllTrades": {
+          "name": "Jack of All Trades",
+          "text": "Add half proficiency to checks without proficiency."
+        },
+        "fontOfInspiration": {
+          "name": "Font of Inspiration",
+          "text": "Inspiration recharges on a short rest."
+        },
+        "countercharm": {
+          "name": "Countercharm",
+          "text": "Allies have advantage on saves against charmed and frightened."
+        },
+        "magicalSecrets": {
+          "name": "Magical Secrets",
+          "text": "Prepare spells from the Cleric, Druid and Wizard lists."
+        },
+        "superiorInspiration": {
+          "name": "Superior Inspiration",
+          "text": "Start each combat with at least two Inspiration uses."
+        },
+        "wordsOfCreation": {
+          "name": "Words of Creation",
+          "text": "Power Word Heal and Power Word Kill always prepared; may target two creatures."
+        }
       }
     },
     "cleric": {
       "name": "Cleric",
-      "subclass": {
-        "name": "Life Domain"
-      },
       "summary": "A conduit of divine light: heals, shields, and burns the undead.",
+      "subclassLabel": "Divine Domain",
       "fortuneTalent": {
         "name": "Sanctify",
         "text": "Once per combat, turn one tray die into a blazing 6 (Sun)."
       },
-      "resources": [
-        {
+      "resources": {
+        "channel": {
           "name": "Channel Divinity"
         },
-        {
+        "intervention": {
           "name": "Divine Intervention"
         }
-      ],
+      },
       "features": {
-        "1": {
-          "1": {
-            "name": "Divine Order",
-            "text": "Protector (heavy armor, martial weapons) or Thaumaturge (extra cantrip, +WIS to Arcana/Religion)."
-          }
+        "divineOrder": {
+          "name": "Divine Order",
+          "text": "Protector (heavy armor, martial weapons) or Thaumaturge (extra cantrip, +WIS to Arcana/Religion)."
         },
-        "2": [
-          {
-            "name": "Channel Divinity: Divine Spark",
-            "text": "Heal an ally or blast a foe for 1d8 + WIS (more dice at 7, 13, 18)."
-          },
-          {
-            "name": "Channel Divinity: Turn Undead",
-            "text": "Undead make a WIS save or are frightened and incapacitated."
-          }
-        ],
-        "3": [
-          {
-            "name": "Disciple of Life",
-            "text": "Healing spells restore 2 + spell level extra HP."
-          },
-          {
-            "name": "Preserve Life",
-            "text": "Channel Divinity: restore 5 × level HP split among wounded allies."
-          }
-        ],
-        "5": [
-          {
-            "name": "Sear Undead",
-            "text": "Turn Undead also deals WIS-mod d8 radiant damage."
-          }
-        ],
-        "6": [
-          {
-            "name": "Blessed Healer",
-            "text": "Healing an ally also heals you for 2 + spell level."
-          }
-        ],
-        "7": [
-          {
-            "name": "Blessed Strikes",
-            "text": "Once per turn, weapon or cantrip damage deals an extra 1d8 radiant."
-          }
-        ],
-        "10": [
-          {
-            "name": "Divine Intervention",
-            "text": "Once per long rest, heal the whole party to at least half and cleanse their conditions."
-          }
-        ],
-        "14": [
-          {
-            "name": "Improved Blessed Strikes",
-            "text": "Blessed Strikes deals 2d8."
-          }
-        ],
-        "17": [
-          {
-            "name": "Supreme Healing",
-            "text": "Healing dice always roll their maximum."
-          }
-        ],
-        "20": [
-          {
-            "name": "Greater Divine Intervention",
-            "text": "Divine Intervention also revives fallen allies at 1 HP."
-          }
-        ]
+        "divineSpark": {
+          "name": "Channel Divinity: Divine Spark",
+          "text": "Heal an ally or blast a foe for 1d8 + WIS (more dice at 7, 13, 18)."
+        },
+        "turnUndead": {
+          "name": "Channel Divinity: Turn Undead",
+          "text": "Undead make a WIS save or are frightened and incapacitated."
+        },
+        "searUndead": {
+          "name": "Sear Undead",
+          "text": "Turn Undead also deals WIS-mod d8 radiant damage."
+        },
+        "blessedStrikes": {
+          "name": "Blessed Strikes",
+          "text": "Once per turn, weapon or cantrip damage deals an extra 1d8 radiant."
+        },
+        "divineIntervention": {
+          "name": "Divine Intervention",
+          "text": "Once per long rest, heal the whole party to at least half and cleanse their conditions."
+        },
+        "improvedBlessedStrikes": {
+          "name": "Improved Blessed Strikes",
+          "text": "Blessed Strikes deals 2d8."
+        },
+        "greaterIntervention": {
+          "name": "Greater Divine Intervention",
+          "text": "Divine Intervention also revives fallen allies at 1 HP."
+        }
       }
     },
     "druid": {
       "name": "Druid",
-      "subclass": {
-        "name": "Circle of the Land"
-      },
       "summary": "Shapeshifter and storm-caller, rooted in the old magic of living things.",
+      "subclassLabel": "Druid Circle",
       "fortuneTalent": {
         "name": "Overgrowth",
         "text": "Once per combat, a chosen tray die sprouts a ghost copy of itself."
       },
-      "resources": [
-        {
+      "resources": {
+        "wildShape": {
           "name": "Wild Shape"
         }
-      ],
+      },
       "features": {
-        "1": {
-          "1": {
-            "name": "Primal Order",
-            "text": "Magician (extra cantrip) or Warden (medium armor, martial weapons)."
-          }
+        "primalOrder": {
+          "name": "Primal Order",
+          "text": "Magician (extra cantrip) or Warden (medium armor, martial weapons)."
         },
-        "2": [
-          {
-            "name": "Wild Shape",
-            "text": "Bonus Action: take beast form — gain temp HP equal to 3 × level, and your attacks become claws (1d8 + WIS)."
-          }
-        ],
-        "3": [
-          {
-            "name": "Land's Aid",
-            "text": "Spend Wild Shape: foes in a rank take 2d6 necrotic (CON half) and an ally heals 2d6 (3d6 at 10, 4d6 at 14)."
-          }
-        ],
-        "5": [
-          {
-            "name": "Wild Resurgence",
-            "text": "Spend a spell slot to regain a Wild Shape use."
-          }
-        ],
-        "6": [
-          {
-            "name": "Natural Recovery",
-            "text": "Recover spell slots on a short rest (once per expedition)."
-          }
-        ],
-        "7": [
-          {
-            "name": "Elemental Fury",
-            "text": "Add WIS to cantrip damage."
-          }
-        ],
-        "10": [
-          {
-            "name": "Nature's Ward",
-            "text": "Immune to poisoned; resist poison."
-          }
-        ],
-        "14": [
-          {
-            "name": "Nature's Sanctuary",
-            "text": "Allies in your rank gain resistance while you are Wild Shaped."
-          }
-        ],
-        "15": [
-          {
-            "name": "Improved Elemental Fury",
-            "text": "Cantrips gain +1 die of damage."
-          }
-        ],
-        "18": [
-          {
-            "name": "Beast Spells",
-            "text": "Cast spells while Wild Shaped."
-          }
-        ],
-        "20": [
-          {
-            "name": "Archdruid",
-            "text": "Regain a Wild Shape use at the start of each combat."
-          }
-        ]
+        "wildShape": {
+          "name": "Wild Shape",
+          "text": "Bonus Action: take beast form — gain temp HP equal to 3 × level, and your attacks become claws (1d8 + WIS)."
+        },
+        "wildResurgence": {
+          "name": "Wild Resurgence",
+          "text": "Spend a spell slot to regain a Wild Shape use."
+        },
+        "elementalFury": {
+          "name": "Elemental Fury",
+          "text": "Add WIS to cantrip damage."
+        },
+        "improvedElementalFury": {
+          "name": "Improved Elemental Fury",
+          "text": "Cantrips gain +1 die of damage."
+        },
+        "beastSpells": {
+          "name": "Beast Spells",
+          "text": "Cast spells while Wild Shaped."
+        },
+        "archdruid": {
+          "name": "Archdruid",
+          "text": "Regain a Wild Shape use at the start of each combat."
+        }
       }
     },
     "fighter": {
       "name": "Fighter",
-      "subclass": {
-        "name": "Champion"
-      },
       "summary": "The master of weapons and armor — steady, durable, relentless.",
+      "subclassLabel": "Martial Archetype",
       "fortuneTalent": {
         "name": "Steady Hand",
         "text": "Once per turn, nudge one tray die up or down by 1."
       },
-      "resources": [
-        {
+      "resources": {
+        "secondWind": {
           "name": "Second Wind"
         },
-        {
+        "actionSurge": {
           "name": "Action Surge"
         },
-        {
+        "indomitable": {
           "name": "Indomitable"
         }
-      ],
+      },
       "features": {
-        "1": {
-          "0": {
-            "name": "Fighting Style",
-            "text": "Choose a Fighting Style."
-          },
-          "1": {
-            "name": "Second Wind",
-            "text": "Bonus Action: regain 1d10 + level HP."
-          }
+        "fightingStyle": {
+          "name": "Fighting Style",
+          "text": "Choose a Fighting Style."
         },
-        "2": [
-          {
-            "name": "Action Surge",
-            "text": "Take one additional action — and play one more Fortune hand — this turn."
-          },
-          {
-            "name": "Tactical Mind",
-            "text": "Spend Second Wind to add 1d10 to a failed check."
-          }
-        ],
-        "3": [
-          {
-            "name": "Improved Critical",
-            "text": "Critical hits on 19–20."
-          },
-          {
-            "name": "Remarkable Athlete",
-            "text": "Advantage on initiative and Athletics checks."
-          }
-        ],
-        "5": {
-          "1": {
-            "name": "Tactical Shift",
-            "text": "Second Wind also lets you switch ranks."
-          }
+        "secondWind": {
+          "name": "Second Wind",
+          "text": "Bonus Action: regain 1d10 + level HP."
         },
-        "7": [
-          {
-            "name": "Additional Fighting Style",
-            "text": "Choose a second Fighting Style."
-          }
-        ],
-        "9": [
-          {
-            "name": "Indomitable",
-            "text": "Reroll a failed saving throw with a bonus equal to your level."
-          },
-          {
-            "name": "Tactical Master",
-            "text": "Your attacks may use Push, Sap or Slow instead of the weapon's mastery."
-          }
-        ],
-        "10": [
-          {
-            "name": "Heroic Warrior",
-            "text": "Start each of your turns with one extra reroll."
-          }
-        ],
-        "13": [
-          {
-            "name": "Studied Attacks",
-            "text": "After you miss a target, your next attack against it has advantage."
-          }
-        ],
-        "15": [
-          {
-            "name": "Superior Critical",
-            "text": "Critical hits on 18–20."
-          }
-        ],
-        "17": [
-          {
-            "name": "Action Surge (two uses)",
-            "text": "Two uses of Action Surge per rest."
-          }
-        ],
-        "18": [
-          {
-            "name": "Survivor",
-            "text": "At the start of your turn while bloodied, regain 5 + CON HP."
-          }
-        ]
+        "actionSurge": {
+          "name": "Action Surge",
+          "text": "Take one additional action — and play one more Fortune hand — this turn."
+        },
+        "tacticalMind": {
+          "name": "Tactical Mind",
+          "text": "Spend Second Wind to add 1d10 to a failed check."
+        },
+        "tacticalShift": {
+          "name": "Tactical Shift",
+          "text": "Second Wind also lets you switch ranks."
+        },
+        "indomitable": {
+          "name": "Indomitable",
+          "text": "Reroll a failed saving throw with a bonus equal to your level."
+        },
+        "tacticalMaster": {
+          "name": "Tactical Master",
+          "text": "Your attacks may use Push, Sap or Slow instead of the weapon's mastery."
+        },
+        "studiedAttacks": {
+          "name": "Studied Attacks",
+          "text": "After you miss a target, your next attack against it has advantage."
+        },
+        "actionSurge2": {
+          "name": "Action Surge (two uses)",
+          "text": "Two uses of Action Surge per rest."
+        }
       }
     },
     "monk": {
       "name": "Monk",
-      "subclass": {
-        "name": "Warrior of the Open Hand"
-      },
       "summary": "A blur of fists and focus who plays more hands than anyone.",
+      "subclassLabel": "Monastic Tradition",
       "fortuneTalent": {
         "name": "Flow of Fortune",
         "text": "Flurry of Blows plays a second Fortune hand of up to 3 dice."
       },
-      "resources": [
-        {
+      "resources": {
+        "focus": {
           "name": "Focus Points"
-        },
-        {
-          "name": "Wholeness of Body"
         }
-      ],
+      },
       "features": {
-        "1": [
-          {
-            "name": "Martial Arts",
-            "text": "Unarmed strikes and monk weapons use DEX and a Martial Arts die (d6 → d12). Bonus Action unarmed strike."
-          },
-          {
-            "name": "Unarmored Defense",
-            "text": "Without armor or shield, AC = 10 + DEX + WIS."
-          }
-        ],
-        "2": [
-          {
-            "name": "Flurry of Blows",
-            "text": "1 Focus, Bonus Action: two unarmed strikes (three at 10), playing a second hand of up to 3 dice."
-          },
-          {
-            "name": "Patient Defense",
-            "text": "1 Focus, Bonus Action: Dodge — attacks against you have disadvantage."
-          },
-          {
-            "name": "Uncanny Metabolism",
-            "text": "Regain all Focus when you roll initiative, once per long rest."
-          }
-        ],
-        "3": [
-          {
-            "name": "Deflect Attacks",
-            "text": "Reaction: reduce attack damage by 1d10 + DEX + level."
-          },
-          {
-            "name": "Open Hand Technique",
-            "text": "Flurry hits can topple (DEX save or prone) or push the target to the back rank."
-          }
-        ],
-        "4": {
-          "1": {
-            "name": "Slow Fall",
-            "text": "Ignore pit and fall damage while exploring."
-          }
+        "martialArts": {
+          "name": "Martial Arts",
+          "text": "Unarmed strikes and monk weapons use DEX and a Martial Arts die (d6 → d12). Bonus Action unarmed strike."
         },
-        "5": {
-          "1": {
-            "name": "Stunning Strike",
-            "text": "1 Focus on hit: CON save or stunned until your next turn."
-          }
+        "unarmoredDefenseMonk": {
+          "name": "Unarmored Defense",
+          "text": "Without armor or shield, AC = 10 + DEX + WIS."
         },
-        "6": [
-          {
-            "name": "Empowered Strikes",
-            "text": "Unarmed strikes deal force damage."
-          },
-          {
-            "name": "Wholeness of Body",
-            "text": "Bonus Action: heal Martial Arts die + WIS."
-          }
-        ],
-        "7": [
-          {
-            "name": "Evasion",
-            "text": "DEX saves for half take none on a success, half on a failure."
-          }
-        ],
-        "9": [
-          {
-            "name": "Acrobatic Movement",
-            "text": "Switch ranks freely."
-          }
-        ],
-        "10": [
-          {
-            "name": "Heightened Focus",
-            "text": "Flurry makes three strikes; Patient Defense also grants temp HP."
-          },
-          {
-            "name": "Self-Restoration",
-            "text": "End charmed, frightened or poisoned at the end of your turn."
-          }
-        ],
-        "11": [
-          {
-            "name": "Fleet Step",
-            "text": "Patient Defense also lets you switch ranks."
-          }
-        ],
-        "13": [
-          {
-            "name": "Deflect Energy",
-            "text": "Deflect Attacks works on any damage type."
-          }
-        ],
-        "14": [
-          {
-            "name": "Disciplined Survivor",
-            "text": "Proficiency in all saving throws."
-          }
-        ],
-        "15": [
-          {
-            "name": "Perfect Focus",
-            "text": "Start combat with at least 4 Focus."
-          }
-        ],
-        "17": [
-          {
-            "name": "Quivering Palm",
-            "text": "4 Focus: on hit, CON save or take 10d12 force (half on success)."
-          }
-        ],
-        "18": [
-          {
-            "name": "Superior Defense",
-            "text": "3 Focus: resistance to all damage but force for 10 rounds."
-          }
-        ],
-        "20": [
-          {
-            "name": "Body and Mind",
-            "text": "Dexterity and Wisdom +4 (max 25)."
-          }
-        ]
+        "flurryOfBlows": {
+          "name": "Flurry of Blows",
+          "text": "1 Focus, Bonus Action: two unarmed strikes (three at 10), playing a second hand of up to 3 dice."
+        },
+        "patientDefense": {
+          "name": "Patient Defense",
+          "text": "1 Focus, Bonus Action: Dodge — attacks against you have disadvantage."
+        },
+        "uncannyMetabolism": {
+          "name": "Uncanny Metabolism",
+          "text": "Regain all Focus when you roll initiative, once per long rest."
+        },
+        "deflectAttacks": {
+          "name": "Deflect Attacks",
+          "text": "Reaction: reduce attack damage by 1d10 + DEX + level."
+        },
+        "slowFall": {
+          "name": "Slow Fall",
+          "text": "Ignore pit and fall damage while exploring."
+        },
+        "stunningStrike": {
+          "name": "Stunning Strike",
+          "text": "1 Focus on hit: CON save or stunned until your next turn."
+        },
+        "empoweredStrikes": {
+          "name": "Empowered Strikes",
+          "text": "Unarmed strikes deal force damage."
+        },
+        "evasion": {
+          "name": "Evasion",
+          "text": "DEX saves for half take none on a success, half on a failure."
+        },
+        "acrobaticMovement": {
+          "name": "Acrobatic Movement",
+          "text": "Switch ranks freely."
+        },
+        "heightenedFocus": {
+          "name": "Heightened Focus",
+          "text": "Flurry makes three strikes; Patient Defense also grants temp HP."
+        },
+        "selfRestoration": {
+          "name": "Self-Restoration",
+          "text": "End charmed, frightened or poisoned at the end of your turn."
+        },
+        "deflectEnergy": {
+          "name": "Deflect Energy",
+          "text": "Deflect Attacks works on any damage type."
+        },
+        "disciplinedSurvivor": {
+          "name": "Disciplined Survivor",
+          "text": "Proficiency in all saving throws."
+        },
+        "perfectFocus": {
+          "name": "Perfect Focus",
+          "text": "Start combat with at least 4 Focus."
+        },
+        "superiorDefense": {
+          "name": "Superior Defense",
+          "text": "3 Focus: resistance to all damage but force for 10 rounds."
+        },
+        "bodyAndMind": {
+          "name": "Body and Mind",
+          "text": "Dexterity and Wisdom +4 (max 25)."
+        }
       }
     },
     "paladin": {
       "name": "Paladin",
-      "subclass": {
-        "name": "Oath of Devotion"
-      },
       "summary": "An oath made steel — smites, auras and hands that mend.",
+      "subclassLabel": "Sacred Oath",
       "fortuneTalent": {
         "name": "Oath Seal",
         "text": "Divine Smite adds +1 Mult per spell-slot level spent."
       },
-      "resources": [
-        {
+      "resources": {
+        "layOnHands": {
           "name": "Lay on Hands"
         },
-        {
+        "channel": {
           "name": "Channel Divinity"
         },
-        {
+        "freeSmite": {
           "name": "Paladin's Smite"
         }
-      ],
+      },
       "features": {
-        "1": {
-          "0": {
-            "name": "Lay on Hands",
-            "text": "Bonus Action: restore HP from a pool of 5 × level."
-          }
+        "layOnHands": {
+          "name": "Lay on Hands",
+          "text": "Bonus Action: restore HP from a pool of 5 × level."
         },
-        "2": [
-          {
-            "name": "Fighting Style",
-            "text": "Choose a Fighting Style."
-          },
-          {
-            "name": "Paladin's Smite",
-            "text": "Divine Smite is always prepared, and once per long rest it costs no slot."
-          }
-        ],
-        "3": [
-          {
-            "name": "Sacred Weapon",
-            "text": "Channel Divinity, Bonus Action: add CHA to attack rolls for 10 rounds; weapon sheds holy light."
-          },
-          {
-            "name": "Divine Sense",
-            "text": "Reveal hidden fiends and undead in the next rooms."
-          }
-        ],
-        "5": {
-          "1": {
-            "name": "Faithful Steed",
-            "text": "Find Steed is always prepared (exploration speed)."
-          }
+        "fightingStyle": {
+          "name": "Fighting Style",
+          "text": "Choose a Fighting Style."
         },
-        "6": [
-          {
-            "name": "Aura of Protection",
-            "text": "You and your allies add your CHA to saving throws."
-          }
-        ],
-        "7": [
-          {
-            "name": "Aura of Devotion",
-            "text": "Allies are immune to charmed."
-          }
-        ],
-        "9": [
-          {
-            "name": "Abjure Foes",
-            "text": "Channel Divinity: up to CHA enemies make a WIS save or are frightened."
-          }
-        ],
-        "10": [
-          {
-            "name": "Aura of Courage",
-            "text": "Allies are immune to frightened."
-          }
-        ],
-        "11": [
-          {
-            "name": "Radiant Strikes",
-            "text": "Weapon hits deal an extra 1d8 radiant."
-          }
-        ],
-        "14": [
-          {
-            "name": "Restoring Touch",
-            "text": "Lay on Hands also removes conditions."
-          }
-        ],
-        "15": [
-          {
-            "name": "Smite of Protection",
-            "text": "When you Smite, allies gain +2 AC until your next turn."
-          }
-        ],
-        "18": [
-          {
-            "name": "Aura Expansion",
-            "text": "Auras reach the whole party regardless of rank."
-          }
-        ],
-        "20": [
-          {
-            "name": "Holy Nimbus",
-            "text": "Once per long rest: radiant aura deals CHA + PB to foes each turn and grants advantage on saves."
-          }
-        ]
+        "paladinsSmite": {
+          "name": "Paladin's Smite",
+          "text": "Divine Smite is always prepared, and once per long rest it costs no slot."
+        },
+        "divineSense": {
+          "name": "Divine Sense",
+          "text": "Reveal hidden fiends and undead in the next rooms."
+        },
+        "faithfulSteed": {
+          "name": "Faithful Steed",
+          "text": "Find Steed is always prepared (exploration speed)."
+        },
+        "auraOfProtection": {
+          "name": "Aura of Protection",
+          "text": "You and your allies add your CHA to saving throws."
+        },
+        "abjureFoes": {
+          "name": "Abjure Foes",
+          "text": "Channel Divinity: up to CHA enemies make a WIS save or are frightened."
+        },
+        "auraOfCourage": {
+          "name": "Aura of Courage",
+          "text": "Allies are immune to frightened."
+        },
+        "radiantStrikes": {
+          "name": "Radiant Strikes",
+          "text": "Weapon hits deal an extra 1d8 radiant."
+        },
+        "restoringTouch": {
+          "name": "Restoring Touch",
+          "text": "Lay on Hands also removes conditions."
+        },
+        "auraExpansion": {
+          "name": "Aura Expansion",
+          "text": "Auras reach the whole party regardless of rank."
+        }
       }
     },
     "ranger": {
       "name": "Ranger",
-      "subclass": {
-        "name": "Hunter"
-      },
       "summary": "Tracker and archer who marks a quarry and never lets it go.",
+      "subclassLabel": "Ranger Conclave",
       "fortuneTalent": {
         "name": "Quarry",
         "text": "Against your Marked target, Straights score ×2 Mult."
       },
-      "resources": [
-        {
+      "resources": {
+        "favoredEnemy": {
           "name": "Favored Enemy"
         },
-        {
+        "tireless": {
           "name": "Tireless"
         }
-      ],
+      },
       "features": {
-        "1": {
-          "1": {
-            "name": "Favored Enemy",
-            "text": "Cast Hunter's Mark without a slot a few times per long rest."
-          }
+        "favoredEnemy": {
+          "name": "Favored Enemy",
+          "text": "Cast Hunter's Mark without a slot a few times per long rest."
         },
-        "2": [
-          {
-            "name": "Deft Explorer",
-            "text": "Expertise in one skill; exploration bonus to Survival checks."
-          },
-          {
-            "name": "Fighting Style",
-            "text": "Choose a Fighting Style."
-          }
-        ],
-        "3": [
-          {
-            "name": "Hunter's Prey: Colossus Slayer",
-            "text": "Once per turn, +1d8 damage to a target that is already wounded."
-          },
-          {
-            "name": "Hunter's Lore",
-            "text": "Marked targets reveal their resistances."
-          }
-        ],
-        "6": [
-          {
-            "name": "Roving",
-            "text": "Climb and swim freely; flooded corridors cost no extra time."
-          }
-        ],
-        "7": [
-          {
-            "name": "Defensive Tactics: Multiattack Defense",
-            "text": "After a creature hits you, its further attacks this turn have disadvantage."
-          }
-        ],
-        "9": [
-          {
-            "name": "Expertise",
-            "text": "Expertise in two skills."
-          }
-        ],
-        "10": [
-          {
-            "name": "Tireless",
-            "text": "Action: gain 1d8 + WIS temp HP."
-          }
-        ],
-        "11": [
-          {
-            "name": "Superior Hunter's Prey: Volley",
-            "text": "Action: make a ranged attack against every enemy in one rank."
-          }
-        ],
-        "13": [
-          {
-            "name": "Relentless Hunter",
-            "text": "Damage can't break your concentration on Hunter's Mark."
-          }
-        ],
-        "14": [
-          {
-            "name": "Nature's Veil",
-            "text": "Bonus Action: become invisible until the end of your next turn."
-          }
-        ],
-        "15": [
-          {
-            "name": "Superior Hunter's Defense",
-            "text": "Reaction: resistance to one attack's damage."
-          }
-        ],
-        "17": [
-          {
-            "name": "Precise Hunter",
-            "text": "Advantage on attacks against your Marked target."
-          }
-        ],
-        "18": [
-          {
-            "name": "Feral Senses",
-            "text": "Ignore invisibility and blindness when attacking."
-          }
-        ],
-        "20": [
-          {
-            "name": "Foe Slayer",
-            "text": "Hunter's Mark deals d10s instead of d6s."
-          }
-        ]
+        "deftExplorer": {
+          "name": "Deft Explorer",
+          "text": "Expertise in one skill; exploration bonus to Survival checks."
+        },
+        "fightingStyle": {
+          "name": "Fighting Style",
+          "text": "Choose a Fighting Style."
+        },
+        "roving": {
+          "name": "Roving",
+          "text": "Climb and swim freely; flooded corridors cost no extra time."
+        },
+        "expertiseRanger": {
+          "name": "Expertise",
+          "text": "Expertise in two skills."
+        },
+        "tireless": {
+          "name": "Tireless",
+          "text": "Action: gain 1d8 + WIS temp HP."
+        },
+        "relentlessHunter": {
+          "name": "Relentless Hunter",
+          "text": "Damage can't break your concentration on Hunter's Mark."
+        },
+        "naturesVeil": {
+          "name": "Nature's Veil",
+          "text": "Bonus Action: become invisible until the end of your next turn."
+        },
+        "preciseHunter": {
+          "name": "Precise Hunter",
+          "text": "Advantage on attacks against your Marked target."
+        },
+        "feralSenses": {
+          "name": "Feral Senses",
+          "text": "Ignore invisibility and blindness when attacking."
+        },
+        "foeSlayer": {
+          "name": "Foe Slayer",
+          "text": "Hunter's Mark deals d10s instead of d6s."
+        }
       }
     },
     "rogue": {
       "name": "Rogue",
-      "subclass": {
-        "name": "Thief"
-      },
       "summary": "A knife in the dark who loves a loaded die.",
+      "subclassLabel": "Roguish Archetype",
       "fortuneTalent": {
         "name": "Loaded Dice",
         "text": "+1 reroll on your turns. Sneak Attack triggers whenever you play a Pair or better."
       },
-      "resources": [
-        {
+      "resources": {
+        "strokeOfLuck": {
           "name": "Stroke of Luck"
         }
-      ],
+      },
       "features": {
-        "1": {
-          "0": {
-            "name": "Expertise",
-            "text": "Double proficiency in two skills."
-          },
-          "1": {
-            "name": "Sneak Attack",
-            "text": "Once per turn add extra d6s when you have advantage, an ally stands in the front rank, or you play a Pair or better."
-          },
-          "2": {
-            "name": "Thieves' Cant",
-            "text": "Read secret marks in the dungeon."
-          }
+        "expertise": {
+          "name": "Expertise",
+          "text": "Double proficiency in two skills."
         },
-        "2": [
-          {
-            "name": "Cunning Action",
-            "text": "Bonus Action: Hide (your next attack has advantage) or switch ranks."
-          }
-        ],
-        "3": [
-          {
-            "name": "Fast Hands",
-            "text": "Use items as a Bonus Action."
-          },
-          {
-            "name": "Steady Aim",
-            "text": "Bonus Action: advantage on your next attack this turn."
-          }
-        ],
-        "5": [
-          {
-            "name": "Cunning Strike",
-            "text": "Trade a Sneak Attack die to poison, trip or withdraw."
-          },
-          {
-            "name": "Uncanny Dodge",
-            "text": "Reaction: halve the damage of an attack that hits you."
-          }
-        ],
-        "6": [
-          {
-            "name": "Expertise",
-            "text": "Two more Expertise skills."
-          }
-        ],
-        "7": [
-          {
-            "name": "Evasion",
-            "text": "DEX saves for half take none on a success, half on a failure."
-          },
-          {
-            "name": "Reliable Talent",
-            "text": "Treat a d20 of 9 or lower as 10 on proficient checks."
-          }
-        ],
-        "9": [
-          {
-            "name": "Supreme Sneak",
-            "text": "Hide costs nothing after an attack once per turn."
-          }
-        ],
-        "11": [
-          {
-            "name": "Improved Cunning Strike",
-            "text": "Use two Cunning Strike effects."
-          }
-        ],
-        "13": [
-          {
-            "name": "Use Magic Device",
-            "text": "Use any scroll; attune to more trinkets."
-          }
-        ],
-        "14": [
-          {
-            "name": "Devious Strikes",
-            "text": "Cunning Strike may daze or knock out."
-          }
-        ],
-        "15": [
-          {
-            "name": "Slippery Mind",
-            "text": "Proficiency in WIS and CHA saves."
-          }
-        ],
-        "17": [
-          {
-            "name": "Thief's Reflexes",
-            "text": "Take two turns in the first round of combat."
-          }
-        ],
-        "18": [
-          {
-            "name": "Elusive",
-            "text": "No attack roll has advantage against you."
-          }
-        ],
-        "20": [
-          {
-            "name": "Stroke of Luck",
-            "text": "Turn a missed attack into a hit, once per short rest."
-          }
-        ]
+        "sneakAttack": {
+          "name": "Sneak Attack",
+          "text": "Once per turn add extra d6s when you have advantage, an ally stands in the front rank, or you play a Pair or better."
+        },
+        "thievesCant": {
+          "name": "Thieves' Cant",
+          "text": "Read secret marks in the dungeon."
+        },
+        "cunningAction": {
+          "name": "Cunning Action",
+          "text": "Bonus Action: Hide (your next attack has advantage) or switch ranks."
+        },
+        "steadyAim": {
+          "name": "Steady Aim",
+          "text": "Bonus Action: advantage on your next attack this turn."
+        },
+        "cunningStrike": {
+          "name": "Cunning Strike",
+          "text": "Trade a Sneak Attack die to poison, trip or withdraw."
+        },
+        "uncannyDodge": {
+          "name": "Uncanny Dodge",
+          "text": "Reaction: halve the damage of an attack that hits you."
+        },
+        "expertise2": {
+          "name": "Expertise",
+          "text": "Two more Expertise skills."
+        },
+        "evasion": {
+          "name": "Evasion",
+          "text": "DEX saves for half take none on a success, half on a failure."
+        },
+        "reliableTalent": {
+          "name": "Reliable Talent",
+          "text": "Treat a d20 of 9 or lower as 10 on proficient checks."
+        },
+        "improvedCunningStrike": {
+          "name": "Improved Cunning Strike",
+          "text": "Use two Cunning Strike effects."
+        },
+        "deviousStrikes": {
+          "name": "Devious Strikes",
+          "text": "Cunning Strike may daze or knock out."
+        },
+        "slipperyMind": {
+          "name": "Slippery Mind",
+          "text": "Proficiency in WIS and CHA saves."
+        },
+        "elusive": {
+          "name": "Elusive",
+          "text": "No attack roll has advantage against you."
+        },
+        "strokeOfLuck": {
+          "name": "Stroke of Luck",
+          "text": "Turn a missed attack into a hit, once per short rest."
+        }
       }
     },
     "sorcerer": {
       "name": "Sorcerer",
-      "subclass": {
-        "name": "Draconic Sorcery"
-      },
       "summary": "Raw magic in the blood; bends spells — and dice — at will.",
+      "subclassLabel": "Sorcerous Origin",
       "fortuneTalent": {
         "name": "Wild Surge",
         "text": "Spend Sorcery Points: 1 for a reroll, 2 to flip a tray die (7 − value)."
       },
-      "resources": [
-        {
+      "resources": {
+        "sorcery": {
           "name": "Sorcery Points"
         },
-        {
+        "innateSorcery": {
           "name": "Innate Sorcery"
         }
-      ],
+      },
       "features": {
-        "1": {
-          "1": {
-            "name": "Innate Sorcery",
-            "text": "Bonus Action, twice per long rest: +1 spell save DC and advantage on spell attacks for 10 rounds."
-          }
+        "innateSorcery": {
+          "name": "Innate Sorcery",
+          "text": "Bonus Action, twice per long rest: +1 spell save DC and advantage on spell attacks for 10 rounds."
         },
-        "2": [
-          {
-            "name": "Font of Magic",
-            "text": "Sorcery Points equal to level fuel metamagic and dice tricks."
-          },
-          {
-            "name": "Metamagic",
-            "text": "Choose two Metamagic options."
-          }
-        ],
-        "3": [
-          {
-            "name": "Draconic Resilience",
-            "text": "+1 HP per level; unarmored AC = 10 + DEX + CHA."
-          }
-        ],
-        "5": [
-          {
-            "name": "Sorcerous Restoration",
-            "text": "Regain half your level in Sorcery Points on a short rest."
-          }
-        ],
-        "6": [
-          {
-            "name": "Elemental Affinity",
-            "text": "Add CHA to fire spell damage; resist fire."
-          }
-        ],
-        "7": [
-          {
-            "name": "Sorcery Incarnate",
-            "text": "While Innate Sorcery is active, use two Metamagic options on one spell."
-          }
-        ],
-        "10": [
-          {
-            "name": "Metamagic",
-            "text": "Learn another Metamagic option."
-          }
-        ],
-        "14": [
-          {
-            "name": "Dragon Wings",
-            "text": "Fly over pits and chasms while exploring."
-          }
-        ],
-        "17": [
-          {
-            "name": "Metamagic",
-            "text": "Learn another Metamagic option."
-          }
-        ],
-        "18": [
-          {
-            "name": "Dragon Companion",
-            "text": "Resistance to your affinity element for the party."
-          }
-        ],
-        "20": [
-          {
-            "name": "Arcane Apotheosis",
-            "text": "While Innate Sorcery is active, one Metamagic per turn is free."
-          }
-        ]
+        "fontOfMagic": {
+          "name": "Font of Magic",
+          "text": "Sorcery Points equal to level fuel metamagic and dice tricks."
+        },
+        "metamagic": {
+          "name": "Metamagic",
+          "text": "Choose two Metamagic options."
+        },
+        "sorcerousRestoration": {
+          "name": "Sorcerous Restoration",
+          "text": "Regain half your level in Sorcery Points on a short rest."
+        },
+        "sorceryIncarnate": {
+          "name": "Sorcery Incarnate",
+          "text": "While Innate Sorcery is active, use two Metamagic options on one spell."
+        },
+        "metamagic2": {
+          "name": "Metamagic",
+          "text": "Learn another Metamagic option."
+        },
+        "metamagic3": {
+          "name": "Metamagic",
+          "text": "Learn another Metamagic option."
+        },
+        "arcaneApotheosis": {
+          "name": "Arcane Apotheosis",
+          "text": "While Innate Sorcery is active, one Metamagic per turn is free."
+        }
       }
     },
     "warlock": {
       "name": "Warlock",
-      "subclass": {
-        "name": "Fiend Patron"
-      },
       "summary": "A bargain with a fiend: few spells, short rests, terrible power.",
+      "subclassLabel": "Otherworldly Patron",
       "fortuneTalent": {
         "name": "Dark Bargain",
         "text": "Once per combat, pay 10% of max HP to set a tray die to any face it has."
       },
-      "resources": [
-        {
+      "resources": {
+        "arcanum6": {
           "name": "Mystic Arcanum (6th)"
         },
-        {
+        "arcanum7": {
           "name": "Mystic Arcanum (7th)"
         },
-        {
+        "arcanum8": {
           "name": "Mystic Arcanum (8th)"
         },
-        {
+        "arcanum9": {
           "name": "Mystic Arcanum (9th)"
-        },
-        {
-          "name": "Dark One's Own Luck"
-        },
-        {
-          "name": "Hurl Through Hell"
         }
-      ],
+      },
       "features": {
-        "1": [
-          {
-            "name": "Eldritch Invocations",
-            "text": "Choose invocations that reshape your magic."
-          },
-          {
-            "name": "Pact Magic",
-            "text": "Few spell slots, always cast at your highest slot level, recovered on a short rest."
-          }
-        ],
-        "2": [
-          {
-            "name": "Magical Cunning",
-            "text": "Recover half your pact slots once per long rest (used automatically at a safe room)."
-          },
-          {
-            "name": "Eldritch Invocations",
-            "text": "Learn two more invocations."
-          }
-        ],
-        "3": [
-          {
-            "name": "Dark One's Blessing",
-            "text": "When you reduce an enemy to 0 HP, gain CHA + level temp HP."
-          }
-        ],
-        "5": [
-          {
-            "name": "Eldritch Invocations",
-            "text": "Learn two more invocations."
-          }
-        ],
-        "6": [
-          {
-            "name": "Dark One's Own Luck",
-            "text": "Add a d10 to a check or save — or turn one tray die to any face (CHA times per long rest)."
-          }
-        ],
-        "7": [
-          {
-            "name": "Eldritch Invocation",
-            "text": "Learn another invocation."
-          }
-        ],
-        "9": [
-          {
-            "name": "Contact Patron",
-            "text": "Ask your patron about the dungeon: reveals the boss room."
-          },
-          {
-            "name": "Eldritch Invocation",
-            "text": "Learn another invocation."
-          }
-        ],
-        "10": [
-          {
-            "name": "Fiendish Resilience",
-            "text": "Resistance to one damage type (fire)."
-          }
-        ],
-        "11": [
-          {
-            "name": "Mystic Arcanum (6th level)",
-            "text": "Cast a 6th-level spell once per long rest."
-          }
-        ],
-        "12": {
-          "1": {
-            "name": "Eldritch Invocation",
-            "text": "Learn another invocation."
-          }
+        "eldritchInvocations": {
+          "name": "Eldritch Invocations",
+          "text": "Choose invocations that reshape your magic."
         },
-        "13": [
-          {
-            "name": "Mystic Arcanum (7th level)",
-            "text": "Cast a 7th-level spell once per long rest."
-          }
-        ],
-        "14": [
-          {
-            "name": "Hurl Through Hell",
-            "text": "Once per long rest: a target takes 8d10 psychic (CHA save avoids)."
-          }
-        ],
-        "15": [
-          {
-            "name": "Mystic Arcanum (8th level)",
-            "text": "Cast an 8th-level spell once per long rest."
-          },
-          {
-            "name": "Eldritch Invocation",
-            "text": "Learn another invocation."
-          }
-        ],
-        "17": [
-          {
-            "name": "Mystic Arcanum (9th level)",
-            "text": "Cast a 9th-level spell once per long rest."
-          }
-        ],
-        "18": [
-          {
-            "name": "Eldritch Invocation",
-            "text": "Learn another invocation."
-          }
-        ],
-        "20": [
-          {
-            "name": "Eldritch Master",
-            "text": "Magical Cunning restores all pact slots."
-          }
-        ]
+        "pactMagic": {
+          "name": "Pact Magic",
+          "text": "Few spell slots, always cast at your highest slot level, recovered on a short rest."
+        },
+        "magicalCunning": {
+          "name": "Magical Cunning",
+          "text": "Recover half your pact slots once per long rest (used automatically at a safe room)."
+        },
+        "invocation2": {
+          "name": "Eldritch Invocations",
+          "text": "Learn two more invocations."
+        },
+        "invocation3": {
+          "name": "Eldritch Invocations",
+          "text": "Learn two more invocations."
+        },
+        "invocation4": {
+          "name": "Eldritch Invocation",
+          "text": "Learn another invocation."
+        },
+        "contactPatron": {
+          "name": "Contact Patron",
+          "text": "Ask your patron about the dungeon: reveals the boss room."
+        },
+        "invocation5": {
+          "name": "Eldritch Invocation",
+          "text": "Learn another invocation."
+        },
+        "mysticArcanum6": {
+          "name": "Mystic Arcanum (6th level)",
+          "text": "Cast a 6th-level spell once per long rest."
+        },
+        "invocation6": {
+          "name": "Eldritch Invocation",
+          "text": "Learn another invocation."
+        },
+        "mysticArcanum7": {
+          "name": "Mystic Arcanum (7th level)",
+          "text": "Cast a 7th-level spell once per long rest."
+        },
+        "mysticArcanum8": {
+          "name": "Mystic Arcanum (8th level)",
+          "text": "Cast an 8th-level spell once per long rest."
+        },
+        "invocation7": {
+          "name": "Eldritch Invocation",
+          "text": "Learn another invocation."
+        },
+        "mysticArcanum9": {
+          "name": "Mystic Arcanum (9th level)",
+          "text": "Cast a 9th-level spell once per long rest."
+        },
+        "invocation8": {
+          "name": "Eldritch Invocation",
+          "text": "Learn another invocation."
+        },
+        "eldritchMaster": {
+          "name": "Eldritch Master",
+          "text": "Magical Cunning restores all pact slots."
+        }
       }
     },
     "wizard": {
       "name": "Wizard",
-      "subclass": {
-        "name": "Evoker"
-      },
       "summary": "A scholar of the arcane with the largest spellbook in the Keep.",
+      "subclassLabel": "Arcane Tradition",
       "fortuneTalent": {
         "name": "Arcane Foresight",
         "text": "See the next die in the bag; once per turn, swap a tray die with it."
       },
-      "resources": [
-        {
+      "resources": {
+        "arcaneRecovery": {
           "name": "Arcane Recovery"
-        },
-        {
-          "name": "Overchannel"
         }
-      ],
+      },
       "features": {
-        "1": {
-          "1": {
-            "name": "Arcane Recovery",
-            "text": "Once per long rest, during a short rest, recover slots totalling half your level."
-          }
+        "arcaneRecovery": {
+          "name": "Arcane Recovery",
+          "text": "Once per long rest, during a short rest, recover slots totalling half your level."
         },
-        "2": [
-          {
-            "name": "Scholar",
-            "text": "Expertise in one INT skill."
-          }
-        ],
-        "3": [
-          {
-            "name": "Potent Cantrip",
-            "text": "Cantrips that miss or are saved against still deal half damage."
-          },
-          {
-            "name": "Evocation Savant",
-            "text": "Learn extra evocation spells."
-          }
-        ],
-        "5": [
-          {
-            "name": "Memorize Spell",
-            "text": "Swap a prepared spell at any safe room."
-          }
-        ],
-        "6": [
-          {
-            "name": "Sculpt Spells",
-            "text": "Your area spells never strike allies (already true here) and deal +2 Mult when hitting 3+ foes."
-          }
-        ],
-        "10": [
-          {
-            "name": "Empowered Evocation",
-            "text": "Add INT to evocation damage."
-          }
-        ],
-        "14": [
-          {
-            "name": "Overchannel",
-            "text": "Once per long rest, a spell of 5th level or lower deals maximum dice damage."
-          }
-        ],
-        "18": [
-          {
-            "name": "Spell Mastery",
-            "text": "Magic Missile and Shield cost no slot."
-          }
-        ],
-        "20": [
-          {
-            "name": "Signature Spells",
-            "text": "Fireball and Counterspell... here: Fireball and Lightning Bolt once each per rest without a slot."
-          }
-        ]
+        "scholar": {
+          "name": "Scholar",
+          "text": "Expertise in one INT skill."
+        },
+        "memorizeSpell": {
+          "name": "Memorize Spell",
+          "text": "Swap a prepared spell at any safe room."
+        },
+        "spellMastery": {
+          "name": "Spell Mastery",
+          "text": "Magic Missile and Shield cost no slot."
+        },
+        "signatureSpells": {
+          "name": "Signature Spells",
+          "text": "Fireball and Counterspell... here: Fireball and Lightning Bolt once each per rest without a slot."
+        }
+      }
+    },
+    "artificer": {
+      "name": "Artificer",
+      "summary": "An inventor of magic who infuses gear, stores spells in trinkets and fixes the dice mid-roll.",
+      "subclassLabel": "Artificer Specialist",
+      "fortuneTalent": {
+        "name": "Calibrate",
+        "text": "Once per turn, set a tray die to the highest face showing on the other dice."
+      },
+      "resources": {
+        "flash": {
+          "name": "Flash of Genius"
+        },
+        "storedSpell": {
+          "name": "Spell-Storing Item"
+        }
+      },
+      "features": {
+        "magicalTinkering": {
+          "name": "Magical Tinkering",
+          "text": "You can make small objects glow, chime or carry a short recorded message."
+        },
+        "infuseItem": {
+          "name": "Infuse Item",
+          "text": "Your gear is always infused: +1 AC, and +1 to hit and damage with weapons."
+        },
+        "rightTool": {
+          "name": "The Right Tool for the Job",
+          "text": "You can conjure a set of artisan's tools, which helps with traps and locks."
+        },
+        "toolExpertise": {
+          "name": "Tool Expertise",
+          "text": "+1 skill trick per fight."
+        },
+        "flashOfGenius": {
+          "name": "Flash of Genius",
+          "text": "Intelligence modifier times per long rest: when an ally fails a save and your Intelligence modifier would turn it into a success, it succeeds."
+        },
+        "magicItemAdept": {
+          "name": "Magic Item Adept",
+          "text": "Your weapon infusion grows: another +1 to hit and damage with weapons."
+        },
+        "spellStoringItem": {
+          "name": "Spell-Storing Item",
+          "text": "Action, twice your Intelligence modifier per long rest: release a stored spell at one foe for 6d6 + Intelligence fire damage (9d6 from level 13, 12d6 from 18)."
+        },
+        "magicItemSavant": {
+          "name": "Magic Item Savant",
+          "text": "+1 to all saving throws."
+        },
+        "magicItemMaster": {
+          "name": "Magic Item Master",
+          "text": "+1 reroll on each of your turns."
+        },
+        "soulOfArtifice": {
+          "name": "Soul of Artifice",
+          "text": "Another +1 to all saving throws, and the first time you would drop to 0 HP in a fight, you stay at 1 HP instead."
+        }
       }
     }
   },
@@ -3986,6 +3498,78 @@
     "magicInitiate": {
       "name": "Magic Initiate",
       "text": "Learn two cantrips and a 1st-level spell (Cure Wounds)."
+    },
+    "manyHands": {
+      "name": "Many Hands (Human)",
+      "text": "Humans learn a bit of everything: +1 to any ability, proficiency in Athletics, and +1 skill trick per fight."
+    },
+    "lanternBearer": {
+      "name": "Lantern Bearer (Human)",
+      "text": "+1 CON or WIS and +1 initiative. You pack a Tonic Coin for every expedition."
+    },
+    "moonlitStep": {
+      "name": "Moonlit Step (Elf)",
+      "text": "+1 DEX or WIS. You start each fight hidden (advantage on your first attack)."
+    },
+    "starsong": {
+      "name": "Starsong (Elf)",
+      "text": "+1 DEX, INT or CHA. Straights and Straight Sets you play get +2 Mult."
+    },
+    "forgeBlooded": {
+      "name": "Forge-Blooded (Dwarf)",
+      "text": "+1 STR or CON, resistance to fire, and +5% max HP."
+    },
+    "stoneTally": {
+      "name": "Stone Tally (Dwarf)",
+      "text": "Dwarves count in threes: +1 CON or WIS, and Three and Four of a Kind hands you play get +2 Mult."
+    },
+    "secondBreakfast": {
+      "name": "Second Breakfast (Halfling)",
+      "text": "+1 CON or DEX. Healing you receive is 20% stronger."
+    },
+    "pocketfulOfLuck": {
+      "name": "Pocketful of Luck (Halfling)",
+      "text": "+1 DEX or CHA. You start each expedition with a Mulligan Coin and a Fate Coin."
+    },
+    "hoardSense": {
+      "name": "Hoard Sense (Dragonborn)",
+      "text": "+1 STR or CHA. Full House and Dragon Hoard hands you play get +3 Mult."
+    },
+    "scaledHide": {
+      "name": "Scaled Hide (Dragonborn)",
+      "text": "+1 CON and +1 AC."
+    },
+    "tinkersKnack": {
+      "name": "Tinker's Knack (Gnome)",
+      "text": "+1 INT or DEX, proficiency in Sleight of Hand, and +1 skill trick per fight."
+    },
+    "clockworkOdds": {
+      "name": "Clockwork Odds (Gnome)",
+      "text": "+1 INT. Each fight opens with a Wild die on the tray."
+    },
+    "mountainborn": {
+      "name": "Mountainborn (Goliath)",
+      "text": "+1 STR or CON, resistance to cold, and you can't be knocked prone."
+    },
+    "giantsGrip": {
+      "name": "Giant's Grip (Goliath)",
+      "text": "+1 STR and +1 to hit and damage with weapons."
+    },
+    "bloodFury": {
+      "name": "Blood Fury (Orc)",
+      "text": "+1 STR or CON. While at or below half HP you deal 15% more damage."
+    },
+    "trophyTaker": {
+      "name": "Trophy Taker (Orc)",
+      "text": "+1 STR or WIS. Each kill heals you 6% of your max HP."
+    },
+    "hellfireBlood": {
+      "name": "Hellfire Blood (Tiefling)",
+      "text": "+1 CON or CHA. Melee attackers that hit you take fire damage equal to your level."
+    },
+    "devilsBargain": {
+      "name": "Devil's Bargain (Tiefling)",
+      "text": "+1 CHA or INT. Shadow and ember dice count as your colour (+1 Mult each when scored)."
     }
   },
   "epicBoons": {
@@ -4850,6 +4434,10 @@
     "spellcasting_Intelligence": {
       "name": "Spellcasting",
       "text": "Cast prepared spells using Intelligence."
+    },
+    "subclass": {
+      "name": "Subclass",
+      "text": "Choose your subclass. It adds its own features at levels 3 and up."
     }
   },
   "tierNames": [
@@ -5027,6 +4615,3217 @@
       "goliath": "goliath",
       "orc": "orc",
       "tiefling": "tiefling"
+    }
+  },
+  "subclasses": {
+    "barbarian": {
+      "berserker": {
+        "name": "Path of the Berserker",
+        "summary": "Fury for its own sake: extra damage while raging recklessly, and nothing can scare you out of it.",
+        "resources": {
+          "intimidate": {
+            "name": "Intimidating Presence"
+          }
+        },
+        "features": {
+          "frenzy": {
+            "name": "Frenzy",
+            "text": "While Raging and Reckless, your first hit each turn deals extra d6s equal to your rage damage."
+          },
+          "mindlessRage": {
+            "name": "Mindless Rage",
+            "text": "While Raging you are immune to charmed and frightened."
+          },
+          "retaliation": {
+            "name": "Retaliation",
+            "text": "When a melee attack damages you, strike back with your reaction."
+          },
+          "intimidatingPresence": {
+            "name": "Intimidating Presence",
+            "text": "Bonus Action, once per long rest: enemies make a WIS save or are frightened."
+          }
+        }
+      },
+      "ancestralGuardian": {
+        "name": "Path of the Ancestral Guardian",
+        "summary": "Spirits of your ancestors stand guard over your companions and punish anyone who strikes you.",
+        "resources": {
+          "ancestors": {
+            "name": "Ancestral Protectors"
+          },
+          "spiritShield": {
+            "name": "Spirit Shield"
+          }
+        },
+        "features": {
+          "ancestralProtectors": {
+            "name": "Ancestral Protectors",
+            "text": "Bonus Action, proficiency bonus times per long rest: spectral warriors close around the party. Every ally gains +2 AC for 2 rounds."
+          },
+          "spiritShield": {
+            "name": "Spirit Shield",
+            "text": "Bonus Action, proficiency bonus times per long rest: the spirits wrap every ally in a ward of temporary HP equal to half your level (×vitality)."
+          },
+          "consultTheSpirits": {
+            "name": "Consult the Spirits",
+            "text": "Your ancestors whisper about what lies ahead: +1 skill trick per fight."
+          },
+          "vengefulAncestors": {
+            "name": "Vengeful Ancestors",
+            "text": "A melee attacker that hits you takes force damage equal to twice your level."
+          }
+        }
+      },
+      "battlerager": {
+        "name": "Path of the Battlerager",
+        "summary": "A dwarf-born brawler in spiked armour who turns every embrace into a wound.",
+        "features": {
+          "battleragerArmor": {
+            "name": "Battlerager Armor",
+            "text": "Your spiked armour bites: your weapon hits add 1d4 piercing, and a melee attacker that hits you takes piercing damage equal to your level."
+          },
+          "recklessAbandon": {
+            "name": "Reckless Abandon",
+            "text": "Pain only feeds you: regain 2% of your max HP at the start of each of your turns."
+          },
+          "battleragerCharge": {
+            "name": "Battlerager Charge",
+            "text": "You charge in first: +3 initiative."
+          },
+          "spikedRetribution": {
+            "name": "Spiked Retribution",
+            "text": "Your spikes grow longer: melee attackers that hit you take another hit of piercing damage equal to your level."
+          }
+        }
+      },
+      "beast": {
+        "name": "Path of the Beast",
+        "summary": "Claws, fangs and a tail burst out when you rage: a predator that feeds on the fight.",
+        "resources": {
+          "fury": {
+            "name": "Infectious Fury"
+          },
+          "hunt": {
+            "name": "Call the Hunt"
+          }
+        },
+        "features": {
+          "formOfTheBeast": {
+            "name": "Form of the Beast",
+            "text": "Your weapon hits add 1d4 piercing from claws and fangs, and you heal 5% of the damage you deal with weapons."
+          },
+          "bestialSoul": {
+            "name": "Bestial Soul",
+            "text": "Your body adapts to any hunt: +2 initiative and proficiency in Athletics (and its tray trick)."
+          },
+          "infectiousFury": {
+            "name": "Infectious Fury",
+            "text": "Attack action, proficiency bonus times per long rest: your first hit adds 2d12 psychic and the target makes a Wisdom save or is charmed into confusion for 1 round."
+          },
+          "callTheHunt": {
+            "name": "Call the Hunt",
+            "text": "Bonus Action, Constitution modifier times per long rest: the whole party catches your bloodlust. Allies deal +1d4 radiant on hits for 10 rounds."
+          }
+        }
+      },
+      "giant": {
+        "name": "Path of the Giant",
+        "summary": "The strength of giants swells your frame and charges your weapon with elemental force.",
+        "resources": {
+          "impel": {
+            "name": "Mighty Impel"
+          }
+        },
+        "features": {
+          "giantsHavoc": {
+            "name": "Giant's Power and Havoc",
+            "text": "You grow huge in a fight: weapon hits add 1d4 thunder, and you gain proficiency in Athletics."
+          },
+          "elementalCleaver": {
+            "name": "Elemental Cleaver",
+            "text": "Your weapon burns with elemental power: weapon hits add 1d6 fire."
+          },
+          "mightyImpel": {
+            "name": "Mighty Impel",
+            "text": "Action, proficiency bonus times per long rest: hurl a foe. It takes 2d6 + Strength bludgeoning (Strength save halves) and falls prone."
+          },
+          "demiurgicColossus": {
+            "name": "Demiurgic Colossus",
+            "text": "You become a true giant: Elemental Cleaver adds another 1d6, and your max HP rises by 10%."
+          }
+        }
+      },
+      "juggernaut": {
+        "name": "Path of the Juggernaut",
+        "summary": "An unstoppable force: every blow shakes the ground and nothing knocks you down.",
+        "features": {
+          "thunderousBlows": {
+            "name": "Thunderous Blows",
+            "text": "Your blows land like falling stones: weapon hits add 1d4 thunder, and overkill from your melee hits carries into the next foe."
+          },
+          "spiritOfTheMountain": {
+            "name": "Spirit of the Mountain",
+            "text": "You can't be knocked prone or restrained."
+          },
+          "demolishingMight": {
+            "name": "Demolishing Might",
+            "text": "You break what others can't: +15% damage against elites and bosses."
+          },
+          "unstoppable": {
+            "name": "Unstoppable",
+            "text": "Nothing slows your advance: you can't be frightened, stunned or slowed."
+          }
+        }
+      },
+      "stormHerald": {
+        "name": "Path of the Storm Herald",
+        "summary": "Your rage is a storm: lightning leaps from you and the weather shields your friends.",
+        "resources": {
+          "stormAura": {
+            "name": "Storm Aura"
+          }
+        },
+        "features": {
+          "stormAura": {
+            "name": "Storm Aura",
+            "text": "Bonus Action, proficiency bonus times per short rest: lightning leaps to one foe for 2d6 lightning (Dexterity save halves)."
+          },
+          "stormSoul": {
+            "name": "Storm Soul",
+            "text": "Resistance to lightning and cold damage."
+          },
+          "shieldingStorm": {
+            "name": "Shielding Storm",
+            "text": "The storm turns aside the worst of the elements: resistance to fire and thunder, and +1 to all saving throws."
+          },
+          "ragingStorm": {
+            "name": "Raging Storm",
+            "text": "A melee attacker that hits you is struck by lightning for twice your level."
+          }
+        }
+      },
+      "totemWarrior": {
+        "name": "Path of the Totem Warrior",
+        "summary": "A spirit animal guides you: the bear's toughness, the eagle's sight and the wolf's pack.",
+        "features": {
+          "totemSpirit": {
+            "name": "Totem Spirit (Bear)",
+            "text": "The bear spirit makes you hard to hurt: resistance to cold, fire, lightning and poison."
+          },
+          "aspectOfTheBeast": {
+            "name": "Aspect of the Beast (Eagle)",
+            "text": "You see danger from far away: +2 initiative and proficiency in Perception."
+          },
+          "spiritWalker": {
+            "name": "Spirit Walker",
+            "text": "Animal spirits answer your questions: +1 skill trick per fight."
+          },
+          "totemicAttunement": {
+            "name": "Totemic Attunement (Wolf)",
+            "text": "You hunt as a pack: Two Pair and Full House hands you play get +3 Mult."
+          }
+        }
+      },
+      "zealot": {
+        "name": "Path of the Zealot",
+        "summary": "A god's chosen warrior: holy fury in every blow, and death itself has to wait.",
+        "resources": {
+          "zealous": {
+            "name": "Zealous Presence"
+          }
+        },
+        "features": {
+          "divineFury": {
+            "name": "Divine Fury",
+            "text": "Your weapon hits add 1d6 radiant. Healing you receive is 20% stronger (Warrior of the Gods)."
+          },
+          "fanaticalFocus": {
+            "name": "Fanatical Focus",
+            "text": "Your faith steadies you: +1 to all saving throws."
+          },
+          "zealousPresence": {
+            "name": "Zealous Presence",
+            "text": "Bonus Action, once per long rest: a battle cry blesses every ally for 3 rounds (+1d4 to attacks and saves)."
+          },
+          "rageBeyondDeath": {
+            "name": "Rage Beyond Death",
+            "text": "The first time you would drop to 0 HP in a fight, you stay at 1 HP instead."
+          }
+        }
+      },
+      "wildMagic": {
+        "name": "Path of Wild Magic",
+        "summary": "Raw magic sparks off your rage. It is unpredictable, but it loves the dice.",
+        "resources": {
+          "bolster": {
+            "name": "Bolstering Magic"
+          }
+        },
+        "features": {
+          "wildSurge": {
+            "name": "Magic Awareness and Wild Surge",
+            "text": "Wild magic follows you into every fight: each fight opens with a Wild die on the tray."
+          },
+          "bolsteringMagic": {
+            "name": "Bolstering Magic",
+            "text": "Bonus Action, proficiency bonus times per long rest: touch an ally to bless them for 10 rounds (+1d4 to attacks and saves)."
+          },
+          "unstableBacklash": {
+            "name": "Unstable Backlash",
+            "text": "Magic crackles whenever you act: +1 reroll on each of your turns."
+          },
+          "controlledSurge": {
+            "name": "Controlled Surge",
+            "text": "You steer the chaos: each fight opens with another Wild die, and Five of a Kind hands you play are scored ×1.5."
+          }
+        }
+      }
+    },
+    "bard": {
+      "lore": {
+        "name": "College of Lore",
+        "summary": "Collectors of every song and secret: sharp words that throw off a foe, and skills no one else has.",
+        "features": {
+          "bonusProficiencies": {
+            "name": "Bonus Proficiencies",
+            "text": "Gain proficiency in three skills."
+          },
+          "cuttingWords": {
+            "name": "Cutting Words",
+            "text": "Reaction: when an ally is hit, spend Inspiration to reduce the damage by your Inspiration die."
+          },
+          "magicalDiscoveries": {
+            "name": "Magical Discoveries",
+            "text": "Learn spells from any list (Cleric, Druid or Wizard)."
+          },
+          "peerlessSkill": {
+            "name": "Peerless Skill",
+            "text": "Add an Inspiration die to failed checks."
+          }
+        }
+      },
+      "creation": {
+        "name": "College of Creation",
+        "summary": "You sing the first song that shaped the world, and small things come alive to help.",
+        "resources": {
+          "animate": {
+            "name": "Animating Performance"
+          }
+        },
+        "features": {
+          "noteOfPotential": {
+            "name": "Note of Potential",
+            "text": "Your inspiration hums with the song of creation: Straights you play get +3 Mult."
+          },
+          "performanceOfCreation": {
+            "name": "Performance of Creation",
+            "text": "You can sing a small useful object into being: +1 skill trick per fight."
+          },
+          "animatingPerformance": {
+            "name": "Animating Performance",
+            "text": "Bonus Action, proficiency bonus times per long rest: an animated object slams one foe for 2d10 + Charisma force."
+          },
+          "creativeCrescendo": {
+            "name": "Creative Crescendo",
+            "text": "Your creations multiply: +2 Bardic Inspiration uses and +1 skill trick per fight."
+          }
+        }
+      },
+      "eloquence": {
+        "name": "College of Eloquence",
+        "summary": "A master orator: your words are always persuasive and your mockery takes the fight out of foes.",
+        "features": {
+          "silverTongue": {
+            "name": "Silver Tongue",
+            "text": "Proficiency in Deception and Persuasion, each with +3."
+          },
+          "unsettlingWords": {
+            "name": "Unsettling Words",
+            "text": "Bonus Action, spend a Bardic Inspiration: one foe is baned for 3 rounds (−1d4 to attacks and saves)."
+          },
+          "unfailingInspiration": {
+            "name": "Unfailing Inspiration",
+            "text": "Your inspiration rarely goes to waste: +1 Bardic Inspiration use. You also speak so that anyone can understand you."
+          },
+          "infectiousInspiration": {
+            "name": "Infectious Inspiration",
+            "text": "Good advice spreads: +2 Bardic Inspiration uses, and Pairs and Two Pairs you play get +2 Mult."
+          }
+        }
+      },
+      "glamour": {
+        "name": "College of Glamour",
+        "summary": "Fey beauty and command: allies stand taller in your presence, and enemies forget to fight.",
+        "resources": {
+          "majesty": {
+            "name": "Mantle of Majesty"
+          }
+        },
+        "features": {
+          "mantleOfInspiration": {
+            "name": "Mantle of Inspiration",
+            "text": "Bonus Action, spend a Bardic Inspiration: every ally gains temporary HP equal to half your level (×vitality)."
+          },
+          "enthrallingPerformance": {
+            "name": "Enthralling Performance",
+            "text": "Proficiency in Performance and Persuasion."
+          },
+          "mantleOfMajesty": {
+            "name": "Mantle of Majesty",
+            "text": "Bonus Action, proficiency bonus times per long rest: command one foe. It makes a Wisdom save or is charmed for 1 round."
+          },
+          "unbreakableMajesty": {
+            "name": "Unbreakable Majesty",
+            "text": "Foes hesitate to strike you: the first hit you take each fight deals nothing, and +1 to all saving throws."
+          }
+        }
+      },
+      "spirits": {
+        "name": "College of Spirits",
+        "summary": "You channel the stories of the dead through candles, skulls and tarot.",
+        "resources": {
+          "tales": {
+            "name": "Tales from Beyond"
+          }
+        },
+        "features": {
+          "spiritualFocus": {
+            "name": "Guiding Whispers and Spiritual Focus",
+            "text": "Spirits steady your magic: +2 to your spell damage rolls, and healing you give is 10% stronger."
+          },
+          "talesFromBeyond": {
+            "name": "Tales from Beyond",
+            "text": "Action, proficiency bonus times per short rest: a spirit tells a terrible tale to one foe for 2d6 + Charisma psychic."
+          },
+          "spiritSession": {
+            "name": "Spirit Session",
+            "text": "The dead share what they knew: proficiency in History and Religion, and +1 skill trick per fight."
+          },
+          "mysticalConnection": {
+            "name": "Mystical Connection",
+            "text": "The spirits tilt fate your way: +1 reroll on each of your turns."
+          }
+        }
+      },
+      "swords": {
+        "name": "College of Swords",
+        "summary": "Blade-dancing entertainers whose flourishes are as deadly as they are pretty.",
+        "features": {
+          "swordsTraining": {
+            "name": "Bonus Proficiencies",
+            "text": "Proficiency with martial weapons and medium armour."
+          },
+          "bladeFlourish": {
+            "name": "Blade Flourish",
+            "text": "Attack action, spend a Bardic Inspiration: your first hit adds 1d8 and the flourish keeps a foe off balance (it is weakened for 1 round)."
+          },
+          "extraAttack": {
+            "name": "Extra Attack",
+            "text": "Attack twice whenever you take the Attack action."
+          },
+          "mastersFlourish": {
+            "name": "Master's Flourish",
+            "text": "Flourishes come easily now: +3 Bardic Inspiration uses, and your crits land on 19–20."
+          }
+        }
+      },
+      "valor": {
+        "name": "College of Valor",
+        "summary": "Skalds who sing the deeds of heroes, then fight beside them.",
+        "features": {
+          "valorTraining": {
+            "name": "Bonus Proficiencies",
+            "text": "Proficiency with martial weapons, medium armour and shields."
+          },
+          "combatInspiration": {
+            "name": "Combat Inspiration",
+            "text": "Bonus Action, spend a Bardic Inspiration: one ally strikes harder for 3 rounds (+1d4 radiant on hits)."
+          },
+          "extraAttack": {
+            "name": "Extra Attack",
+            "text": "Attack twice whenever you take the Attack action."
+          },
+          "battleMagic": {
+            "name": "Battle Magic",
+            "text": "Spell and steel flow together: +10% to all your damage."
+          }
+        }
+      },
+      "whispers": {
+        "name": "College of Whispers",
+        "summary": "Spies who sell secrets, wear stolen faces and cut with psychic blades.",
+        "resources": {
+          "shadowLore": {
+            "name": "Shadow Lore"
+          }
+        },
+        "features": {
+          "psychicBlades": {
+            "name": "Psychic Blades",
+            "text": "Attack action, spend a Bardic Inspiration: your first hit adds 2d6 psychic."
+          },
+          "wordsOfTerror": {
+            "name": "Words of Terror",
+            "text": "Proficiency in Intimidation."
+          },
+          "mantleOfWhispers": {
+            "name": "Mantle of Whispers",
+            "text": "You wear a borrowed face into every fight: you start each fight hidden (advantage on your first attack)."
+          },
+          "shadowLore": {
+            "name": "Shadow Lore",
+            "text": "Action, once per long rest: whisper a foe's worst secret. It makes a Wisdom save or is charmed for 2 rounds."
+          }
+        }
+      }
+    },
+    "cleric": {
+      "life": {
+        "name": "Life Domain",
+        "summary": "The god of healing works through you: every spell that mends mends more.",
+        "features": {
+          "discipleOfLife": {
+            "name": "Disciple of Life",
+            "text": "Healing spells restore 2 + spell level extra HP."
+          },
+          "preserveLife": {
+            "name": "Preserve Life",
+            "text": "Channel Divinity: restore 5 × level HP split among wounded allies."
+          },
+          "blessedHealer": {
+            "name": "Blessed Healer",
+            "text": "Healing an ally also heals you for 2 + spell level."
+          },
+          "supremeHealing": {
+            "name": "Supreme Healing",
+            "text": "Healing dice always roll their maximum."
+          }
+        }
+      },
+      "arcana": {
+        "name": "Arcana Domain",
+        "summary": "A god of magic itself: you study spells like a wizard and banish things that should not be here.",
+        "features": {
+          "arcaneInitiate": {
+            "name": "Arcane Initiate",
+            "text": "Proficiency in Arcana, and +1 to your spell damage rolls."
+          },
+          "arcaneAbjuration": {
+            "name": "Channel Divinity: Arcane Abjuration",
+            "text": "Action, spend Channel Divinity: one foe makes a Charisma save or is banished for 1 round."
+          },
+          "spellBreaker": {
+            "name": "Spell Breaker",
+            "text": "Your healing also breaks hostile magic: healing you give is 10% stronger, and +1 to all saving throws."
+          },
+          "arcaneMastery": {
+            "name": "Arcane Mastery",
+            "text": "You add wizard spells of great power to your prayers: one extra 6th-level and one extra 8th-level slot."
+          }
+        }
+      },
+      "blood": {
+        "name": "Blood Domain",
+        "summary": "Blood is life, and you know how to take it: a priest who binds foes through their veins.",
+        "features": {
+          "bloodlettingAura": {
+            "name": "Bloodletting Aura",
+            "text": "Proficiency with martial weapons, and your weapon hits add 1d4 necrotic."
+          },
+          "crimsonBond": {
+            "name": "Channel Divinity: Crimson Bond",
+            "text": "Action, spend Channel Divinity: one foe makes a Constitution save or takes 2d6 necrotic and can't heal for 2 rounds."
+          },
+          "sanguineRecall": {
+            "name": "Sanguine Recall",
+            "text": "You draw power from your own blood: one extra 1st-level and one extra 2nd-level slot."
+          },
+          "vascularCorruptionAura": {
+            "name": "Vascular Corruption Aura",
+            "text": "Your blood turns on those who wound you: melee attackers that hit you take necrotic damage equal to twice your level."
+          }
+        }
+      },
+      "death": {
+        "name": "Death Domain",
+        "summary": "A priest of endings who wields necrotic power the way others wield light.",
+        "features": {
+          "reaper": {
+            "name": "Reaper",
+            "text": "Proficiency with martial weapons, and +2 to your spell damage rolls."
+          },
+          "touchOfDeath": {
+            "name": "Channel Divinity: Touch of Death",
+            "text": "Attack action, spend Channel Divinity: your first hit adds 1d10 + your level in necrotic damage."
+          },
+          "inescapableDestruction": {
+            "name": "Inescapable Destruction",
+            "text": "Your necrotic power cuts through defences: +2 more to your spell damage rolls."
+          },
+          "improvedReaper": {
+            "name": "Improved Reaper",
+            "text": "Death answers you readily: +8% to all your damage, and +3 to your spell damage rolls."
+          }
+        }
+      },
+      "forge": {
+        "name": "Forge Domain",
+        "summary": "A smith-priest who blesses steel, wears heavy plate and stands unharmed in fire.",
+        "features": {
+          "blessingOfTheForge": {
+            "name": "Blessing of the Forge",
+            "text": "Your gear is forge-blessed: +1 AC, +1 to hit and damage with weapons, and training with heavy armour."
+          },
+          "artisansBlessing": {
+            "name": "Channel Divinity: Artisan's Blessing",
+            "text": "You can forge simple metal tools and keys: proficiency in Sleight of Hand."
+          },
+          "soulOfTheForge": {
+            "name": "Soul of the Forge",
+            "text": "Resistance to fire, and +1 AC."
+          },
+          "saintOfForgeAndFire": {
+            "name": "Saint of Forge and Fire",
+            "text": "Fire can't touch you and steel barely does: your max HP rises by 10% and your AC by 1."
+          }
+        }
+      },
+      "grave": {
+        "name": "Grave Domain",
+        "summary": "A guardian of the line between life and death: you keep friends on this side and mark foes for the other.",
+        "resources": {
+          "sentinel": {
+            "name": "Sentinel at Death's Door"
+          }
+        },
+        "features": {
+          "circleOfMortality": {
+            "name": "Circle of Mortality",
+            "text": "Healing you give is 20% stronger. You can also sense the undead (Eyes of the Grave)."
+          },
+          "pathToTheGrave": {
+            "name": "Channel Divinity: Path to the Grave",
+            "text": "Action, spend Channel Divinity: curse one foe. It is vulnerable (takes +25% damage) for 2 rounds."
+          },
+          "sentinelAtDeathsDoor": {
+            "name": "Sentinel at Death's Door",
+            "text": "Bonus Action, Wisdom modifier times per long rest: shield an ally from a killing blow. They gain +5 AC until your next turn."
+          },
+          "keeperOfSouls": {
+            "name": "Keeper of Souls",
+            "text": "When you kill a foe, its fading life heals you for 10% of your max HP."
+          }
+        }
+      },
+      "knowledge": {
+        "name": "Knowledge Domain",
+        "summary": "A god of learning: you know a little about everything, and you can read a foe's mind.",
+        "features": {
+          "blessingsOfKnowledge": {
+            "name": "Blessings of Knowledge",
+            "text": "Proficiency in Arcana and History, and +1 skill trick per fight (Knowledge of the Ages)."
+          },
+          "readThoughts": {
+            "name": "Channel Divinity: Read Thoughts",
+            "text": "Action, spend Channel Divinity: one foe makes a Wisdom save or you take hold of its mind. It is charmed for 1 round."
+          },
+          "visionsOfThePast": {
+            "name": "Visions of the Past",
+            "text": "You have seen how this fight goes: +1 reroll on each of your turns and +2 initiative."
+          }
+        }
+      },
+      "light": {
+        "name": "Light Domain",
+        "summary": "Sun and flame: you blind attackers with a flare and burn the darkness away.",
+        "resources": {
+          "flare": {
+            "name": "Warding Flare"
+          }
+        },
+        "features": {
+          "wardingFlare": {
+            "name": "Warding Flare",
+            "text": "Bonus Action, Wisdom modifier times per long rest: a flare of light makes attacks against one ally fall short (they are blurred until your next turn)."
+          },
+          "radianceOfTheDawn": {
+            "name": "Channel Divinity: Radiance of the Dawn",
+            "text": "Action, spend Channel Divinity: light floods out. Every foe takes 1d10 + your level in radiant damage (Constitution save halves)."
+          },
+          "improvedWardingFlare": {
+            "name": "Improved Warding Flare",
+            "text": "+2 uses of Warding Flare."
+          },
+          "coronaOfLight": {
+            "name": "Corona of Light",
+            "text": "You shine like the sun: +1 spell save DC and +2 to your spell damage rolls."
+          }
+        }
+      },
+      "nature": {
+        "name": "Nature Domain",
+        "summary": "A priest of the wild green gods who soothes beasts and shrugs off the weather.",
+        "features": {
+          "acolyteOfNature": {
+            "name": "Acolyte of Nature",
+            "text": "Proficiency in Nature and Survival, and training with heavy armour."
+          },
+          "charmAnimalsAndPlants": {
+            "name": "Channel Divinity: Charm Animals and Plants",
+            "text": "Action, spend Channel Divinity: every foe makes a Wisdom save or is charmed for 1 round."
+          },
+          "dampenElements": {
+            "name": "Dampen Elements",
+            "text": "Resistance to cold, fire and lightning."
+          },
+          "masterOfNature": {
+            "name": "Master of Nature",
+            "text": "Green dice answer you: verdant dice count as your colour, and Sets you play get +2 Mult."
+          }
+        }
+      },
+      "order": {
+        "name": "Order Domain",
+        "summary": "Law made holy: your commands carry weight, and the guilty find their hands empty.",
+        "features": {
+          "voiceOfAuthority": {
+            "name": "Voice of Authority",
+            "text": "Training with heavy armour and proficiency in Intimidation."
+          },
+          "ordersDemand": {
+            "name": "Channel Divinity: Order's Demand",
+            "text": "Action, spend Channel Divinity: every foe makes a Wisdom save or drops its guard (weakened for 2 rounds)."
+          },
+          "embodimentOfTheLaw": {
+            "name": "Embodiment of the Law",
+            "text": "Your commands are hard to refuse: +1 spell save DC."
+          },
+          "ordersWrath": {
+            "name": "Order's Wrath",
+            "text": "Your weapon hits add 1d8 psychic."
+          }
+        }
+      },
+      "peace": {
+        "name": "Peace Domain",
+        "summary": "A god of harmony binds your party together, so each one protects the others.",
+        "resources": {
+          "bond": {
+            "name": "Emboldening Bond"
+          }
+        },
+        "features": {
+          "emboldeningBond": {
+            "name": "Emboldening Bond",
+            "text": "Bonus Action, proficiency bonus times per long rest: bind the party together. Every ally is blessed for 10 rounds (+1d4 to attacks and saves)."
+          },
+          "balmOfPeace": {
+            "name": "Channel Divinity: Balm of Peace",
+            "text": "Action, spend Channel Divinity: walk among your friends, healing each ally 1d6 + Wisdom."
+          },
+          "protectiveBond": {
+            "name": "Protective Bond",
+            "text": "Bonded friends cover for each other: +1 AC and +1 to all saving throws."
+          },
+          "expansiveBond": {
+            "name": "Expansive Bond",
+            "text": "The bond grows stronger: healing you give is 15% stronger, and +1 to all saving throws."
+          }
+        }
+      },
+      "tempest": {
+        "name": "Tempest Domain",
+        "summary": "Thunder and storm: lightning answers when you are struck, and your wrath splits the air.",
+        "features": {
+          "wrathOfTheStorm": {
+            "name": "Wrath of the Storm",
+            "text": "Training with heavy armour and martial weapons. A melee attacker that hits you takes lightning damage equal to your level."
+          },
+          "destructiveWrath": {
+            "name": "Channel Divinity: Destructive Wrath",
+            "text": "Action, spend Channel Divinity: a thunderclap hits one rank of foes for 2d8 thunder (Constitution save halves)."
+          },
+          "thunderboltStrike": {
+            "name": "Thunderbolt Strike",
+            "text": "Your weapon hits add 1d4 lightning."
+          },
+          "stormborn": {
+            "name": "Stormborn",
+            "text": "You ride the storm: resistance to lightning and thunder, and +3 initiative."
+          }
+        }
+      },
+      "trickery": {
+        "name": "Trickery Domain",
+        "summary": "A god of mischief lends you illusions of yourself and a cloak of shadow.",
+        "features": {
+          "blessingOfTheTrickster": {
+            "name": "Blessing of the Trickster",
+            "text": "Proficiency in Stealth and Deception."
+          },
+          "invokeDuplicity": {
+            "name": "Channel Divinity: Invoke Duplicity",
+            "text": "Bonus Action, spend Channel Divinity: illusory copies of you appear (Mirror Image for 10 rounds)."
+          },
+          "cloakOfShadows": {
+            "name": "Channel Divinity: Cloak of Shadows",
+            "text": "Bonus Action, spend Channel Divinity: you vanish. You are invisible until the end of your next turn."
+          },
+          "improvedDuplicity": {
+            "name": "Improved Duplicity",
+            "text": "Your duplicates fight too: Pairs and Two Pairs you play get +3 Mult."
+          }
+        }
+      },
+      "twilight": {
+        "name": "Twilight Domain",
+        "summary": "A guardian of the dusk who comforts friends in the dark and sees what hides there.",
+        "features": {
+          "vigilantBlessing": {
+            "name": "Vigilant Blessing and Eyes of Night",
+            "text": "Training with heavy armour and martial weapons, and +3 initiative."
+          },
+          "twilightSanctuary": {
+            "name": "Channel Divinity: Twilight Sanctuary",
+            "text": "Action, spend Channel Divinity: soft twilight surrounds the party. Every ally gains temporary HP equal to 3/4 of your level (×vitality)."
+          },
+          "stepsOfNight": {
+            "name": "Steps of Night",
+            "text": "You move unseen through dim light: you start each fight hidden."
+          },
+          "twilightShroud": {
+            "name": "Twilight Shroud",
+            "text": "The dusk wraps you and your friends: +1 AC and +1 to all saving throws."
+          }
+        }
+      },
+      "war": {
+        "name": "War Domain",
+        "summary": "A god of battle guides your weapon: extra strikes, sure blows and an avatar's courage.",
+        "resources": {
+          "warPriest": {
+            "name": "War Priest"
+          }
+        },
+        "features": {
+          "warPriest": {
+            "name": "War Priest",
+            "text": "Training with heavy armour and martial weapons. Bonus Action, Wisdom modifier times per long rest: make one extra weapon attack."
+          },
+          "guidedStrike": {
+            "name": "Channel Divinity: Guided Strike",
+            "text": "Bonus Action, spend Channel Divinity: your god guides your hand. +5 to your attack rolls until your next turn."
+          },
+          "warGodsBlessing": {
+            "name": "Channel Divinity: War God's Blessing",
+            "text": "Bonus Action, spend Channel Divinity: an ally gains +5 to attack rolls until your next turn."
+          },
+          "avatarOfBattle": {
+            "name": "Avatar of Battle",
+            "text": "You fight like your god: +10% to all your damage."
+          }
+        }
+      }
+    },
+    "druid": {
+      "land": {
+        "name": "Circle of the Land",
+        "summary": "Druids of a home landscape: its magic answers your call and its earth restores your spells.",
+        "features": {
+          "landsAid": {
+            "name": "Land's Aid",
+            "text": "Spend Wild Shape: foes in a rank take 2d6 necrotic (CON half) and an ally heals 2d6 (3d6 at 10, 4d6 at 14)."
+          },
+          "naturalRecovery": {
+            "name": "Natural Recovery",
+            "text": "Recover spell slots on a short rest (once per expedition)."
+          },
+          "naturesWard": {
+            "name": "Nature's Ward",
+            "text": "Immune to poisoned; resist poison."
+          },
+          "naturesSanctuary": {
+            "name": "Nature's Sanctuary",
+            "text": "Allies in your rank gain resistance while you are Wild Shaped."
+          }
+        }
+      },
+      "dreams": {
+        "name": "Circle of Dreams",
+        "summary": "Touched by the Feywild: you carry the warmth of a summer court and walk hidden paths.",
+        "resources": {
+          "balm": {
+            "name": "Balm of the Summer Court"
+          },
+          "paths": {
+            "name": "Hidden Paths"
+          }
+        },
+        "features": {
+          "balmOfTheSummerCourt": {
+            "name": "Balm of the Summer Court",
+            "text": "Bonus Action, proficiency bonus times per long rest: fey warmth heals one ally 2d6 + Wisdom."
+          },
+          "hearthOfMoonlightAndShadow": {
+            "name": "Hearth of Moonlight and Shadow",
+            "text": "Your camps are always safe and your mind always calm: +1 to all saving throws."
+          },
+          "hiddenPaths": {
+            "name": "Hidden Paths",
+            "text": "Bonus Action, Wisdom modifier times per long rest: step along a fey path. You are blurred for 2 rounds."
+          },
+          "walkerInDreams": {
+            "name": "Walker in Dreams",
+            "text": "You glimpse what is coming: +1 reroll on each of your turns."
+          }
+        }
+      },
+      "spores": {
+        "name": "Circle of Spores",
+        "summary": "Rot and renewal: a halo of spores poisons anything that comes near you.",
+        "resources": {
+          "spread": {
+            "name": "Spreading Spores"
+          }
+        },
+        "features": {
+          "haloOfSpores": {
+            "name": "Halo of Spores",
+            "text": "A melee attacker that hits you takes necrotic damage equal to your level."
+          },
+          "symbioticEntity": {
+            "name": "Symbiotic Entity",
+            "text": "Bonus Action, spend a Wild Shape: spores fill your body. Temporary HP equal to your level (×vitality), and +1d4 radiant on your hits for 10 rounds."
+          },
+          "fungalInfestation": {
+            "name": "Fungal Infestation",
+            "text": "The fallen rise for you a moment: each kill gives you +1 reroll that turn."
+          },
+          "spreadingSpores": {
+            "name": "Spreading Spores",
+            "text": "Bonus Action, proficiency bonus times per long rest: hurl spores at one rank of foes for 2d4 necrotic (Constitution save halves)."
+          },
+          "fungalBody": {
+            "name": "Fungal Body",
+            "text": "Your flesh is fungus: you can't be blinded, frightened or poisoned."
+          }
+        }
+      },
+      "stars": {
+        "name": "Circle of Stars",
+        "summary": "You read the night sky and take on a starry form of archer, chalice or dragon.",
+        "features": {
+          "starMap": {
+            "name": "Star Map",
+            "text": "Proficiency in Arcana, and +1 skill trick per fight."
+          },
+          "starryForm": {
+            "name": "Starry Form",
+            "text": "Bonus Action, spend a Wild Shape: the Archer constellation looses a radiant arrow at one foe for 2d8 + Wisdom."
+          },
+          "cosmicOmen": {
+            "name": "Cosmic Omen",
+            "text": "Each morning's omen guides you: +1 reroll on each of your turns."
+          },
+          "twinklingConstellations": {
+            "name": "Twinkling Constellations",
+            "text": "Your constellations brighten: +2 to your spell damage rolls, and healing you give is 10% stronger."
+          },
+          "fullOfStars": {
+            "name": "Full of Stars",
+            "text": "You are partly made of starlight: the first hit you take each fight deals nothing, and +1 AC."
+          }
+        }
+      },
+      "moon": {
+        "name": "Circle of the Moon",
+        "summary": "A shapechanger who fights in beast form and later as living elements.",
+        "features": {
+          "combatWildShape": {
+            "name": "Combat Wild Shape and Circle Forms",
+            "text": "You change shape for battle: +1 Wild Shape use and +1 AC."
+          },
+          "primalStrike": {
+            "name": "Primal Strike",
+            "text": "Your strikes carry primal force: weapon and beast hits add 1d6 force."
+          },
+          "elementalWildShape": {
+            "name": "Elemental Wild Shape",
+            "text": "Bonus Action, spend two Wild Shapes: become an elemental. Your skin turns to stone (resistance to bludgeoning, piercing and slashing) for 10 rounds, with temporary HP equal to twice your level."
+          },
+          "thousandForms": {
+            "name": "Thousand Forms",
+            "text": "You reshape your wounds away: regain 3% of your max HP at the start of each of your turns."
+          }
+        }
+      },
+      "shepherd": {
+        "name": "Circle of the Shepherd",
+        "summary": "A guardian of beasts who calls spirit totems and strengthens every creature that answers.",
+        "resources": {
+          "totem": {
+            "name": "Spirit Totem"
+          }
+        },
+        "features": {
+          "spiritTotem": {
+            "name": "Spirit Totem (Bear)",
+            "text": "Bonus Action, proficiency bonus times per long rest: a bear spirit gives every ally temporary HP equal to 3/4 of your level (×vitality). You also speak with beasts (Animal Handling)."
+          },
+          "mightySummoner": {
+            "name": "Mighty Summoner",
+            "text": "Your magic is sturdier: +2 to your spell damage rolls and +5% max HP."
+          },
+          "guardianSpirit": {
+            "name": "Guardian Spirit",
+            "text": "Your totem mends those it guards: regain 2% of your max HP at the start of each of your turns."
+          },
+          "faithfulSummons": {
+            "name": "Faithful Summons",
+            "text": "Beasts come to save you: the first time you would drop to 0 HP in a fight, you stay at 1 HP instead."
+          }
+        }
+      },
+      "wildfire": {
+        "name": "Circle of Wildfire",
+        "summary": "Fire that clears the way for new growth: a wildfire spirit burns foes and cauterises friends.",
+        "resources": {
+          "cauterize": {
+            "name": "Cauterizing Flames"
+          }
+        },
+        "features": {
+          "summonWildfireSpirit": {
+            "name": "Summon Wildfire Spirit",
+            "text": "Action, spend a Wild Shape: your wildfire spirit bursts into one rank of foes for 2d6 fire (Dexterity save halves)."
+          },
+          "enhancedBond": {
+            "name": "Enhanced Bond",
+            "text": "The spirit feeds your magic: +2 to your spell damage rolls, and healing you give is 10% stronger."
+          },
+          "cauterizingFlames": {
+            "name": "Cauterizing Flames",
+            "text": "Bonus Action, proficiency bonus times per long rest: spectral flame seals one ally's wounds for 2d10 + Wisdom."
+          },
+          "blazingRevival": {
+            "name": "Blazing Revival",
+            "text": "Your spirit sacrifices itself for you: the first time you would drop to 0 HP in a fight, you stay at 1 HP instead."
+          }
+        }
+      }
+    },
+    "fighter": {
+      "champion": {
+        "name": "Champion",
+        "summary": "Raw athletic excellence: more crits, more styles and a body that refuses to quit.",
+        "features": {
+          "improvedCritical": {
+            "name": "Improved Critical",
+            "text": "Critical hits on 19–20."
+          },
+          "remarkableAthlete": {
+            "name": "Remarkable Athlete",
+            "text": "Advantage on initiative and Athletics checks."
+          },
+          "additionalFightingStyle": {
+            "name": "Additional Fighting Style",
+            "text": "Choose a second Fighting Style."
+          },
+          "heroicWarrior": {
+            "name": "Heroic Warrior",
+            "text": "Start each of your turns with one extra reroll."
+          },
+          "superiorCritical": {
+            "name": "Superior Critical",
+            "text": "Critical hits on 18–20."
+          },
+          "survivor": {
+            "name": "Survivor",
+            "text": "At the start of your turn while bloodied, regain 5 + CON HP."
+          }
+        }
+      },
+      "arcaneArcher": {
+        "name": "Arcane Archer",
+        "summary": "Elven archery magic: every few arrows carries a spell.",
+        "resources": {
+          "arcaneShot": {
+            "name": "Arcane Shot"
+          }
+        },
+        "features": {
+          "arcaneShot": {
+            "name": "Arcane Shot",
+            "text": "Attack action, twice per short rest: a grasping arrow. Your first hit adds 2d6 force and the target makes a Strength save or is slowed for 2 rounds. You also learn Arcana (Arcane Archer Lore)."
+          },
+          "magicArrow": {
+            "name": "Magic Arrow and Curving Shot",
+            "text": "Your arrows bend toward their mark: +1 Arcane Shot use and +1 to hit and damage with weapons."
+          },
+          "everReadyShot": {
+            "name": "Ever-Ready Shot",
+            "text": "You always have magic on the string: +2 Arcane Shot uses."
+          },
+          "improvedShots": {
+            "name": "Improved Shots",
+            "text": "Your weapon hits add 1d6 force."
+          }
+        }
+      },
+      "battleMaster": {
+        "name": "Battle Master",
+        "summary": "A student of war who spends superiority dice on trips, rallies and precise strikes.",
+        "resources": {
+          "superiority": {
+            "name": "Superiority Dice"
+          }
+        },
+        "features": {
+          "tripAttack": {
+            "name": "Combat Superiority: Trip Attack",
+            "text": "Attack action, spend a superiority die: your first hit adds 1d8 and the target makes a Strength save or falls prone."
+          },
+          "rally": {
+            "name": "Combat Superiority: Rally",
+            "text": "Bonus Action, spend a superiority die: one ally gains temporary HP equal to half your level (×vitality). You also know History (Student of War)."
+          },
+          "knowYourEnemy": {
+            "name": "Know Your Enemy",
+            "text": "You size up foes quickly: +1 superiority die and +2 initiative."
+          },
+          "improvedCombatSuperiority": {
+            "name": "Improved Combat Superiority",
+            "text": "Your dice grow larger: +1 superiority die and +5% to all your damage."
+          },
+          "relentless": {
+            "name": "Relentless",
+            "text": "You never run dry: +1 superiority die and +1 reroll on each of your turns."
+          },
+          "ultimateSuperiority": {
+            "name": "Ultimate Combat Superiority",
+            "text": "Every maneuver lands harder: +5% to all your damage."
+          }
+        }
+      },
+      "cavalier": {
+        "name": "Cavalier",
+        "summary": "A mounted knight who marks a foe, guards companions and holds the line.",
+        "resources": {
+          "mark": {
+            "name": "Unwavering Mark"
+          },
+          "ward": {
+            "name": "Warding Maneuver"
+          }
+        },
+        "features": {
+          "unwaveringMark": {
+            "name": "Unwavering Mark",
+            "text": "Attack action, proficiency bonus times per long rest: your first hit adds 1d8 and marks the foe for 2 rounds (your hits on it add 1d6). You also know Animal Handling (Born to the Saddle)."
+          },
+          "wardingManeuver": {
+            "name": "Warding Maneuver",
+            "text": "Bonus Action, Constitution modifier times per long rest: interpose your shield. One ally gains +4 AC until your next turn."
+          },
+          "holdTheLine": {
+            "name": "Hold the Line",
+            "text": "Foes who close on you pay for it: melee attackers that hit you take piercing damage equal to your level."
+          },
+          "ferociousCharger": {
+            "name": "Ferocious Charger",
+            "text": "Your charges bowl foes over: weapon hits add 1d6 bludgeoning."
+          },
+          "vigilantDefender": {
+            "name": "Vigilant Defender",
+            "text": "You strike at every opening: melee attackers that hit you take another hit of piercing damage equal to your level."
+          }
+        }
+      },
+      "echoKnight": {
+        "name": "Echo Knight",
+        "summary": "You summon an echo of yourself from another timeline and fight from two places at once.",
+        "resources": {
+          "incarnation": {
+            "name": "Unleash Incarnation"
+          },
+          "martyr": {
+            "name": "Shadow Martyr"
+          }
+        },
+        "features": {
+          "unleashIncarnation": {
+            "name": "Manifest Echo and Unleash Incarnation",
+            "text": "Bonus Action, Constitution modifier times per long rest: your echo makes one extra weapon attack."
+          },
+          "echoAvatar": {
+            "name": "Echo Avatar",
+            "text": "Your echo scouts ahead: +1 skill trick per fight."
+          },
+          "shadowMartyr": {
+            "name": "Shadow Martyr",
+            "text": "Bonus Action, once per short rest: your echo throws itself in front of an ally. Attacks against them have disadvantage until your next turn."
+          },
+          "reclaimPotential": {
+            "name": "Reclaim Potential",
+            "text": "Fading echoes return their strength to you: regain 2% of your max HP at the start of each of your turns."
+          },
+          "legionOfOne": {
+            "name": "Legion of One",
+            "text": "Echoes everywhere: +2 Unleash Incarnation uses and +1 reroll on each of your turns."
+          }
+        }
+      },
+      "eldritchKnight": {
+        "name": "Eldritch Knight",
+        "summary": "A warrior trained in wizard magic who blends spell and blade.",
+        "resources": {
+          "arcana": {
+            "name": "Eldritch Spells"
+          }
+        },
+        "features": {
+          "ekSpellcasting": {
+            "name": "Spellcasting",
+            "text": "Action, proficiency bonus times per long rest: cast a battle spell at one foe for 2d8 + Intelligence force."
+          },
+          "weaponBond": {
+            "name": "Weapon Bond",
+            "text": "Your bonded weapon never leaves your hand and turns blows aside: +1 AC."
+          },
+          "warMagic": {
+            "name": "War Magic",
+            "text": "Bonus Action, spend an Eldritch Spell use: follow a spell with one extra weapon attack."
+          },
+          "eldritchStrike": {
+            "name": "Eldritch Strike",
+            "text": "Your weapon hits add 1d4 force."
+          },
+          "arcaneCharge": {
+            "name": "Arcane Charge",
+            "text": "You teleport into the fray: +3 initiative and +1 Eldritch Spell use."
+          },
+          "improvedWarMagic": {
+            "name": "Improved War Magic",
+            "text": "Spell and steel are one motion: +8% to all your damage."
+          }
+        }
+      },
+      "psiWarrior": {
+        "name": "Psi Warrior",
+        "summary": "Psionic energy powers your strikes, shields your friends and throws your foes.",
+        "resources": {
+          "psi": {
+            "name": "Psionic Energy"
+          }
+        },
+        "features": {
+          "psionicStrike": {
+            "name": "Psionic Strike",
+            "text": "Attack action, spend a psionic die: your first hit adds 1d8 + Intelligence force."
+          },
+          "protectiveField": {
+            "name": "Protective Field",
+            "text": "Bonus Action, spend a psionic die: a field of force gives one ally +3 AC until your next turn."
+          },
+          "telekineticAdept": {
+            "name": "Telekinetic Adept",
+            "text": "Bonus Action, spend a psionic die: shove a foe with your mind. It makes a Strength save or falls prone."
+          },
+          "guardedMind": {
+            "name": "Guarded Mind",
+            "text": "Resistance to psychic damage, and you can't be charmed or frightened."
+          },
+          "bulwarkOfForce": {
+            "name": "Bulwark of Force",
+            "text": "Bonus Action, spend two psionic dice: shield the whole party. Every ally gains +2 AC for 3 rounds."
+          },
+          "telekineticMaster": {
+            "name": "Telekinetic Master",
+            "text": "Your mind never tires: +2 psionic dice and +5% to all your damage."
+          }
+        }
+      },
+      "purpleDragonKnight": {
+        "name": "Purple Dragon Knight",
+        "summary": "A banneret whose courage spreads through the ranks: when you rally, everyone rallies.",
+        "resources": {
+          "surge": {
+            "name": "Inspiring Surge"
+          }
+        },
+        "features": {
+          "rallyingCry": {
+            "name": "Rallying Cry",
+            "text": "Bonus Action, spend a Second Wind: rally the party. Every ally heals your level."
+          },
+          "royalEnvoy": {
+            "name": "Royal Envoy",
+            "text": "Proficiency in Persuasion, with +3."
+          },
+          "inspiringSurge": {
+            "name": "Inspiring Surge",
+            "text": "Bonus Action, once per long rest: an ally catches your momentum and is hasted for 2 rounds."
+          },
+          "bulwark": {
+            "name": "Bulwark",
+            "text": "Your resolve covers others: +1 Indomitable use and +1 to all saving throws."
+          }
+        }
+      },
+      "runeKnight": {
+        "name": "Rune Knight",
+        "summary": "Giant runes carved into your gear let you grow huge and turn aside blows.",
+        "resources": {
+          "might": {
+            "name": "Giant's Might"
+          },
+          "runicShield": {
+            "name": "Runic Shield"
+          }
+        },
+        "features": {
+          "giantsMight": {
+            "name": "Giant's Might",
+            "text": "Bonus Action, proficiency bonus times per long rest: grow to giant size. +1d4 radiant on your hits for 10 rounds and temporary HP equal to half your level."
+          },
+          "runeCarver": {
+            "name": "Rune Carver",
+            "text": "Your runes harden you: resistance to poison and proficiency in Athletics."
+          },
+          "runicShield": {
+            "name": "Runic Shield",
+            "text": "Bonus Action, proficiency bonus times per long rest: a rune twists fate around an ally. Attacks against them fall short (blurred) until your next turn."
+          },
+          "greatStature": {
+            "name": "Great Stature",
+            "text": "The runes make you permanently bigger: weapon hits add 1d4 thunder, and +5% max HP."
+          },
+          "masterOfRunes": {
+            "name": "Master of Runes",
+            "text": "Each rune works twice: +1 use of Giant's Might and of Runic Shield."
+          },
+          "runicJuggernaut": {
+            "name": "Runic Juggernaut",
+            "text": "You grow huge: +8% to all your damage and +5% max HP."
+          }
+        }
+      },
+      "samurai": {
+        "name": "Samurai",
+        "summary": "An indomitable fighting spirit: focus, grace and a refusal to fall.",
+        "resources": {
+          "fightingSpirit": {
+            "name": "Fighting Spirit"
+          }
+        },
+        "features": {
+          "fightingSpirit": {
+            "name": "Fighting Spirit",
+            "text": "Bonus Action, three times per long rest: focus your spirit. Your next attack has advantage and you gain temporary HP equal to half your level (×vitality). You also know Insight."
+          },
+          "elegantCourtier": {
+            "name": "Elegant Courtier",
+            "text": "Composure in any court: proficiency in Persuasion and +1 to all saving throws."
+          },
+          "tirelessSpirit": {
+            "name": "Tireless Spirit",
+            "text": "Your spirit renews itself: +1 Fighting Spirit use."
+          },
+          "rapidStrike": {
+            "name": "Rapid Strike",
+            "text": "You trade precision for extra cuts: +10% to all your damage."
+          },
+          "strengthBeforeDeath": {
+            "name": "Strength before Death",
+            "text": "The first time you would drop to 0 HP in a fight, you stay at 1 HP instead."
+          }
+        }
+      }
+    },
+    "monk": {
+      "openHand": {
+        "name": "Warrior of the Open Hand",
+        "summary": "Masters of unarmed combat who knock foes around and heal their own wounds.",
+        "resources": {
+          "wholeness": {
+            "name": "Wholeness of Body"
+          }
+        },
+        "features": {
+          "openHandTechnique": {
+            "name": "Open Hand Technique",
+            "text": "Flurry hits can topple (DEX save or prone) or push the target to the back rank."
+          },
+          "wholenessOfBody": {
+            "name": "Wholeness of Body",
+            "text": "Bonus Action: heal Martial Arts die + WIS."
+          },
+          "fleetStep": {
+            "name": "Fleet Step",
+            "text": "Patient Defense also lets you switch ranks."
+          },
+          "quiveringPalm": {
+            "name": "Quivering Palm",
+            "text": "4 Focus: on hit, CON save or take 10d12 force (half on success)."
+          }
+        }
+      },
+      "mercy": {
+        "name": "Way of Mercy",
+        "summary": "Masked healers who can mend a wound or open one with the same touch.",
+        "resources": {
+          "ultimateMercy": {
+            "name": "Hand of Ultimate Mercy"
+          }
+        },
+        "features": {
+          "handOfHealing": {
+            "name": "Hand of Healing",
+            "text": "Bonus Action, spend 1 Focus: heal one ally 1d6 + Wisdom. You also know Insight and Medicine (Implements of Mercy)."
+          },
+          "handOfHarm": {
+            "name": "Hand of Harm",
+            "text": "Attack action, spend 1 Focus: your first hit adds 1d6 + Wisdom necrotic."
+          },
+          "physiciansTouch": {
+            "name": "Physician's Touch",
+            "text": "Healing you give is 15% stronger."
+          },
+          "flurryOfHealingAndHarm": {
+            "name": "Flurry of Healing and Harm",
+            "text": "Your weapon hits add 1d4 necrotic, and healing you give is another 10% stronger."
+          },
+          "handOfUltimateMercy": {
+            "name": "Hand of Ultimate Mercy",
+            "text": "Action, once per long rest: pour your life into an ally, healing them 6d10 + Wisdom."
+          }
+        }
+      },
+      "shadow": {
+        "name": "Way of Shadow",
+        "summary": "Ninja-like monks who step between shadows and strike from darkness.",
+        "features": {
+          "shadowArts": {
+            "name": "Shadow Arts",
+            "text": "Bonus Action, spend 1 Focus: wrap yourself in darkness. Your next attack has advantage. You also know Stealth."
+          },
+          "shadowStep": {
+            "name": "Shadow Step",
+            "text": "You step out of the shadows when a fight begins: you start each fight hidden."
+          },
+          "cloakOfShadowsMonk": {
+            "name": "Cloak of Shadows",
+            "text": "Bonus Action, spend 2 Focus: become invisible until the end of your next turn."
+          },
+          "opportunist": {
+            "name": "Opportunist",
+            "text": "You strike at every opening your friends make: +8% to all your damage."
+          }
+        }
+      },
+      "ascendantDragon": {
+        "name": "Way of the Ascendant Dragon",
+        "summary": "You study the dragons: you breathe their element and wear their wings.",
+        "resources": {
+          "dragonBreath": {
+            "name": "Breath of the Dragon"
+          }
+        },
+        "features": {
+          "breathOfTheDragon": {
+            "name": "Breath of the Dragon",
+            "text": "Action, proficiency bonus times per long rest: exhale fire over one rank of foes for 2d6 (Dexterity save halves). You also know Intimidation (Draconic Disciple)."
+          },
+          "wingsUnfurled": {
+            "name": "Wings Unfurled",
+            "text": "Spectral wings carry you into the fight: +2 initiative and resistance to fire."
+          },
+          "aspectOfTheWyrm": {
+            "name": "Aspect of the Wyrm",
+            "text": "Bonus Action, spend 3 Focus: draconic presence. Every foe makes a Wisdom save or is frightened for 2 rounds."
+          },
+          "ascendantAspect": {
+            "name": "Ascendant Aspect",
+            "text": "Your breath and blows burn: +2 Breath of the Dragon uses, and your weapon hits add 1d6 fire."
+          }
+        }
+      },
+      "astralSelf": {
+        "name": "Way of the Astral Self",
+        "summary": "You summon spectral arms and a mask from your own soul.",
+        "features": {
+          "armsOfTheAstralSelf": {
+            "name": "Arms of the Astral Self",
+            "text": "Bonus Action, spend 1 Focus: astral arms join your strikes. +1d4 radiant on your hits for 10 rounds."
+          },
+          "visageOfTheAstralSelf": {
+            "name": "Visage of the Astral Self",
+            "text": "An astral mask sharpens your senses: proficiency in Insight and Intimidation."
+          },
+          "bodyOfTheAstralSelf": {
+            "name": "Body of the Astral Self",
+            "text": "Your astral body deflects energy and lands harder blows: resistance to fire, cold and lightning, and weapon hits add 1d6 force."
+          },
+          "awakenedAstralSelf": {
+            "name": "Awakened Astral Self",
+            "text": "Your full astral self fights beside you: +2 AC and three attacks per Attack action."
+          }
+        }
+      },
+      "cobaltSoul": {
+        "name": "Way of the Cobalt Soul",
+        "summary": "Monk-scholars who read a foe's weaknesses in the way it fights.",
+        "features": {
+          "extractAspects": {
+            "name": "Extract Aspects",
+            "text": "Bonus Action, spend 1 Focus: read one foe's weak points. Attacks against it have advantage for 2 rounds."
+          },
+          "mysticalErudition": {
+            "name": "Extort Truth and Mystical Erudition",
+            "text": "Proficiency in Arcana, Investigation and Religion, and +1 skill trick per fight."
+          },
+          "mindOfMercury": {
+            "name": "Mind of Mercury",
+            "text": "You think faster than the fight: +1 reroll on each of your turns."
+          },
+          "debilitatingBarrage": {
+            "name": "Debilitating Barrage",
+            "text": "Attack action, spend 3 Focus: your first hit adds 6d8 and leaves the foe vulnerable (it takes +25% damage) for 2 rounds."
+          }
+        }
+      },
+      "drunkenMaster": {
+        "name": "Way of the Drunken Master",
+        "summary": "A staggering, swaying style that looks like luck and is nothing of the kind.",
+        "features": {
+          "drunkenTechnique": {
+            "name": "Drunken Technique",
+            "text": "You weave out of reach: +1 AC and proficiency in Performance."
+          },
+          "tipsySway": {
+            "name": "Tipsy Sway",
+            "text": "You redirect clumsy blows: melee attackers that hit you take bludgeoning damage equal to your level."
+          },
+          "drunkardsLuck": {
+            "name": "Drunkard's Luck",
+            "text": "Fortune favours the stumbling: +1 reroll on each of your turns."
+          },
+          "intoxicatedFrenzy": {
+            "name": "Intoxicated Frenzy",
+            "text": "Your flurry spreads across the whole fight: +10% to all your damage."
+          }
+        }
+      },
+      "fourElements": {
+        "name": "Way of the Four Elements",
+        "summary": "You bend fire, water, earth and air through your focus.",
+        "features": {
+          "fangsOfTheFireSnake": {
+            "name": "Elemental Discipline: Fist of Four Thunders",
+            "text": "Action, spend 2 Focus: a thunderclap hits one rank of foes for 2d6 thunder (Constitution save halves)."
+          },
+          "waterWhip": {
+            "name": "Elemental Discipline: Water Whip",
+            "text": "Bonus Action, spend 2 Focus: a whip of water lashes one foe for 3d6 bludgeoning (Dexterity save) and knocks it prone."
+          },
+          "riverOfHungryFlame": {
+            "name": "Elemental Discipline: Flames of the Phoenix",
+            "text": "Action, spend 3 Focus: a burst of fire hits one rank of foes for 6d6 fire (Dexterity save halves)."
+          },
+          "breathOfWinter": {
+            "name": "Elemental Discipline: Breath of Winter",
+            "text": "Action, spend 4 Focus: freezing wind hits every foe for 9d6 cold (Constitution save halves)."
+          }
+        }
+      },
+      "kensei": {
+        "name": "Way of the Kensei",
+        "summary": "Weapon masters who make a chosen blade part of their own body.",
+        "features": {
+          "pathOfTheKensei": {
+            "name": "Path of the Kensei",
+            "text": "Proficiency with martial weapons. Agile Parry gives +1 AC, and your weapon hits add 1d4 piercing (Kensei's Shot)."
+          },
+          "oneWithTheBlade": {
+            "name": "One with the Blade",
+            "text": "Your kensei weapons are magical to you: +1 to hit and damage with weapons."
+          },
+          "sharpenTheBlade": {
+            "name": "Sharpen the Blade",
+            "text": "Bonus Action, spend 3 Focus: hone your weapon. +3 to your attack rolls for 10 rounds."
+          },
+          "unerringAccuracy": {
+            "name": "Unerring Accuracy",
+            "text": "Your strikes find their mark: crits on 19–20 and +1 reroll on each of your turns."
+          }
+        }
+      },
+      "longDeath": {
+        "name": "Way of the Long Death",
+        "summary": "Monks who study dying, and draw strength from every death they cause.",
+        "resources": {
+          "reaping": {
+            "name": "Hour of Reaping"
+          }
+        },
+        "features": {
+          "touchOfDeathMonk": {
+            "name": "Touch of Death",
+            "text": "When you kill a foe you drink in its last breath: heal 8% of your max HP."
+          },
+          "hourOfReaping": {
+            "name": "Hour of Reaping",
+            "text": "Action, proficiency bonus times per long rest: every foe makes a Wisdom save or is frightened for 2 rounds."
+          },
+          "masteryOfDeath": {
+            "name": "Mastery of Death",
+            "text": "The first time you would drop to 0 HP in a fight, you stay at 1 HP instead."
+          },
+          "touchOfTheLongDeath": {
+            "name": "Touch of the Long Death",
+            "text": "Action, spend 4 Focus: touch one foe for 6d10 necrotic (Constitution save halves)."
+          }
+        }
+      },
+      "sunSoul": {
+        "name": "Way of the Sun Soul",
+        "summary": "You channel your focus into bolts and bursts of searing light.",
+        "features": {
+          "radiantSunBolt": {
+            "name": "Radiant Sun Bolt",
+            "text": "Bonus Action, spend 1 Focus: hurl a bolt of light at one foe for 1d8 + Dexterity radiant."
+          },
+          "searingArcStrike": {
+            "name": "Searing Arc Strike",
+            "text": "Bonus Action, spend 2 Focus: a fan of flame hits one rank of foes for 4d6 fire (Dexterity save halves)."
+          },
+          "searingSunburst": {
+            "name": "Searing Sunburst",
+            "text": "Action, spend 2 Focus: a globe of light bursts over every foe for 4d6 radiant (Constitution save halves)."
+          },
+          "sunShield": {
+            "name": "Sun Shield",
+            "text": "You shine with burning light: melee attackers that hit you take radiant damage equal to twice your level."
+          }
+        }
+      }
+    },
+    "paladin": {
+      "devotion": {
+        "name": "Oath of Devotion",
+        "summary": "The classic knight in shining armour: honesty, courage and a holy weapon.",
+        "features": {
+          "sacredWeapon": {
+            "name": "Sacred Weapon",
+            "text": "Channel Divinity, Bonus Action: add CHA to attack rolls for 10 rounds; weapon sheds holy light."
+          },
+          "auraOfDevotion": {
+            "name": "Aura of Devotion",
+            "text": "Allies are immune to charmed."
+          },
+          "smiteOfProtection": {
+            "name": "Smite of Protection",
+            "text": "When you Smite, allies gain +2 AC until your next turn."
+          },
+          "holyNimbus": {
+            "name": "Holy Nimbus",
+            "text": "Once per long rest: radiant aura deals CHA + PB to foes each turn and grants advantage on saves."
+          }
+        }
+      },
+      "conquest": {
+        "name": "Oath of Conquest",
+        "summary": "Rule through fear: crush the enemy's will before you crush the enemy.",
+        "resources": {
+          "conqueror": {
+            "name": "Invincible Conqueror"
+          }
+        },
+        "features": {
+          "conqueringPresence": {
+            "name": "Channel Divinity: Conquering Presence",
+            "text": "Action, spend Channel Divinity: every foe makes a Wisdom save or is frightened for 2 rounds."
+          },
+          "auraOfConquest": {
+            "name": "Aura of Conquest",
+            "text": "Foes near you feel your contempt: your weapon hits add 1d4 psychic."
+          },
+          "scornfulRebuke": {
+            "name": "Scornful Rebuke",
+            "text": "Those who strike you suffer for it: melee attackers that hit you take psychic damage equal to twice your level."
+          },
+          "invincibleConqueror": {
+            "name": "Invincible Conqueror",
+            "text": "Bonus Action, once per long rest: become a conqueror. You are hasted for 10 rounds (an extra play each turn, +2 AC)."
+          }
+        }
+      },
+      "glory": {
+        "name": "Oath of Glory",
+        "summary": "Heroes of legend in the making, who inspire everyone around them.",
+        "resources": {
+          "gloriousDefense": {
+            "name": "Glorious Defense"
+          }
+        },
+        "features": {
+          "inspiringSmite": {
+            "name": "Channel Divinity: Inspiring Smite",
+            "text": "Bonus Action, spend Channel Divinity: every ally gains temporary HP equal to half your level (×vitality). You also know Athletics (Peerless Athlete)."
+          },
+          "auraOfAlacrity": {
+            "name": "Aura of Alacrity",
+            "text": "You move like a champion: +3 initiative."
+          },
+          "gloriousDefense": {
+            "name": "Glorious Defense",
+            "text": "Bonus Action, Charisma modifier times per long rest: one ally gains +4 AC until your next turn."
+          },
+          "livingLegend": {
+            "name": "Living Legend",
+            "text": "Your legend bends luck: +1 reroll on each of your turns and +8% to all your damage."
+          }
+        }
+      },
+      "redemption": {
+        "name": "Oath of Redemption",
+        "summary": "Peace first, but violence turned back on those who choose it.",
+        "features": {
+          "rebukeTheViolent": {
+            "name": "Channel Divinity: Rebuke the Violent",
+            "text": "Bonus Action, spend Channel Divinity: one foe takes 2d8 + Charisma radiant (Wisdom save halves). You also know Persuasion (Emissary of Peace)."
+          },
+          "auraOfTheGuardian": {
+            "name": "Aura of the Guardian",
+            "text": "You take blows meant for others: +10% max HP."
+          },
+          "protectiveSpirit": {
+            "name": "Protective Spirit",
+            "text": "A holy presence mends you: regain 2% of your max HP at the start of each of your turns."
+          },
+          "emissaryOfRedemption": {
+            "name": "Emissary of Redemption",
+            "text": "Harming you is a mistake: melee attackers that hit you take radiant damage equal to three times your level, and +1 to all saving throws."
+          }
+        }
+      },
+      "ancients": {
+        "name": "Oath of the Ancients",
+        "summary": "Green knights sworn to protect light and life against the dark.",
+        "features": {
+          "naturesWrath": {
+            "name": "Channel Divinity: Nature's Wrath",
+            "text": "Action, spend Channel Divinity: spectral vines seize one foe. It makes a Strength save or is restrained for 2 rounds."
+          },
+          "auraOfWarding": {
+            "name": "Aura of Warding",
+            "text": "Ancient magic turns spells aside: resistance to fire, cold, lightning and necrotic."
+          },
+          "undyingSentinel": {
+            "name": "Undying Sentinel",
+            "text": "The first time you would drop to 0 HP in a fight, you stay at 1 HP instead."
+          },
+          "elderChampion": {
+            "name": "Elder Champion",
+            "text": "You become an ancient force of nature: regain 3% of your max HP at the start of each turn, and +1 spell save DC."
+          }
+        }
+      },
+      "crown": {
+        "name": "Oath of the Crown",
+        "summary": "Sworn to the law and the realm: the shield wall that never breaks.",
+        "features": {
+          "championChallenge": {
+            "name": "Channel Divinity: Champion Challenge",
+            "text": "Action, spend Channel Divinity: challenge every foe. Each makes a Wisdom save or is weakened (disadvantage on its next attack) for 2 rounds."
+          },
+          "turnTheTide": {
+            "name": "Channel Divinity: Turn the Tide",
+            "text": "Bonus Action, spend Channel Divinity: every ally heals 1d6 + Charisma."
+          },
+          "divineAllegiance": {
+            "name": "Divine Allegiance",
+            "text": "You take wounds meant for others: +10% max HP."
+          },
+          "unyieldingSpirit": {
+            "name": "Unyielding Spirit",
+            "text": "You can't be paralyzed or stunned, and +1 to all saving throws."
+          },
+          "exaltedChampion": {
+            "name": "Exalted Champion",
+            "text": "You stand as the realm's champion: +1 AC, +1 to all saving throws and +5% max HP."
+          }
+        }
+      },
+      "watchers": {
+        "name": "Oath of the Watchers",
+        "summary": "Guardians against things from beyond the world.",
+        "resources": {
+          "bulwark": {
+            "name": "Mortal Bulwark"
+          }
+        },
+        "features": {
+          "watchersWill": {
+            "name": "Channel Divinity: Watcher's Will",
+            "text": "Bonus Action, spend Channel Divinity: steel the party's minds. Every ally is blessed for 3 rounds."
+          },
+          "abjureTheExtraplanar": {
+            "name": "Channel Divinity: Abjure the Extraplanar",
+            "text": "Action, spend Channel Divinity: every foe makes a Wisdom save or is frightened for 2 rounds."
+          },
+          "auraOfTheSentinel": {
+            "name": "Aura of the Sentinel",
+            "text": "Nothing catches you unaware: +4 initiative."
+          },
+          "vigilantRebuke": {
+            "name": "Vigilant Rebuke",
+            "text": "Melee attackers that hit you take force damage equal to twice your level."
+          },
+          "mortalBulwark": {
+            "name": "Mortal Bulwark",
+            "text": "Bonus Action, once per long rest: see every foe as it truly is. +5 to your attack rolls for 10 rounds."
+          }
+        }
+      },
+      "vengeance": {
+        "name": "Oath of Vengeance",
+        "summary": "Punish the wicked at any cost: mark a foe and never let it go.",
+        "resources": {
+          "angel": {
+            "name": "Avenging Angel"
+          }
+        },
+        "features": {
+          "vowOfEnmity": {
+            "name": "Channel Divinity: Vow of Enmity",
+            "text": "Bonus Action, spend Channel Divinity: swear a vow against one foe. It is marked for 10 rounds (your hits on it add 1d6)."
+          },
+          "relentlessAvenger": {
+            "name": "Relentless Avenger",
+            "text": "No one escapes you: +2 initiative and your weapon hits add 1d4 slashing."
+          },
+          "soulOfVengeance": {
+            "name": "Soul of Vengeance",
+            "text": "You punish every blow: melee attackers that hit you take slashing damage equal to twice your level."
+          },
+          "avengingAngel": {
+            "name": "Avenging Angel",
+            "text": "Action, once per long rest: unfurl wings of wrath. Every foe makes a Wisdom save or is frightened for 3 rounds."
+          }
+        }
+      },
+      "oathbreaker": {
+        "name": "Oathbreaker",
+        "summary": "A fallen paladin who serves darker powers now, and strikes fear instead of hope.",
+        "resources": {
+          "dreadLord": {
+            "name": "Dread Lord"
+          }
+        },
+        "features": {
+          "dreadfulAspect": {
+            "name": "Channel Divinity: Dreadful Aspect",
+            "text": "Action, spend Channel Divinity: every foe makes a Wisdom save or is frightened for 2 rounds. You also command lesser undead (Control Undead)."
+          },
+          "auraOfHate": {
+            "name": "Aura of Hate",
+            "text": "Hatred lends you strength: your weapon hits add 1d6 necrotic."
+          },
+          "supernaturalResistance": {
+            "name": "Supernatural Resistance",
+            "text": "Resistance to necrotic and poison damage, and +1 AC."
+          },
+          "dreadLord": {
+            "name": "Dread Lord",
+            "text": "Bonus Action, once per long rest: an aura of gloom hides you. You are blurred for 10 rounds."
+          }
+        }
+      }
+    },
+    "ranger": {
+      "hunter": {
+        "name": "Hunter",
+        "summary": "A specialist in hunting dangerous prey, from giants to hordes.",
+        "features": {
+          "huntersPrey": {
+            "name": "Hunter's Prey: Colossus Slayer",
+            "text": "Once per turn, +1d8 damage to a target that is already wounded."
+          },
+          "huntersLore": {
+            "name": "Hunter's Lore",
+            "text": "Marked targets reveal their resistances."
+          },
+          "defensiveTactics": {
+            "name": "Defensive Tactics: Multiattack Defense",
+            "text": "After a creature hits you, its further attacks this turn have disadvantage."
+          },
+          "volley": {
+            "name": "Superior Hunter's Prey: Volley",
+            "text": "Action: make a ranged attack against every enemy in one rank."
+          },
+          "superiorHuntersDefense": {
+            "name": "Superior Hunter's Defense",
+            "text": "Reaction: resistance to one attack's damage."
+          }
+        }
+      },
+      "beastMaster": {
+        "name": "Beast Master",
+        "summary": "A primal beast fights at your side and shares your magic.",
+        "resources": {
+          "companion": {
+            "name": "Beast's Strike"
+          }
+        },
+        "features": {
+          "primalCompanion": {
+            "name": "Primal Companion",
+            "text": "Your beast fights with you: weapon hits add 1d4 piercing. Bonus Action, proficiency bonus times per short rest: command it to strike one foe for 1d8 + Wisdom."
+          },
+          "exceptionalTraining": {
+            "name": "Exceptional Training",
+            "text": "Your beast's attacks count as magical: weapon hits add 1d4 force."
+          },
+          "bestialFury": {
+            "name": "Bestial Fury",
+            "text": "Your beast attacks twice: +2 Beast's Strike uses and +5% to all your damage."
+          },
+          "shareSpells": {
+            "name": "Share Spells",
+            "text": "Your spells reach your beast too: healing you give is 10% stronger and +1 to all saving throws."
+          }
+        }
+      },
+      "drakewarden": {
+        "name": "Drakewarden",
+        "summary": "A small drake grows beside you into a dragon you can ride.",
+        "resources": {
+          "drake": {
+            "name": "Drake Companion"
+          },
+          "drakeBreath": {
+            "name": "Drake's Breath"
+          }
+        },
+        "features": {
+          "drakeCompanion": {
+            "name": "Drake Companion",
+            "text": "Bonus Action, proficiency bonus times per long rest: your drake bites one foe for 1d6 + Wisdom fire. You also know Intimidation (Draconic Gift)."
+          },
+          "bondOfFangAndScale": {
+            "name": "Bond of Fang and Scale",
+            "text": "Resistance to fire, and your weapon hits add 1d4 fire."
+          },
+          "drakesBreath": {
+            "name": "Drake's Breath",
+            "text": "Action, once per short rest: you or your drake breathe over one rank of foes for 6d6 fire (Dexterity save halves)."
+          },
+          "perfectedBond": {
+            "name": "Perfected Bond",
+            "text": "Your drake is full-grown: resistance to cold and +1 AC."
+          }
+        }
+      },
+      "feyWanderer": {
+        "name": "Fey Wanderer",
+        "summary": "Fey magic follows you: charming words and dreadful strikes.",
+        "resources": {
+          "twist": {
+            "name": "Beguiling Twist"
+          },
+          "reinforcements": {
+            "name": "Fey Reinforcements"
+          }
+        },
+        "features": {
+          "dreadfulStrikes": {
+            "name": "Dreadful Strikes and Otherworldly Glamour",
+            "text": "Your weapon hits add 1d4 psychic, and you gain proficiency in Persuasion."
+          },
+          "beguilingTwist": {
+            "name": "Beguiling Twist",
+            "text": "Bonus Action, Wisdom modifier times per long rest: fey glamour twists one foe's mind. It makes a Wisdom save or is charmed for 1 round."
+          },
+          "feyReinforcements": {
+            "name": "Fey Reinforcements",
+            "text": "Bonus Action, once per long rest: fey spirits join the party. Every ally strikes harder for 3 rounds (+1d4 radiant on hits)."
+          },
+          "mistyWanderer": {
+            "name": "Misty Wanderer",
+            "text": "Bonus Action, spend a Beguiling Twist use: step through the mist. You are blurred for 2 rounds."
+          }
+        }
+      },
+      "gloomStalker": {
+        "name": "Gloom Stalker",
+        "summary": "A hunter in the dark who strikes first and vanishes from sight.",
+        "features": {
+          "dreadAmbusher": {
+            "name": "Dread Ambusher and Umbral Sight",
+            "text": "You strike from the dark: +3 initiative and you start each fight hidden."
+          },
+          "ironMind": {
+            "name": "Iron Mind",
+            "text": "Your mind is hard to touch: +1 to all saving throws."
+          },
+          "stalkersFlurry": {
+            "name": "Stalker's Flurry",
+            "text": "A miss only means another try: +1 reroll on each of your turns and +5% to all your damage."
+          },
+          "shadowyDodge": {
+            "name": "Shadowy Dodge",
+            "text": "You slip the first blow: the first hit you take each fight deals nothing."
+          }
+        }
+      },
+      "horizonWalker": {
+        "name": "Horizon Walker",
+        "summary": "A guardian of the planes who steps through space and strikes with planar force.",
+        "resources": {
+          "etherealStep": {
+            "name": "Ethereal Step"
+          }
+        },
+        "features": {
+          "planarWarrior": {
+            "name": "Planar Warrior and Detect Portal",
+            "text": "Planar energy flows through your weapon: weapon hits add 1d4 force."
+          },
+          "etherealStep": {
+            "name": "Ethereal Step",
+            "text": "Bonus Action, once per short rest: step halfway out of the world. You are blurred for 2 rounds."
+          },
+          "distantStrike": {
+            "name": "Distant Strike",
+            "text": "You teleport between strikes: weapon hits add another 1d4 force, and +2 initiative."
+          },
+          "spectralDefense": {
+            "name": "Spectral Defense",
+            "text": "You partly phase out when struck: +1 AC and +1 to all saving throws."
+          }
+        }
+      },
+      "monsterSlayer": {
+        "name": "Monster Slayer",
+        "summary": "A hunter of the supernatural who studies a monster before killing it.",
+        "resources": {
+          "slayer": {
+            "name": "Slayer's Prey"
+          },
+          "nemesis": {
+            "name": "Magic-User's Nemesis"
+          }
+        },
+        "features": {
+          "slayersPrey": {
+            "name": "Slayer's Prey and Hunter's Sense",
+            "text": "Bonus Action, proficiency bonus times per long rest: study one foe. It is marked for 10 rounds (your hits on it add 1d6)."
+          },
+          "supernaturalDefense": {
+            "name": "Supernatural Defense",
+            "text": "You know a monster's tricks: +1 to all saving throws."
+          },
+          "magicUsersNemesis": {
+            "name": "Magic-User's Nemesis",
+            "text": "Action, once per short rest: disrupt one foe. It makes a Wisdom save or is incapacitated for 1 round."
+          },
+          "slayersCounter": {
+            "name": "Slayer's Counter",
+            "text": "You strike back at once: melee attackers that hit you take piercing damage equal to twice your level."
+          }
+        }
+      },
+      "swarmkeeper": {
+        "name": "Swarmkeeper",
+        "summary": "A swarm of nature spirits, pixies or insects, fights around you.",
+        "resources": {
+          "dispersal": {
+            "name": "Swarming Dispersal"
+          }
+        },
+        "features": {
+          "gatheredSwarm": {
+            "name": "Gathered Swarm and Swarmkeeper Magic",
+            "text": "Your swarm stings whatever you strike: weapon hits add 1d6 piercing."
+          },
+          "writhingTide": {
+            "name": "Writhing Tide",
+            "text": "The swarm lifts you out of harm: +1 AC and +2 initiative."
+          },
+          "mightySwarm": {
+            "name": "Mighty Swarm",
+            "text": "Your swarm grows: weapon hits add another 1d4 piercing."
+          },
+          "swarmingDispersal": {
+            "name": "Swarming Dispersal",
+            "text": "Bonus Action, proficiency bonus times per long rest: dissolve into your swarm. You are blurred for 2 rounds."
+          }
+        }
+      }
+    },
+    "rogue": {
+      "thief": {
+        "name": "Thief",
+        "summary": "Burglars and treasure hunters: quick hands, quiet feet and any magic item will do.",
+        "features": {
+          "fastHands": {
+            "name": "Fast Hands",
+            "text": "Use items as a Bonus Action."
+          },
+          "supremeSneak": {
+            "name": "Supreme Sneak",
+            "text": "Hide costs nothing after an attack once per turn."
+          },
+          "useMagicDevice": {
+            "name": "Use Magic Device",
+            "text": "Use any scroll; attune to more trinkets."
+          },
+          "thiefsReflexes": {
+            "name": "Thief's Reflexes",
+            "text": "Take two turns in the first round of combat."
+          }
+        }
+      },
+      "arcaneTrickster": {
+        "name": "Arcane Trickster",
+        "summary": "A rogue who learned a little wizardry, mostly for mischief.",
+        "resources": {
+          "trickery": {
+            "name": "Trickster Spells"
+          }
+        },
+        "features": {
+          "atSpellcasting": {
+            "name": "Spellcasting",
+            "text": "Action, proficiency bonus times per long rest: cast a trick spell at one foe for 2d6 + Intelligence force."
+          },
+          "mageHandLegerdemain": {
+            "name": "Mage Hand Legerdemain",
+            "text": "An invisible hand does your pickpocketing: proficiency in Sleight of Hand, with +2."
+          },
+          "magicalAmbush": {
+            "name": "Magical Ambush",
+            "text": "Your magic strikes from hiding: you start each fight hidden."
+          },
+          "versatileTrickster": {
+            "name": "Versatile Trickster",
+            "text": "Your mage hand distracts the foe: Pairs and Three of a Kind hands you play get +2 Mult."
+          },
+          "spellThief": {
+            "name": "Spell Thief",
+            "text": "You steal magic from casters: +2 Trickster Spell uses and +1 to all saving throws."
+          }
+        }
+      },
+      "assassin": {
+        "name": "Assassin",
+        "summary": "Disguise, infiltration and one perfect killing blow.",
+        "features": {
+          "assassinate": {
+            "name": "Assassinate",
+            "text": "You strike before they react: +3 initiative and you start each fight hidden. You also know Deception."
+          },
+          "infiltrationExpertise": {
+            "name": "Infiltration Expertise",
+            "text": "You can build false identities: +1 skill trick per fight."
+          },
+          "impostor": {
+            "name": "Impostor",
+            "text": "You mimic anyone: +3 to Deception and +1 reroll on each of your turns."
+          },
+          "deathStrike": {
+            "name": "Death Strike",
+            "text": "A critical hit leaves any foe that isn't a boss dead if it drops to 25% HP or less."
+          }
+        }
+      },
+      "inquisitive": {
+        "name": "Inquisitive",
+        "summary": "A detective who reads people and finds the weak spot in any defence.",
+        "resources": {
+          "insightful": {
+            "name": "Insightful Fighting"
+          }
+        },
+        "features": {
+          "insightfulFighting": {
+            "name": "Insightful Fighting",
+            "text": "Bonus Action, proficiency bonus times per long rest: read one foe. Attacks against it have advantage for 2 rounds. You also know Insight and Investigation (Ear for Deceit, Eye for Detail)."
+          },
+          "steadyEye": {
+            "name": "Steady Eye",
+            "text": "+3 to Perception and Investigation."
+          },
+          "unerringEye": {
+            "name": "Unerring Eye",
+            "text": "You see through tricks: +1 to all saving throws."
+          },
+          "eyeForWeakness": {
+            "name": "Eye for Weakness",
+            "text": "Your weapon hits add 2d6 piercing."
+          }
+        }
+      },
+      "mastermind": {
+        "name": "Mastermind",
+        "summary": "A schemer who directs the fight from the second rank and lies to everyone.",
+        "resources": {
+          "tactics": {
+            "name": "Master of Tactics"
+          }
+        },
+        "features": {
+          "masterOfTactics": {
+            "name": "Master of Tactics and Intrigue",
+            "text": "Bonus Action, proficiency bonus times per short rest: point out an opening. One ally's next attack has advantage. You also know Persuasion."
+          },
+          "insightfulManipulator": {
+            "name": "Insightful Manipulator",
+            "text": "You size up anyone: +1 skill trick per fight."
+          },
+          "misdirection": {
+            "name": "Misdirection",
+            "text": "You make someone else take the hit: the first hit you take each fight deals nothing."
+          },
+          "soulOfDeceit": {
+            "name": "Soul of Deceit",
+            "text": "Your mind is closed: you can't be charmed, and +1 to all saving throws."
+          }
+        }
+      },
+      "phantom": {
+        "name": "Phantom",
+        "summary": "A rogue touched by death who carries soul trinkets and wails from the grave.",
+        "resources": {
+          "wails": {
+            "name": "Wails from the Grave"
+          },
+          "ghostWalk": {
+            "name": "Ghost Walk"
+          }
+        },
+        "features": {
+          "wailsFromTheGrave": {
+            "name": "Wails from the Grave",
+            "text": "Bonus Action, proficiency bonus times per long rest: a wail strikes one foe for 2d6 necrotic. You also know Religion (Whispers of the Dead)."
+          },
+          "tokensOfTheDeparted": {
+            "name": "Tokens of the Departed",
+            "text": "You keep soul trinkets: +1 to all saving throws, and each kill gives you +1 reroll that turn."
+          },
+          "ghostWalk": {
+            "name": "Ghost Walk",
+            "text": "Bonus Action, once per long rest: become a spectre. You are blurred for 10 rounds."
+          },
+          "deathsFriend": {
+            "name": "Death's Friend",
+            "text": "Death feeds you: +2 Wails from the Grave uses, and each kill heals you 5% of your max HP."
+          }
+        }
+      },
+      "scout": {
+        "name": "Scout",
+        "summary": "A skirmisher and survivalist who is always first to the fight and first out.",
+        "features": {
+          "skirmisher": {
+            "name": "Skirmisher and Survivalist",
+            "text": "Proficiency in Nature and Survival, and +2 initiative."
+          },
+          "superiorMobility": {
+            "name": "Superior Mobility",
+            "text": "You are hard to pin down: +1 AC and +2 initiative."
+          },
+          "ambushMaster": {
+            "name": "Ambush Master",
+            "text": "You open every fight: you start each fight hidden."
+          },
+          "suddenStrike": {
+            "name": "Sudden Strike",
+            "text": "You strike twice with each Attack action."
+          }
+        }
+      },
+      "soulknife": {
+        "name": "Soulknife",
+        "summary": "Blades of psychic energy appear in your hands, and your mind is a weapon.",
+        "resources": {
+          "psi": {
+            "name": "Psionic Energy"
+          },
+          "rend": {
+            "name": "Rend Mind"
+          }
+        },
+        "features": {
+          "psychicBladesRogue": {
+            "name": "Psychic Blades and Psionic Power",
+            "text": "Your weapon hits add 1d4 psychic, and you know Insight."
+          },
+          "soulBlades": {
+            "name": "Soul Blades",
+            "text": "Attack action, spend a psionic die: guide your blade. Your first hit adds 2d8 psychic."
+          },
+          "psychicVeil": {
+            "name": "Psychic Veil",
+            "text": "Bonus Action, spend a psionic die: vanish from minds. You are invisible for 2 rounds."
+          },
+          "rendMind": {
+            "name": "Rend Mind",
+            "text": "Action, once per long rest: tear into a foe's mind. It makes a Wisdom save or is stunned for 1 round."
+          }
+        }
+      },
+      "swashbuckler": {
+        "name": "Swashbuckler",
+        "summary": "A dashing duellist with fancy footwork and dangerous charm.",
+        "resources": {
+          "panache": {
+            "name": "Panache"
+          }
+        },
+        "features": {
+          "rakishAudacity": {
+            "name": "Fancy Footwork and Rakish Audacity",
+            "text": "You swagger into every fight: +3 initiative and +1 AC."
+          },
+          "panache": {
+            "name": "Panache",
+            "text": "Bonus Action, proficiency bonus times per long rest: charm one foe with pure swagger. It makes a Wisdom save or is charmed for 1 round."
+          },
+          "elegantManeuver": {
+            "name": "Elegant Maneuver",
+            "text": "Proficiency in Acrobatics and Athletics."
+          },
+          "masterDuelist": {
+            "name": "Master Duelist",
+            "text": "You turn misses into hits: +1 reroll on each of your turns, and crits on 19–20."
+          }
+        }
+      }
+    },
+    "sorcerer": {
+      "draconic": {
+        "name": "Draconic Sorcery",
+        "summary": "Dragon blood in your veins: scaled skin, fire magic and, one day, wings.",
+        "features": {
+          "draconicResilience": {
+            "name": "Draconic Resilience",
+            "text": "+1 HP per level; unarmored AC = 10 + DEX + CHA."
+          },
+          "elementalAffinity": {
+            "name": "Elemental Affinity",
+            "text": "Add CHA to fire spell damage; resist fire."
+          },
+          "dragonWings": {
+            "name": "Dragon Wings",
+            "text": "Fly over pits and chasms while exploring."
+          },
+          "dragonCompanion": {
+            "name": "Dragon Companion",
+            "text": "Resistance to your affinity element for the party."
+          }
+        }
+      },
+      "aberrantMind": {
+        "name": "Aberrant Mind",
+        "summary": "Something from the Far Realm touched your mind, and now you touch others'.",
+        "resources": {
+          "implosion": {
+            "name": "Warping Implosion"
+          }
+        },
+        "features": {
+          "psionicSpells": {
+            "name": "Psionic Spells and Telepathic Speech",
+            "text": "Action, spend 1 Sorcery Point: a mind sliver strikes one foe for 2d8 + Charisma psychic."
+          },
+          "psychicDefenses": {
+            "name": "Psionic Sorcery and Psychic Defenses",
+            "text": "Resistance to psychic damage, and you can't be charmed."
+          },
+          "revelationInFlesh": {
+            "name": "Revelation in Flesh",
+            "text": "Your body shifts into something stranger: +1 AC and +2 initiative."
+          },
+          "warpingImplosion": {
+            "name": "Warping Implosion",
+            "text": "Action, once per long rest: space collapses around the foes. Every foe takes 8d10 force (Strength save halves)."
+          }
+        }
+      },
+      "clockworkSoul": {
+        "name": "Clockwork Soul",
+        "summary": "The cosmic order of Mechanus flows through you, smoothing out chance.",
+        "resources": {
+          "balance": {
+            "name": "Restore Balance"
+          },
+          "cavalcade": {
+            "name": "Clockwork Cavalcade"
+          }
+        },
+        "features": {
+          "restoreBalance": {
+            "name": "Clockwork Magic and Restore Balance",
+            "text": "Bonus Action, proficiency bonus times per long rest: cancel a foe's edge. It is weakened (disadvantage on its next attack) for 1 round."
+          },
+          "bastionOfLaw": {
+            "name": "Bastion of Law",
+            "text": "Bonus Action, spend 2 Sorcery Points: ward an ally with temporary HP equal to 3/4 of your level (×vitality)."
+          },
+          "tranceOfOrder": {
+            "name": "Trance of Order",
+            "text": "Chance bends toward order: +1 reroll on each of your turns."
+          },
+          "clockworkCavalcade": {
+            "name": "Clockwork Cavalcade",
+            "text": "Action, once per long rest: spirits of order mend the party. Every ally heals 4d8 + Charisma."
+          }
+        }
+      },
+      "divineSoul": {
+        "name": "Divine Soul",
+        "summary": "A god's blessing runs in your blood: you heal like a priest and luck follows you.",
+        "resources": {
+          "recovery": {
+            "name": "Unearthly Recovery"
+          }
+        },
+        "features": {
+          "favoredByTheGods": {
+            "name": "Divine Magic and Favored by the Gods",
+            "text": "+1 to all saving throws, and healing you give is 10% stronger."
+          },
+          "empoweredHealing": {
+            "name": "Empowered Healing",
+            "text": "Healing you give is another 15% stronger."
+          },
+          "otherworldlyWings": {
+            "name": "Otherworldly Wings",
+            "text": "Spectral wings lift you: +1 AC and +2 initiative."
+          },
+          "unearthlyRecovery": {
+            "name": "Unearthly Recovery",
+            "text": "Bonus Action, once per long rest: divine power heals you 8d10 + your level."
+          }
+        }
+      },
+      "shadowSorcery": {
+        "name": "Shadow Magic",
+        "summary": "Born of the Shadowfell: darkness obeys you and death has trouble keeping you.",
+        "resources": {
+          "shadowWalk": {
+            "name": "Shadow Walk"
+          }
+        },
+        "features": {
+          "strengthOfTheGrave": {
+            "name": "Eyes of the Dark and Strength of the Grave",
+            "text": "The first time you would drop to 0 HP in a fight, you stay at 1 HP instead."
+          },
+          "houndOfIllOmen": {
+            "name": "Hound of Ill Omen",
+            "text": "Action, spend 3 Sorcery Points: a shadow hound savages one foe for 2d6 psychic and leaves it baned for 3 rounds."
+          },
+          "shadowWalk": {
+            "name": "Shadow Walk",
+            "text": "Bonus Action, proficiency bonus times per long rest: step into the shadows. You are invisible until the end of your next turn."
+          },
+          "umbralForm": {
+            "name": "Umbral Form",
+            "text": "Bonus Action, spend 4 Sorcery Points: become living shadow. Resistance to bludgeoning, piercing and slashing for 10 rounds."
+          }
+        }
+      },
+      "storm": {
+        "name": "Storm Sorcery",
+        "summary": "Your magic comes from elemental air: winds carry you and lightning answers.",
+        "features": {
+          "tempestuousMagic": {
+            "name": "Wind Speaker and Tempestuous Magic",
+            "text": "Winds carry you into position: +2 initiative."
+          },
+          "heartOfTheStorm": {
+            "name": "Heart of the Storm and Storm Guide",
+            "text": "Resistance to lightning and thunder, and +2 to your spell damage rolls."
+          },
+          "stormsFury": {
+            "name": "Storm's Fury",
+            "text": "Lightning lashes anyone who strikes you: melee attackers that hit you take lightning damage equal to twice your level."
+          },
+          "windSoul": {
+            "name": "Wind Soul",
+            "text": "You are one with the wind: +1 to all saving throws and +2 initiative."
+          }
+        }
+      },
+      "wildMagicSorcery": {
+        "name": "Wild Magic",
+        "summary": "Chaos magic that surges unpredictably, and luck you can bend.",
+        "features": {
+          "tidesOfChaos": {
+            "name": "Wild Magic Surge and Tides of Chaos",
+            "text": "Wild magic seeps into every fight: each fight opens with a Wild die on the tray."
+          },
+          "bendLuck": {
+            "name": "Bend Luck",
+            "text": "Bonus Action, spend 2 Sorcery Points: bend an ally's luck. They are blessed for 3 rounds."
+          },
+          "controlledChaos": {
+            "name": "Controlled Chaos",
+            "text": "You choose among the surges: +1 reroll on each of your turns."
+          },
+          "spellBombardment": {
+            "name": "Spell Bombardment",
+            "text": "Your spells run wild: +4 to your spell damage rolls."
+          }
+        }
+      }
+    },
+    "warlock": {
+      "fiend": {
+        "name": "Fiend Patron",
+        "summary": "A pact with a devil or demon: kills feed you and luck bends your way.",
+        "resources": {
+          "ownLuck": {
+            "name": "Dark One's Own Luck"
+          },
+          "hurl": {
+            "name": "Hurl Through Hell"
+          }
+        },
+        "features": {
+          "darkOnesBlessing": {
+            "name": "Dark One's Blessing",
+            "text": "When you reduce an enemy to 0 HP, gain CHA + level temp HP."
+          },
+          "darkOnesOwnLuck": {
+            "name": "Dark One's Own Luck",
+            "text": "Add a d10 to a check or save — or turn one tray die to any face (CHA times per long rest)."
+          },
+          "fiendishResilience": {
+            "name": "Fiendish Resilience",
+            "text": "Resistance to one damage type (fire)."
+          },
+          "hurlThroughHell": {
+            "name": "Hurl Through Hell",
+            "text": "Once per long rest: a target takes 8d10 psychic (CHA save avoids)."
+          }
+        }
+      },
+      "archfey": {
+        "name": "The Archfey",
+        "summary": "A pact with a lord or lady of the fey: charm, fear and vanishing tricks.",
+        "resources": {
+          "feyPresence": {
+            "name": "Fey Presence"
+          },
+          "mistyEscape": {
+            "name": "Misty Escape"
+          },
+          "delirium": {
+            "name": "Dark Delirium"
+          }
+        },
+        "features": {
+          "feyPresence": {
+            "name": "Fey Presence",
+            "text": "Action, once per short rest: fey majesty washes over every foe. Each makes a Wisdom save or is charmed for 1 round."
+          },
+          "mistyEscape": {
+            "name": "Misty Escape",
+            "text": "Bonus Action, once per short rest: vanish in a puff of mist. You are invisible until the end of your next turn."
+          },
+          "beguilingDefenses": {
+            "name": "Beguiling Defenses",
+            "text": "You can't be charmed, and melee attackers that hit you take psychic damage equal to your level."
+          },
+          "darkDelirium": {
+            "name": "Dark Delirium",
+            "text": "Action, once per short rest: trap one foe in a fey illusion. It makes a Wisdom save or is charmed for 3 rounds."
+          }
+        }
+      },
+      "celestial": {
+        "name": "The Celestial",
+        "summary": "A pact with a being of the upper planes: healing light and radiant fire.",
+        "resources": {
+          "healingLight": {
+            "name": "Healing Light"
+          }
+        },
+        "features": {
+          "healingLight": {
+            "name": "Bonus Cantrips and Healing Light",
+            "text": "Bonus Action, proficiency bonus times per long rest: heal one ally 2d6 + Charisma."
+          },
+          "radiantSoul": {
+            "name": "Radiant Soul",
+            "text": "Resistance to radiant damage, and +2 to your spell damage rolls."
+          },
+          "celestialResilience": {
+            "name": "Celestial Resilience",
+            "text": "Celestial light lingers in you: +8% max HP."
+          },
+          "searingVengeance": {
+            "name": "Searing Vengeance",
+            "text": "The first time you would drop to 0 HP in a fight, you stay at 1 HP instead."
+          }
+        }
+      },
+      "fathomless": {
+        "name": "The Fathomless",
+        "summary": "A pact with something in the deep sea: tentacles, cold and crushing water.",
+        "resources": {
+          "tentacle": {
+            "name": "Tentacle of the Deeps"
+          },
+          "graspingTentacles": {
+            "name": "Grasping Tentacles"
+          },
+          "plunge": {
+            "name": "Fathomless Plunge"
+          }
+        },
+        "features": {
+          "tentacleOfTheDeeps": {
+            "name": "Tentacle of the Deeps and Gift of the Sea",
+            "text": "Bonus Action, proficiency bonus times per long rest: a spectral tentacle lashes one foe for 2d6 cold and slows it for 1 round."
+          },
+          "oceanicSoul": {
+            "name": "Oceanic Soul and Guardian Coil",
+            "text": "Resistance to cold, and +1 AC from your coiling tentacle."
+          },
+          "graspingTentacles": {
+            "name": "Grasping Tentacles",
+            "text": "Action, once per long rest: tentacles burst from the ground under one rank of foes. Each makes a Strength save or is restrained for 2 rounds."
+          },
+          "fathomlessPlunge": {
+            "name": "Fathomless Plunge",
+            "text": "Bonus Action, once per short rest: pull the party into the deep and back. Every ally is blurred for 1 round."
+          }
+        }
+      },
+      "genie": {
+        "name": "The Genie",
+        "summary": "A pact with a noble genie: elemental wrath and a magic vessel to rest in.",
+        "resources": {
+          "vessel": {
+            "name": "Sanctuary Vessel"
+          },
+          "wish": {
+            "name": "Limited Wish"
+          }
+        },
+        "features": {
+          "genieVessel": {
+            "name": "Genie's Vessel and Genie's Wrath",
+            "text": "Your weapon hits add 1d4 fire, and +2 to your spell damage rolls."
+          },
+          "elementalGift": {
+            "name": "Elemental Gift",
+            "text": "Resistance to fire, and +2 initiative."
+          },
+          "sanctuaryVessel": {
+            "name": "Sanctuary Vessel",
+            "text": "Bonus Action, once per long rest: the party rests a moment in your vessel. Every ally gains temporary HP equal to half your level (×vitality)."
+          },
+          "limitedWish": {
+            "name": "Limited Wish",
+            "text": "Action, once per long rest: ask your patron for help. Every ally heals 3d8 + Charisma."
+          }
+        }
+      },
+      "greatOldOne": {
+        "name": "The Great Old One",
+        "summary": "A pact with an unknowable entity: telepathy, warded thoughts and enthralled foes.",
+        "resources": {
+          "thrall": {
+            "name": "Create Thrall"
+          }
+        },
+        "features": {
+          "awakenedMind": {
+            "name": "Awakened Mind",
+            "text": "You hear thoughts: proficiency in Insight and +1 to your spell damage rolls."
+          },
+          "entropicWard": {
+            "name": "Entropic Ward",
+            "text": "Entropy turns the first blow aside: the first hit you take each fight deals nothing."
+          },
+          "thoughtShield": {
+            "name": "Thought Shield",
+            "text": "Resistance to psychic damage, and melee attackers that hit you take psychic damage equal to your level."
+          },
+          "createThrall": {
+            "name": "Create Thrall",
+            "text": "Action, once per long rest: enthral one foe. It makes a Wisdom save or is charmed for 3 rounds."
+          }
+        }
+      },
+      "hexblade": {
+        "name": "The Hexblade",
+        "summary": "A pact with a sentient weapon from the Shadowfell: curse a foe and cut it down.",
+        "resources": {
+          "curse": {
+            "name": "Hexblade's Curse"
+          }
+        },
+        "features": {
+          "hexWarrior": {
+            "name": "Hex Warrior",
+            "text": "Training with medium armour, shields and martial weapons, and you attack with Charisma."
+          },
+          "hexbladesCurse": {
+            "name": "Hexblade's Curse",
+            "text": "Bonus Action, once per short rest: curse one foe for 10 rounds. Your hits on it add 1d6 necrotic."
+          },
+          "accursedSpecter": {
+            "name": "Accursed Specter",
+            "text": "The souls you take serve you: each kill heals you 5% of your max HP and gives +1 reroll that turn."
+          },
+          "armorOfHexes": {
+            "name": "Armor of Hexes",
+            "text": "Shadows turn blows aside: +1 AC."
+          },
+          "masterOfHexes": {
+            "name": "Master of Hexes",
+            "text": "Your curse jumps to new victims: +2 Hexblade's Curse uses, and crits on 19–20."
+          }
+        }
+      },
+      "undead": {
+        "name": "The Undead",
+        "summary": "A pact with a lich or vampire lord: you take on a dreadful form and death can't hold you.",
+        "resources": {
+          "dread": {
+            "name": "Form of Dread"
+          },
+          "projection": {
+            "name": "Spirit Projection"
+          }
+        },
+        "features": {
+          "formOfDread": {
+            "name": "Form of Dread",
+            "text": "Bonus Action, proficiency bonus times per long rest: take on a dreadful form, gaining temporary HP equal to your level (×vitality). You can't be frightened."
+          },
+          "graveTouched": {
+            "name": "Grave Touched",
+            "text": "Your weapon hits add 1d4 necrotic, and +2 to your spell damage rolls."
+          },
+          "necroticHusk": {
+            "name": "Necrotic Husk",
+            "text": "Resistance to necrotic damage, and the first time you would drop to 0 HP in a fight, you stay at 1 HP instead."
+          },
+          "spiritProjection": {
+            "name": "Spirit Projection",
+            "text": "Bonus Action, once per long rest: project your spirit. Resistance to bludgeoning, piercing and slashing for 10 rounds."
+          }
+        }
+      },
+      "undying": {
+        "name": "The Undying",
+        "summary": "A pact with a being that cheated death, and wants you to do the same.",
+        "resources": {
+          "indestructible": {
+            "name": "Indestructible Life"
+          }
+        },
+        "features": {
+          "amongTheDead": {
+            "name": "Among the Dead",
+            "text": "The dead leave you be: resistance to necrotic damage."
+          },
+          "defyDeath": {
+            "name": "Defy Death",
+            "text": "The first time you would drop to 0 HP in a fight, you stay at 1 HP instead."
+          },
+          "undyingNature": {
+            "name": "Undying Nature",
+            "text": "You barely age or tire: +10% max HP and resistance to poison."
+          },
+          "indestructibleLife": {
+            "name": "Indestructible Life",
+            "text": "Bonus Action, once per short rest: your wounds close. Heal 3d8 + your level."
+          }
+        }
+      }
+    },
+    "wizard": {
+      "evoker": {
+        "name": "Evoker",
+        "summary": "Masters of destructive magic who shape blasts around their friends.",
+        "resources": {
+          "overchannel": {
+            "name": "Overchannel"
+          }
+        },
+        "features": {
+          "potentCantrip": {
+            "name": "Potent Cantrip",
+            "text": "Cantrips that miss or are saved against still deal half damage."
+          },
+          "evocationSavant": {
+            "name": "Evocation Savant",
+            "text": "Learn extra evocation spells."
+          },
+          "sculptSpells": {
+            "name": "Sculpt Spells",
+            "text": "Your area spells never strike allies (already true here) and deal +2 Mult when hitting 3+ foes."
+          },
+          "empoweredEvocation": {
+            "name": "Empowered Evocation",
+            "text": "Add INT to evocation damage."
+          },
+          "overchannel": {
+            "name": "Overchannel",
+            "text": "Once per long rest, a spell of 5th level or lower deals maximum dice damage."
+          }
+        }
+      },
+      "bladesinging": {
+        "name": "Bladesinging",
+        "summary": "Elven sword-dancers who weave spells into swordplay.",
+        "resources": {
+          "bladesong": {
+            "name": "Bladesong"
+          }
+        },
+        "features": {
+          "bladesong": {
+            "name": "Training in War and Song, Bladesong",
+            "text": "Bonus Action, proficiency bonus times per long rest: start the bladesong. +3 AC for 10 rounds. You also know Performance and use martial weapons."
+          },
+          "extraAttack": {
+            "name": "Extra Attack",
+            "text": "Attack twice whenever you take the Attack action."
+          },
+          "songOfDefense": {
+            "name": "Song of Defense",
+            "text": "You turn magic into a shield: +1 AC."
+          },
+          "songOfVictory": {
+            "name": "Song of Victory",
+            "text": "Your mind sharpens your blade: +10% to all your damage."
+          }
+        }
+      },
+      "chronurgy": {
+        "name": "Chronurgy Magic",
+        "summary": "Time magic: you nudge the next few seconds and freeze foes in place.",
+        "resources": {
+          "chronalShift": {
+            "name": "Chronal Shift"
+          },
+          "stasis": {
+            "name": "Momentary Stasis"
+          }
+        },
+        "features": {
+          "chronalShift": {
+            "name": "Chronal Shift and Temporal Awareness",
+            "text": "Bonus Action, twice per long rest: rewind a foe's moment. It is weakened (disadvantage on its next attack) for 1 round. You also gain +3 initiative."
+          },
+          "momentaryStasis": {
+            "name": "Momentary Stasis",
+            "text": "Action, Intelligence modifier times per long rest: freeze one foe in time. It makes a Constitution save or is incapacitated for 1 round."
+          },
+          "arcaneAbeyance": {
+            "name": "Arcane Abeyance",
+            "text": "You keep a spell suspended for later: one extra 4th-level slot."
+          },
+          "convergentFuture": {
+            "name": "Convergent Future",
+            "text": "You see where the dice will land: +1 reroll on each of your turns."
+          }
+        }
+      },
+      "graviturgy": {
+        "name": "Graviturgy Magic",
+        "summary": "Gravity magic: you make foes heavy and pull them into the ground.",
+        "resources": {
+          "density": {
+            "name": "Adjust Density"
+          },
+          "horizon": {
+            "name": "Event Horizon"
+          }
+        },
+        "features": {
+          "adjustDensity": {
+            "name": "Adjust Density",
+            "text": "Bonus Action, proficiency bonus times per long rest: make one foe heavy. It makes a Strength save or is slowed for 2 rounds."
+          },
+          "gravityWell": {
+            "name": "Gravity Well",
+            "text": "Your spells drag foes where you want them: +2 to your spell damage rolls."
+          },
+          "violentAttraction": {
+            "name": "Violent Attraction",
+            "text": "You add gravity to every blow: +6% to all your damage."
+          },
+          "eventHorizon": {
+            "name": "Event Horizon",
+            "text": "Action, once per long rest: every foe makes a Strength save or takes 6d10 force and is restrained for 2 rounds."
+          }
+        }
+      },
+      "scribes": {
+        "name": "Order of Scribes",
+        "summary": "Your spellbook is awake, and your quill writes magic as fast as you think.",
+        "features": {
+          "awakenedSpellbook": {
+            "name": "Wizardly Quill and Awakened Spellbook",
+            "text": "Your book helps you shape spells: +1 to your spell damage rolls and +1 skill trick per fight."
+          },
+          "manifestMind": {
+            "name": "Manifest Mind",
+            "text": "Your book's mind casts alongside you: one extra 2nd-level slot."
+          },
+          "masterScrivener": {
+            "name": "Master Scrivener",
+            "text": "You write a spell scroll every rest: one extra 3rd-level slot."
+          },
+          "oneWithTheWord": {
+            "name": "One with the Word",
+            "text": "Your book takes the blow for you: the first time you would drop to 0 HP in a fight, you stay at 1 HP instead."
+          }
+        }
+      },
+      "abjuration": {
+        "name": "School of Abjuration",
+        "summary": "Protective magic: an arcane ward soaks blows for you and your friends.",
+        "resources": {
+          "arcaneWard": {
+            "name": "Arcane Ward"
+          }
+        },
+        "features": {
+          "arcaneWard": {
+            "name": "Abjuration Savant and Arcane Ward",
+            "text": "Bonus Action, proficiency bonus times per long rest: raise a ward of temporary HP equal to your level (×vitality)."
+          },
+          "projectedWard": {
+            "name": "Projected Ward",
+            "text": "Bonus Action, spend an Arcane Ward use: project a ward onto an ally, temporary HP equal to 3/4 of your level (×vitality)."
+          },
+          "improvedAbjuration": {
+            "name": "Improved Abjuration",
+            "text": "+1 to all saving throws and +1 spell save DC."
+          },
+          "spellResistance": {
+            "name": "Spell Resistance",
+            "text": "Resistance to force and psychic damage, and +1 to all saving throws."
+          }
+        }
+      },
+      "conjuration": {
+        "name": "School of Conjuration",
+        "summary": "Summoning and teleport magic: things appear where you want them, including you.",
+        "resources": {
+          "transposition": {
+            "name": "Benign Transposition"
+          }
+        },
+        "features": {
+          "minorConjuration": {
+            "name": "Conjuration Savant and Minor Conjuration",
+            "text": "You conjure a lucky coin before every expedition: start each expedition with a Fate Coin token."
+          },
+          "benignTransposition": {
+            "name": "Benign Transposition",
+            "text": "Bonus Action, once per long rest: teleport out of harm. You are blurred for 2 rounds."
+          },
+          "focusedConjuration": {
+            "name": "Focused Conjuration",
+            "text": "Your concentration is hard to break: +1 to all saving throws."
+          },
+          "durableSummons": {
+            "name": "Durable Summons",
+            "text": "Your conjured things last: +2 to your spell damage rolls and +5% max HP."
+          }
+        }
+      },
+      "divination": {
+        "name": "School of Divination",
+        "summary": "You see the future, and you remember which dice are coming.",
+        "features": {
+          "portent": {
+            "name": "Divination Savant and Portent",
+            "text": "You glimpse the fight before it starts: each fight opens with a Wild die on the tray."
+          },
+          "expertDivination": {
+            "name": "Expert Divination",
+            "text": "Divining refreshes your magic: one extra 1st-level and one extra 2nd-level slot."
+          },
+          "theThirdEye": {
+            "name": "The Third Eye",
+            "text": "You see what others miss: +3 initiative and proficiency in Perception."
+          },
+          "greaterPortent": {
+            "name": "Greater Portent",
+            "text": "Your visions grow: another Wild die opens each fight, and you start each expedition with a Fate Coin."
+          }
+        }
+      },
+      "enchantment": {
+        "name": "School of Enchantment",
+        "summary": "Charm magic: a gaze that freezes foes and words that turn them aside.",
+        "resources": {
+          "gaze": {
+            "name": "Hypnotic Gaze"
+          }
+        },
+        "features": {
+          "hypnoticGaze": {
+            "name": "Enchantment Savant and Hypnotic Gaze",
+            "text": "Action, proficiency bonus times per long rest: fix your gaze on one foe. It makes a Wisdom save or is charmed for 1 round."
+          },
+          "instinctiveCharm": {
+            "name": "Instinctive Charm",
+            "text": "Attackers turn their blows elsewhere: the first hit you take each fight deals nothing."
+          },
+          "splitEnchantment": {
+            "name": "Split Enchantment",
+            "text": "Your charms are harder to resist: +1 spell save DC."
+          },
+          "alterMemories": {
+            "name": "Alter Memories",
+            "text": "You blur what foes remember: +1 spell save DC and +1 skill trick per fight."
+          }
+        }
+      },
+      "illusion": {
+        "name": "School of Illusion",
+        "summary": "Illusions so good they become real, including copies of you.",
+        "resources": {
+          "malleable": {
+            "name": "Malleable Illusions"
+          }
+        },
+        "features": {
+          "improvedMinorIllusion": {
+            "name": "Illusion Savant and Improved Minor Illusion",
+            "text": "Proficiency in Deception, and +1 skill trick per fight."
+          },
+          "malleableIllusions": {
+            "name": "Malleable Illusions",
+            "text": "Action, proficiency bonus times per long rest: fill one foe's eyes with illusion. It makes an Intelligence save or is blinded for 1 round."
+          },
+          "illusorySelf": {
+            "name": "Illusory Self",
+            "text": "A copy of you takes the first blow: the first hit you take each fight deals nothing."
+          },
+          "illusoryReality": {
+            "name": "Illusory Reality",
+            "text": "Your illusions become real: +1 spell save DC and +2 to your spell damage rolls."
+          }
+        }
+      },
+      "necromancy": {
+        "name": "School of Necromancy",
+        "summary": "Death magic: you feed on the souls you take and raise thralls.",
+        "resources": {
+          "thralls": {
+            "name": "Undead Thralls"
+          },
+          "commandUndead": {
+            "name": "Command Undead"
+          }
+        },
+        "features": {
+          "grimHarvest": {
+            "name": "Necromancy Savant and Grim Harvest",
+            "text": "Each kill heals you 10% of your max HP."
+          },
+          "undeadThralls": {
+            "name": "Undead Thralls",
+            "text": "Bonus Action, proficiency bonus times per long rest: a thrall claws one foe for 2d6 + Intelligence necrotic."
+          },
+          "inuredToUndeath": {
+            "name": "Inured to Undeath",
+            "text": "Resistance to necrotic damage, and +5% max HP."
+          },
+          "commandUndead": {
+            "name": "Command Undead",
+            "text": "Action, once per long rest: bend one foe to your will. It makes a Charisma save or is charmed for 3 rounds."
+          }
+        }
+      },
+      "transmutation": {
+        "name": "School of Transmutation",
+        "summary": "You change what things are, from lead to gold and from wounds to health.",
+        "resources": {
+          "shapechanger": {
+            "name": "Shapechanger"
+          },
+          "panacea": {
+            "name": "Master Transmuter"
+          }
+        },
+        "features": {
+          "minorAlchemy": {
+            "name": "Transmutation Savant and Minor Alchemy",
+            "text": "Proficiency in Nature, and +1 skill trick per fight."
+          },
+          "transmutersStone": {
+            "name": "Transmuter's Stone",
+            "text": "Your stone protects you: +1 to all saving throws and resistance to fire."
+          },
+          "shapechanger": {
+            "name": "Shapechanger",
+            "text": "Bonus Action, once per short rest: transform your body. Temporary HP equal to twice your level (×vitality)."
+          },
+          "masterTransmuter": {
+            "name": "Master Transmuter",
+            "text": "Action, once per long rest: use up your stone to restore one ally, healing 6d8 + your level."
+          }
+        }
+      },
+      "warMagic": {
+        "name": "War Magic",
+        "summary": "Battle wizards trained to fight and to survive the fight.",
+        "resources": {
+          "deflection": {
+            "name": "Arcane Deflection"
+          }
+        },
+        "features": {
+          "arcaneDeflection": {
+            "name": "Arcane Deflection and Tactical Wit",
+            "text": "Bonus Action, proficiency bonus times per short rest: +2 AC until your next turn. You also gain +3 initiative."
+          },
+          "powerSurge": {
+            "name": "Power Surge",
+            "text": "Stored magic boosts your spells: +2 to your spell damage rolls."
+          },
+          "durableMagic": {
+            "name": "Durable Magic",
+            "text": "While you hold a spell you are harder to hit: +1 AC and +1 to all saving throws."
+          },
+          "deflectingShroud": {
+            "name": "Deflecting Shroud",
+            "text": "Deflected magic lashes out: melee attackers that hit you take force damage equal to your level."
+          }
+        }
+      }
+    },
+    "artificer": {
+      "alchemist": {
+        "name": "Alchemist",
+        "summary": "Potions, elixirs and reagents: you heal friends and dissolve foes.",
+        "resources": {
+          "elixir": {
+            "name": "Experimental Elixir"
+          },
+          "reagents": {
+            "name": "Restorative Reagents"
+          }
+        },
+        "features": {
+          "experimentalElixir": {
+            "name": "Tool Proficiency and Experimental Elixir",
+            "text": "Bonus Action, proficiency bonus times per long rest: hand an ally a healing elixir for 2d4 + Intelligence. You also know Medicine."
+          },
+          "alchemicalSavant": {
+            "name": "Alchemical Savant",
+            "text": "+2 to your spell damage rolls, and healing you give is 15% stronger."
+          },
+          "restorativeReagents": {
+            "name": "Restorative Reagents",
+            "text": "Bonus Action, Intelligence modifier times per long rest: every ally gains temporary HP equal to half your level (×vitality)."
+          },
+          "chemicalMastery": {
+            "name": "Chemical Mastery",
+            "text": "Resistance to acid and poison, and you can't be poisoned."
+          }
+        }
+      },
+      "armorer": {
+        "name": "Armorer",
+        "summary": "You rebuild your armour into a suit of thunder gauntlets and wards.",
+        "features": {
+          "arcaneArmor": {
+            "name": "Tools of the Trade, Arcane Armor and Guardian Model",
+            "text": "Training with heavy armour, +1 AC, and your thunder gauntlets add 1d4 thunder to weapon hits."
+          },
+          "extraAttack": {
+            "name": "Extra Attack",
+            "text": "Attack twice whenever you take the Attack action."
+          },
+          "armorModifications": {
+            "name": "Armor Modifications",
+            "text": "More infusions fit in your armour: +5% max HP."
+          },
+          "perfectedArmor": {
+            "name": "Perfected Armor",
+            "text": "Your armour lashes out: melee attackers that hit you take lightning damage equal to twice your level."
+          }
+        }
+      },
+      "artillerist": {
+        "name": "Artillerist",
+        "summary": "An eldritch cannon and an arcane firearm: magic as artillery.",
+        "resources": {
+          "cannon": {
+            "name": "Eldritch Cannon"
+          },
+          "fortified": {
+            "name": "Fortified Position"
+          }
+        },
+        "features": {
+          "eldritchCannon": {
+            "name": "Tool Proficiency and Eldritch Cannon",
+            "text": "Bonus Action, proficiency bonus times per short rest: your cannon breathes flame over one rank of foes for 2d8 fire (Dexterity save halves)."
+          },
+          "arcaneFirearm": {
+            "name": "Arcane Firearm",
+            "text": "+2 to your spell damage rolls."
+          },
+          "explosiveCannon": {
+            "name": "Explosive Cannon",
+            "text": "Your cannon fires more often: +2 Eldritch Cannon uses."
+          },
+          "fortifiedPosition": {
+            "name": "Fortified Position",
+            "text": "Bonus Action, once per long rest: your cannons throw up cover. Every ally gains +2 AC for 3 rounds."
+          }
+        }
+      },
+      "battleSmith": {
+        "name": "Battle Smith",
+        "summary": "A steel defender fights beside you, and you fight with your mind.",
+        "resources": {
+          "defender": {
+            "name": "Steel Defender"
+          }
+        },
+        "features": {
+          "battleReady": {
+            "name": "Battle Ready",
+            "text": "Proficiency with martial weapons, and you attack with Intelligence."
+          },
+          "steelDefender": {
+            "name": "Steel Defender",
+            "text": "Bonus Action, proficiency bonus times per short rest: your steel defender strikes one foe for 1d8 + Intelligence force."
+          },
+          "extraAttack": {
+            "name": "Extra Attack",
+            "text": "Attack twice whenever you take the Attack action."
+          },
+          "arcaneJolt": {
+            "name": "Arcane Jolt",
+            "text": "Your weapon hits add 1d4 force."
+          },
+          "improvedDefender": {
+            "name": "Improved Defender",
+            "text": "Your defender guards you closely: +1 AC, and melee attackers that hit you take force damage equal to your level."
+          }
+        }
+      }
     }
   }
 }

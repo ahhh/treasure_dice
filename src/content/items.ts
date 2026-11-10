@@ -97,6 +97,14 @@ export interface TrinketMods {
   slotRecover?: number;
   resist?: DamageType[];
   critRange?: number;
+  /** Weapon attacks gain +n to hit and damage (Artificer infusions). */
+  weaponPlus?: number;
+  /** Proficiency with martial weapons (subclass training). */
+  martialWeapons?: boolean;
+  /** Extra armour training (subclass training). */
+  armorProf?: ('light' | 'medium' | 'heavy' | 'shield')[];
+  /** Retribution damage type for `thorns` from class features (gear thorns are fire). */
+  thornsType?: DamageType;
   // ── dice hooks ──
   /** Skill proficiency (and a flat bonus) — proficiency unlocks that skill's tray trick. */
   skillProf?: Skill[];

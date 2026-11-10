@@ -1,8 +1,8 @@
 {
  "ruleset": "srd-5.2.1",
- "generated": "2026-11-01",
+ "generated": "2026-11-10",
  "counts": {
-  "features": 265,
+  "features": 744,
   "spells": 113
  },
  "features": [
@@ -47,10 +47,10 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:barbarian:frenzy",
+   "id": "feature:barbarian:subclass",
    "class": "barbarian",
    "level": 3,
-   "name": "Frenzy",
+   "name": "Subclass",
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
   },
@@ -87,14 +87,6 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:barbarian:mindlessRage",
-   "class": "barbarian",
-   "level": 6,
-   "name": "Mindless Rage",
-   "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:barbarian:feralInstinct",
    "class": "barbarian",
    "level": 7,
@@ -127,14 +119,6 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:barbarian:retaliation",
-   "class": "barbarian",
-   "level": 10,
-   "name": "Retaliation",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:barbarian:relentlessRage",
    "class": "barbarian",
    "level": 11,
@@ -155,14 +139,6 @@
    "class": "barbarian",
    "level": 13,
    "name": "Improved Brutal Strike",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:barbarian:intimidatingPresence",
-   "class": "barbarian",
-   "level": 14,
-   "name": "Intimidating Presence",
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
@@ -247,18 +223,10 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:bard:cuttingWords",
+   "id": "feature:bard:subclass",
    "class": "bard",
    "level": 3,
-   "name": "Cutting Words",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:bard:bonusProficiencies",
-   "class": "bard",
-   "level": 3,
-   "name": "Bonus Proficiencies",
+   "name": "Subclass",
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
   },
@@ -276,14 +244,6 @@
    "level": 5,
    "name": "Font of Inspiration",
    "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:bard:magicalDiscoveries",
-   "class": "bard",
-   "level": 6,
-   "name": "Magical Discoveries",
-   "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
   {
@@ -316,14 +276,6 @@
    "level": 12,
    "name": "Ability Score Improvement",
    "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:bard:peerlessSkill",
-   "class": "bard",
-   "level": 14,
-   "name": "Peerless Skill",
-   "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
   {
@@ -391,19 +343,11 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:cleric:discipleOfLife",
+   "id": "feature:cleric:subclass",
    "class": "cleric",
    "level": 3,
-   "name": "Disciple of Life",
+   "name": "Subclass",
    "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:cleric:preserveLife",
-   "class": "cleric",
-   "level": 3,
-   "name": "Preserve Life",
-   "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
   {
@@ -419,14 +363,6 @@
    "class": "cleric",
    "level": 5,
    "name": "Sear Undead",
-   "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:cleric:blessedHealer",
-   "class": "cleric",
-   "level": 6,
-   "name": "Blessed Healer",
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
   },
@@ -479,14 +415,6 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:cleric:supremeHealing",
-   "class": "cleric",
-   "level": 17,
-   "name": "Supreme Healing",
-   "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:cleric:epicBoon",
    "class": "cleric",
    "level": 19,
@@ -527,11 +455,11 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:druid:landsAid",
+   "id": "feature:druid:subclass",
    "class": "druid",
    "level": 3,
-   "name": "Land's Aid",
-   "implementation": "implemented_adapted",
+   "name": "Subclass",
+   "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
   },
   {
@@ -547,14 +475,6 @@
    "class": "druid",
    "level": 5,
    "name": "Wild Resurgence",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:druid:naturalRecovery",
-   "class": "druid",
-   "level": 6,
-   "name": "Natural Recovery",
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
@@ -575,27 +495,11 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:druid:naturesWard",
-   "class": "druid",
-   "level": 10,
-   "name": "Nature's Ward",
-   "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:druid:asi",
    "class": "druid",
    "level": 12,
    "name": "Ability Score Improvement",
    "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:druid:naturesSanctuary",
-   "class": "druid",
-   "level": 14,
-   "name": "Nature's Sanctuary",
-   "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
   {
@@ -679,18 +583,10 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:fighter:improvedCritical",
+   "id": "feature:fighter:subclass",
    "class": "fighter",
    "level": 3,
-   "name": "Improved Critical",
-   "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:fighter:remarkableAthlete",
-   "class": "fighter",
-   "level": 3,
-   "name": "Remarkable Athlete",
+   "name": "Subclass",
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
   },
@@ -727,14 +623,6 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:fighter:additionalFightingStyle",
-   "class": "fighter",
-   "level": 7,
-   "name": "Additional Fighting Style",
-   "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:fighter:asi",
    "class": "fighter",
    "level": 8,
@@ -755,14 +643,6 @@
    "class": "fighter",
    "level": 9,
    "name": "Tactical Master",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:fighter:heroicWarrior",
-   "class": "fighter",
-   "level": 10,
-   "name": "Heroic Warrior",
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
@@ -799,14 +679,6 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:fighter:superiorCritical",
-   "class": "fighter",
-   "level": 15,
-   "name": "Superior Critical",
-   "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:fighter:asi",
    "class": "fighter",
    "level": 16,
@@ -819,14 +691,6 @@
    "class": "fighter",
    "level": 17,
    "name": "Action Surge (two uses)",
-   "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:fighter:survivor",
-   "class": "fighter",
-   "level": 18,
-   "name": "Survivor",
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
   },
@@ -887,18 +751,18 @@
    "license": "CC-BY-4.0"
   },
   {
+   "id": "feature:monk:subclass",
+   "class": "monk",
+   "level": 3,
+   "name": "Subclass",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
    "id": "feature:monk:deflectAttacks",
    "class": "monk",
    "level": 3,
    "name": "Deflect Attacks",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:monk:openHandTechnique",
-   "class": "monk",
-   "level": 3,
-   "name": "Open Hand Technique",
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
@@ -943,14 +807,6 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:monk:wholenessOfBody",
-   "class": "monk",
-   "level": 6,
-   "name": "Wholeness of Body",
-   "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:monk:evasion",
    "class": "monk",
    "level": 7,
@@ -991,14 +847,6 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:monk:fleetStep",
-   "class": "monk",
-   "level": 11,
-   "name": "Fleet Step",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:monk:asi",
    "class": "monk",
    "level": 12,
@@ -1036,14 +884,6 @@
    "level": 16,
    "name": "Ability Score Improvement",
    "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:monk:quiveringPalm",
-   "class": "monk",
-   "level": 17,
-   "name": "Quivering Palm",
-   "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
   {
@@ -1111,10 +951,10 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:paladin:sacredWeapon",
+   "id": "feature:paladin:subclass",
    "class": "paladin",
    "level": 3,
-   "name": "Sacred Weapon",
+   "name": "Subclass",
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
   },
@@ -1155,14 +995,6 @@
    "class": "paladin",
    "level": 6,
    "name": "Aura of Protection",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:paladin:auraOfDevotion",
-   "class": "paladin",
-   "level": 7,
-   "name": "Aura of Devotion",
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
@@ -1215,14 +1047,6 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:paladin:smiteOfProtection",
-   "class": "paladin",
-   "level": 15,
-   "name": "Smite of Protection",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:paladin:asi",
    "class": "paladin",
    "level": 16,
@@ -1243,14 +1067,6 @@
    "class": "paladin",
    "level": 19,
    "name": "Epic Boon",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:paladin:holyNimbus",
-   "class": "paladin",
-   "level": 20,
-   "name": "Holy Nimbus",
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
@@ -1295,19 +1111,11 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:ranger:huntersPrey",
+   "id": "feature:ranger:subclass",
    "class": "ranger",
    "level": 3,
-   "name": "Hunter's Prey: Colossus Slayer",
+   "name": "Subclass",
    "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:ranger:huntersLore",
-   "class": "ranger",
-   "level": 3,
-   "name": "Hunter's Lore",
-   "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
   {
@@ -1331,14 +1139,6 @@
    "class": "ranger",
    "level": 6,
    "name": "Roving",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:ranger:defensiveTactics",
-   "class": "ranger",
-   "level": 7,
-   "name": "Defensive Tactics: Multiattack Defense",
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
@@ -1367,14 +1167,6 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:ranger:volley",
-   "class": "ranger",
-   "level": 11,
-   "name": "Superior Hunter's Prey: Volley",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:ranger:asi",
    "class": "ranger",
    "level": 12,
@@ -1395,14 +1187,6 @@
    "class": "ranger",
    "level": 14,
    "name": "Nature's Veil",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:ranger:superiorHuntersDefense",
-   "class": "ranger",
-   "level": 15,
-   "name": "Superior Hunter's Defense",
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
@@ -1487,10 +1271,10 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:rogue:fastHands",
+   "id": "feature:rogue:subclass",
    "class": "rogue",
    "level": 3,
-   "name": "Fast Hands",
+   "name": "Subclass",
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
   },
@@ -1559,14 +1343,6 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:rogue:supremeSneak",
-   "class": "rogue",
-   "level": 9,
-   "name": "Supreme Sneak",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:rogue:asi",
    "class": "rogue",
    "level": 10,
@@ -1591,14 +1367,6 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:rogue:useMagicDevice",
-   "class": "rogue",
-   "level": 13,
-   "name": "Use Magic Device",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:rogue:deviousStrikes",
    "class": "rogue",
    "level": 14,
@@ -1619,14 +1387,6 @@
    "class": "rogue",
    "level": 16,
    "name": "Ability Score Improvement",
-   "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:rogue:thiefsReflexes",
-   "class": "rogue",
-   "level": 17,
-   "name": "Thief's Reflexes",
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
   },
@@ -1687,10 +1447,10 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:sorcerer:draconicResilience",
+   "id": "feature:sorcerer:subclass",
    "class": "sorcerer",
    "level": 3,
-   "name": "Draconic Resilience",
+   "name": "Subclass",
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
   },
@@ -1707,14 +1467,6 @@
    "class": "sorcerer",
    "level": 5,
    "name": "Sorcerous Restoration",
-   "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:sorcerer:elementalAffinity",
-   "class": "sorcerer",
-   "level": 6,
-   "name": "Elemental Affinity",
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
   },
@@ -1751,14 +1503,6 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:sorcerer:dragonWings",
-   "class": "sorcerer",
-   "level": 14,
-   "name": "Dragon Wings",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:sorcerer:asi",
    "class": "sorcerer",
    "level": 16,
@@ -1771,14 +1515,6 @@
    "class": "sorcerer",
    "level": 17,
    "name": "Metamagic",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:sorcerer:dragonCompanion",
-   "class": "sorcerer",
-   "level": 18,
-   "name": "Dragon Companion",
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
@@ -1831,10 +1567,10 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:warlock:darkOnesBlessing",
+   "id": "feature:warlock:subclass",
    "class": "warlock",
    "level": 3,
-   "name": "Dark One's Blessing",
+   "name": "Subclass",
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
   },
@@ -1851,14 +1587,6 @@
    "class": "warlock",
    "level": 5,
    "name": "Eldritch Invocations",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:warlock:darkOnesOwnLuck",
-   "class": "warlock",
-   "level": 6,
-   "name": "Dark One's Own Luck",
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
@@ -1895,14 +1623,6 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:warlock:fiendishResilience",
-   "class": "warlock",
-   "level": 10,
-   "name": "Fiendish Resilience",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:warlock:mysticArcanum6",
    "class": "warlock",
    "level": 11,
@@ -1932,14 +1652,6 @@
    "level": 13,
    "name": "Mystic Arcanum (7th level)",
    "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:warlock:hurlThroughHell",
-   "class": "warlock",
-   "level": 14,
-   "name": "Hurl Through Hell",
-   "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
   },
   {
@@ -2023,19 +1735,11 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:wizard:potentCantrip",
+   "id": "feature:wizard:subclass",
    "class": "wizard",
    "level": 3,
-   "name": "Potent Cantrip",
+   "name": "Subclass",
    "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:wizard:evocationSavant",
-   "class": "wizard",
-   "level": 3,
-   "name": "Evocation Savant",
-   "implementation": "narrative",
    "license": "CC-BY-4.0"
   },
   {
@@ -2055,14 +1759,6 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:wizard:sculptSpells",
-   "class": "wizard",
-   "level": 6,
-   "name": "Sculpt Spells",
-   "implementation": "implemented_adapted",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:wizard:asi",
    "class": "wizard",
    "level": 8,
@@ -2071,26 +1767,10 @@
    "license": "CC-BY-4.0"
   },
   {
-   "id": "feature:wizard:empoweredEvocation",
-   "class": "wizard",
-   "level": 10,
-   "name": "Empowered Evocation",
-   "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
    "id": "feature:wizard:asi",
    "class": "wizard",
    "level": 12,
    "name": "Ability Score Improvement",
-   "implementation": "implemented_exact",
-   "license": "CC-BY-4.0"
-  },
-  {
-   "id": "feature:wizard:overchannel",
-   "class": "wizard",
-   "level": 14,
-   "name": "Overchannel",
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
   },
@@ -2125,6 +1805,5162 @@
    "name": "Signature Spells",
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:magicalTinkering",
+   "class": "artificer",
+   "level": 1,
+   "name": "Magical Tinkering",
+   "implementation": "narrative",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:spellcasting",
+   "class": "artificer",
+   "level": 1,
+   "name": "Spellcasting",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:infuseItem",
+   "class": "artificer",
+   "level": 2,
+   "name": "Infuse Item",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:subclass",
+   "class": "artificer",
+   "level": 3,
+   "name": "Subclass",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:rightTool",
+   "class": "artificer",
+   "level": 3,
+   "name": "The Right Tool for the Job",
+   "implementation": "narrative",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:asi",
+   "class": "artificer",
+   "level": 4,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:toolExpertise",
+   "class": "artificer",
+   "level": 6,
+   "name": "Tool Expertise",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:flashOfGenius",
+   "class": "artificer",
+   "level": 7,
+   "name": "Flash of Genius",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:asi",
+   "class": "artificer",
+   "level": 8,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:magicItemAdept",
+   "class": "artificer",
+   "level": 10,
+   "name": "Magic Item Adept",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:spellStoringItem",
+   "class": "artificer",
+   "level": 11,
+   "name": "Spell-Storing Item",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:asi",
+   "class": "artificer",
+   "level": 12,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:magicItemSavant",
+   "class": "artificer",
+   "level": 14,
+   "name": "Magic Item Savant",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:asi",
+   "class": "artificer",
+   "level": 16,
+   "name": "Ability Score Improvement",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:magicItemMaster",
+   "class": "artificer",
+   "level": 18,
+   "name": "Magic Item Master",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:epicBoon",
+   "class": "artificer",
+   "level": 19,
+   "name": "Epic Boon",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:artificer:soulOfArtifice",
+   "class": "artificer",
+   "level": 20,
+   "name": "Soul of Artifice",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:berserker:frenzy",
+   "class": "barbarian",
+   "subclass": "berserker",
+   "source": "PHB",
+   "level": 3,
+   "name": "Frenzy",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:berserker:mindlessRage",
+   "class": "barbarian",
+   "subclass": "berserker",
+   "source": "PHB",
+   "level": 6,
+   "name": "Mindless Rage",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:berserker:retaliation",
+   "class": "barbarian",
+   "subclass": "berserker",
+   "source": "PHB",
+   "level": 10,
+   "name": "Retaliation",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:berserker:intimidatingPresence",
+   "class": "barbarian",
+   "subclass": "berserker",
+   "source": "PHB",
+   "level": 14,
+   "name": "Intimidating Presence",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:barbarian:ancestralGuardian:ancestralProtectors",
+   "class": "barbarian",
+   "subclass": "ancestralGuardian",
+   "source": "XGE",
+   "level": 3,
+   "name": "Ancestral Protectors",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:ancestralGuardian:spiritShield",
+   "class": "barbarian",
+   "subclass": "ancestralGuardian",
+   "source": "XGE",
+   "level": 6,
+   "name": "Spirit Shield",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:ancestralGuardian:consultTheSpirits",
+   "class": "barbarian",
+   "subclass": "ancestralGuardian",
+   "source": "XGE",
+   "level": 10,
+   "name": "Consult the Spirits",
+   "implementation": "narrative",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:ancestralGuardian:vengefulAncestors",
+   "class": "barbarian",
+   "subclass": "ancestralGuardian",
+   "source": "XGE",
+   "level": 14,
+   "name": "Vengeful Ancestors",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:battlerager:battleragerArmor",
+   "class": "barbarian",
+   "subclass": "battlerager",
+   "source": "SCAG",
+   "level": 3,
+   "name": "Battlerager Armor",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:battlerager:recklessAbandon",
+   "class": "barbarian",
+   "subclass": "battlerager",
+   "source": "SCAG",
+   "level": 6,
+   "name": "Reckless Abandon",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:battlerager:battleragerCharge",
+   "class": "barbarian",
+   "subclass": "battlerager",
+   "source": "SCAG",
+   "level": 10,
+   "name": "Battlerager Charge",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:battlerager:spikedRetribution",
+   "class": "barbarian",
+   "subclass": "battlerager",
+   "source": "SCAG",
+   "level": 14,
+   "name": "Spiked Retribution",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:beast:formOfTheBeast",
+   "class": "barbarian",
+   "subclass": "beast",
+   "source": "TCE",
+   "level": 3,
+   "name": "Form of the Beast",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:beast:bestialSoul",
+   "class": "barbarian",
+   "subclass": "beast",
+   "source": "TCE",
+   "level": 6,
+   "name": "Bestial Soul",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:beast:infectiousFury",
+   "class": "barbarian",
+   "subclass": "beast",
+   "source": "TCE",
+   "level": 10,
+   "name": "Infectious Fury",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:beast:callTheHunt",
+   "class": "barbarian",
+   "subclass": "beast",
+   "source": "TCE",
+   "level": 14,
+   "name": "Call the Hunt",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:giant:giantsHavoc",
+   "class": "barbarian",
+   "subclass": "giant",
+   "source": "BGG",
+   "level": 3,
+   "name": "Giant's Power and Havoc",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:giant:elementalCleaver",
+   "class": "barbarian",
+   "subclass": "giant",
+   "source": "BGG",
+   "level": 6,
+   "name": "Elemental Cleaver",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:giant:mightyImpel",
+   "class": "barbarian",
+   "subclass": "giant",
+   "source": "BGG",
+   "level": 10,
+   "name": "Mighty Impel",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:giant:demiurgicColossus",
+   "class": "barbarian",
+   "subclass": "giant",
+   "source": "BGG",
+   "level": 14,
+   "name": "Demiurgic Colossus",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:juggernaut:thunderousBlows",
+   "class": "barbarian",
+   "subclass": "juggernaut",
+   "source": "EGW",
+   "level": 3,
+   "name": "Thunderous Blows",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:juggernaut:spiritOfTheMountain",
+   "class": "barbarian",
+   "subclass": "juggernaut",
+   "source": "EGW",
+   "level": 6,
+   "name": "Spirit of the Mountain",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:juggernaut:demolishingMight",
+   "class": "barbarian",
+   "subclass": "juggernaut",
+   "source": "EGW",
+   "level": 10,
+   "name": "Demolishing Might",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:juggernaut:unstoppable",
+   "class": "barbarian",
+   "subclass": "juggernaut",
+   "source": "EGW",
+   "level": 14,
+   "name": "Unstoppable",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:stormHerald:stormAura",
+   "class": "barbarian",
+   "subclass": "stormHerald",
+   "source": "XGE",
+   "level": 3,
+   "name": "Storm Aura",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:stormHerald:stormSoul",
+   "class": "barbarian",
+   "subclass": "stormHerald",
+   "source": "XGE",
+   "level": 6,
+   "name": "Storm Soul",
+   "implementation": "implemented_exact",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:stormHerald:shieldingStorm",
+   "class": "barbarian",
+   "subclass": "stormHerald",
+   "source": "XGE",
+   "level": 10,
+   "name": "Shielding Storm",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:stormHerald:ragingStorm",
+   "class": "barbarian",
+   "subclass": "stormHerald",
+   "source": "XGE",
+   "level": 14,
+   "name": "Raging Storm",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:totemWarrior:totemSpirit",
+   "class": "barbarian",
+   "subclass": "totemWarrior",
+   "source": "PHB",
+   "level": 3,
+   "name": "Totem Spirit (Bear)",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:totemWarrior:aspectOfTheBeast",
+   "class": "barbarian",
+   "subclass": "totemWarrior",
+   "source": "PHB",
+   "level": 6,
+   "name": "Aspect of the Beast (Eagle)",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:totemWarrior:spiritWalker",
+   "class": "barbarian",
+   "subclass": "totemWarrior",
+   "source": "PHB",
+   "level": 10,
+   "name": "Spirit Walker",
+   "implementation": "narrative",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:totemWarrior:totemicAttunement",
+   "class": "barbarian",
+   "subclass": "totemWarrior",
+   "source": "PHB",
+   "level": 14,
+   "name": "Totemic Attunement (Wolf)",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:zealot:divineFury",
+   "class": "barbarian",
+   "subclass": "zealot",
+   "source": "XGE",
+   "level": 3,
+   "name": "Divine Fury",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:zealot:fanaticalFocus",
+   "class": "barbarian",
+   "subclass": "zealot",
+   "source": "XGE",
+   "level": 6,
+   "name": "Fanatical Focus",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:zealot:zealousPresence",
+   "class": "barbarian",
+   "subclass": "zealot",
+   "source": "XGE",
+   "level": 10,
+   "name": "Zealous Presence",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:zealot:rageBeyondDeath",
+   "class": "barbarian",
+   "subclass": "zealot",
+   "source": "XGE",
+   "level": 14,
+   "name": "Rage Beyond Death",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:wildMagic:wildSurge",
+   "class": "barbarian",
+   "subclass": "wildMagic",
+   "source": "TCE",
+   "level": 3,
+   "name": "Magic Awareness and Wild Surge",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:wildMagic:bolsteringMagic",
+   "class": "barbarian",
+   "subclass": "wildMagic",
+   "source": "TCE",
+   "level": 6,
+   "name": "Bolstering Magic",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:wildMagic:unstableBacklash",
+   "class": "barbarian",
+   "subclass": "wildMagic",
+   "source": "TCE",
+   "level": 10,
+   "name": "Unstable Backlash",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:barbarian:wildMagic:controlledSurge",
+   "class": "barbarian",
+   "subclass": "wildMagic",
+   "source": "TCE",
+   "level": 14,
+   "name": "Controlled Surge",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:lore:bonusProficiencies",
+   "class": "bard",
+   "subclass": "lore",
+   "source": "PHB",
+   "level": 3,
+   "name": "Bonus Proficiencies",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:lore:cuttingWords",
+   "class": "bard",
+   "subclass": "lore",
+   "source": "PHB",
+   "level": 3,
+   "name": "Cutting Words",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:lore:magicalDiscoveries",
+   "class": "bard",
+   "subclass": "lore",
+   "source": "PHB",
+   "level": 6,
+   "name": "Magical Discoveries",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:lore:peerlessSkill",
+   "class": "bard",
+   "subclass": "lore",
+   "source": "PHB",
+   "level": 14,
+   "name": "Peerless Skill",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:bard:creation:noteOfPotential",
+   "class": "bard",
+   "subclass": "creation",
+   "source": "TCE",
+   "level": 3,
+   "name": "Note of Potential",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:creation:performanceOfCreation",
+   "class": "bard",
+   "subclass": "creation",
+   "source": "TCE",
+   "level": 3,
+   "name": "Performance of Creation",
+   "implementation": "narrative",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:creation:animatingPerformance",
+   "class": "bard",
+   "subclass": "creation",
+   "source": "TCE",
+   "level": 6,
+   "name": "Animating Performance",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:creation:creativeCrescendo",
+   "class": "bard",
+   "subclass": "creation",
+   "source": "TCE",
+   "level": 14,
+   "name": "Creative Crescendo",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:eloquence:silverTongue",
+   "class": "bard",
+   "subclass": "eloquence",
+   "source": "TCE",
+   "level": 3,
+   "name": "Silver Tongue",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:eloquence:unsettlingWords",
+   "class": "bard",
+   "subclass": "eloquence",
+   "source": "TCE",
+   "level": 3,
+   "name": "Unsettling Words",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:eloquence:unfailingInspiration",
+   "class": "bard",
+   "subclass": "eloquence",
+   "source": "TCE",
+   "level": 6,
+   "name": "Unfailing Inspiration",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:eloquence:infectiousInspiration",
+   "class": "bard",
+   "subclass": "eloquence",
+   "source": "TCE",
+   "level": 14,
+   "name": "Infectious Inspiration",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:glamour:mantleOfInspiration",
+   "class": "bard",
+   "subclass": "glamour",
+   "source": "XGE",
+   "level": 3,
+   "name": "Mantle of Inspiration",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:glamour:enthrallingPerformance",
+   "class": "bard",
+   "subclass": "glamour",
+   "source": "XGE",
+   "level": 3,
+   "name": "Enthralling Performance",
+   "implementation": "narrative",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:glamour:mantleOfMajesty",
+   "class": "bard",
+   "subclass": "glamour",
+   "source": "XGE",
+   "level": 6,
+   "name": "Mantle of Majesty",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:glamour:unbreakableMajesty",
+   "class": "bard",
+   "subclass": "glamour",
+   "source": "XGE",
+   "level": 14,
+   "name": "Unbreakable Majesty",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:spirits:spiritualFocus",
+   "class": "bard",
+   "subclass": "spirits",
+   "source": "VRGR",
+   "level": 3,
+   "name": "Guiding Whispers and Spiritual Focus",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:spirits:talesFromBeyond",
+   "class": "bard",
+   "subclass": "spirits",
+   "source": "VRGR",
+   "level": 3,
+   "name": "Tales from Beyond",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:spirits:spiritSession",
+   "class": "bard",
+   "subclass": "spirits",
+   "source": "VRGR",
+   "level": 6,
+   "name": "Spirit Session",
+   "implementation": "narrative",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:spirits:mysticalConnection",
+   "class": "bard",
+   "subclass": "spirits",
+   "source": "VRGR",
+   "level": 14,
+   "name": "Mystical Connection",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:swords:swordsTraining",
+   "class": "bard",
+   "subclass": "swords",
+   "source": "XGE",
+   "level": 3,
+   "name": "Bonus Proficiencies",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:swords:bladeFlourish",
+   "class": "bard",
+   "subclass": "swords",
+   "source": "XGE",
+   "level": 3,
+   "name": "Blade Flourish",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:swords:extraAttack",
+   "class": "bard",
+   "subclass": "swords",
+   "source": "XGE",
+   "level": 6,
+   "name": "Extra Attack",
+   "implementation": "implemented_exact",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:swords:mastersFlourish",
+   "class": "bard",
+   "subclass": "swords",
+   "source": "XGE",
+   "level": 14,
+   "name": "Master's Flourish",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:valor:valorTraining",
+   "class": "bard",
+   "subclass": "valor",
+   "source": "PHB",
+   "level": 3,
+   "name": "Bonus Proficiencies",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:valor:combatInspiration",
+   "class": "bard",
+   "subclass": "valor",
+   "source": "PHB",
+   "level": 3,
+   "name": "Combat Inspiration",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:valor:extraAttack",
+   "class": "bard",
+   "subclass": "valor",
+   "source": "PHB",
+   "level": 6,
+   "name": "Extra Attack",
+   "implementation": "implemented_exact",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:valor:battleMagic",
+   "class": "bard",
+   "subclass": "valor",
+   "source": "PHB",
+   "level": 14,
+   "name": "Battle Magic",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:whispers:psychicBlades",
+   "class": "bard",
+   "subclass": "whispers",
+   "source": "XGE",
+   "level": 3,
+   "name": "Psychic Blades",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:whispers:wordsOfTerror",
+   "class": "bard",
+   "subclass": "whispers",
+   "source": "XGE",
+   "level": 3,
+   "name": "Words of Terror",
+   "implementation": "narrative",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:whispers:mantleOfWhispers",
+   "class": "bard",
+   "subclass": "whispers",
+   "source": "XGE",
+   "level": 6,
+   "name": "Mantle of Whispers",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:bard:whispers:shadowLore",
+   "class": "bard",
+   "subclass": "whispers",
+   "source": "XGE",
+   "level": 14,
+   "name": "Shadow Lore",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:life:discipleOfLife",
+   "class": "cleric",
+   "subclass": "life",
+   "source": "PHB",
+   "level": 3,
+   "name": "Disciple of Life",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:life:preserveLife",
+   "class": "cleric",
+   "subclass": "life",
+   "source": "PHB",
+   "level": 3,
+   "name": "Preserve Life",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:life:blessedHealer",
+   "class": "cleric",
+   "subclass": "life",
+   "source": "PHB",
+   "level": 6,
+   "name": "Blessed Healer",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:life:supremeHealing",
+   "class": "cleric",
+   "subclass": "life",
+   "source": "PHB",
+   "level": 17,
+   "name": "Supreme Healing",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:cleric:arcana:arcaneInitiate",
+   "class": "cleric",
+   "subclass": "arcana",
+   "source": "SCAG",
+   "level": 3,
+   "name": "Arcane Initiate",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:arcana:arcaneAbjuration",
+   "class": "cleric",
+   "subclass": "arcana",
+   "source": "SCAG",
+   "level": 3,
+   "name": "Channel Divinity: Arcane Abjuration",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:arcana:spellBreaker",
+   "class": "cleric",
+   "subclass": "arcana",
+   "source": "SCAG",
+   "level": 6,
+   "name": "Spell Breaker",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:arcana:arcaneMastery",
+   "class": "cleric",
+   "subclass": "arcana",
+   "source": "SCAG",
+   "level": 17,
+   "name": "Arcane Mastery",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:blood:bloodlettingAura",
+   "class": "cleric",
+   "subclass": "blood",
+   "source": "EGW",
+   "level": 3,
+   "name": "Bloodletting Aura",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:blood:crimsonBond",
+   "class": "cleric",
+   "subclass": "blood",
+   "source": "EGW",
+   "level": 3,
+   "name": "Channel Divinity: Crimson Bond",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:blood:sanguineRecall",
+   "class": "cleric",
+   "subclass": "blood",
+   "source": "EGW",
+   "level": 6,
+   "name": "Sanguine Recall",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:blood:vascularCorruptionAura",
+   "class": "cleric",
+   "subclass": "blood",
+   "source": "EGW",
+   "level": 17,
+   "name": "Vascular Corruption Aura",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:death:reaper",
+   "class": "cleric",
+   "subclass": "death",
+   "source": "DMG",
+   "level": 3,
+   "name": "Reaper",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:death:touchOfDeath",
+   "class": "cleric",
+   "subclass": "death",
+   "source": "DMG",
+   "level": 3,
+   "name": "Channel Divinity: Touch of Death",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:death:inescapableDestruction",
+   "class": "cleric",
+   "subclass": "death",
+   "source": "DMG",
+   "level": 6,
+   "name": "Inescapable Destruction",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:death:improvedReaper",
+   "class": "cleric",
+   "subclass": "death",
+   "source": "DMG",
+   "level": 17,
+   "name": "Improved Reaper",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:forge:blessingOfTheForge",
+   "class": "cleric",
+   "subclass": "forge",
+   "source": "XGE",
+   "level": 3,
+   "name": "Blessing of the Forge",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:forge:artisansBlessing",
+   "class": "cleric",
+   "subclass": "forge",
+   "source": "XGE",
+   "level": 3,
+   "name": "Channel Divinity: Artisan's Blessing",
+   "implementation": "narrative",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:forge:soulOfTheForge",
+   "class": "cleric",
+   "subclass": "forge",
+   "source": "XGE",
+   "level": 6,
+   "name": "Soul of the Forge",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:forge:saintOfForgeAndFire",
+   "class": "cleric",
+   "subclass": "forge",
+   "source": "XGE",
+   "level": 17,
+   "name": "Saint of Forge and Fire",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:grave:circleOfMortality",
+   "class": "cleric",
+   "subclass": "grave",
+   "source": "XGE",
+   "level": 3,
+   "name": "Circle of Mortality",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:grave:pathToTheGrave",
+   "class": "cleric",
+   "subclass": "grave",
+   "source": "XGE",
+   "level": 3,
+   "name": "Channel Divinity: Path to the Grave",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:grave:sentinelAtDeathsDoor",
+   "class": "cleric",
+   "subclass": "grave",
+   "source": "XGE",
+   "level": 6,
+   "name": "Sentinel at Death's Door",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:grave:keeperOfSouls",
+   "class": "cleric",
+   "subclass": "grave",
+   "source": "XGE",
+   "level": 17,
+   "name": "Keeper of Souls",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:knowledge:blessingsOfKnowledge",
+   "class": "cleric",
+   "subclass": "knowledge",
+   "source": "PHB",
+   "level": 3,
+   "name": "Blessings of Knowledge",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:knowledge:readThoughts",
+   "class": "cleric",
+   "subclass": "knowledge",
+   "source": "PHB",
+   "level": 6,
+   "name": "Channel Divinity: Read Thoughts",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:knowledge:visionsOfThePast",
+   "class": "cleric",
+   "subclass": "knowledge",
+   "source": "PHB",
+   "level": 17,
+   "name": "Visions of the Past",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:light:wardingFlare",
+   "class": "cleric",
+   "subclass": "light",
+   "source": "PHB",
+   "level": 3,
+   "name": "Warding Flare",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:light:radianceOfTheDawn",
+   "class": "cleric",
+   "subclass": "light",
+   "source": "PHB",
+   "level": 3,
+   "name": "Channel Divinity: Radiance of the Dawn",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:light:improvedWardingFlare",
+   "class": "cleric",
+   "subclass": "light",
+   "source": "PHB",
+   "level": 6,
+   "name": "Improved Warding Flare",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:light:coronaOfLight",
+   "class": "cleric",
+   "subclass": "light",
+   "source": "PHB",
+   "level": 17,
+   "name": "Corona of Light",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:nature:acolyteOfNature",
+   "class": "cleric",
+   "subclass": "nature",
+   "source": "PHB",
+   "level": 3,
+   "name": "Acolyte of Nature",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:nature:charmAnimalsAndPlants",
+   "class": "cleric",
+   "subclass": "nature",
+   "source": "PHB",
+   "level": 3,
+   "name": "Channel Divinity: Charm Animals and Plants",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:nature:dampenElements",
+   "class": "cleric",
+   "subclass": "nature",
+   "source": "PHB",
+   "level": 6,
+   "name": "Dampen Elements",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:nature:masterOfNature",
+   "class": "cleric",
+   "subclass": "nature",
+   "source": "PHB",
+   "level": 17,
+   "name": "Master of Nature",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:order:voiceOfAuthority",
+   "class": "cleric",
+   "subclass": "order",
+   "source": "TCE",
+   "level": 3,
+   "name": "Voice of Authority",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:order:ordersDemand",
+   "class": "cleric",
+   "subclass": "order",
+   "source": "TCE",
+   "level": 3,
+   "name": "Channel Divinity: Order's Demand",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:order:embodimentOfTheLaw",
+   "class": "cleric",
+   "subclass": "order",
+   "source": "TCE",
+   "level": 6,
+   "name": "Embodiment of the Law",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:order:ordersWrath",
+   "class": "cleric",
+   "subclass": "order",
+   "source": "TCE",
+   "level": 17,
+   "name": "Order's Wrath",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:peace:emboldeningBond",
+   "class": "cleric",
+   "subclass": "peace",
+   "source": "TCE",
+   "level": 3,
+   "name": "Emboldening Bond",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:peace:balmOfPeace",
+   "class": "cleric",
+   "subclass": "peace",
+   "source": "TCE",
+   "level": 3,
+   "name": "Channel Divinity: Balm of Peace",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:peace:protectiveBond",
+   "class": "cleric",
+   "subclass": "peace",
+   "source": "TCE",
+   "level": 6,
+   "name": "Protective Bond",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:peace:expansiveBond",
+   "class": "cleric",
+   "subclass": "peace",
+   "source": "TCE",
+   "level": 17,
+   "name": "Expansive Bond",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:tempest:wrathOfTheStorm",
+   "class": "cleric",
+   "subclass": "tempest",
+   "source": "PHB",
+   "level": 3,
+   "name": "Wrath of the Storm",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:tempest:destructiveWrath",
+   "class": "cleric",
+   "subclass": "tempest",
+   "source": "PHB",
+   "level": 3,
+   "name": "Channel Divinity: Destructive Wrath",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:tempest:thunderboltStrike",
+   "class": "cleric",
+   "subclass": "tempest",
+   "source": "PHB",
+   "level": 6,
+   "name": "Thunderbolt Strike",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:tempest:stormborn",
+   "class": "cleric",
+   "subclass": "tempest",
+   "source": "PHB",
+   "level": 17,
+   "name": "Stormborn",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:trickery:blessingOfTheTrickster",
+   "class": "cleric",
+   "subclass": "trickery",
+   "source": "PHB",
+   "level": 3,
+   "name": "Blessing of the Trickster",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:trickery:invokeDuplicity",
+   "class": "cleric",
+   "subclass": "trickery",
+   "source": "PHB",
+   "level": 3,
+   "name": "Channel Divinity: Invoke Duplicity",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:trickery:cloakOfShadows",
+   "class": "cleric",
+   "subclass": "trickery",
+   "source": "PHB",
+   "level": 6,
+   "name": "Channel Divinity: Cloak of Shadows",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:trickery:improvedDuplicity",
+   "class": "cleric",
+   "subclass": "trickery",
+   "source": "PHB",
+   "level": 17,
+   "name": "Improved Duplicity",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:twilight:vigilantBlessing",
+   "class": "cleric",
+   "subclass": "twilight",
+   "source": "TCE",
+   "level": 3,
+   "name": "Vigilant Blessing and Eyes of Night",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:twilight:twilightSanctuary",
+   "class": "cleric",
+   "subclass": "twilight",
+   "source": "TCE",
+   "level": 3,
+   "name": "Channel Divinity: Twilight Sanctuary",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:twilight:stepsOfNight",
+   "class": "cleric",
+   "subclass": "twilight",
+   "source": "TCE",
+   "level": 6,
+   "name": "Steps of Night",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:twilight:twilightShroud",
+   "class": "cleric",
+   "subclass": "twilight",
+   "source": "TCE",
+   "level": 17,
+   "name": "Twilight Shroud",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:war:warPriest",
+   "class": "cleric",
+   "subclass": "war",
+   "source": "PHB",
+   "level": 3,
+   "name": "War Priest",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:war:guidedStrike",
+   "class": "cleric",
+   "subclass": "war",
+   "source": "PHB",
+   "level": 3,
+   "name": "Channel Divinity: Guided Strike",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:war:warGodsBlessing",
+   "class": "cleric",
+   "subclass": "war",
+   "source": "PHB",
+   "level": 6,
+   "name": "Channel Divinity: War God's Blessing",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:cleric:war:avatarOfBattle",
+   "class": "cleric",
+   "subclass": "war",
+   "source": "PHB",
+   "level": 17,
+   "name": "Avatar of Battle",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:land:landsAid",
+   "class": "druid",
+   "subclass": "land",
+   "source": "PHB",
+   "level": 3,
+   "name": "Land's Aid",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:land:naturalRecovery",
+   "class": "druid",
+   "subclass": "land",
+   "source": "PHB",
+   "level": 6,
+   "name": "Natural Recovery",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:land:naturesWard",
+   "class": "druid",
+   "subclass": "land",
+   "source": "PHB",
+   "level": 10,
+   "name": "Nature's Ward",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:land:naturesSanctuary",
+   "class": "druid",
+   "subclass": "land",
+   "source": "PHB",
+   "level": 14,
+   "name": "Nature's Sanctuary",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:druid:dreams:balmOfTheSummerCourt",
+   "class": "druid",
+   "subclass": "dreams",
+   "source": "XGE",
+   "level": 3,
+   "name": "Balm of the Summer Court",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:dreams:hearthOfMoonlightAndShadow",
+   "class": "druid",
+   "subclass": "dreams",
+   "source": "XGE",
+   "level": 6,
+   "name": "Hearth of Moonlight and Shadow",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:dreams:hiddenPaths",
+   "class": "druid",
+   "subclass": "dreams",
+   "source": "XGE",
+   "level": 10,
+   "name": "Hidden Paths",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:dreams:walkerInDreams",
+   "class": "druid",
+   "subclass": "dreams",
+   "source": "XGE",
+   "level": 14,
+   "name": "Walker in Dreams",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:spores:haloOfSpores",
+   "class": "druid",
+   "subclass": "spores",
+   "source": "TCE",
+   "level": 3,
+   "name": "Halo of Spores",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:spores:symbioticEntity",
+   "class": "druid",
+   "subclass": "spores",
+   "source": "TCE",
+   "level": 3,
+   "name": "Symbiotic Entity",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:spores:fungalInfestation",
+   "class": "druid",
+   "subclass": "spores",
+   "source": "TCE",
+   "level": 6,
+   "name": "Fungal Infestation",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:spores:spreadingSpores",
+   "class": "druid",
+   "subclass": "spores",
+   "source": "TCE",
+   "level": 10,
+   "name": "Spreading Spores",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:spores:fungalBody",
+   "class": "druid",
+   "subclass": "spores",
+   "source": "TCE",
+   "level": 14,
+   "name": "Fungal Body",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:stars:starMap",
+   "class": "druid",
+   "subclass": "stars",
+   "source": "TCE",
+   "level": 3,
+   "name": "Star Map",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:stars:starryForm",
+   "class": "druid",
+   "subclass": "stars",
+   "source": "TCE",
+   "level": 3,
+   "name": "Starry Form",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:stars:cosmicOmen",
+   "class": "druid",
+   "subclass": "stars",
+   "source": "TCE",
+   "level": 6,
+   "name": "Cosmic Omen",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:stars:twinklingConstellations",
+   "class": "druid",
+   "subclass": "stars",
+   "source": "TCE",
+   "level": 10,
+   "name": "Twinkling Constellations",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:stars:fullOfStars",
+   "class": "druid",
+   "subclass": "stars",
+   "source": "TCE",
+   "level": 14,
+   "name": "Full of Stars",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:moon:combatWildShape",
+   "class": "druid",
+   "subclass": "moon",
+   "source": "PHB",
+   "level": 3,
+   "name": "Combat Wild Shape and Circle Forms",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:moon:primalStrike",
+   "class": "druid",
+   "subclass": "moon",
+   "source": "PHB",
+   "level": 6,
+   "name": "Primal Strike",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:moon:elementalWildShape",
+   "class": "druid",
+   "subclass": "moon",
+   "source": "PHB",
+   "level": 10,
+   "name": "Elemental Wild Shape",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:moon:thousandForms",
+   "class": "druid",
+   "subclass": "moon",
+   "source": "PHB",
+   "level": 14,
+   "name": "Thousand Forms",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:shepherd:spiritTotem",
+   "class": "druid",
+   "subclass": "shepherd",
+   "source": "XGE",
+   "level": 3,
+   "name": "Spirit Totem (Bear)",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:shepherd:mightySummoner",
+   "class": "druid",
+   "subclass": "shepherd",
+   "source": "XGE",
+   "level": 6,
+   "name": "Mighty Summoner",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:shepherd:guardianSpirit",
+   "class": "druid",
+   "subclass": "shepherd",
+   "source": "XGE",
+   "level": 10,
+   "name": "Guardian Spirit",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:shepherd:faithfulSummons",
+   "class": "druid",
+   "subclass": "shepherd",
+   "source": "XGE",
+   "level": 14,
+   "name": "Faithful Summons",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:wildfire:summonWildfireSpirit",
+   "class": "druid",
+   "subclass": "wildfire",
+   "source": "TCE",
+   "level": 3,
+   "name": "Summon Wildfire Spirit",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:wildfire:enhancedBond",
+   "class": "druid",
+   "subclass": "wildfire",
+   "source": "TCE",
+   "level": 6,
+   "name": "Enhanced Bond",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:wildfire:cauterizingFlames",
+   "class": "druid",
+   "subclass": "wildfire",
+   "source": "TCE",
+   "level": 10,
+   "name": "Cauterizing Flames",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:druid:wildfire:blazingRevival",
+   "class": "druid",
+   "subclass": "wildfire",
+   "source": "TCE",
+   "level": 14,
+   "name": "Blazing Revival",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:champion:improvedCritical",
+   "class": "fighter",
+   "subclass": "champion",
+   "source": "PHB",
+   "level": 3,
+   "name": "Improved Critical",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:champion:remarkableAthlete",
+   "class": "fighter",
+   "subclass": "champion",
+   "source": "PHB",
+   "level": 3,
+   "name": "Remarkable Athlete",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:champion:additionalFightingStyle",
+   "class": "fighter",
+   "subclass": "champion",
+   "source": "PHB",
+   "level": 7,
+   "name": "Additional Fighting Style",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:champion:heroicWarrior",
+   "class": "fighter",
+   "subclass": "champion",
+   "source": "PHB",
+   "level": 10,
+   "name": "Heroic Warrior",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:champion:superiorCritical",
+   "class": "fighter",
+   "subclass": "champion",
+   "source": "PHB",
+   "level": 15,
+   "name": "Superior Critical",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:champion:survivor",
+   "class": "fighter",
+   "subclass": "champion",
+   "source": "PHB",
+   "level": 18,
+   "name": "Survivor",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:fighter:arcaneArcher:arcaneShot",
+   "class": "fighter",
+   "subclass": "arcaneArcher",
+   "source": "XGE",
+   "level": 3,
+   "name": "Arcane Shot",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:arcaneArcher:magicArrow",
+   "class": "fighter",
+   "subclass": "arcaneArcher",
+   "source": "XGE",
+   "level": 7,
+   "name": "Magic Arrow and Curving Shot",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:arcaneArcher:everReadyShot",
+   "class": "fighter",
+   "subclass": "arcaneArcher",
+   "source": "XGE",
+   "level": 15,
+   "name": "Ever-Ready Shot",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:arcaneArcher:improvedShots",
+   "class": "fighter",
+   "subclass": "arcaneArcher",
+   "source": "XGE",
+   "level": 18,
+   "name": "Improved Shots",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:battleMaster:tripAttack",
+   "class": "fighter",
+   "subclass": "battleMaster",
+   "source": "PHB",
+   "level": 3,
+   "name": "Combat Superiority: Trip Attack",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:battleMaster:rally",
+   "class": "fighter",
+   "subclass": "battleMaster",
+   "source": "PHB",
+   "level": 3,
+   "name": "Combat Superiority: Rally",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:battleMaster:knowYourEnemy",
+   "class": "fighter",
+   "subclass": "battleMaster",
+   "source": "PHB",
+   "level": 7,
+   "name": "Know Your Enemy",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:battleMaster:improvedCombatSuperiority",
+   "class": "fighter",
+   "subclass": "battleMaster",
+   "source": "PHB",
+   "level": 10,
+   "name": "Improved Combat Superiority",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:battleMaster:relentless",
+   "class": "fighter",
+   "subclass": "battleMaster",
+   "source": "PHB",
+   "level": 15,
+   "name": "Relentless",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:battleMaster:ultimateSuperiority",
+   "class": "fighter",
+   "subclass": "battleMaster",
+   "source": "PHB",
+   "level": 18,
+   "name": "Ultimate Combat Superiority",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:cavalier:unwaveringMark",
+   "class": "fighter",
+   "subclass": "cavalier",
+   "source": "XGE",
+   "level": 3,
+   "name": "Unwavering Mark",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:cavalier:wardingManeuver",
+   "class": "fighter",
+   "subclass": "cavalier",
+   "source": "XGE",
+   "level": 7,
+   "name": "Warding Maneuver",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:cavalier:holdTheLine",
+   "class": "fighter",
+   "subclass": "cavalier",
+   "source": "XGE",
+   "level": 10,
+   "name": "Hold the Line",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:cavalier:ferociousCharger",
+   "class": "fighter",
+   "subclass": "cavalier",
+   "source": "XGE",
+   "level": 15,
+   "name": "Ferocious Charger",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:cavalier:vigilantDefender",
+   "class": "fighter",
+   "subclass": "cavalier",
+   "source": "XGE",
+   "level": 18,
+   "name": "Vigilant Defender",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:echoKnight:unleashIncarnation",
+   "class": "fighter",
+   "subclass": "echoKnight",
+   "source": "EGW",
+   "level": 3,
+   "name": "Manifest Echo and Unleash Incarnation",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:echoKnight:echoAvatar",
+   "class": "fighter",
+   "subclass": "echoKnight",
+   "source": "EGW",
+   "level": 7,
+   "name": "Echo Avatar",
+   "implementation": "narrative",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:echoKnight:shadowMartyr",
+   "class": "fighter",
+   "subclass": "echoKnight",
+   "source": "EGW",
+   "level": 10,
+   "name": "Shadow Martyr",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:echoKnight:reclaimPotential",
+   "class": "fighter",
+   "subclass": "echoKnight",
+   "source": "EGW",
+   "level": 15,
+   "name": "Reclaim Potential",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:echoKnight:legionOfOne",
+   "class": "fighter",
+   "subclass": "echoKnight",
+   "source": "EGW",
+   "level": 18,
+   "name": "Legion of One",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:eldritchKnight:ekSpellcasting",
+   "class": "fighter",
+   "subclass": "eldritchKnight",
+   "source": "PHB",
+   "level": 3,
+   "name": "Spellcasting",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:eldritchKnight:weaponBond",
+   "class": "fighter",
+   "subclass": "eldritchKnight",
+   "source": "PHB",
+   "level": 3,
+   "name": "Weapon Bond",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:eldritchKnight:warMagic",
+   "class": "fighter",
+   "subclass": "eldritchKnight",
+   "source": "PHB",
+   "level": 7,
+   "name": "War Magic",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:eldritchKnight:eldritchStrike",
+   "class": "fighter",
+   "subclass": "eldritchKnight",
+   "source": "PHB",
+   "level": 10,
+   "name": "Eldritch Strike",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:eldritchKnight:arcaneCharge",
+   "class": "fighter",
+   "subclass": "eldritchKnight",
+   "source": "PHB",
+   "level": 15,
+   "name": "Arcane Charge",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:eldritchKnight:improvedWarMagic",
+   "class": "fighter",
+   "subclass": "eldritchKnight",
+   "source": "PHB",
+   "level": 18,
+   "name": "Improved War Magic",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:psiWarrior:psionicStrike",
+   "class": "fighter",
+   "subclass": "psiWarrior",
+   "source": "TCE",
+   "level": 3,
+   "name": "Psionic Strike",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:psiWarrior:protectiveField",
+   "class": "fighter",
+   "subclass": "psiWarrior",
+   "source": "TCE",
+   "level": 3,
+   "name": "Protective Field",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:psiWarrior:telekineticAdept",
+   "class": "fighter",
+   "subclass": "psiWarrior",
+   "source": "TCE",
+   "level": 7,
+   "name": "Telekinetic Adept",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:psiWarrior:guardedMind",
+   "class": "fighter",
+   "subclass": "psiWarrior",
+   "source": "TCE",
+   "level": 10,
+   "name": "Guarded Mind",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:psiWarrior:bulwarkOfForce",
+   "class": "fighter",
+   "subclass": "psiWarrior",
+   "source": "TCE",
+   "level": 15,
+   "name": "Bulwark of Force",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:psiWarrior:telekineticMaster",
+   "class": "fighter",
+   "subclass": "psiWarrior",
+   "source": "TCE",
+   "level": 18,
+   "name": "Telekinetic Master",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:purpleDragonKnight:rallyingCry",
+   "class": "fighter",
+   "subclass": "purpleDragonKnight",
+   "source": "SCAG",
+   "level": 3,
+   "name": "Rallying Cry",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:purpleDragonKnight:royalEnvoy",
+   "class": "fighter",
+   "subclass": "purpleDragonKnight",
+   "source": "SCAG",
+   "level": 7,
+   "name": "Royal Envoy",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:purpleDragonKnight:inspiringSurge",
+   "class": "fighter",
+   "subclass": "purpleDragonKnight",
+   "source": "SCAG",
+   "level": 10,
+   "name": "Inspiring Surge",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:purpleDragonKnight:bulwark",
+   "class": "fighter",
+   "subclass": "purpleDragonKnight",
+   "source": "SCAG",
+   "level": 15,
+   "name": "Bulwark",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:runeKnight:giantsMight",
+   "class": "fighter",
+   "subclass": "runeKnight",
+   "source": "TCE",
+   "level": 3,
+   "name": "Giant's Might",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:runeKnight:runeCarver",
+   "class": "fighter",
+   "subclass": "runeKnight",
+   "source": "TCE",
+   "level": 3,
+   "name": "Rune Carver",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:runeKnight:runicShield",
+   "class": "fighter",
+   "subclass": "runeKnight",
+   "source": "TCE",
+   "level": 7,
+   "name": "Runic Shield",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:runeKnight:greatStature",
+   "class": "fighter",
+   "subclass": "runeKnight",
+   "source": "TCE",
+   "level": 10,
+   "name": "Great Stature",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:runeKnight:masterOfRunes",
+   "class": "fighter",
+   "subclass": "runeKnight",
+   "source": "TCE",
+   "level": 15,
+   "name": "Master of Runes",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:runeKnight:runicJuggernaut",
+   "class": "fighter",
+   "subclass": "runeKnight",
+   "source": "TCE",
+   "level": 18,
+   "name": "Runic Juggernaut",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:samurai:fightingSpirit",
+   "class": "fighter",
+   "subclass": "samurai",
+   "source": "XGE",
+   "level": 3,
+   "name": "Fighting Spirit",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:samurai:elegantCourtier",
+   "class": "fighter",
+   "subclass": "samurai",
+   "source": "XGE",
+   "level": 7,
+   "name": "Elegant Courtier",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:samurai:tirelessSpirit",
+   "class": "fighter",
+   "subclass": "samurai",
+   "source": "XGE",
+   "level": 10,
+   "name": "Tireless Spirit",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:samurai:rapidStrike",
+   "class": "fighter",
+   "subclass": "samurai",
+   "source": "XGE",
+   "level": 15,
+   "name": "Rapid Strike",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:fighter:samurai:strengthBeforeDeath",
+   "class": "fighter",
+   "subclass": "samurai",
+   "source": "XGE",
+   "level": 18,
+   "name": "Strength before Death",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:openHand:openHandTechnique",
+   "class": "monk",
+   "subclass": "openHand",
+   "source": "PHB",
+   "level": 3,
+   "name": "Open Hand Technique",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:openHand:wholenessOfBody",
+   "class": "monk",
+   "subclass": "openHand",
+   "source": "PHB",
+   "level": 6,
+   "name": "Wholeness of Body",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:openHand:fleetStep",
+   "class": "monk",
+   "subclass": "openHand",
+   "source": "PHB",
+   "level": 11,
+   "name": "Fleet Step",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:openHand:quiveringPalm",
+   "class": "monk",
+   "subclass": "openHand",
+   "source": "PHB",
+   "level": 17,
+   "name": "Quivering Palm",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:monk:mercy:handOfHealing",
+   "class": "monk",
+   "subclass": "mercy",
+   "source": "TCE",
+   "level": 3,
+   "name": "Hand of Healing",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:mercy:handOfHarm",
+   "class": "monk",
+   "subclass": "mercy",
+   "source": "TCE",
+   "level": 3,
+   "name": "Hand of Harm",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:mercy:physiciansTouch",
+   "class": "monk",
+   "subclass": "mercy",
+   "source": "TCE",
+   "level": 6,
+   "name": "Physician's Touch",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:mercy:flurryOfHealingAndHarm",
+   "class": "monk",
+   "subclass": "mercy",
+   "source": "TCE",
+   "level": 11,
+   "name": "Flurry of Healing and Harm",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:mercy:handOfUltimateMercy",
+   "class": "monk",
+   "subclass": "mercy",
+   "source": "TCE",
+   "level": 17,
+   "name": "Hand of Ultimate Mercy",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:shadow:shadowArts",
+   "class": "monk",
+   "subclass": "shadow",
+   "source": "PHB",
+   "level": 3,
+   "name": "Shadow Arts",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:shadow:shadowStep",
+   "class": "monk",
+   "subclass": "shadow",
+   "source": "PHB",
+   "level": 6,
+   "name": "Shadow Step",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:shadow:cloakOfShadowsMonk",
+   "class": "monk",
+   "subclass": "shadow",
+   "source": "PHB",
+   "level": 11,
+   "name": "Cloak of Shadows",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:shadow:opportunist",
+   "class": "monk",
+   "subclass": "shadow",
+   "source": "PHB",
+   "level": 17,
+   "name": "Opportunist",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:ascendantDragon:breathOfTheDragon",
+   "class": "monk",
+   "subclass": "ascendantDragon",
+   "source": "FTD",
+   "level": 3,
+   "name": "Breath of the Dragon",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:ascendantDragon:wingsUnfurled",
+   "class": "monk",
+   "subclass": "ascendantDragon",
+   "source": "FTD",
+   "level": 6,
+   "name": "Wings Unfurled",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:ascendantDragon:aspectOfTheWyrm",
+   "class": "monk",
+   "subclass": "ascendantDragon",
+   "source": "FTD",
+   "level": 11,
+   "name": "Aspect of the Wyrm",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:ascendantDragon:ascendantAspect",
+   "class": "monk",
+   "subclass": "ascendantDragon",
+   "source": "FTD",
+   "level": 17,
+   "name": "Ascendant Aspect",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:astralSelf:armsOfTheAstralSelf",
+   "class": "monk",
+   "subclass": "astralSelf",
+   "source": "TCE",
+   "level": 3,
+   "name": "Arms of the Astral Self",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:astralSelf:visageOfTheAstralSelf",
+   "class": "monk",
+   "subclass": "astralSelf",
+   "source": "TCE",
+   "level": 6,
+   "name": "Visage of the Astral Self",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:astralSelf:bodyOfTheAstralSelf",
+   "class": "monk",
+   "subclass": "astralSelf",
+   "source": "TCE",
+   "level": 11,
+   "name": "Body of the Astral Self",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:astralSelf:awakenedAstralSelf",
+   "class": "monk",
+   "subclass": "astralSelf",
+   "source": "TCE",
+   "level": 17,
+   "name": "Awakened Astral Self",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:cobaltSoul:extractAspects",
+   "class": "monk",
+   "subclass": "cobaltSoul",
+   "source": "EGW",
+   "level": 3,
+   "name": "Extract Aspects",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:cobaltSoul:mysticalErudition",
+   "class": "monk",
+   "subclass": "cobaltSoul",
+   "source": "EGW",
+   "level": 6,
+   "name": "Extort Truth and Mystical Erudition",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:cobaltSoul:mindOfMercury",
+   "class": "monk",
+   "subclass": "cobaltSoul",
+   "source": "EGW",
+   "level": 11,
+   "name": "Mind of Mercury",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:cobaltSoul:debilitatingBarrage",
+   "class": "monk",
+   "subclass": "cobaltSoul",
+   "source": "EGW",
+   "level": 17,
+   "name": "Debilitating Barrage",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:drunkenMaster:drunkenTechnique",
+   "class": "monk",
+   "subclass": "drunkenMaster",
+   "source": "XGE",
+   "level": 3,
+   "name": "Drunken Technique",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:drunkenMaster:tipsySway",
+   "class": "monk",
+   "subclass": "drunkenMaster",
+   "source": "XGE",
+   "level": 6,
+   "name": "Tipsy Sway",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:drunkenMaster:drunkardsLuck",
+   "class": "monk",
+   "subclass": "drunkenMaster",
+   "source": "XGE",
+   "level": 11,
+   "name": "Drunkard's Luck",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:drunkenMaster:intoxicatedFrenzy",
+   "class": "monk",
+   "subclass": "drunkenMaster",
+   "source": "XGE",
+   "level": 17,
+   "name": "Intoxicated Frenzy",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:fourElements:fangsOfTheFireSnake",
+   "class": "monk",
+   "subclass": "fourElements",
+   "source": "PHB",
+   "level": 3,
+   "name": "Elemental Discipline: Fist of Four Thunders",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:fourElements:waterWhip",
+   "class": "monk",
+   "subclass": "fourElements",
+   "source": "PHB",
+   "level": 6,
+   "name": "Elemental Discipline: Water Whip",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:fourElements:riverOfHungryFlame",
+   "class": "monk",
+   "subclass": "fourElements",
+   "source": "PHB",
+   "level": 11,
+   "name": "Elemental Discipline: Flames of the Phoenix",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:fourElements:breathOfWinter",
+   "class": "monk",
+   "subclass": "fourElements",
+   "source": "PHB",
+   "level": 17,
+   "name": "Elemental Discipline: Breath of Winter",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:kensei:pathOfTheKensei",
+   "class": "monk",
+   "subclass": "kensei",
+   "source": "XGE",
+   "level": 3,
+   "name": "Path of the Kensei",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:kensei:oneWithTheBlade",
+   "class": "monk",
+   "subclass": "kensei",
+   "source": "XGE",
+   "level": 6,
+   "name": "One with the Blade",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:kensei:sharpenTheBlade",
+   "class": "monk",
+   "subclass": "kensei",
+   "source": "XGE",
+   "level": 11,
+   "name": "Sharpen the Blade",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:kensei:unerringAccuracy",
+   "class": "monk",
+   "subclass": "kensei",
+   "source": "XGE",
+   "level": 17,
+   "name": "Unerring Accuracy",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:longDeath:touchOfDeathMonk",
+   "class": "monk",
+   "subclass": "longDeath",
+   "source": "SCAG",
+   "level": 3,
+   "name": "Touch of Death",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:longDeath:hourOfReaping",
+   "class": "monk",
+   "subclass": "longDeath",
+   "source": "SCAG",
+   "level": 6,
+   "name": "Hour of Reaping",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:longDeath:masteryOfDeath",
+   "class": "monk",
+   "subclass": "longDeath",
+   "source": "SCAG",
+   "level": 11,
+   "name": "Mastery of Death",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:longDeath:touchOfTheLongDeath",
+   "class": "monk",
+   "subclass": "longDeath",
+   "source": "SCAG",
+   "level": 17,
+   "name": "Touch of the Long Death",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:sunSoul:radiantSunBolt",
+   "class": "monk",
+   "subclass": "sunSoul",
+   "source": "XGE",
+   "level": 3,
+   "name": "Radiant Sun Bolt",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:sunSoul:searingArcStrike",
+   "class": "monk",
+   "subclass": "sunSoul",
+   "source": "XGE",
+   "level": 6,
+   "name": "Searing Arc Strike",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:sunSoul:searingSunburst",
+   "class": "monk",
+   "subclass": "sunSoul",
+   "source": "XGE",
+   "level": 11,
+   "name": "Searing Sunburst",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:monk:sunSoul:sunShield",
+   "class": "monk",
+   "subclass": "sunSoul",
+   "source": "XGE",
+   "level": 17,
+   "name": "Sun Shield",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:devotion:sacredWeapon",
+   "class": "paladin",
+   "subclass": "devotion",
+   "source": "PHB",
+   "level": 3,
+   "name": "Sacred Weapon",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:devotion:auraOfDevotion",
+   "class": "paladin",
+   "subclass": "devotion",
+   "source": "PHB",
+   "level": 7,
+   "name": "Aura of Devotion",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:devotion:smiteOfProtection",
+   "class": "paladin",
+   "subclass": "devotion",
+   "source": "PHB",
+   "level": 15,
+   "name": "Smite of Protection",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:devotion:holyNimbus",
+   "class": "paladin",
+   "subclass": "devotion",
+   "source": "PHB",
+   "level": 20,
+   "name": "Holy Nimbus",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:paladin:conquest:conqueringPresence",
+   "class": "paladin",
+   "subclass": "conquest",
+   "source": "XGE",
+   "level": 3,
+   "name": "Channel Divinity: Conquering Presence",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:conquest:auraOfConquest",
+   "class": "paladin",
+   "subclass": "conquest",
+   "source": "XGE",
+   "level": 7,
+   "name": "Aura of Conquest",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:conquest:scornfulRebuke",
+   "class": "paladin",
+   "subclass": "conquest",
+   "source": "XGE",
+   "level": 15,
+   "name": "Scornful Rebuke",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:conquest:invincibleConqueror",
+   "class": "paladin",
+   "subclass": "conquest",
+   "source": "XGE",
+   "level": 20,
+   "name": "Invincible Conqueror",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:glory:inspiringSmite",
+   "class": "paladin",
+   "subclass": "glory",
+   "source": "TCE",
+   "level": 3,
+   "name": "Channel Divinity: Inspiring Smite",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:glory:auraOfAlacrity",
+   "class": "paladin",
+   "subclass": "glory",
+   "source": "TCE",
+   "level": 7,
+   "name": "Aura of Alacrity",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:glory:gloriousDefense",
+   "class": "paladin",
+   "subclass": "glory",
+   "source": "TCE",
+   "level": 15,
+   "name": "Glorious Defense",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:glory:livingLegend",
+   "class": "paladin",
+   "subclass": "glory",
+   "source": "TCE",
+   "level": 20,
+   "name": "Living Legend",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:redemption:rebukeTheViolent",
+   "class": "paladin",
+   "subclass": "redemption",
+   "source": "XGE",
+   "level": 3,
+   "name": "Channel Divinity: Rebuke the Violent",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:redemption:auraOfTheGuardian",
+   "class": "paladin",
+   "subclass": "redemption",
+   "source": "XGE",
+   "level": 7,
+   "name": "Aura of the Guardian",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:redemption:protectiveSpirit",
+   "class": "paladin",
+   "subclass": "redemption",
+   "source": "XGE",
+   "level": 15,
+   "name": "Protective Spirit",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:redemption:emissaryOfRedemption",
+   "class": "paladin",
+   "subclass": "redemption",
+   "source": "XGE",
+   "level": 20,
+   "name": "Emissary of Redemption",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:ancients:naturesWrath",
+   "class": "paladin",
+   "subclass": "ancients",
+   "source": "PHB",
+   "level": 3,
+   "name": "Channel Divinity: Nature's Wrath",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:ancients:auraOfWarding",
+   "class": "paladin",
+   "subclass": "ancients",
+   "source": "PHB",
+   "level": 7,
+   "name": "Aura of Warding",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:ancients:undyingSentinel",
+   "class": "paladin",
+   "subclass": "ancients",
+   "source": "PHB",
+   "level": 15,
+   "name": "Undying Sentinel",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:ancients:elderChampion",
+   "class": "paladin",
+   "subclass": "ancients",
+   "source": "PHB",
+   "level": 20,
+   "name": "Elder Champion",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:crown:championChallenge",
+   "class": "paladin",
+   "subclass": "crown",
+   "source": "SCAG",
+   "level": 3,
+   "name": "Channel Divinity: Champion Challenge",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:crown:turnTheTide",
+   "class": "paladin",
+   "subclass": "crown",
+   "source": "SCAG",
+   "level": 3,
+   "name": "Channel Divinity: Turn the Tide",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:crown:divineAllegiance",
+   "class": "paladin",
+   "subclass": "crown",
+   "source": "SCAG",
+   "level": 7,
+   "name": "Divine Allegiance",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:crown:unyieldingSpirit",
+   "class": "paladin",
+   "subclass": "crown",
+   "source": "SCAG",
+   "level": 15,
+   "name": "Unyielding Spirit",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:crown:exaltedChampion",
+   "class": "paladin",
+   "subclass": "crown",
+   "source": "SCAG",
+   "level": 20,
+   "name": "Exalted Champion",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:watchers:watchersWill",
+   "class": "paladin",
+   "subclass": "watchers",
+   "source": "TCE",
+   "level": 3,
+   "name": "Channel Divinity: Watcher's Will",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:watchers:abjureTheExtraplanar",
+   "class": "paladin",
+   "subclass": "watchers",
+   "source": "TCE",
+   "level": 3,
+   "name": "Channel Divinity: Abjure the Extraplanar",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:watchers:auraOfTheSentinel",
+   "class": "paladin",
+   "subclass": "watchers",
+   "source": "TCE",
+   "level": 7,
+   "name": "Aura of the Sentinel",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:watchers:vigilantRebuke",
+   "class": "paladin",
+   "subclass": "watchers",
+   "source": "TCE",
+   "level": 15,
+   "name": "Vigilant Rebuke",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:watchers:mortalBulwark",
+   "class": "paladin",
+   "subclass": "watchers",
+   "source": "TCE",
+   "level": 20,
+   "name": "Mortal Bulwark",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:vengeance:vowOfEnmity",
+   "class": "paladin",
+   "subclass": "vengeance",
+   "source": "PHB",
+   "level": 3,
+   "name": "Channel Divinity: Vow of Enmity",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:vengeance:relentlessAvenger",
+   "class": "paladin",
+   "subclass": "vengeance",
+   "source": "PHB",
+   "level": 7,
+   "name": "Relentless Avenger",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:vengeance:soulOfVengeance",
+   "class": "paladin",
+   "subclass": "vengeance",
+   "source": "PHB",
+   "level": 15,
+   "name": "Soul of Vengeance",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:vengeance:avengingAngel",
+   "class": "paladin",
+   "subclass": "vengeance",
+   "source": "PHB",
+   "level": 20,
+   "name": "Avenging Angel",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:oathbreaker:dreadfulAspect",
+   "class": "paladin",
+   "subclass": "oathbreaker",
+   "source": "DMG",
+   "level": 3,
+   "name": "Channel Divinity: Dreadful Aspect",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:oathbreaker:auraOfHate",
+   "class": "paladin",
+   "subclass": "oathbreaker",
+   "source": "DMG",
+   "level": 7,
+   "name": "Aura of Hate",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:oathbreaker:supernaturalResistance",
+   "class": "paladin",
+   "subclass": "oathbreaker",
+   "source": "DMG",
+   "level": 15,
+   "name": "Supernatural Resistance",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:paladin:oathbreaker:dreadLord",
+   "class": "paladin",
+   "subclass": "oathbreaker",
+   "source": "DMG",
+   "level": 20,
+   "name": "Dread Lord",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:hunter:huntersPrey",
+   "class": "ranger",
+   "subclass": "hunter",
+   "source": "PHB",
+   "level": 3,
+   "name": "Hunter's Prey: Colossus Slayer",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:hunter:huntersLore",
+   "class": "ranger",
+   "subclass": "hunter",
+   "source": "PHB",
+   "level": 3,
+   "name": "Hunter's Lore",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:hunter:defensiveTactics",
+   "class": "ranger",
+   "subclass": "hunter",
+   "source": "PHB",
+   "level": 7,
+   "name": "Defensive Tactics: Multiattack Defense",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:hunter:volley",
+   "class": "ranger",
+   "subclass": "hunter",
+   "source": "PHB",
+   "level": 11,
+   "name": "Superior Hunter's Prey: Volley",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:hunter:superiorHuntersDefense",
+   "class": "ranger",
+   "subclass": "hunter",
+   "source": "PHB",
+   "level": 15,
+   "name": "Superior Hunter's Defense",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:ranger:beastMaster:primalCompanion",
+   "class": "ranger",
+   "subclass": "beastMaster",
+   "source": "PHB",
+   "level": 3,
+   "name": "Primal Companion",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:beastMaster:exceptionalTraining",
+   "class": "ranger",
+   "subclass": "beastMaster",
+   "source": "PHB",
+   "level": 7,
+   "name": "Exceptional Training",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:beastMaster:bestialFury",
+   "class": "ranger",
+   "subclass": "beastMaster",
+   "source": "PHB",
+   "level": 11,
+   "name": "Bestial Fury",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:beastMaster:shareSpells",
+   "class": "ranger",
+   "subclass": "beastMaster",
+   "source": "PHB",
+   "level": 15,
+   "name": "Share Spells",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:drakewarden:drakeCompanion",
+   "class": "ranger",
+   "subclass": "drakewarden",
+   "source": "FTD",
+   "level": 3,
+   "name": "Drake Companion",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:drakewarden:bondOfFangAndScale",
+   "class": "ranger",
+   "subclass": "drakewarden",
+   "source": "FTD",
+   "level": 7,
+   "name": "Bond of Fang and Scale",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:drakewarden:drakesBreath",
+   "class": "ranger",
+   "subclass": "drakewarden",
+   "source": "FTD",
+   "level": 11,
+   "name": "Drake's Breath",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:drakewarden:perfectedBond",
+   "class": "ranger",
+   "subclass": "drakewarden",
+   "source": "FTD",
+   "level": 15,
+   "name": "Perfected Bond",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:feyWanderer:dreadfulStrikes",
+   "class": "ranger",
+   "subclass": "feyWanderer",
+   "source": "TCE",
+   "level": 3,
+   "name": "Dreadful Strikes and Otherworldly Glamour",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:feyWanderer:beguilingTwist",
+   "class": "ranger",
+   "subclass": "feyWanderer",
+   "source": "TCE",
+   "level": 7,
+   "name": "Beguiling Twist",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:feyWanderer:feyReinforcements",
+   "class": "ranger",
+   "subclass": "feyWanderer",
+   "source": "TCE",
+   "level": 11,
+   "name": "Fey Reinforcements",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:feyWanderer:mistyWanderer",
+   "class": "ranger",
+   "subclass": "feyWanderer",
+   "source": "TCE",
+   "level": 15,
+   "name": "Misty Wanderer",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:gloomStalker:dreadAmbusher",
+   "class": "ranger",
+   "subclass": "gloomStalker",
+   "source": "XGE",
+   "level": 3,
+   "name": "Dread Ambusher and Umbral Sight",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:gloomStalker:ironMind",
+   "class": "ranger",
+   "subclass": "gloomStalker",
+   "source": "XGE",
+   "level": 7,
+   "name": "Iron Mind",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:gloomStalker:stalkersFlurry",
+   "class": "ranger",
+   "subclass": "gloomStalker",
+   "source": "XGE",
+   "level": 11,
+   "name": "Stalker's Flurry",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:gloomStalker:shadowyDodge",
+   "class": "ranger",
+   "subclass": "gloomStalker",
+   "source": "XGE",
+   "level": 15,
+   "name": "Shadowy Dodge",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:horizonWalker:planarWarrior",
+   "class": "ranger",
+   "subclass": "horizonWalker",
+   "source": "XGE",
+   "level": 3,
+   "name": "Planar Warrior and Detect Portal",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:horizonWalker:etherealStep",
+   "class": "ranger",
+   "subclass": "horizonWalker",
+   "source": "XGE",
+   "level": 7,
+   "name": "Ethereal Step",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:horizonWalker:distantStrike",
+   "class": "ranger",
+   "subclass": "horizonWalker",
+   "source": "XGE",
+   "level": 11,
+   "name": "Distant Strike",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:horizonWalker:spectralDefense",
+   "class": "ranger",
+   "subclass": "horizonWalker",
+   "source": "XGE",
+   "level": 15,
+   "name": "Spectral Defense",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:monsterSlayer:slayersPrey",
+   "class": "ranger",
+   "subclass": "monsterSlayer",
+   "source": "XGE",
+   "level": 3,
+   "name": "Slayer's Prey and Hunter's Sense",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:monsterSlayer:supernaturalDefense",
+   "class": "ranger",
+   "subclass": "monsterSlayer",
+   "source": "XGE",
+   "level": 7,
+   "name": "Supernatural Defense",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:monsterSlayer:magicUsersNemesis",
+   "class": "ranger",
+   "subclass": "monsterSlayer",
+   "source": "XGE",
+   "level": 11,
+   "name": "Magic-User's Nemesis",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:monsterSlayer:slayersCounter",
+   "class": "ranger",
+   "subclass": "monsterSlayer",
+   "source": "XGE",
+   "level": 15,
+   "name": "Slayer's Counter",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:swarmkeeper:gatheredSwarm",
+   "class": "ranger",
+   "subclass": "swarmkeeper",
+   "source": "TCE",
+   "level": 3,
+   "name": "Gathered Swarm and Swarmkeeper Magic",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:swarmkeeper:writhingTide",
+   "class": "ranger",
+   "subclass": "swarmkeeper",
+   "source": "TCE",
+   "level": 7,
+   "name": "Writhing Tide",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:swarmkeeper:mightySwarm",
+   "class": "ranger",
+   "subclass": "swarmkeeper",
+   "source": "TCE",
+   "level": 11,
+   "name": "Mighty Swarm",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:ranger:swarmkeeper:swarmingDispersal",
+   "class": "ranger",
+   "subclass": "swarmkeeper",
+   "source": "TCE",
+   "level": 15,
+   "name": "Swarming Dispersal",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:thief:fastHands",
+   "class": "rogue",
+   "subclass": "thief",
+   "source": "PHB",
+   "level": 3,
+   "name": "Fast Hands",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:thief:supremeSneak",
+   "class": "rogue",
+   "subclass": "thief",
+   "source": "PHB",
+   "level": 9,
+   "name": "Supreme Sneak",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:thief:useMagicDevice",
+   "class": "rogue",
+   "subclass": "thief",
+   "source": "PHB",
+   "level": 13,
+   "name": "Use Magic Device",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:thief:thiefsReflexes",
+   "class": "rogue",
+   "subclass": "thief",
+   "source": "PHB",
+   "level": 17,
+   "name": "Thief's Reflexes",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:rogue:arcaneTrickster:atSpellcasting",
+   "class": "rogue",
+   "subclass": "arcaneTrickster",
+   "source": "PHB",
+   "level": 3,
+   "name": "Spellcasting",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:arcaneTrickster:mageHandLegerdemain",
+   "class": "rogue",
+   "subclass": "arcaneTrickster",
+   "source": "PHB",
+   "level": 3,
+   "name": "Mage Hand Legerdemain",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:arcaneTrickster:magicalAmbush",
+   "class": "rogue",
+   "subclass": "arcaneTrickster",
+   "source": "PHB",
+   "level": 9,
+   "name": "Magical Ambush",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:arcaneTrickster:versatileTrickster",
+   "class": "rogue",
+   "subclass": "arcaneTrickster",
+   "source": "PHB",
+   "level": 13,
+   "name": "Versatile Trickster",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:arcaneTrickster:spellThief",
+   "class": "rogue",
+   "subclass": "arcaneTrickster",
+   "source": "PHB",
+   "level": 17,
+   "name": "Spell Thief",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:assassin:assassinate",
+   "class": "rogue",
+   "subclass": "assassin",
+   "source": "PHB",
+   "level": 3,
+   "name": "Assassinate",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:assassin:infiltrationExpertise",
+   "class": "rogue",
+   "subclass": "assassin",
+   "source": "PHB",
+   "level": 9,
+   "name": "Infiltration Expertise",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:assassin:impostor",
+   "class": "rogue",
+   "subclass": "assassin",
+   "source": "PHB",
+   "level": 13,
+   "name": "Impostor",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:assassin:deathStrike",
+   "class": "rogue",
+   "subclass": "assassin",
+   "source": "PHB",
+   "level": 17,
+   "name": "Death Strike",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:inquisitive:insightfulFighting",
+   "class": "rogue",
+   "subclass": "inquisitive",
+   "source": "XGE",
+   "level": 3,
+   "name": "Insightful Fighting",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:inquisitive:steadyEye",
+   "class": "rogue",
+   "subclass": "inquisitive",
+   "source": "XGE",
+   "level": 9,
+   "name": "Steady Eye",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:inquisitive:unerringEye",
+   "class": "rogue",
+   "subclass": "inquisitive",
+   "source": "XGE",
+   "level": 13,
+   "name": "Unerring Eye",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:inquisitive:eyeForWeakness",
+   "class": "rogue",
+   "subclass": "inquisitive",
+   "source": "XGE",
+   "level": 17,
+   "name": "Eye for Weakness",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:mastermind:masterOfTactics",
+   "class": "rogue",
+   "subclass": "mastermind",
+   "source": "XGE",
+   "level": 3,
+   "name": "Master of Tactics and Intrigue",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:mastermind:insightfulManipulator",
+   "class": "rogue",
+   "subclass": "mastermind",
+   "source": "XGE",
+   "level": 9,
+   "name": "Insightful Manipulator",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:mastermind:misdirection",
+   "class": "rogue",
+   "subclass": "mastermind",
+   "source": "XGE",
+   "level": 13,
+   "name": "Misdirection",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:mastermind:soulOfDeceit",
+   "class": "rogue",
+   "subclass": "mastermind",
+   "source": "XGE",
+   "level": 17,
+   "name": "Soul of Deceit",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:phantom:wailsFromTheGrave",
+   "class": "rogue",
+   "subclass": "phantom",
+   "source": "TCE",
+   "level": 3,
+   "name": "Wails from the Grave",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:phantom:tokensOfTheDeparted",
+   "class": "rogue",
+   "subclass": "phantom",
+   "source": "TCE",
+   "level": 9,
+   "name": "Tokens of the Departed",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:phantom:ghostWalk",
+   "class": "rogue",
+   "subclass": "phantom",
+   "source": "TCE",
+   "level": 13,
+   "name": "Ghost Walk",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:phantom:deathsFriend",
+   "class": "rogue",
+   "subclass": "phantom",
+   "source": "TCE",
+   "level": 17,
+   "name": "Death's Friend",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:scout:skirmisher",
+   "class": "rogue",
+   "subclass": "scout",
+   "source": "XGE",
+   "level": 3,
+   "name": "Skirmisher and Survivalist",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:scout:superiorMobility",
+   "class": "rogue",
+   "subclass": "scout",
+   "source": "XGE",
+   "level": 9,
+   "name": "Superior Mobility",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:scout:ambushMaster",
+   "class": "rogue",
+   "subclass": "scout",
+   "source": "XGE",
+   "level": 13,
+   "name": "Ambush Master",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:scout:suddenStrike",
+   "class": "rogue",
+   "subclass": "scout",
+   "source": "XGE",
+   "level": 17,
+   "name": "Sudden Strike",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:soulknife:psychicBladesRogue",
+   "class": "rogue",
+   "subclass": "soulknife",
+   "source": "TCE",
+   "level": 3,
+   "name": "Psychic Blades and Psionic Power",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:soulknife:soulBlades",
+   "class": "rogue",
+   "subclass": "soulknife",
+   "source": "TCE",
+   "level": 9,
+   "name": "Soul Blades",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:soulknife:psychicVeil",
+   "class": "rogue",
+   "subclass": "soulknife",
+   "source": "TCE",
+   "level": 13,
+   "name": "Psychic Veil",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:soulknife:rendMind",
+   "class": "rogue",
+   "subclass": "soulknife",
+   "source": "TCE",
+   "level": 17,
+   "name": "Rend Mind",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:swashbuckler:rakishAudacity",
+   "class": "rogue",
+   "subclass": "swashbuckler",
+   "source": "XGE",
+   "level": 3,
+   "name": "Fancy Footwork and Rakish Audacity",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:swashbuckler:panache",
+   "class": "rogue",
+   "subclass": "swashbuckler",
+   "source": "XGE",
+   "level": 9,
+   "name": "Panache",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:swashbuckler:elegantManeuver",
+   "class": "rogue",
+   "subclass": "swashbuckler",
+   "source": "XGE",
+   "level": 13,
+   "name": "Elegant Maneuver",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:rogue:swashbuckler:masterDuelist",
+   "class": "rogue",
+   "subclass": "swashbuckler",
+   "source": "XGE",
+   "level": 17,
+   "name": "Master Duelist",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:draconic:draconicResilience",
+   "class": "sorcerer",
+   "subclass": "draconic",
+   "source": "PHB",
+   "level": 3,
+   "name": "Draconic Resilience",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:draconic:elementalAffinity",
+   "class": "sorcerer",
+   "subclass": "draconic",
+   "source": "PHB",
+   "level": 6,
+   "name": "Elemental Affinity",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:draconic:dragonWings",
+   "class": "sorcerer",
+   "subclass": "draconic",
+   "source": "PHB",
+   "level": 14,
+   "name": "Dragon Wings",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:draconic:dragonCompanion",
+   "class": "sorcerer",
+   "subclass": "draconic",
+   "source": "PHB",
+   "level": 18,
+   "name": "Dragon Companion",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:sorcerer:aberrantMind:psionicSpells",
+   "class": "sorcerer",
+   "subclass": "aberrantMind",
+   "source": "TCE",
+   "level": 3,
+   "name": "Psionic Spells and Telepathic Speech",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:aberrantMind:psychicDefenses",
+   "class": "sorcerer",
+   "subclass": "aberrantMind",
+   "source": "TCE",
+   "level": 6,
+   "name": "Psionic Sorcery and Psychic Defenses",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:aberrantMind:revelationInFlesh",
+   "class": "sorcerer",
+   "subclass": "aberrantMind",
+   "source": "TCE",
+   "level": 14,
+   "name": "Revelation in Flesh",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:aberrantMind:warpingImplosion",
+   "class": "sorcerer",
+   "subclass": "aberrantMind",
+   "source": "TCE",
+   "level": 18,
+   "name": "Warping Implosion",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:clockworkSoul:restoreBalance",
+   "class": "sorcerer",
+   "subclass": "clockworkSoul",
+   "source": "TCE",
+   "level": 3,
+   "name": "Clockwork Magic and Restore Balance",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:clockworkSoul:bastionOfLaw",
+   "class": "sorcerer",
+   "subclass": "clockworkSoul",
+   "source": "TCE",
+   "level": 6,
+   "name": "Bastion of Law",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:clockworkSoul:tranceOfOrder",
+   "class": "sorcerer",
+   "subclass": "clockworkSoul",
+   "source": "TCE",
+   "level": 14,
+   "name": "Trance of Order",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:clockworkSoul:clockworkCavalcade",
+   "class": "sorcerer",
+   "subclass": "clockworkSoul",
+   "source": "TCE",
+   "level": 18,
+   "name": "Clockwork Cavalcade",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:divineSoul:favoredByTheGods",
+   "class": "sorcerer",
+   "subclass": "divineSoul",
+   "source": "XGE",
+   "level": 3,
+   "name": "Divine Magic and Favored by the Gods",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:divineSoul:empoweredHealing",
+   "class": "sorcerer",
+   "subclass": "divineSoul",
+   "source": "XGE",
+   "level": 6,
+   "name": "Empowered Healing",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:divineSoul:otherworldlyWings",
+   "class": "sorcerer",
+   "subclass": "divineSoul",
+   "source": "XGE",
+   "level": 14,
+   "name": "Otherworldly Wings",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:divineSoul:unearthlyRecovery",
+   "class": "sorcerer",
+   "subclass": "divineSoul",
+   "source": "XGE",
+   "level": 18,
+   "name": "Unearthly Recovery",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:shadowSorcery:strengthOfTheGrave",
+   "class": "sorcerer",
+   "subclass": "shadowSorcery",
+   "source": "XGE",
+   "level": 3,
+   "name": "Eyes of the Dark and Strength of the Grave",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:shadowSorcery:houndOfIllOmen",
+   "class": "sorcerer",
+   "subclass": "shadowSorcery",
+   "source": "XGE",
+   "level": 6,
+   "name": "Hound of Ill Omen",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:shadowSorcery:shadowWalk",
+   "class": "sorcerer",
+   "subclass": "shadowSorcery",
+   "source": "XGE",
+   "level": 14,
+   "name": "Shadow Walk",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:shadowSorcery:umbralForm",
+   "class": "sorcerer",
+   "subclass": "shadowSorcery",
+   "source": "XGE",
+   "level": 18,
+   "name": "Umbral Form",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:storm:tempestuousMagic",
+   "class": "sorcerer",
+   "subclass": "storm",
+   "source": "XGE",
+   "level": 3,
+   "name": "Wind Speaker and Tempestuous Magic",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:storm:heartOfTheStorm",
+   "class": "sorcerer",
+   "subclass": "storm",
+   "source": "XGE",
+   "level": 6,
+   "name": "Heart of the Storm and Storm Guide",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:storm:stormsFury",
+   "class": "sorcerer",
+   "subclass": "storm",
+   "source": "XGE",
+   "level": 14,
+   "name": "Storm's Fury",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:storm:windSoul",
+   "class": "sorcerer",
+   "subclass": "storm",
+   "source": "XGE",
+   "level": 18,
+   "name": "Wind Soul",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:wildMagicSorcery:tidesOfChaos",
+   "class": "sorcerer",
+   "subclass": "wildMagicSorcery",
+   "source": "PHB",
+   "level": 3,
+   "name": "Wild Magic Surge and Tides of Chaos",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:wildMagicSorcery:bendLuck",
+   "class": "sorcerer",
+   "subclass": "wildMagicSorcery",
+   "source": "PHB",
+   "level": 6,
+   "name": "Bend Luck",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:wildMagicSorcery:controlledChaos",
+   "class": "sorcerer",
+   "subclass": "wildMagicSorcery",
+   "source": "PHB",
+   "level": 14,
+   "name": "Controlled Chaos",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:sorcerer:wildMagicSorcery:spellBombardment",
+   "class": "sorcerer",
+   "subclass": "wildMagicSorcery",
+   "source": "PHB",
+   "level": 18,
+   "name": "Spell Bombardment",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:fiend:darkOnesBlessing",
+   "class": "warlock",
+   "subclass": "fiend",
+   "source": "PHB",
+   "level": 3,
+   "name": "Dark One's Blessing",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:fiend:darkOnesOwnLuck",
+   "class": "warlock",
+   "subclass": "fiend",
+   "source": "PHB",
+   "level": 6,
+   "name": "Dark One's Own Luck",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:fiend:fiendishResilience",
+   "class": "warlock",
+   "subclass": "fiend",
+   "source": "PHB",
+   "level": 10,
+   "name": "Fiendish Resilience",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:fiend:hurlThroughHell",
+   "class": "warlock",
+   "subclass": "fiend",
+   "source": "PHB",
+   "level": 14,
+   "name": "Hurl Through Hell",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:warlock:archfey:feyPresence",
+   "class": "warlock",
+   "subclass": "archfey",
+   "source": "PHB",
+   "level": 3,
+   "name": "Fey Presence",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:archfey:mistyEscape",
+   "class": "warlock",
+   "subclass": "archfey",
+   "source": "PHB",
+   "level": 6,
+   "name": "Misty Escape",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:archfey:beguilingDefenses",
+   "class": "warlock",
+   "subclass": "archfey",
+   "source": "PHB",
+   "level": 10,
+   "name": "Beguiling Defenses",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:archfey:darkDelirium",
+   "class": "warlock",
+   "subclass": "archfey",
+   "source": "PHB",
+   "level": 14,
+   "name": "Dark Delirium",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:celestial:healingLight",
+   "class": "warlock",
+   "subclass": "celestial",
+   "source": "XGE",
+   "level": 3,
+   "name": "Bonus Cantrips and Healing Light",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:celestial:radiantSoul",
+   "class": "warlock",
+   "subclass": "celestial",
+   "source": "XGE",
+   "level": 6,
+   "name": "Radiant Soul",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:celestial:celestialResilience",
+   "class": "warlock",
+   "subclass": "celestial",
+   "source": "XGE",
+   "level": 10,
+   "name": "Celestial Resilience",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:celestial:searingVengeance",
+   "class": "warlock",
+   "subclass": "celestial",
+   "source": "XGE",
+   "level": 14,
+   "name": "Searing Vengeance",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:fathomless:tentacleOfTheDeeps",
+   "class": "warlock",
+   "subclass": "fathomless",
+   "source": "TCE",
+   "level": 3,
+   "name": "Tentacle of the Deeps and Gift of the Sea",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:fathomless:oceanicSoul",
+   "class": "warlock",
+   "subclass": "fathomless",
+   "source": "TCE",
+   "level": 6,
+   "name": "Oceanic Soul and Guardian Coil",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:fathomless:graspingTentacles",
+   "class": "warlock",
+   "subclass": "fathomless",
+   "source": "TCE",
+   "level": 10,
+   "name": "Grasping Tentacles",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:fathomless:fathomlessPlunge",
+   "class": "warlock",
+   "subclass": "fathomless",
+   "source": "TCE",
+   "level": 14,
+   "name": "Fathomless Plunge",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:genie:genieVessel",
+   "class": "warlock",
+   "subclass": "genie",
+   "source": "TCE",
+   "level": 3,
+   "name": "Genie's Vessel and Genie's Wrath",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:genie:elementalGift",
+   "class": "warlock",
+   "subclass": "genie",
+   "source": "TCE",
+   "level": 6,
+   "name": "Elemental Gift",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:genie:sanctuaryVessel",
+   "class": "warlock",
+   "subclass": "genie",
+   "source": "TCE",
+   "level": 10,
+   "name": "Sanctuary Vessel",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:genie:limitedWish",
+   "class": "warlock",
+   "subclass": "genie",
+   "source": "TCE",
+   "level": 14,
+   "name": "Limited Wish",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:greatOldOne:awakenedMind",
+   "class": "warlock",
+   "subclass": "greatOldOne",
+   "source": "PHB",
+   "level": 3,
+   "name": "Awakened Mind",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:greatOldOne:entropicWard",
+   "class": "warlock",
+   "subclass": "greatOldOne",
+   "source": "PHB",
+   "level": 6,
+   "name": "Entropic Ward",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:greatOldOne:thoughtShield",
+   "class": "warlock",
+   "subclass": "greatOldOne",
+   "source": "PHB",
+   "level": 10,
+   "name": "Thought Shield",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:greatOldOne:createThrall",
+   "class": "warlock",
+   "subclass": "greatOldOne",
+   "source": "PHB",
+   "level": 14,
+   "name": "Create Thrall",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:hexblade:hexWarrior",
+   "class": "warlock",
+   "subclass": "hexblade",
+   "source": "XGE",
+   "level": 3,
+   "name": "Hex Warrior",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:hexblade:hexbladesCurse",
+   "class": "warlock",
+   "subclass": "hexblade",
+   "source": "XGE",
+   "level": 3,
+   "name": "Hexblade's Curse",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:hexblade:accursedSpecter",
+   "class": "warlock",
+   "subclass": "hexblade",
+   "source": "XGE",
+   "level": 6,
+   "name": "Accursed Specter",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:hexblade:armorOfHexes",
+   "class": "warlock",
+   "subclass": "hexblade",
+   "source": "XGE",
+   "level": 10,
+   "name": "Armor of Hexes",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:hexblade:masterOfHexes",
+   "class": "warlock",
+   "subclass": "hexblade",
+   "source": "XGE",
+   "level": 14,
+   "name": "Master of Hexes",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:undead:formOfDread",
+   "class": "warlock",
+   "subclass": "undead",
+   "source": "VRGR",
+   "level": 3,
+   "name": "Form of Dread",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:undead:graveTouched",
+   "class": "warlock",
+   "subclass": "undead",
+   "source": "VRGR",
+   "level": 6,
+   "name": "Grave Touched",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:undead:necroticHusk",
+   "class": "warlock",
+   "subclass": "undead",
+   "source": "VRGR",
+   "level": 10,
+   "name": "Necrotic Husk",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:undead:spiritProjection",
+   "class": "warlock",
+   "subclass": "undead",
+   "source": "VRGR",
+   "level": 14,
+   "name": "Spirit Projection",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:undying:amongTheDead",
+   "class": "warlock",
+   "subclass": "undying",
+   "source": "SCAG",
+   "level": 3,
+   "name": "Among the Dead",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:undying:defyDeath",
+   "class": "warlock",
+   "subclass": "undying",
+   "source": "SCAG",
+   "level": 6,
+   "name": "Defy Death",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:undying:undyingNature",
+   "class": "warlock",
+   "subclass": "undying",
+   "source": "SCAG",
+   "level": 10,
+   "name": "Undying Nature",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:warlock:undying:indestructibleLife",
+   "class": "warlock",
+   "subclass": "undying",
+   "source": "SCAG",
+   "level": 14,
+   "name": "Indestructible Life",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:evoker:potentCantrip",
+   "class": "wizard",
+   "subclass": "evoker",
+   "source": "PHB",
+   "level": 3,
+   "name": "Potent Cantrip",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:evoker:evocationSavant",
+   "class": "wizard",
+   "subclass": "evoker",
+   "source": "PHB",
+   "level": 3,
+   "name": "Evocation Savant",
+   "implementation": "narrative",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:evoker:sculptSpells",
+   "class": "wizard",
+   "subclass": "evoker",
+   "source": "PHB",
+   "level": 6,
+   "name": "Sculpt Spells",
+   "implementation": "implemented_adapted",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:evoker:empoweredEvocation",
+   "class": "wizard",
+   "subclass": "evoker",
+   "source": "PHB",
+   "level": 10,
+   "name": "Empowered Evocation",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:evoker:overchannel",
+   "class": "wizard",
+   "subclass": "evoker",
+   "source": "PHB",
+   "level": 14,
+   "name": "Overchannel",
+   "implementation": "implemented_exact",
+   "license": "CC-BY-4.0"
+  },
+  {
+   "id": "feature:wizard:bladesinging:bladesong",
+   "class": "wizard",
+   "subclass": "bladesinging",
+   "source": "TCE",
+   "level": 3,
+   "name": "Training in War and Song, Bladesong",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:bladesinging:extraAttack",
+   "class": "wizard",
+   "subclass": "bladesinging",
+   "source": "TCE",
+   "level": 6,
+   "name": "Extra Attack",
+   "implementation": "implemented_exact",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:bladesinging:songOfDefense",
+   "class": "wizard",
+   "subclass": "bladesinging",
+   "source": "TCE",
+   "level": 10,
+   "name": "Song of Defense",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:bladesinging:songOfVictory",
+   "class": "wizard",
+   "subclass": "bladesinging",
+   "source": "TCE",
+   "level": 14,
+   "name": "Song of Victory",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:chronurgy:chronalShift",
+   "class": "wizard",
+   "subclass": "chronurgy",
+   "source": "EGW",
+   "level": 3,
+   "name": "Chronal Shift and Temporal Awareness",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:chronurgy:momentaryStasis",
+   "class": "wizard",
+   "subclass": "chronurgy",
+   "source": "EGW",
+   "level": 6,
+   "name": "Momentary Stasis",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:chronurgy:arcaneAbeyance",
+   "class": "wizard",
+   "subclass": "chronurgy",
+   "source": "EGW",
+   "level": 10,
+   "name": "Arcane Abeyance",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:chronurgy:convergentFuture",
+   "class": "wizard",
+   "subclass": "chronurgy",
+   "source": "EGW",
+   "level": 14,
+   "name": "Convergent Future",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:graviturgy:adjustDensity",
+   "class": "wizard",
+   "subclass": "graviturgy",
+   "source": "EGW",
+   "level": 3,
+   "name": "Adjust Density",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:graviturgy:gravityWell",
+   "class": "wizard",
+   "subclass": "graviturgy",
+   "source": "EGW",
+   "level": 6,
+   "name": "Gravity Well",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:graviturgy:violentAttraction",
+   "class": "wizard",
+   "subclass": "graviturgy",
+   "source": "EGW",
+   "level": 10,
+   "name": "Violent Attraction",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:graviturgy:eventHorizon",
+   "class": "wizard",
+   "subclass": "graviturgy",
+   "source": "EGW",
+   "level": 14,
+   "name": "Event Horizon",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:scribes:awakenedSpellbook",
+   "class": "wizard",
+   "subclass": "scribes",
+   "source": "TCE",
+   "level": 3,
+   "name": "Wizardly Quill and Awakened Spellbook",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:scribes:manifestMind",
+   "class": "wizard",
+   "subclass": "scribes",
+   "source": "TCE",
+   "level": 6,
+   "name": "Manifest Mind",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:scribes:masterScrivener",
+   "class": "wizard",
+   "subclass": "scribes",
+   "source": "TCE",
+   "level": 10,
+   "name": "Master Scrivener",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:scribes:oneWithTheWord",
+   "class": "wizard",
+   "subclass": "scribes",
+   "source": "TCE",
+   "level": 14,
+   "name": "One with the Word",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:abjuration:arcaneWard",
+   "class": "wizard",
+   "subclass": "abjuration",
+   "source": "PHB",
+   "level": 3,
+   "name": "Abjuration Savant and Arcane Ward",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:abjuration:projectedWard",
+   "class": "wizard",
+   "subclass": "abjuration",
+   "source": "PHB",
+   "level": 6,
+   "name": "Projected Ward",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:abjuration:improvedAbjuration",
+   "class": "wizard",
+   "subclass": "abjuration",
+   "source": "PHB",
+   "level": 10,
+   "name": "Improved Abjuration",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:abjuration:spellResistance",
+   "class": "wizard",
+   "subclass": "abjuration",
+   "source": "PHB",
+   "level": 14,
+   "name": "Spell Resistance",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:conjuration:minorConjuration",
+   "class": "wizard",
+   "subclass": "conjuration",
+   "source": "PHB",
+   "level": 3,
+   "name": "Conjuration Savant and Minor Conjuration",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:conjuration:benignTransposition",
+   "class": "wizard",
+   "subclass": "conjuration",
+   "source": "PHB",
+   "level": 6,
+   "name": "Benign Transposition",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:conjuration:focusedConjuration",
+   "class": "wizard",
+   "subclass": "conjuration",
+   "source": "PHB",
+   "level": 10,
+   "name": "Focused Conjuration",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:conjuration:durableSummons",
+   "class": "wizard",
+   "subclass": "conjuration",
+   "source": "PHB",
+   "level": 14,
+   "name": "Durable Summons",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:divination:portent",
+   "class": "wizard",
+   "subclass": "divination",
+   "source": "PHB",
+   "level": 3,
+   "name": "Divination Savant and Portent",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:divination:expertDivination",
+   "class": "wizard",
+   "subclass": "divination",
+   "source": "PHB",
+   "level": 6,
+   "name": "Expert Divination",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:divination:theThirdEye",
+   "class": "wizard",
+   "subclass": "divination",
+   "source": "PHB",
+   "level": 10,
+   "name": "The Third Eye",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:divination:greaterPortent",
+   "class": "wizard",
+   "subclass": "divination",
+   "source": "PHB",
+   "level": 14,
+   "name": "Greater Portent",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:enchantment:hypnoticGaze",
+   "class": "wizard",
+   "subclass": "enchantment",
+   "source": "PHB",
+   "level": 3,
+   "name": "Enchantment Savant and Hypnotic Gaze",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:enchantment:instinctiveCharm",
+   "class": "wizard",
+   "subclass": "enchantment",
+   "source": "PHB",
+   "level": 6,
+   "name": "Instinctive Charm",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:enchantment:splitEnchantment",
+   "class": "wizard",
+   "subclass": "enchantment",
+   "source": "PHB",
+   "level": 10,
+   "name": "Split Enchantment",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:enchantment:alterMemories",
+   "class": "wizard",
+   "subclass": "enchantment",
+   "source": "PHB",
+   "level": 14,
+   "name": "Alter Memories",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:illusion:improvedMinorIllusion",
+   "class": "wizard",
+   "subclass": "illusion",
+   "source": "PHB",
+   "level": 3,
+   "name": "Illusion Savant and Improved Minor Illusion",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:illusion:malleableIllusions",
+   "class": "wizard",
+   "subclass": "illusion",
+   "source": "PHB",
+   "level": 6,
+   "name": "Malleable Illusions",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:illusion:illusorySelf",
+   "class": "wizard",
+   "subclass": "illusion",
+   "source": "PHB",
+   "level": 10,
+   "name": "Illusory Self",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:illusion:illusoryReality",
+   "class": "wizard",
+   "subclass": "illusion",
+   "source": "PHB",
+   "level": 14,
+   "name": "Illusory Reality",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:necromancy:grimHarvest",
+   "class": "wizard",
+   "subclass": "necromancy",
+   "source": "PHB",
+   "level": 3,
+   "name": "Necromancy Savant and Grim Harvest",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:necromancy:undeadThralls",
+   "class": "wizard",
+   "subclass": "necromancy",
+   "source": "PHB",
+   "level": 6,
+   "name": "Undead Thralls",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:necromancy:inuredToUndeath",
+   "class": "wizard",
+   "subclass": "necromancy",
+   "source": "PHB",
+   "level": 10,
+   "name": "Inured to Undeath",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:necromancy:commandUndead",
+   "class": "wizard",
+   "subclass": "necromancy",
+   "source": "PHB",
+   "level": 14,
+   "name": "Command Undead",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:transmutation:minorAlchemy",
+   "class": "wizard",
+   "subclass": "transmutation",
+   "source": "PHB",
+   "level": 3,
+   "name": "Transmutation Savant and Minor Alchemy",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:transmutation:transmutersStone",
+   "class": "wizard",
+   "subclass": "transmutation",
+   "source": "PHB",
+   "level": 6,
+   "name": "Transmuter's Stone",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:transmutation:shapechanger",
+   "class": "wizard",
+   "subclass": "transmutation",
+   "source": "PHB",
+   "level": 10,
+   "name": "Shapechanger",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:transmutation:masterTransmuter",
+   "class": "wizard",
+   "subclass": "transmutation",
+   "source": "PHB",
+   "level": 14,
+   "name": "Master Transmuter",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:warMagic:arcaneDeflection",
+   "class": "wizard",
+   "subclass": "warMagic",
+   "source": "XGE",
+   "level": 3,
+   "name": "Arcane Deflection and Tactical Wit",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:warMagic:powerSurge",
+   "class": "wizard",
+   "subclass": "warMagic",
+   "source": "XGE",
+   "level": 6,
+   "name": "Power Surge",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:warMagic:durableMagic",
+   "class": "wizard",
+   "subclass": "warMagic",
+   "source": "XGE",
+   "level": 10,
+   "name": "Durable Magic",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:wizard:warMagic:deflectingShroud",
+   "class": "wizard",
+   "subclass": "warMagic",
+   "source": "XGE",
+   "level": 14,
+   "name": "Deflecting Shroud",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:alchemist:experimentalElixir",
+   "class": "artificer",
+   "subclass": "alchemist",
+   "source": "TCE",
+   "level": 3,
+   "name": "Tool Proficiency and Experimental Elixir",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:alchemist:alchemicalSavant",
+   "class": "artificer",
+   "subclass": "alchemist",
+   "source": "TCE",
+   "level": 5,
+   "name": "Alchemical Savant",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:alchemist:restorativeReagents",
+   "class": "artificer",
+   "subclass": "alchemist",
+   "source": "TCE",
+   "level": 9,
+   "name": "Restorative Reagents",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:alchemist:chemicalMastery",
+   "class": "artificer",
+   "subclass": "alchemist",
+   "source": "TCE",
+   "level": 15,
+   "name": "Chemical Mastery",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:armorer:arcaneArmor",
+   "class": "artificer",
+   "subclass": "armorer",
+   "source": "TCE",
+   "level": 3,
+   "name": "Tools of the Trade, Arcane Armor and Guardian Model",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:armorer:extraAttack",
+   "class": "artificer",
+   "subclass": "armorer",
+   "source": "TCE",
+   "level": 5,
+   "name": "Extra Attack",
+   "implementation": "implemented_exact",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:armorer:armorModifications",
+   "class": "artificer",
+   "subclass": "armorer",
+   "source": "TCE",
+   "level": 9,
+   "name": "Armor Modifications",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:armorer:perfectedArmor",
+   "class": "artificer",
+   "subclass": "armorer",
+   "source": "TCE",
+   "level": 15,
+   "name": "Perfected Armor",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:artillerist:eldritchCannon",
+   "class": "artificer",
+   "subclass": "artillerist",
+   "source": "TCE",
+   "level": 3,
+   "name": "Tool Proficiency and Eldritch Cannon",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:artillerist:arcaneFirearm",
+   "class": "artificer",
+   "subclass": "artillerist",
+   "source": "TCE",
+   "level": 5,
+   "name": "Arcane Firearm",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:artillerist:explosiveCannon",
+   "class": "artificer",
+   "subclass": "artillerist",
+   "source": "TCE",
+   "level": 9,
+   "name": "Explosive Cannon",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:artillerist:fortifiedPosition",
+   "class": "artificer",
+   "subclass": "artillerist",
+   "source": "TCE",
+   "level": 15,
+   "name": "Fortified Position",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:battleSmith:battleReady",
+   "class": "artificer",
+   "subclass": "battleSmith",
+   "source": "TCE",
+   "level": 3,
+   "name": "Battle Ready",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:battleSmith:steelDefender",
+   "class": "artificer",
+   "subclass": "battleSmith",
+   "source": "TCE",
+   "level": 3,
+   "name": "Steel Defender",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:battleSmith:extraAttack",
+   "class": "artificer",
+   "subclass": "battleSmith",
+   "source": "TCE",
+   "level": 5,
+   "name": "Extra Attack",
+   "implementation": "implemented_exact",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:battleSmith:arcaneJolt",
+   "class": "artificer",
+   "subclass": "battleSmith",
+   "source": "TCE",
+   "level": 9,
+   "name": "Arcane Jolt",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
+  },
+  {
+   "id": "feature:artificer:battleSmith:improvedDefender",
+   "class": "artificer",
+   "subclass": "battleSmith",
+   "source": "TCE",
+   "level": 15,
+   "name": "Improved Defender",
+   "implementation": "implemented_adapted",
+   "license": "adapted (game mechanics; original wording)"
   }
  ],
  "spells": [
@@ -2134,7 +6970,8 @@
    "level": 0,
    "classes": [
     "sorcerer",
-    "wizard"
+    "wizard",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2145,7 +6982,8 @@
    "level": 0,
    "classes": [
     "sorcerer",
-    "wizard"
+    "wizard",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2156,7 +6994,8 @@
    "level": 0,
    "classes": [
     "sorcerer",
-    "wizard"
+    "wizard",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2181,7 +7020,8 @@
     "druid",
     "sorcerer",
     "warlock",
-    "wizard"
+    "wizard",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2254,7 +7094,8 @@
    "name": "Thorn Whip",
    "level": 0,
    "classes": [
-    "druid"
+    "druid",
+    "artificer"
    ],
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
@@ -2267,7 +7108,8 @@
     "bard",
     "cleric",
     "sorcerer",
-    "wizard"
+    "wizard",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2278,7 +7120,8 @@
    "level": 0,
    "classes": [
     "cleric",
-    "druid"
+    "druid",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2373,7 +7216,8 @@
     "cleric",
     "druid",
     "paladin",
-    "ranger"
+    "ranger",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2501,7 +7345,8 @@
    "level": 1,
    "classes": [
     "bard",
-    "druid"
+    "druid",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2543,7 +7388,8 @@
    "level": 1,
    "classes": [
     "sorcerer",
-    "wizard"
+    "wizard",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2617,7 +7463,8 @@
     "cleric",
     "druid",
     "paladin",
-    "ranger"
+    "ranger",
+    "artificer"
    ],
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
@@ -2628,7 +7475,8 @@
    "level": 2,
    "classes": [
     "sorcerer",
-    "wizard"
+    "wizard",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2652,7 +7500,8 @@
     "cleric",
     "druid",
     "paladin",
-    "ranger"
+    "ranger",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2665,7 +7514,8 @@
     "bard",
     "sorcerer",
     "warlock",
-    "wizard"
+    "wizard",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2676,7 +7526,8 @@
    "level": 2,
    "classes": [
     "sorcerer",
-    "wizard"
+    "wizard",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2698,7 +7549,8 @@
    "level": 2,
    "classes": [
     "bard",
-    "druid"
+    "druid",
+    "artificer"
    ],
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
@@ -2734,7 +7586,8 @@
    "classes": [
     "cleric",
     "druid",
-    "ranger"
+    "ranger",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2746,7 +7599,8 @@
    "classes": [
     "bard",
     "sorcerer",
-    "wizard"
+    "wizard",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2800,7 +7654,8 @@
    "level": 3,
    "classes": [
     "sorcerer",
-    "wizard"
+    "wizard",
+    "artificer"
    ],
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
@@ -2826,7 +7681,8 @@
     "cleric",
     "druid",
     "paladin",
-    "ranger"
+    "ranger",
+    "artificer"
    ],
    "implementation": "implemented_adapted",
    "license": "CC-BY-4.0"
@@ -2918,7 +7774,8 @@
     "paladin",
     "sorcerer",
     "warlock",
-    "wizard"
+    "wizard",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -2979,7 +7836,8 @@
     "druid",
     "ranger",
     "sorcerer",
-    "wizard"
+    "wizard",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -3099,7 +7957,8 @@
     "cleric",
     "druid",
     "paladin",
-    "ranger"
+    "ranger",
+    "artificer"
    ],
    "implementation": "implemented_exact",
    "license": "CC-BY-4.0"
@@ -3427,7 +8286,6 @@
  ],
  "not_yet_supported": [
   "multiclassing",
-  "non-SRD subclasses",
   "grid movement",
   "free-form utility spells beyond listed exploration uses"
  ]

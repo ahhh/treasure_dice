@@ -307,7 +307,8 @@
     "masterySuffix": " (mastery: {mastery})",
     "traitMilestone": "a trait milestone! ",
     "thievesTools": "thieves' tools",
-    "subclassAtLevel3": "{name} (at level 3)"
+    "subclassAtLevel3": "{name} (at level 3)",
+    "subclassLevelPlan": "{level}: {names}"
   },
   "tutorial": {
     "tapDirectionsAreRelativeTo": "**Tap {REL_LABEL}.** Directions are relative to the way you face, so the same door can be Forward one moment and Left the next.",
@@ -1078,7 +1079,13 @@
       "other": "Glass dice shatter!"
     },
     "critsTarget": "{attacker} CRITS {target}!",
-    "hitsTarget": "{attacker} hits {target}."
+    "hitsTarget": "{attacker} hits {target}.",
+    "volley": "Volley",
+    "usesPower": "{cName} uses {power}.",
+    "artificersOnly": "Artificers only.",
+    "calibrate": "Calibrate",
+    "calibrateText": "Set a die to the highest face showing on the other tray dice.",
+    "calibrates": "{cName} calibrates a die to {v}."
   },
   "combatCore": {
     "curse": "Curse — {name}: {text}",
@@ -1131,7 +1138,8 @@
     "success": "success",
     "fail": "fail",
     "spiritGuardians": "Spirit guardians",
-    "lingeringSpell": "The lingering spell"
+    "lingeringSpell": "The lingering spell",
+    "flashOfGenius": "Flash of Genius! {aName} talks {cName} through it, and the save succeeds."
   },
   "combatAi": {
     "preparesNextTurn": "⚠ {cName} prepares {tName}! (next turn)",

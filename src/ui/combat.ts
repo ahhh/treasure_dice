@@ -268,7 +268,7 @@ function commandEl(): HTMLElement {
     const needsTarget = ['enemy', 'ally', 'rank', 'fallenAlly'].includes(pending.target);
     const hero = g.roster.find((x) => x.id === actor.refId)!;
     const mm = hero.classId === 'sorcerer' && pending.key.startsWith('spell:') ? hero.choices.metamagic ?? [] : [];
-    const overchannel = hero.classId === 'wizard' && hero.level >= 14 && (hero.resources.overchannel ?? 0) > 0 && pending.key.startsWith('spell:') && (pending.spellLevel ?? 0) > 0;
+    const overchannel = (hero.resources.overchannel ?? 0) > 0 && pending.key.startsWith('spell:') && (pending.spellLevel ?? 0) > 0;
     body = h('div', { class: 'col' },
       h('b', null, pending.name),
       h('div', { class: 'opt-detail' }, pending.text),

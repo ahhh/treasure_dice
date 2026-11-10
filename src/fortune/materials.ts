@@ -31,7 +31,7 @@ export const MATERIALS = textTable<Record<Material, MaterialInfo>, 'name' | 'tex
 export const CLASS_MATERIAL: Record<ClassId, Material> = {
   fighter: 'steel', paladin: 'sun', cleric: 'sun', barbarian: 'blood',
   rogue: 'shadow', warlock: 'shadow', wizard: 'arcane', bard: 'arcane',
-  sorcerer: 'ember', druid: 'verdant', ranger: 'verdant', monk: 'storm',
+  sorcerer: 'ember', druid: 'verdant', ranger: 'verdant', monk: 'storm', artificer: 'steel',
 };
 
 export const FACE_MODS = textTable<Record<FaceMod, { name: string; text: string; glyph: string }>, 'name' | 'text'>('game', ['faceMods'], {

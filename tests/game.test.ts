@@ -23,7 +23,9 @@ describe('characters', () => {
         expect(d.ac).toBeGreaterThanOrEqual(10);
         expect(d.pb).toBe(2 + Math.floor((lvl - 1) / 4));
         for (const a of Object.values(h.abilities)) expect(a).toBeLessThanOrEqual(20);
-        expect(h.slots).toEqual(maxSlots(c, lvl));
+        // Some subclasses add bonus slots (Arcana Domain, Divination…); never fewer than the class table.
+        expect(h.slots).toEqual(d.slots);
+        maxSlots(c, lvl).forEach((n, i) => expect(d.slots[i]).toBeGreaterThanOrEqual(n));
         if (CLASSES[c].caster) expect(castableSpells(h).length).toBeGreaterThan(0);
       }
     }
@@ -104,12 +106,13 @@ describe('expeditions', () => {
       for (let i = 0; i < CLASS_IDS.length; i += 3) {
         const g = newGame(1, 'legacy', `ALL-${lvl}-${i}`);
         g.profile.unlockedBiomes = ['cinder', 'rootbound', 'drowned', 'mirror', 'starfall'];
-        g.roster = CLASS_IDS.slice(i, i + 3).map((c) => createHero(rng, c, lvl));
+        const trio = [0, 1, 2].map((k) => CLASS_IDS[(i + k) % CLASS_IDS.length]);
+        g.roster = trio.map((c) => createHero(rng, c, lvl));
         g.roster.forEach(fullRestore);
         const biome = (['cinder', 'rootbound', 'drowned', 'mirror', 'starfall'] as const)[(i / 3 + lvl) % 5];
         expect(dispatch(g, { type: 'startExpedition', partyIds: g.roster.map((h) => h.id), biome, difficulty: 'standard', seed: `ALL-${lvl}-${i}` }).ok).toBe(true);
         const rep = autoExpedition(g, 8000);
-        expect(rep.result, `L${lvl} ${CLASS_IDS.slice(i, i + 3).join('/')} in ${biome}`).not.toBe('stuck');
+        expect(rep.result, `L${lvl} ${trio.join('/')} in ${biome}`).not.toBe('stuck');
       }
     }
   }, 120000);

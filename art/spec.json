@@ -1,7 +1,1879 @@
 {
  "game": "treasure_dice",
- "count": 484,
+ "count": 718,
  "entries": [
+  {
+   "key": "heroes/barbarian_human_male",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · human · male",
+   "subject": "an ordinary HUMAN man with round human ears and sandy blond hair and a short beard, tan skin, in his late twenties. A barbarian in furs and leather with war paint on the face, with a notched greataxe over one shoulder; clothing accents in plum. A male human barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_human_female",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · human · female",
+   "subject": "an ordinary HUMAN woman with round human ears and sandy blond hair, olive skin, in her late twenties. A barbarian in furs and leather with war paint on the face, with a necklace of wolf teeth; clothing accents in burgundy. A female human barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_elf_male",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · elf · male",
+   "subject": "an ELF man: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, copper hair, pale skin, a young adult. A barbarian in furs and leather with war paint on the face, with a bear-skull helm pushed back; clothing accents in deep red. A male elf barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_elf_female",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · elf · female",
+   "subject": "an ELF woman: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, copper hair, golden-tan skin, in middle age. A barbarian in furs and leather with war paint on the face, with a two-handed maul; clothing accents in plum. A female elf barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_dwarf_male",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · dwarf · male",
+   "subject": "a DWARF man with a long, thick braided beard: very short and STOCKY, broad shoulders, a wide face and a broad nose, chestnut hair, a young adult. A barbarian in furs and leather with war paint on the face, with a cloak of white winter fur; clothing accents in navy blue. A male dwarf barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_dwarf_female",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · dwarf · female",
+   "subject": "a DWARF woman with thick braided hair and ruddy cheeks: very short and STOCKY, broad shoulders, a wide face and a broad nose, copper-red hair, older, with lines around the eyes and grey streaks. A barbarian in furs and leather with war paint on the face, with twin hand axes crossed on the back; clothing accents in navy blue. A female dwarf barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_halfling_male",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · halfling · male",
+   "subject": "a HALFLING man: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY honey-blond hair and slightly pointed ears; NOT a lean human and NOT an elf, in his thirties. A barbarian in furs and leather with war paint on the face, with a bone-hilted greatsword; clothing accents in teal. A male halfling barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_halfling_female",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · halfling · female",
+   "subject": "a HALFLING woman: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY honey-blond hair and slightly pointed ears; NOT a lean human and NOT an elf, a young adult. A barbarian in furs and leather with war paint on the face, with a horned helm; clothing accents in deep red. A female halfling barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_dragonborn_male",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · dragonborn · male",
+   "subject": "a DRAGONBORN man: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of heavy swept-back horns, a small frill, NO ears and NO hair, copper scales covering the head and neck; a humanoid body with two arms and hands like a person, a young adult. A barbarian in furs and leather with war paint on the face, with a spear wrapped in red cloth; clothing accents in navy blue. A male dragonborn barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_dragonborn_female",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · dragonborn · female",
+   "subject": "a DRAGONBORN woman: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of slender swept-back horns, a small frill, NO ears and NO hair, bronze scales covering the head and neck; a humanoid body with two arms and hands like a person, in middle age. A barbarian in furs and leather with war paint on the face, with an eagle-feather headdress; clothing accents in deep red. A female dragonborn barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_gnome_male",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · gnome · male",
+   "subject": "a GNOME man with a neatly trimmed short beard: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, chestnut hair; their gear looks a little oversized on them, in his thirties. A barbarian in furs and leather with war paint on the face, with a heavy club studded with iron; clothing accents in deep red. A male gnome barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_gnome_female",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · gnome · female",
+   "subject": "a GNOME woman: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, lavender hair; their gear looks a little oversized on them, in middle age. A barbarian in furs and leather with war paint on the face, with a boar-tusk necklace; clothing accents in plum. A female gnome barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_goliath_male",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · goliath · male",
+   "subject": "a GOLIATH man: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a bald head, small ears; clearly NOT a human: the skin is grey like rock, in his thirties. A barbarian in furs and leather with war paint on the face, with a stone-headed warhammer; clothing accents in burgundy. A male goliath barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_goliath_female",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · goliath · female",
+   "subject": "a GOLIATH woman: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a clearly FEMININE face (a woman, softer features, defined lips) with long dark hair in one thick braid, small ears; clearly NOT a human: the skin is grey like rock, a young adult. A barbarian in furs and leather with war paint on the face, with a great hide shield painted with a beast; clothing accents in ochre yellow. A female goliath barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_orc_male",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · orc · male",
+   "subject": "an ORC man: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), olive-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, black hair tied back, in his thirties. A barbarian in furs and leather with war paint on the face, with chains wrapped around the forearms; clothing accents in teal. A male orc barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_orc_female",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · orc · female",
+   "subject": "an ORC woman: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), grey-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, dark brown hair in thick braids, in her late twenties. A barbarian in furs and leather with war paint on the face, with a lion mane mantle; clothing accents in navy blue. A female orc barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_tiefling_male",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · tiefling · male",
+   "subject": "a TIEFLING man: dusky blue skin (NOT the pale purple of a dark elf), two spiralling HORNS rising from the forehead, solid glowing gold eyes with no pupils, pointed ears, dark violet hair, and a long thin devil TAIL visible curling beside them, older, with lines around the eyes and grey streaks. A barbarian in furs and leather with war paint on the face, with a flail with a spiked ball; clothing accents in charcoal grey. A male tiefling barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/barbarian_tiefling_female",
+   "kind": "portrait",
+   "group": "class:barbarian",
+   "name": "Barbarian · tiefling · female",
+   "subject": "a TIEFLING woman: wine-dark red skin (NOT the pale purple of a dark elf), two tall straight HORNS rising from the forehead, solid glowing amber eyes with no pupils, pointed ears, black hair, and a long thin devil TAIL visible curling beside them, a young adult. A barbarian in furs and leather with war paint on the face, with a torn red war banner tied to the belt; clothing accents in deep red. A female tiefling barbarian.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_human_male",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · human · male",
+   "subject": "an ordinary HUMAN man with round human ears and chestnut hair, fair freckled skin, in his thirties. A bard in a richly embroidered coat, with a lute; clothing accents in rust orange. A male human bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_human_female",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · human · female",
+   "subject": "an ordinary HUMAN woman with round human ears and sandy blond hair, deep brown skin, in her late twenties. A bard in a richly embroidered coat, with a silver flute; clothing accents in forest green. A female human bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_elf_male",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · elf · male",
+   "subject": "an ELF man: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, moss-brown hair, dusky grey-blue skin, in his late twenties. A bard in a richly embroidered coat, with a fiddle and bow; clothing accents in teal. A male elf bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_elf_female",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · elf · female",
+   "subject": "an ELF woman: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, raven black hair, golden-tan skin, in middle age. A bard in a richly embroidered coat, with a small harp; clothing accents in plum. A female elf bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_dwarf_male",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · dwarf · male",
+   "subject": "a DWARF man with a long, thick braided beard: very short and STOCKY, broad shoulders, a wide face and a broad nose, flaxen hair, older, with lines around the eyes and grey streaks. A bard in a richly embroidered coat, with a hand drum; clothing accents in teal. A male dwarf bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_dwarf_female",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · dwarf · female",
+   "subject": "a DWARF woman with thick braided hair and ruddy cheeks: very short and STOCKY, broad shoulders, a wide face and a broad nose, flaxen hair, older, with lines around the eyes and grey streaks. A bard in a richly embroidered coat, with a hurdy-gurdy; clothing accents in cream white. A female dwarf bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_halfling_male",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · halfling · male",
+   "subject": "a HALFLING man: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY honey-blond hair and slightly pointed ears; NOT a lean human and NOT an elf, in his thirties. A bard in a richly embroidered coat, with a long feathered quill and a song sheet; clothing accents in ochre yellow. A male halfling bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_halfling_female",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · halfling · female",
+   "subject": "a HALFLING woman: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY honey-blond hair and slightly pointed ears; NOT a lean human and NOT an elf, in her late twenties. A bard in a richly embroidered coat, with a lyre; clothing accents in burgundy. A female halfling bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_dragonborn_male",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · dragonborn · male",
+   "subject": "a DRAGONBORN man: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of heavy swept-back horns, a small frill, NO ears and NO hair, pearl white scales covering the head and neck; a humanoid body with two arms and hands like a person, in his thirties. A bard in a richly embroidered coat, with a pair of finger cymbals; clothing accents in cream white. A male dragonborn bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_dragonborn_female",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · dragonborn · female",
+   "subject": "a DRAGONBORN woman: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of slender swept-back horns, a small frill, NO ears and NO hair, onyx black scales covering the head and neck; a humanoid body with two arms and hands like a person, older, with lines around the eyes and grey streaks. A bard in a richly embroidered coat, with a horn trumpet; clothing accents in cream white. A female dragonborn bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_gnome_male",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · gnome · male",
+   "subject": "a GNOME man with a neatly trimmed short beard: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, wild teal hair; their gear looks a little oversized on them, a young adult. A bard in a richly embroidered coat, with a mandolin with ribbons; clothing accents in deep red. A male gnome bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_gnome_female",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · gnome · female",
+   "subject": "a GNOME woman: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, tangerine hair; their gear looks a little oversized on them, in her thirties. A bard in a richly embroidered coat, with a set of pan-pipes; clothing accents in plum. A female gnome bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_goliath_male",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · goliath · male",
+   "subject": "a GOLIATH man: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a bald head, small ears; clearly NOT a human: the skin is grey like rock, a young adult. A bard in a richly embroidered coat, with a tambourine; clothing accents in charcoal grey. A male goliath bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_goliath_female",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · goliath · female",
+   "subject": "a GOLIATH woman: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a clearly FEMININE face (a woman, softer features, defined lips) with long dark hair in one thick braid, small ears; clearly NOT a human: the skin is grey like rock, in middle age. A bard in a richly embroidered coat, with an accordion; clothing accents in sky blue. A female goliath bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_orc_male",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · orc · male",
+   "subject": "an ORC man: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), grey-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, dark brown hair tied back, in middle age. A bard in a richly embroidered coat, with a theatre mask held up beside the face; clothing accents in charcoal grey. A male orc bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_orc_female",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · orc · female",
+   "subject": "an ORC woman: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), moss-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, iron-grey hair in thick braids, older, with lines around the eyes and grey streaks. A bard in a richly embroidered coat, with a bagpipe; clothing accents in deep red. A female orc bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_tiefling_male",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · tiefling · male",
+   "subject": "a TIEFLING man: crimson skin (NOT the pale purple of a dark elf), two swept-back HORNS rising from the forehead, solid glowing red eyes with no pupils, pointed ears, deep red hair, and a long thin devil TAIL visible curling beside them, in his thirties. A bard in a richly embroidered coat, with a set of handbells; clothing accents in teal. A male tiefling bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/bard_tiefling_female",
+   "kind": "portrait",
+   "group": "class:bard",
+   "name": "Bard · tiefling · female",
+   "subject": "a TIEFLING woman: burnt orange skin (NOT the pale purple of a dark elf), two tall straight HORNS rising from the forehead, solid glowing amber eyes with no pupils, pointed ears, black hair, and a long thin devil TAIL visible curling beside them, a young adult. A bard in a richly embroidered coat, with a bodhrán frame drum with a beater; clothing accents in forest green. A female tiefling bard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_human_male",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · human · male",
+   "subject": "an ordinary HUMAN man with round human ears and dark red hair and a short beard, fair freckled skin, in middle age. A cleric in vestments over scale armour with a sun-disc holy symbol, with a sun-disc holy symbol and a mace; clothing accents in sky blue. A male human cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_human_female",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · human · female",
+   "subject": "an ordinary HUMAN woman with round human ears and chestnut hair, deep brown skin, a young adult. A cleric in vestments over scale armour with a sun-disc holy symbol, with a glowing prayer book; clothing accents in charcoal grey. A female human cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_elf_male",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · elf · male",
+   "subject": "an ELF man: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, copper hair, pale skin, older, with lines around the eyes and grey streaks. A cleric in vestments over scale armour with a sun-disc holy symbol, with a censer trailing incense smoke; clothing accents in navy blue. A male elf cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_elf_female",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · elf · female",
+   "subject": "an ELF woman: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, moss-brown hair, pale skin, older, with lines around the eyes and grey streaks. A cleric in vestments over scale armour with a sun-disc holy symbol, with a warhammer and a round shield; clothing accents in forest green. A female elf cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_dwarf_male",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · dwarf · male",
+   "subject": "a DWARF man with a long, thick braided beard: very short and STOCKY, broad shoulders, a wide face and a broad nose, chestnut hair, a young adult. A cleric in vestments over scale armour with a sun-disc holy symbol, with a staff topped with a radiant star; clothing accents in cream white. A male dwarf cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_dwarf_female",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · dwarf · female",
+   "subject": "a DWARF woman with thick braided hair and ruddy cheeks: very short and STOCKY, broad shoulders, a wide face and a broad nose, jet black hair, older, with lines around the eyes and grey streaks. A cleric in vestments over scale armour with a sun-disc holy symbol, with a string of prayer beads; clothing accents in charcoal grey. A female dwarf cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_halfling_male",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · halfling · male",
+   "subject": "a HALFLING man: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY honey-blond hair and slightly pointed ears; NOT a lean human and NOT an elf, in his thirties. A cleric in vestments over scale armour with a sun-disc holy symbol, with a lantern of holy light; clothing accents in forest green. A male halfling cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_halfling_female",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · halfling · female",
+   "subject": "a HALFLING woman: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY honey-blond hair and slightly pointed ears; NOT a lean human and NOT an elf, a young adult. A cleric in vestments over scale armour with a sun-disc holy symbol, with a flanged mace resting on the shoulder; clothing accents in forest green. A female halfling cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_dragonborn_male",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · dragonborn · male",
+   "subject": "a DRAGONBORN man: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of heavy swept-back horns, a small frill, NO ears and NO hair, pearl white scales covering the head and neck; a humanoid body with two arms and hands like a person, in his late twenties. A cleric in vestments over scale armour with a sun-disc holy symbol, with a silver chalice; clothing accents in plum. A male dragonborn cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_dragonborn_female",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · dragonborn · female",
+   "subject": "a DRAGONBORN woman: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of slender swept-back horns, a small frill, NO ears and NO hair, emerald green scales covering the head and neck; a humanoid body with two arms and hands like a person, a young adult. A cleric in vestments over scale armour with a sun-disc holy symbol, with a sun-emblazoned kite shield; clothing accents in navy blue. A female dragonborn cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_gnome_male",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · gnome · male",
+   "subject": "a GNOME man with a neatly trimmed short beard: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, tangerine hair; their gear looks a little oversized on them, in his late twenties. A cleric in vestments over scale armour with a sun-disc holy symbol, with a reliquary box on a chain; clothing accents in rust orange. A male gnome cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_gnome_female",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · gnome · female",
+   "subject": "a GNOME woman: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, wild teal hair; their gear looks a little oversized on them, a young adult. A cleric in vestments over scale armour with a sun-disc holy symbol, with a halo of soft light; clothing accents in burgundy. A female gnome cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_goliath_male",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · goliath · male",
+   "subject": "a GOLIATH man: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a bald head, small ears; clearly NOT a human: the skin is grey like rock, a young adult. A cleric in vestments over scale armour with a sun-disc holy symbol, with a ceremonial bell; clothing accents in ochre yellow. A male goliath cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_goliath_female",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · goliath · female",
+   "subject": "a GOLIATH woman: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a clearly FEMININE face (a woman, softer features, defined lips) with long dark hair in one thick braid, small ears; clearly NOT a human: the skin is grey like rock, a young adult. A cleric in vestments over scale armour with a sun-disc holy symbol, with a white stole embroidered with gold; clothing accents in navy blue. A female goliath cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_orc_male",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · orc · male",
+   "subject": "an ORC man: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), moss-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, black hair tied back, in middle age. A cleric in vestments over scale armour with a sun-disc holy symbol, with a crook-shaped shepherd staff; clothing accents in rust orange. A male orc cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_orc_female",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · orc · female",
+   "subject": "an ORC woman: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), ash-grey skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, dark brown hair in thick braids, in her late twenties. A cleric in vestments over scale armour with a sun-disc holy symbol, with a bundle of healing herbs; clothing accents in charcoal grey. A female orc cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_tiefling_male",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · tiefling · male",
+   "subject": "a TIEFLING man: burnt orange skin (NOT the pale purple of a dark elf), two tall straight HORNS rising from the forehead, solid glowing amber eyes with no pupils, pointed ears, black hair, and a long thin devil TAIL visible curling beside them, a young adult. A cleric in vestments over scale armour with a sun-disc holy symbol, with a candle cupped in both hands; clothing accents in teal. A male tiefling cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/cleric_tiefling_female",
+   "kind": "portrait",
+   "group": "class:cleric",
+   "name": "Cleric · tiefling · female",
+   "subject": "a TIEFLING woman: rose-red skin (NOT the pale purple of a dark elf), two spiralling HORNS rising from the forehead, solid glowing gold eyes with no pupils, pointed ears, dark violet hair, and a long thin devil TAIL visible curling beside them, in her late twenties. A cleric in vestments over scale armour with a sun-disc holy symbol, with a winged helm; clothing accents in sky blue. A female tiefling cleric.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_human_male",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · human · male",
+   "subject": "an ordinary HUMAN man with round human ears and black hair and a short beard, tan skin, in his late twenties. A druid in leaves, bark and woven green cloth, with a gnarled oak staff; clothing accents in charcoal grey. A male human druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_human_female",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · human · female",
+   "subject": "an ordinary HUMAN woman with round human ears and auburn hair, tan skin, in her late twenties. A druid in leaves, bark and woven green cloth, with a crown of antlers; clothing accents in plum. A female human druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_elf_male",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · elf · male",
+   "subject": "an ELF man: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, pale gold hair, pale skin, in his thirties. A druid in leaves, bark and woven green cloth, with a raven on the shoulder; clothing accents in sky blue. A male elf druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_elf_female",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · elf · female",
+   "subject": "an ELF woman: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, silver-white hair, golden-tan skin, older, with lines around the eyes and grey streaks. A druid in leaves, bark and woven green cloth, with a sickle of bronze; clothing accents in plum. A female elf druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_dwarf_male",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · dwarf · male",
+   "subject": "a DWARF man with a long, thick braided beard: very short and STOCKY, broad shoulders, a wide face and a broad nose, iron-grey hair, older, with lines around the eyes and grey streaks. A druid in leaves, bark and woven green cloth, with mushrooms woven into the hair; clothing accents in charcoal grey. A male dwarf druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_dwarf_female",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · dwarf · female",
+   "subject": "a DWARF woman with thick braided hair and ruddy cheeks: very short and STOCKY, broad shoulders, a wide face and a broad nose, copper-red hair, in her late twenties. A druid in leaves, bark and woven green cloth, with a fox curled on the shoulders; clothing accents in deep red. A female dwarf druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_halfling_male",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · halfling · male",
+   "subject": "a HALFLING man: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY brown hair and slightly pointed ears; NOT a lean human and NOT an elf, in middle age. A druid in leaves, bark and woven green cloth, with a staff sprouting fresh leaves; clothing accents in plum. A male halfling druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_halfling_female",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · halfling · female",
+   "subject": "a HALFLING woman: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY honey-blond hair and slightly pointed ears; NOT a lean human and NOT an elf, in middle age. A druid in leaves, bark and woven green cloth, with a cloak of living vines; clothing accents in forest green. A female halfling druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_dragonborn_male",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · dragonborn · male",
+   "subject": "a DRAGONBORN man: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of heavy swept-back horns, a small frill, NO ears and NO hair, emerald green scales covering the head and neck; a humanoid body with two arms and hands like a person, in his late twenties. A druid in leaves, bark and woven green cloth, with a small owl perched on one arm; clothing accents in charcoal grey. A male dragonborn druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_dragonborn_female",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · dragonborn · female",
+   "subject": "a DRAGONBORN woman: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of slender swept-back horns, a small frill, NO ears and NO hair, brass scales covering the head and neck; a humanoid body with two arms and hands like a person, in her late twenties. A druid in leaves, bark and woven green cloth, with a wreath of wildflowers; clothing accents in rust orange. A female dragonborn druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_gnome_male",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · gnome · male",
+   "subject": "a GNOME man with a neatly trimmed short beard: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, tangerine hair; their gear looks a little oversized on them, older, with lines around the eyes and grey streaks. A druid in leaves, bark and woven green cloth, with a deer-skull mask pushed up on the head; clothing accents in deep red. A male gnome druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_gnome_female",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · gnome · female",
+   "subject": "a GNOME woman: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, snow-white hair; their gear looks a little oversized on them, in her thirties. A druid in leaves, bark and woven green cloth, with a lantern holding fireflies; clothing accents in deep red. A female gnome druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_goliath_male",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · goliath · male",
+   "subject": "a GOLIATH man: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a bald head, small ears; clearly NOT a human: the skin is grey like rock, in his late twenties. A druid in leaves, bark and woven green cloth, with a pouch of glowing seeds; clothing accents in plum. A male goliath druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_goliath_female",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · goliath · female",
+   "subject": "a GOLIATH woman: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a clearly FEMININE face (a woman, softer features, defined lips) with long dark hair in one thick braid, small ears; clearly NOT a human: the skin is grey like rock, in middle age. A druid in leaves, bark and woven green cloth, with a snake coiled around one arm; clothing accents in forest green. A female goliath druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_orc_male",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · orc · male",
+   "subject": "an ORC man: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), ash-grey skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, black hair tied back, older, with lines around the eyes and grey streaks. A druid in leaves, bark and woven green cloth, with a wooden totem carved with animals; clothing accents in cream white. A male orc druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_orc_female",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · orc · female",
+   "subject": "an ORC woman: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), grey-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, black hair in thick braids, in her thirties. A druid in leaves, bark and woven green cloth, with a mantle of moss; clothing accents in rust orange. A female orc druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_tiefling_male",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · tiefling · male",
+   "subject": "a TIEFLING man: burnt orange skin (NOT the pale purple of a dark elf), two tall straight HORNS rising from the forehead, solid glowing amber eyes with no pupils, pointed ears, black hair, and a long thin devil TAIL visible curling beside them, older, with lines around the eyes and grey streaks. A druid in leaves, bark and woven green cloth, with a hawk feather fan; clothing accents in charcoal grey. A male tiefling druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/druid_tiefling_female",
+   "kind": "portrait",
+   "group": "class:druid",
+   "name": "Druid · tiefling · female",
+   "subject": "a TIEFLING woman: rose-red skin (NOT the pale purple of a dark elf), two spiralling HORNS rising from the forehead, solid glowing gold eyes with no pupils, pointed ears, dark violet hair, and a long thin devil TAIL visible curling beside them, older, with lines around the eyes and grey streaks. A druid in leaves, bark and woven green cloth, with a hare peeking from the cloak; clothing accents in forest green. A female tiefling druid.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_human_male",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · human · male",
+   "subject": "an ordinary HUMAN man with round human ears and black hair and a short beard, deep brown skin, in his late twenties. A fighter in practical soldier's armour, with a longsword and a round steel shield; clothing accents in plum. A male human fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_human_female",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · human · female",
+   "subject": "an ordinary HUMAN woman with round human ears and brown hair, olive skin, older, with lines around the eyes and grey streaks. A fighter in practical soldier's armour, with a greatsword over the shoulder; clothing accents in forest green. A female human fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_elf_male",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · elf · male",
+   "subject": "an ELF man: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, moss-brown hair, dusky grey-blue skin, a young adult. A fighter in practical soldier's armour, with a halberd; clothing accents in forest green. A male elf fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_elf_female",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · elf · female",
+   "subject": "an ELF woman: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, copper hair, pale skin, a young adult. A fighter in practical soldier's armour, with a crossbow and a short sword; clothing accents in rust orange. A female elf fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_dwarf_male",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · dwarf · male",
+   "subject": "a DWARF man with a long, thick braided beard: very short and STOCKY, broad shoulders, a wide face and a broad nose, jet black hair, in his late twenties. A fighter in practical soldier's armour, with a kite shield with a lion crest; clothing accents in cream white. A male dwarf fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_dwarf_female",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · dwarf · female",
+   "subject": "a DWARF woman with thick braided hair and ruddy cheeks: very short and STOCKY, broad shoulders, a wide face and a broad nose, copper-red hair, a young adult. A fighter in practical soldier's armour, with a battle axe; clothing accents in navy blue. A female dwarf fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_halfling_male",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · halfling · male",
+   "subject": "a HALFLING man: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY honey-blond hair and slightly pointed ears; NOT a lean human and NOT an elf, in his late twenties. A fighter in practical soldier's armour, with a heavy flail; clothing accents in charcoal grey. A male halfling fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_halfling_female",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · halfling · female",
+   "subject": "a HALFLING woman: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY honey-blond hair and slightly pointed ears; NOT a lean human and NOT an elf, in her late twenties. A fighter in practical soldier's armour, with a visored helm held under one arm; clothing accents in navy blue. A female halfling fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_dragonborn_male",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · dragonborn · male",
+   "subject": "a DRAGONBORN man: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of heavy swept-back horns, a small frill, NO ears and NO hair, pearl white scales covering the head and neck; a humanoid body with two arms and hands like a person, in his thirties. A fighter in practical soldier's armour, with twin short swords; clothing accents in plum. A male dragonborn fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_dragonborn_female",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · dragonborn · female",
+   "subject": "a DRAGONBORN woman: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of slender swept-back horns, a small frill, NO ears and NO hair, silver scales covering the head and neck; a humanoid body with two arms and hands like a person, in her thirties. A fighter in practical soldier's armour, with a long spear; clothing accents in deep red. A female dragonborn fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_gnome_male",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · gnome · male",
+   "subject": "a GNOME man with a neatly trimmed short beard: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, wild teal hair; their gear looks a little oversized on them, in his thirties. A fighter in practical soldier's armour, with a war pick; clothing accents in navy blue. A male gnome fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_gnome_female",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · gnome · female",
+   "subject": "a GNOME woman: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, lavender hair; their gear looks a little oversized on them, in her late twenties. A fighter in practical soldier's armour, with a red plumed helm; clothing accents in deep red. A female gnome fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_goliath_male",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · goliath · male",
+   "subject": "a GOLIATH man: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a bald head, small ears; clearly NOT a human: the skin is grey like rock, in his thirties. A fighter in practical soldier's armour, with a glaive; clothing accents in plum. A male goliath fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_goliath_female",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · goliath · female",
+   "subject": "a GOLIATH woman: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a clearly FEMININE face (a woman, softer features, defined lips) with long dark hair in one thick braid, small ears; clearly NOT a human: the skin is grey like rock, in her late twenties. A fighter in practical soldier's armour, with a tower shield; clothing accents in charcoal grey. A female goliath fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_orc_male",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · orc · male",
+   "subject": "an ORC man: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), grey-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, iron-grey hair tied back, in his thirties. A fighter in practical soldier's armour, with a morningstar; clothing accents in teal. A male orc fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_orc_female",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · orc · female",
+   "subject": "an ORC woman: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), grey-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, dark brown hair in thick braids, in her thirties. A fighter in practical soldier's armour, with a scarred chain-mail coif; clothing accents in sky blue. A female orc fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_tiefling_male",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · tiefling · male",
+   "subject": "a TIEFLING man: wine-dark red skin (NOT the pale purple of a dark elf), two tall straight HORNS rising from the forehead, solid glowing amber eyes with no pupils, pointed ears, black hair, and a long thin devil TAIL visible curling beside them, in middle age. A fighter in practical soldier's armour, with a rapier and a parrying dagger; clothing accents in plum. A male tiefling fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/fighter_tiefling_female",
+   "kind": "portrait",
+   "group": "class:fighter",
+   "name": "Fighter · tiefling · female",
+   "subject": "a TIEFLING woman: burnt orange skin (NOT the pale purple of a dark elf), two tall straight HORNS rising from the forehead, solid glowing amber eyes with no pupils, pointed ears, black hair, and a long thin devil TAIL visible curling beside them, a young adult. A fighter in practical soldier's armour, with a lance pennant tied to the shoulder; clothing accents in charcoal grey. A female tiefling fighter.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_human_male",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · human · male",
+   "subject": "an ordinary HUMAN man with round human ears and black hair and a short beard, olive skin, older, with lines around the eyes and grey streaks. A monk in simple wrapped robes with taped fists, with prayer beads; clothing accents in navy blue. A male human monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_human_female",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · human · female",
+   "subject": "an ordinary HUMAN woman with round human ears and dark red hair, warm brown skin, older, with lines around the eyes and grey streaks. A monk in simple wrapped robes with taped fists, with a bo staff; clothing accents in deep red. A female human monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_elf_male",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · elf · male",
+   "subject": "an ELF man: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, copper hair, warm brown skin, in middle age. A monk in simple wrapped robes with taped fists, with a straw hat; clothing accents in navy blue. A male elf monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_elf_female",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · elf · female",
+   "subject": "an ELF woman: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, pale gold hair, warm brown skin, in her late twenties. A monk in simple wrapped robes with taped fists, with a pair of nunchaku; clothing accents in ochre yellow. A female elf monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_dwarf_male",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · dwarf · male",
+   "subject": "a DWARF man with a long, thick braided beard: very short and STOCKY, broad shoulders, a wide face and a broad nose, copper-red hair, a young adult. A monk in simple wrapped robes with taped fists, with a wooden begging bowl; clothing accents in plum. A male dwarf monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_dwarf_female",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · dwarf · female",
+   "subject": "a DWARF woman with thick braided hair and ruddy cheeks: very short and STOCKY, broad shoulders, a wide face and a broad nose, copper-red hair, in middle age. A monk in simple wrapped robes with taped fists, with a crackle of blue ki between the palms; clothing accents in burgundy. A female dwarf monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_halfling_male",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · halfling · male",
+   "subject": "a HALFLING man: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY black hair and slightly pointed ears; NOT a lean human and NOT an elf, in his thirties. A monk in simple wrapped robes with taped fists, with a shaved head and a meditation mark; clothing accents in plum. A male halfling monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_halfling_female",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · halfling · female",
+   "subject": "a HALFLING woman: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY russet hair and slightly pointed ears; NOT a lean human and NOT an elf, older, with lines around the eyes and grey streaks. A monk in simple wrapped robes with taped fists, with a pair of sai; clothing accents in burgundy. A female halfling monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_dragonborn_male",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · dragonborn · male",
+   "subject": "a DRAGONBORN man: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of heavy swept-back horns, a small frill, NO ears and NO hair, emerald green scales covering the head and neck; a humanoid body with two arms and hands like a person, older, with lines around the eyes and grey streaks. A monk in simple wrapped robes with taped fists, with a rope belt with a gourd; clothing accents in deep red. A male dragonborn monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_dragonborn_female",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · dragonborn · female",
+   "subject": "a DRAGONBORN woman: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of slender swept-back horns, a small frill, NO ears and NO hair, deep red scales covering the head and neck; a humanoid body with two arms and hands like a person, older, with lines around the eyes and grey streaks. A monk in simple wrapped robes with taped fists, with a kama sickle; clothing accents in deep red. A female dragonborn monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_gnome_male",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · gnome · male",
+   "subject": "a GNOME man with a neatly trimmed short beard: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, lavender hair; their gear looks a little oversized on them, in middle age. A monk in simple wrapped robes with taped fists, with a long braid wrapped around the neck; clothing accents in burgundy. A male gnome monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_gnome_female",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · gnome · female",
+   "subject": "a GNOME woman: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, chestnut hair; their gear looks a little oversized on them, in her thirties. A monk in simple wrapped robes with taped fists, with a smooth river stone balanced on one palm; clothing accents in sky blue. A female gnome monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_goliath_male",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · goliath · male",
+   "subject": "a GOLIATH man: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a bald head, small ears; clearly NOT a human: the skin is grey like rock, in his late twenties. A monk in simple wrapped robes with taped fists, with a three-section staff; clothing accents in navy blue. A male goliath monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_goliath_female",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · goliath · female",
+   "subject": "a GOLIATH woman: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a clearly FEMININE face (a woman, softer features, defined lips) with long dark hair in one thick braid, small ears; clearly NOT a human: the skin is grey like rock, a young adult. A monk in simple wrapped robes with taped fists, with a bamboo flute at the belt; clothing accents in deep red. A female goliath monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_orc_male",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · orc · male",
+   "subject": "an ORC man: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), olive-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, black hair tied back, in middle age. A monk in simple wrapped robes with taped fists, with iron bracers; clothing accents in cream white. A male orc monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_orc_female",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · orc · female",
+   "subject": "an ORC woman: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), moss-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, black hair in thick braids, in her thirties. A monk in simple wrapped robes with taped fists, with a falling cherry blossom caught in one hand; clothing accents in teal. A female orc monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_tiefling_male",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · tiefling · male",
+   "subject": "a TIEFLING man: crimson skin (NOT the pale purple of a dark elf), two spiralling HORNS rising from the forehead, solid glowing gold eyes with no pupils, pointed ears, dark violet hair, and a long thin devil TAIL visible curling beside them, older, with lines around the eyes and grey streaks. A monk in simple wrapped robes with taped fists, with a temple bell pendant; clothing accents in ochre yellow. A male tiefling monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/monk_tiefling_female",
+   "kind": "portrait",
+   "group": "class:monk",
+   "name": "Monk · tiefling · female",
+   "subject": "a TIEFLING woman: deep red skin (NOT the pale purple of a dark elf), two curled ram HORNS rising from the forehead, solid glowing silver eyes with no pupils, pointed ears, dark brown hair, and a long thin devil TAIL visible curling beside them, older, with lines around the eyes and grey streaks. A monk in simple wrapped robes with taped fists, with a monk's spade staff; clothing accents in charcoal grey. A female tiefling monk.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_human_male",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · human · male",
+   "subject": "an ordinary HUMAN man with round human ears and brown hair, fair freckled skin, in his late twenties. A paladin in polished plate armour with a tabard, with a longsword raised in salute; clothing accents in sky blue. A male human paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_human_female",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · human · female",
+   "subject": "an ordinary HUMAN woman with round human ears and auburn hair, warm brown skin, older, with lines around the eyes and grey streaks. A paladin in polished plate armour with a tabard, with a sunburst kite shield; clothing accents in sky blue. A female human paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_elf_male",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · elf · male",
+   "subject": "an ELF man: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, copper hair, golden-tan skin, a young adult. A paladin in polished plate armour with a tabard, with a warhammer; clothing accents in ochre yellow. A male elf paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_elf_female",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · elf · female",
+   "subject": "an ELF woman: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, pale gold hair, pale skin, a young adult. A paladin in polished plate armour with a tabard, with a radiant halo; clothing accents in forest green. A female elf paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_dwarf_male",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · dwarf · male",
+   "subject": "a DWARF man with a long, thick braided beard: very short and STOCKY, broad shoulders, a wide face and a broad nose, copper-red hair, in middle age. A paladin in polished plate armour with a tabard, with a winged helm; clothing accents in rust orange. A male dwarf paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_dwarf_female",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · dwarf · female",
+   "subject": "a DWARF woman with thick braided hair and ruddy cheeks: very short and STOCKY, broad shoulders, a wide face and a broad nose, copper-red hair, older, with lines around the eyes and grey streaks. A paladin in polished plate armour with a tabard, with a holy lance; clothing accents in charcoal grey. A female dwarf paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_halfling_male",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · halfling · male",
+   "subject": "a HALFLING man: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY brown hair and slightly pointed ears; NOT a lean human and NOT an elf, older, with lines around the eyes and grey streaks. A paladin in polished plate armour with a tabard, with a heater shield with a white rose; clothing accents in sky blue. A male halfling paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_halfling_female",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · halfling · female",
+   "subject": "a HALFLING woman: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY brown hair and slightly pointed ears; NOT a lean human and NOT an elf, in middle age. A paladin in polished plate armour with a tabard, with a great holy blade; clothing accents in forest green. A female halfling paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_dragonborn_male",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · dragonborn · male",
+   "subject": "a DRAGONBORN man: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of heavy swept-back horns, a small frill, NO ears and NO hair, silver scales covering the head and neck; a humanoid body with two arms and hands like a person, in his late twenties. A paladin in polished plate armour with a tabard, with a flowing blue cape; clothing accents in rust orange. A male dragonborn paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_dragonborn_female",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · dragonborn · female",
+   "subject": "a DRAGONBORN woman: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of slender swept-back horns, a small frill, NO ears and NO hair, brass scales covering the head and neck; a humanoid body with two arms and hands like a person, older, with lines around the eyes and grey streaks. A paladin in polished plate armour with a tabard, with a sacred tome chained to the belt; clothing accents in cream white. A female dragonborn paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_gnome_male",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · gnome · male",
+   "subject": "a GNOME man with a neatly trimmed short beard: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, snow-white hair; their gear looks a little oversized on them, in his late twenties. A paladin in polished plate armour with a tabard, with a gilded mace; clothing accents in plum. A male gnome paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_gnome_female",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · gnome · female",
+   "subject": "a GNOME woman: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, chestnut hair; their gear looks a little oversized on them, older, with lines around the eyes and grey streaks. A paladin in polished plate armour with a tabard, with a laurel circlet; clothing accents in charcoal grey. A female gnome paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_goliath_male",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · goliath · male",
+   "subject": "a GOLIATH man: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a bald head, small ears; clearly NOT a human: the skin is grey like rock, in his thirties. A paladin in polished plate armour with a tabard, with an oath scroll sealed with wax; clothing accents in charcoal grey. A male goliath paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_goliath_female",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · goliath · female",
+   "subject": "a GOLIATH woman: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a clearly FEMININE face (a woman, softer features, defined lips) with long dark hair in one thick braid, small ears; clearly NOT a human: the skin is grey like rock, in her thirties. A paladin in polished plate armour with a tabard, with a glowing sword held point-down; clothing accents in deep red. A female goliath paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_orc_male",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · orc · male",
+   "subject": "an ORC man: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), moss-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, black hair tied back, older, with lines around the eyes and grey streaks. A paladin in polished plate armour with a tabard, with a lion-headed pauldron; clothing accents in teal. A male orc paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_orc_female",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · orc · female",
+   "subject": "an ORC woman: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), moss-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, black hair in thick braids, a young adult. A paladin in polished plate armour with a tabard, with a banner of a rising sun; clothing accents in forest green. A female orc paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_tiefling_male",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · tiefling · male",
+   "subject": "a TIEFLING man: deep red skin (NOT the pale purple of a dark elf), two curled ram HORNS rising from the forehead, solid glowing silver eyes with no pupils, pointed ears, dark brown hair, and a long thin devil TAIL visible curling beside them, in his late twenties. A paladin in polished plate armour with a tabard, with a crystal-pommel bastard sword; clothing accents in ochre yellow. A male tiefling paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/paladin_tiefling_female",
+   "kind": "portrait",
+   "group": "class:paladin",
+   "name": "Paladin · tiefling · female",
+   "subject": "a TIEFLING woman: burnt orange skin (NOT the pale purple of a dark elf), two tall straight HORNS rising from the forehead, solid glowing amber eyes with no pupils, pointed ears, black hair, and a long thin devil TAIL visible curling beside them, older, with lines around the eyes and grey streaks. A paladin in polished plate armour with a tabard, with a gauntlet raised with a glowing palm; clothing accents in plum. A female tiefling paladin.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_human_male",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · human · male",
+   "subject": "an ordinary HUMAN man with round human ears and dark red hair and a short beard, fair freckled skin, in his thirties. A ranger in a hooded cloak and travel leathers, with a longbow; clothing accents in sky blue. A male human ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_human_female",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · human · female",
+   "subject": "an ordinary HUMAN woman with round human ears and dark red hair, olive skin, in her late twenties. A ranger in a hooded cloak and travel leathers, with a hawk on the arm; clothing accents in cream white. A female human ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_elf_male",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · elf · male",
+   "subject": "an ELF man: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, copper hair, golden-tan skin, in his thirties. A ranger in a cloak with its hood hanging DOWN behind the neck (bare head) and travel leathers, with a wolf companion at the shoulder; clothing accents in burgundy. Nothing covers the head: the hair and pointed ears are in full view. A male elf ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_elf_female",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · elf · female",
+   "subject": "an ELF woman: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, copper hair, golden-tan skin, older, with lines around the eyes and grey streaks. A ranger in a cloak with its hood hanging DOWN behind the neck (bare head) and travel leathers, with a quiver of fletched arrows; clothing accents in forest green. Nothing covers the head: the hair and pointed ears are in full view. A female elf ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_dwarf_male",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · dwarf · male",
+   "subject": "a DWARF man with a long, thick braided beard: very short and STOCKY, broad shoulders, a wide face and a broad nose, jet black hair, in his thirties. A ranger in a hooded cloak and travel leathers, with twin hunting knives; clothing accents in burgundy. A male dwarf ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_dwarf_female",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · dwarf · female",
+   "subject": "a DWARF woman with thick braided hair and ruddy cheeks: very short and STOCKY, broad shoulders, a wide face and a broad nose, jet black hair, in her late twenties. A ranger in a hooded cloak and travel leathers, with a fur mantle; clothing accents in ochre yellow. A female dwarf ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_halfling_male",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · halfling · male",
+   "subject": "a HALFLING man: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY black hair and slightly pointed ears; NOT a lean human and NOT an elf, in middle age. A ranger in a hooded cloak and travel leathers, with a recurve bow; clothing accents in forest green. A male halfling ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_halfling_female",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · halfling · female",
+   "subject": "a HALFLING woman: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY black hair and slightly pointed ears; NOT a lean human and NOT an elf, in her late twenties. A ranger in a hooded cloak and travel leathers, with a spyglass; clothing accents in rust orange. A female halfling ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_dragonborn_male",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · dragonborn · male",
+   "subject": "a DRAGONBORN man: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of heavy swept-back horns, a small frill, NO ears and NO hair, sapphire blue scales covering the head and neck; a humanoid body with two arms and hands like a person, a young adult. A ranger in a cloak with its hood hanging DOWN behind the neck (bare head) and travel leathers, with a tracker's map case; clothing accents in plum. Nothing covers the head: the hair and horns are in full view. A male dragonborn ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_dragonborn_female",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · dragonborn · female",
+   "subject": "a DRAGONBORN woman: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of slender swept-back horns, a small frill, NO ears and NO hair, gold scales covering the head and neck; a humanoid body with two arms and hands like a person, in middle age. A ranger in a cloak with its hood hanging DOWN behind the neck (bare head) and travel leathers, with a falcon-feather cap; clothing accents in cream white. Nothing covers the head: the hair and horns are in full view. A female dragonborn ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_gnome_male",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · gnome · male",
+   "subject": "a GNOME man with a neatly trimmed short beard: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, chestnut hair; their gear looks a little oversized on them, a young adult. A ranger in a cloak with its hood hanging DOWN behind the neck (bare head) and travel leathers, with a short spear; clothing accents in plum. Nothing covers the head: the hair and pointed ears are in full view. A male gnome ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_gnome_female",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · gnome · female",
+   "subject": "a GNOME woman: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, wild teal hair; their gear looks a little oversized on them, a young adult. A ranger in a cloak with its hood hanging DOWN behind the neck (bare head) and travel leathers, with a lynx companion; clothing accents in charcoal grey. Nothing covers the head: the hair and pointed ears are in full view. A female gnome ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_goliath_male",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · goliath · male",
+   "subject": "a GOLIATH man: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a bald head, small ears; clearly NOT a human: the skin is grey like rock, in his late twenties. A ranger in a hooded cloak and travel leathers, with a horn for calling; clothing accents in cream white. A male goliath ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_goliath_female",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · goliath · female",
+   "subject": "a GOLIATH woman: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a clearly FEMININE face (a woman, softer features, defined lips) with long dark hair in one thick braid, small ears; clearly NOT a human: the skin is grey like rock, a young adult. A ranger in a hooded cloak and travel leathers, with a crossbow; clothing accents in deep red. A female goliath ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_orc_male",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · orc · male",
+   "subject": "an ORC man: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), olive-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, black hair tied back, in middle age. A ranger in a cloak with its hood hanging DOWN behind the neck (bare head) and travel leathers, with a raven feather cloak; clothing accents in ochre yellow. Nothing covers the head: the hair and pointed ears are in full view. A male orc ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_orc_female",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · orc · female",
+   "subject": "an ORC woman: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), olive-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, black hair in thick braids, in middle age. A ranger in a cloak with its hood hanging DOWN behind the neck (bare head) and travel leathers, with a coil of rope and a grappling hook; clothing accents in burgundy. Nothing covers the head: the hair and pointed ears are in full view. A female orc ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_tiefling_male",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · tiefling · male",
+   "subject": "a TIEFLING man: deep red skin (NOT the pale purple of a dark elf), two curled ram HORNS rising from the forehead, solid glowing silver eyes with no pupils, pointed ears, dark brown hair, and a long thin devil TAIL visible curling beside them, a young adult. A ranger in a cloak with its hood hanging DOWN behind the neck (bare head) and travel leathers, with a woodsman's hand axe; clothing accents in deep red. Nothing covers the head: the hair and horns are in full view. A male tiefling ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/ranger_tiefling_female",
+   "kind": "portrait",
+   "group": "class:ranger",
+   "name": "Ranger · tiefling · female",
+   "subject": "a TIEFLING woman: burnt orange skin (NOT the pale purple of a dark elf), two curled ram HORNS rising from the forehead, solid glowing silver eyes with no pupils, pointed ears, dark brown hair, and a long thin devil TAIL visible curling beside them, in her thirties. A ranger in a cloak with its hood hanging DOWN behind the neck (bare head) and travel leathers, with a bone whistle; clothing accents in sky blue. Nothing covers the head: the hair and horns are in full view. A female tiefling ranger.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_human_male",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · human · male",
+   "subject": "an ordinary HUMAN man with round human ears and auburn hair, tan skin, in his thirties. A rogue in dark fitted leathers, with a dagger twirled between the fingers; clothing accents in ochre yellow. A male human rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_human_female",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · human · female",
+   "subject": "an ordinary HUMAN woman with round human ears and sandy blond hair, deep brown skin, in her thirties. A rogue in dark fitted leathers, with a deep hood; clothing accents in navy blue. A female human rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_elf_male",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · elf · male",
+   "subject": "an ELF man: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, raven black hair, dusky grey-blue skin, in his late twenties. A rogue in dark fitted leathers, with a mask over the lower face; clothing accents in navy blue. A male elf rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_elf_female",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · elf · female",
+   "subject": "an ELF woman: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, pale gold hair, pale skin, older, with lines around the eyes and grey streaks. A rogue in dark fitted leathers, with twin short swords; clothing accents in charcoal grey. A female elf rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_dwarf_male",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · dwarf · male",
+   "subject": "a DWARF man with a long, thick braided beard: very short and STOCKY, broad shoulders, a wide face and a broad nose, flaxen hair, older, with lines around the eyes and grey streaks. A rogue in dark fitted leathers, with a lockpick tucked behind the ear; clothing accents in cream white. A male dwarf rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_dwarf_female",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · dwarf · female",
+   "subject": "a DWARF woman with thick braided hair and ruddy cheeks: very short and STOCKY, broad shoulders, a wide face and a broad nose, flaxen hair, older, with lines around the eyes and grey streaks. A rogue in dark fitted leathers, with a feathered tricorn hat; clothing accents in navy blue. A female dwarf rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_halfling_male",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · halfling · male",
+   "subject": "a HALFLING man: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY brown hair and slightly pointed ears; NOT a lean human and NOT an elf, in his late twenties. A rogue in dark fitted leathers, with a small crossbow; clothing accents in rust orange. A male halfling rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_halfling_female",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · halfling · female",
+   "subject": "a HALFLING woman: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY brown hair and slightly pointed ears; NOT a lean human and NOT an elf, older, with lines around the eyes and grey streaks. A rogue in dark fitted leathers, with a pouch of stolen coins; clothing accents in plum. A female halfling rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_dragonborn_male",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · dragonborn · male",
+   "subject": "a DRAGONBORN man: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of heavy swept-back horns, a small frill, NO ears and NO hair, silver scales covering the head and neck; a humanoid body with two arms and hands like a person, a young adult. A rogue in dark fitted leathers, with a curved knife; clothing accents in cream white. A male dragonborn rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_dragonborn_female",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · dragonborn · female",
+   "subject": "a DRAGONBORN woman: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of slender swept-back horns, a small frill, NO ears and NO hair, copper scales covering the head and neck; a humanoid body with two arms and hands like a person, in her thirties. A rogue in dark fitted leathers, with a rapier; clothing accents in ochre yellow. A female dragonborn rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_gnome_male",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · gnome · male",
+   "subject": "a GNOME man with a neatly trimmed short beard: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, snow-white hair; their gear looks a little oversized on them, a young adult. A rogue in dark fitted leathers, with a deck of cards fanned in one hand; clothing accents in burgundy. A male gnome rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_gnome_female",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · gnome · female",
+   "subject": "a GNOME woman: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, snow-white hair; their gear looks a little oversized on them, in her thirties. A rogue in dark fitted leathers, with a grappling line; clothing accents in navy blue. A female gnome rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_goliath_male",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · goliath · male",
+   "subject": "a GOLIATH man: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a bald head, small ears; clearly NOT a human: the skin is grey like rock, in his thirties. A rogue in dark fitted leathers, with a key ring; clothing accents in plum. A male goliath rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_goliath_female",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · goliath · female",
+   "subject": "a GOLIATH woman: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a clearly FEMININE face (a woman, softer features, defined lips) with long dark hair in one thick braid, small ears; clearly NOT a human: the skin is grey like rock, a young adult. A rogue in dark fitted leathers, with a pair of throwing stars; clothing accents in ochre yellow. A female goliath rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_orc_male",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · orc · male",
+   "subject": "an ORC man: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), olive-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, dark brown hair tied back, in middle age. A rogue in dark fitted leathers, with a smoke bomb; clothing accents in deep red. A male orc rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_orc_female",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · orc · female",
+   "subject": "an ORC woman: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), grey-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, iron-grey hair in thick braids, in her thirties. A rogue in dark fitted leathers, with a scarf wrapped high; clothing accents in deep red. A female orc rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_tiefling_male",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · tiefling · male",
+   "subject": "a TIEFLING man: burnt orange skin (NOT the pale purple of a dark elf), two curled ram HORNS rising from the forehead, solid glowing silver eyes with no pupils, pointed ears, dark brown hair, and a long thin devil TAIL visible curling beside them, in middle age. A rogue in dark fitted leathers, with a garrote cord; clothing accents in cream white. A male tiefling rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/rogue_tiefling_female",
+   "kind": "portrait",
+   "group": "class:rogue",
+   "name": "Rogue · tiefling · female",
+   "subject": "a TIEFLING woman: deep red skin (NOT the pale purple of a dark elf), two tall straight HORNS rising from the forehead, solid glowing amber eyes with no pupils, pointed ears, black hair, and a long thin devil TAIL visible curling beside them, in middle age. A rogue in dark fitted leathers, with a jewelled ring held up to the light; clothing accents in burgundy. A female tiefling rogue.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_human_male",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · human · male",
+   "subject": "an ordinary HUMAN man with round human ears and auburn hair, tan skin, older, with lines around the eyes and grey streaks. A sorcerer in flowing clothes with raw magic in the hands, with flames curling from the fingertips; clothing accents in charcoal grey. A male human sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_human_female",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · human · female",
+   "subject": "an ordinary HUMAN woman with round human ears and auburn hair, deep brown skin, older, with lines around the eyes and grey streaks. A sorcerer in flowing clothes with raw magic in the hands, with faint draconic scales on the cheeks; clothing accents in cream white. A female human sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_elf_male",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · elf · male",
+   "subject": "an ELF man: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, moss-brown hair, dusky grey-blue skin, in middle age. A sorcerer in flowing clothes with raw magic in the hands, with a crackle of lightning; clothing accents in plum. A male elf sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_elf_female",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · elf · female",
+   "subject": "an ELF woman: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, silver-white hair, dusky grey-blue skin, in her late twenties. A sorcerer in flowing clothes with raw magic in the hands, with swirling embers; clothing accents in burgundy. A female elf sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_dwarf_male",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · dwarf · male",
+   "subject": "a DWARF man with a long, thick braided beard: very short and STOCKY, broad shoulders, a wide face and a broad nose, flaxen hair, older, with lines around the eyes and grey streaks. A sorcerer in flowing clothes with raw magic in the hands, with a floating orb of fire; clothing accents in rust orange. A male dwarf sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_dwarf_female",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · dwarf · female",
+   "subject": "a DWARF woman with thick braided hair and ruddy cheeks: very short and STOCKY, broad shoulders, a wide face and a broad nose, copper-red hair, older, with lines around the eyes and grey streaks. A sorcerer in flowing clothes with raw magic in the hands, with glowing magma veins on the arms; clothing accents in navy blue. A female dwarf sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_halfling_male",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · halfling · male",
+   "subject": "a HALFLING man: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY honey-blond hair and slightly pointed ears; NOT a lean human and NOT an elf, a young adult. A sorcerer in flowing clothes with raw magic in the hands, with a ring of sparks; clothing accents in deep red. A male halfling sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_halfling_female",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · halfling · female",
+   "subject": "a HALFLING woman: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY honey-blond hair and slightly pointed ears; NOT a lean human and NOT an elf, older, with lines around the eyes and grey streaks. A sorcerer in flowing clothes with raw magic in the hands, with a staff wreathed in fire; clothing accents in rust orange. A female halfling sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_dragonborn_male",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · dragonborn · male",
+   "subject": "a DRAGONBORN man: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of heavy swept-back horns, a small frill, NO ears and NO hair, emerald green scales covering the head and neck; a humanoid body with two arms and hands like a person, in his late twenties. A sorcerer in flowing clothes with raw magic in the hands, with an amulet of a dragon eye; clothing accents in navy blue. A male dragonborn sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_dragonborn_female",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · dragonborn · female",
+   "subject": "a DRAGONBORN woman: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of slender swept-back horns, a small frill, NO ears and NO hair, silver scales covering the head and neck; a humanoid body with two arms and hands like a person, older, with lines around the eyes and grey streaks. A sorcerer in flowing clothes with raw magic in the hands, with hair lifted by a magical wind; clothing accents in navy blue. A female dragonborn sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_gnome_male",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · gnome · male",
+   "subject": "a GNOME man with a neatly trimmed short beard: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, snow-white hair; their gear looks a little oversized on them, in his thirties. A sorcerer in flowing clothes with raw magic in the hands, with a burning rose; clothing accents in deep red. A male gnome sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_gnome_female",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · gnome · female",
+   "subject": "a GNOME woman: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, lavender hair; their gear looks a little oversized on them, in middle age. A sorcerer in flowing clothes with raw magic in the hands, with a whirl of frost crystals; clothing accents in charcoal grey. A female gnome sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_goliath_male",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · goliath · male",
+   "subject": "a GOLIATH man: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a bald head, small ears; clearly NOT a human: the skin is grey like rock, older, with lines around the eyes and grey streaks. A sorcerer in flowing clothes with raw magic in the hands, with a ribbon of starlight; clothing accents in cream white. A male goliath sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_goliath_female",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · goliath · female",
+   "subject": "a GOLIATH woman: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a clearly FEMININE face (a woman, softer features, defined lips) with long dark hair in one thick braid, small ears; clearly NOT a human: the skin is grey like rock, in her late twenties. A sorcerer in flowing clothes with raw magic in the hands, with a cupped flame; clothing accents in charcoal grey. A female goliath sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_orc_male",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · orc · male",
+   "subject": "an ORC man: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), ash-grey skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, iron-grey hair tied back, older, with lines around the eyes and grey streaks. A sorcerer in flowing clothes with raw magic in the hands, with a shimmering heat haze; clothing accents in burgundy. A male orc sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_orc_female",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · orc · female",
+   "subject": "an ORC woman: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), ash-grey skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, black hair in thick braids, a young adult. A sorcerer in flowing clothes with raw magic in the hands, with a phoenix feather; clothing accents in teal. A female orc sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_tiefling_male",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · tiefling · male",
+   "subject": "a TIEFLING man: dusky blue skin (NOT the pale purple of a dark elf), two spiralling HORNS rising from the forehead, solid glowing gold eyes with no pupils, pointed ears, dark violet hair, and a long thin devil TAIL visible curling beside them, in his thirties. A sorcerer in flowing clothes with raw magic in the hands, with glowing runes on the palms; clothing accents in burgundy. A male tiefling sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/sorcerer_tiefling_female",
+   "kind": "portrait",
+   "group": "class:sorcerer",
+   "name": "Sorcerer · tiefling · female",
+   "subject": "a TIEFLING woman: rose-red skin (NOT the pale purple of a dark elf), two spiralling HORNS rising from the forehead, solid glowing gold eyes with no pupils, pointed ears, dark violet hair, and a long thin devil TAIL visible curling beside them, a young adult. A sorcerer in flowing clothes with raw magic in the hands, with a coin spinning in the air; clothing accents in sky blue. A female tiefling sorcerer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_human_male",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · human · male",
+   "subject": "an ordinary HUMAN man with round human ears and auburn hair, warm brown skin, older, with lines around the eyes and grey streaks. A warlock in a dark coat with eldritch violet power, with an infernal contract scroll; clothing accents in cream white. A male human warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_human_female",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · human · female",
+   "subject": "an ordinary HUMAN woman with round human ears and sandy blond hair, deep brown skin, in her thirties. A warlock in a dark coat with eldritch violet power, with a pact blade of purple flame; clothing accents in burgundy. A female human warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_elf_male",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · elf · male",
+   "subject": "an ELF man: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, silver-white hair, golden-tan skin, in his late twenties. A warlock in a dark coat with eldritch violet power, with a raven-feather collar; clothing accents in ochre yellow. A male elf warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_elf_female",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · elf · female",
+   "subject": "an ELF woman: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, pale gold hair, warm brown skin, in middle age. A warlock in a dark coat with eldritch violet power, with a glowing fiendish tome; clothing accents in burgundy. A female elf warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_dwarf_male",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · dwarf · male",
+   "subject": "a DWARF man with a long, thick braided beard: very short and STOCKY, broad shoulders, a wide face and a broad nose, copper-red hair, older, with lines around the eyes and grey streaks. A warlock in a dark coat with eldritch violet power, with a chain wrapped around one wrist; clothing accents in forest green. A male dwarf warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_dwarf_female",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · dwarf · female",
+   "subject": "a DWARF woman with thick braided hair and ruddy cheeks: very short and STOCKY, broad shoulders, a wide face and a broad nose, copper-red hair, a young adult. A warlock in a dark coat with eldritch violet power, with an eye-shaped amulet; clothing accents in forest green. A female dwarf warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_halfling_male",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · halfling · male",
+   "subject": "a HALFLING man: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY black hair and slightly pointed ears; NOT a lean human and NOT an elf, in middle age. A warlock in a dark coat with eldritch violet power, with a skull lantern; clothing accents in rust orange. A male halfling warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_halfling_female",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · halfling · female",
+   "subject": "a HALFLING woman: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY black hair and slightly pointed ears; NOT a lean human and NOT an elf, a young adult. A warlock in a dark coat with eldritch violet power, with a black candle; clothing accents in navy blue. A female halfling warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_dragonborn_male",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · dragonborn · male",
+   "subject": "a DRAGONBORN man: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of heavy swept-back horns, a small frill, NO ears and NO hair, onyx black scales covering the head and neck; a humanoid body with two arms and hands like a person, in his late twenties. A warlock in a dark coat with eldritch violet power, with a tentacle-like wisp of shadow; clothing accents in plum. A male dragonborn warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_dragonborn_female",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · dragonborn · female",
+   "subject": "a DRAGONBORN woman: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of slender swept-back horns, a small frill, NO ears and NO hair, emerald green scales covering the head and neck; a humanoid body with two arms and hands like a person, a young adult. A warlock in a dark coat with eldritch violet power, with a staff topped with a horned skull; clothing accents in sky blue. A female dragonborn warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_gnome_male",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · gnome · male",
+   "subject": "a GNOME man with a neatly trimmed short beard: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, lavender hair; their gear looks a little oversized on them, a young adult. A warlock in a dark coat with eldritch violet power, with a violet hellfire orb; clothing accents in rust orange. A male gnome warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_gnome_female",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · gnome · female",
+   "subject": "a GNOME woman: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, snow-white hair; their gear looks a little oversized on them, older, with lines around the eyes and grey streaks. A warlock in a dark coat with eldritch violet power, with a key of black iron; clothing accents in cream white. A female gnome warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_goliath_male",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · goliath · male",
+   "subject": "a GOLIATH man: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a bald head, small ears; clearly NOT a human: the skin is grey like rock, a young adult. A warlock in a dark coat with eldritch violet power, with a carved bone mask hanging at the belt, the face uncovered; clothing accents in forest green. A male goliath warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_goliath_female",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · goliath · female",
+   "subject": "a GOLIATH woman: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a clearly FEMININE face (a woman, softer features, defined lips) with long dark hair in one thick braid, small ears; clearly NOT a human: the skin is grey like rock, older, with lines around the eyes and grey streaks. A warlock in a dark coat with eldritch violet power, with a cat familiar with glowing eyes; clothing accents in burgundy. A female goliath warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_orc_male",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · orc · male",
+   "subject": "an ORC man: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), moss-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, iron-grey hair tied back, in middle age. A warlock in a dark coat with eldritch violet power, with a sigil burning on the palm; clothing accents in charcoal grey. A male orc warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_orc_female",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · orc · female",
+   "subject": "an ORC woman: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), moss-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, iron-grey hair in thick braids, a young adult. A warlock in a dark coat with eldritch violet power, with a hood with stars inside; clothing accents in ochre yellow. Nothing covers the head: the hair and pointed ears are in full view. A female orc warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_tiefling_male",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · tiefling · male",
+   "subject": "a TIEFLING man: dusky blue skin (NOT the pale purple of a dark elf), two spiralling HORNS rising from the forehead, solid glowing gold eyes with no pupils, pointed ears, dark violet hair, and a long thin devil TAIL visible curling beside them, a young adult. A warlock in a dark coat with eldritch violet power, with a dagger dripping shadow; clothing accents in navy blue. A male tiefling warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/warlock_tiefling_female",
+   "kind": "portrait",
+   "group": "class:warlock",
+   "name": "Warlock · tiefling · female",
+   "subject": "a TIEFLING woman: rose-red skin (NOT the pale purple of a dark elf), two spiralling HORNS rising from the forehead, solid glowing gold eyes with no pupils, pointed ears, dark violet hair, and a long thin devil TAIL visible curling beside them, older, with lines around the eyes and grey streaks. A warlock in a dark coat with eldritch violet power, with a bound grimoire with chains; clothing accents in charcoal grey. A female tiefling warlock.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_human_male",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · human · male",
+   "subject": "an ordinary HUMAN man with round human ears and sandy blond hair and a short beard, olive skin, in his late twenties. A wizard in star-embroidered robes, with a crystal-topped staff; clothing accents in plum. A male human wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_human_female",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · human · female",
+   "subject": "an ordinary HUMAN woman with round human ears and dark red hair, olive skin, in her late twenties. A wizard in star-embroidered robes, with an open spellbook; clothing accents in cream white. A female human wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_elf_male",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · elf · male",
+   "subject": "an ELF man: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, copper hair, warm brown skin, in his thirties. A wizard in star-embroidered robes, with floating glyphs; clothing accents in sky blue. A male elf wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_elf_female",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · elf · female",
+   "subject": "an ELF woman: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, moss-brown hair, pale skin, older, with lines around the eyes and grey streaks. A wizard in star-embroidered robes, with a pointed hat; clothing accents in navy blue. A female elf wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_dwarf_male",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · dwarf · male",
+   "subject": "a DWARF man with a long, thick braided beard: very short and STOCKY, broad shoulders, a wide face and a broad nose, iron-grey hair, in his thirties. A wizard in star-embroidered robes, with spectacles and a quill of light; clothing accents in forest green. A male dwarf wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_dwarf_female",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · dwarf · female",
+   "subject": "a DWARF woman with thick braided hair and ruddy cheeks: very short and STOCKY, broad shoulders, a wide face and a broad nose, chestnut hair, in her thirties. A wizard in star-embroidered robes, with a small owl familiar; clothing accents in forest green. A female dwarf wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_halfling_male",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · halfling · male",
+   "subject": "a HALFLING man: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY russet hair and slightly pointed ears; NOT a lean human and NOT an elf, older, with lines around the eyes and grey streaks. A wizard in star-embroidered robes, with a crystal ball; clothing accents in burgundy. A male halfling wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_halfling_female",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · halfling · female",
+   "subject": "a HALFLING woman: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY honey-blond hair and slightly pointed ears; NOT a lean human and NOT an elf, in her late twenties. A wizard in star-embroidered robes, with scrolls tucked everywhere; clothing accents in teal. A female halfling wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_dragonborn_male",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · dragonborn · male",
+   "subject": "a DRAGONBORN man: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of heavy swept-back horns, a small frill, NO ears and NO hair, copper scales covering the head and neck; a humanoid body with two arms and hands like a person, in middle age. A wizard in star-embroidered robes, with a wand of carved wood; clothing accents in deep red. A male dragonborn wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_dragonborn_female",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · dragonborn · female",
+   "subject": "a DRAGONBORN woman: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of slender swept-back horns, a small frill, NO ears and NO hair, sapphire blue scales covering the head and neck; a humanoid body with two arms and hands like a person, in her thirties. A wizard in star-embroidered robes, with an hourglass; clothing accents in forest green. A female dragonborn wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_gnome_male",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · gnome · male",
+   "subject": "a GNOME man with a neatly trimmed short beard: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, chestnut hair; their gear looks a little oversized on them, in middle age. A wizard in star-embroidered robes, with a floating candle; clothing accents in ochre yellow. A male gnome wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_gnome_female",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · gnome · female",
+   "subject": "a GNOME woman: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, snow-white hair; their gear looks a little oversized on them, in middle age. A wizard in star-embroidered robes, with a brass astrolabe; clothing accents in deep red. A female gnome wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_goliath_male",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · goliath · male",
+   "subject": "a GOLIATH man: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a bald head, small ears; clearly NOT a human: the skin is grey like rock, a young adult. A wizard in star-embroidered robes, with a toad familiar; clothing accents in cream white. A male goliath wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_goliath_female",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · goliath · female",
+   "subject": "a GOLIATH woman: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a clearly FEMININE face (a woman, softer features, defined lips) with long dark hair in one thick braid, small ears; clearly NOT a human: the skin is grey like rock, older, with lines around the eyes and grey streaks. A wizard in star-embroidered robes, with a circlet with a gem; clothing accents in sky blue. A female goliath wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_orc_male",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · orc · male",
+   "subject": "an ORC man: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), olive-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, dark brown hair tied back, in middle age. A wizard in star-embroidered robes, with a lantern of blue fire; clothing accents in ochre yellow. A male orc wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_orc_female",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · orc · female",
+   "subject": "an ORC woman: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), grey-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, iron-grey hair in thick braids, in her thirties. A wizard in star-embroidered robes, with a chained book; clothing accents in forest green. A female orc wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_tiefling_male",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · tiefling · male",
+   "subject": "a TIEFLING man: burnt orange skin (NOT the pale purple of a dark elf), two tall straight HORNS rising from the forehead, solid glowing amber eyes with no pupils, pointed ears, black hair, and a long thin devil TAIL visible curling beside them, in middle age. A wizard in star-embroidered robes, with a feather quill and ink pot; clothing accents in plum. A male tiefling wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/wizard_tiefling_female",
+   "kind": "portrait",
+   "group": "class:wizard",
+   "name": "Wizard · tiefling · female",
+   "subject": "a TIEFLING woman: dusky blue skin (NOT the pale purple of a dark elf), two swept-back HORNS rising from the forehead, solid glowing red eyes with no pupils, pointed ears, deep red hair, and a long thin devil TAIL visible curling beside them, in middle age. A wizard in star-embroidered robes, with a tiny orbiting moon; clothing accents in teal. A female tiefling wizard.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_human_male",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · human · male",
+   "subject": "an ordinary HUMAN man with round human ears and brown hair, tan skin, in his late twenties. An artificer in a leather work apron and brass-buckled coat with goggles, with a tiny clockwork construct on the shoulder; clothing accents in charcoal grey. A male human artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_human_female",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · human · female",
+   "subject": "an ordinary HUMAN woman with round human ears and chestnut hair, fair freckled skin, a young adult. An artificer in a leather work apron and brass-buckled coat with goggles, with a glowing infused wrench; clothing accents in burgundy. A female human artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_elf_male",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · elf · male",
+   "subject": "an ELF man: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, raven black hair, golden-tan skin, in middle age. An artificer in a leather work apron and brass-buckled coat with goggles, with a repeating crossbow; clothing accents in teal. A male elf artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_elf_female",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · elf · female",
+   "subject": "an ELF woman: tall and slender, with LONG POINTED ELF EARS clearly visible, fine sharp features, silver-white hair, dusky grey-blue skin, older, with lines around the eyes and grey streaks. An artificer in a leather work apron and brass-buckled coat with goggles, with a brass gauntlet with gears; clothing accents in sky blue. A female elf artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_dwarf_male",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · dwarf · male",
+   "subject": "a DWARF man with a long, thick braided beard: very short and STOCKY, broad shoulders, a wide face and a broad nose, iron-grey hair, in his late twenties. An artificer in a leather work apron and brass-buckled coat with goggles, with a satchel of potion vials; clothing accents in plum. A male dwarf artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_dwarf_female",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · dwarf · female",
+   "subject": "a DWARF woman with thick braided hair and ruddy cheeks: very short and STOCKY, broad shoulders, a wide face and a broad nose, flaxen hair, older, with lines around the eyes and grey streaks. An artificer in a leather work apron and brass-buckled coat with goggles, with a mechanical arm; clothing accents in ochre yellow. A female dwarf artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_halfling_male",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · halfling · male",
+   "subject": "a HALFLING man: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY honey-blond hair and slightly pointed ears; NOT a lean human and NOT an elf, in middle age. An artificer in a leather work apron and brass-buckled coat with goggles, with a hammer with a glowing rune; clothing accents in deep red. A male halfling artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_halfling_female",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · halfling · female",
+   "subject": "a HALFLING woman: a small, stout, well-fed person about half human height, a grown-up (not a child) with a ROUND cheerful face, plump rosy cheeks, a small button nose, big CURLY russet hair and slightly pointed ears; NOT a lean human and NOT an elf, a young adult. An artificer in a leather work apron and brass-buckled coat with goggles, with a thunder cannon; clothing accents in cream white. A female halfling artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_dragonborn_male",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · dragonborn · male",
+   "subject": "a DRAGONBORN man: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of heavy swept-back horns, a small frill, NO ears and NO hair, onyx black scales covering the head and neck; a humanoid body with two arms and hands like a person, in his late twenties. An artificer in a leather work apron and brass-buckled coat with goggles, with a toolbelt of fine instruments; clothing accents in ochre yellow. A male dragonborn artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_dragonborn_female",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · dragonborn · female",
+   "subject": "a DRAGONBORN woman: a humanoid with a reptilian DRAGON HEAD drawn part by part: a long scaly snout with nostrils at the tip, a ridge of slender swept-back horns, a small frill, NO ears and NO hair, silver scales covering the head and neck; a humanoid body with two arms and hands like a person, older, with lines around the eyes and grey streaks. An artificer in a leather work apron and brass-buckled coat with goggles, with a magnifying lens over one eye; clothing accents in teal. A female dragonborn artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_gnome_male",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · gnome · male",
+   "subject": "a GNOME man with a neatly trimmed short beard: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, snow-white hair; their gear looks a little oversized on them, in middle age. An artificer in a leather work apron and brass-buckled coat with goggles, with a brass owl automaton; clothing accents in forest green. A male gnome artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_gnome_female",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · gnome · female",
+   "subject": "a GNOME woman: a tiny grown ADULT, clearly NOT a human or an elf: a large head for the small body, very big bright round eyes, a LARGE ROUND BULBOUS NOSE with a rosy pink tip (round like a ball, NOT long or pointed), rosy cheeks, very long pointed ears sweeping back, chestnut hair; their gear looks a little oversized on them, in her thirties. An artificer in a leather work apron and brass-buckled coat with goggles, with a glowing alchemical flask; clothing accents in deep red. A female gnome artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_goliath_male",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · goliath · male",
+   "subject": "a GOLIATH man: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a bald head, small ears; clearly NOT a human: the skin is grey like rock, in his thirties. An artificer in a leather work apron and brass-buckled coat with goggles, with an arcane battery pack; clothing accents in charcoal grey. A male goliath artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_goliath_female",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · goliath · female",
+   "subject": "a GOLIATH woman: a giant-kin of huge muscular build with GREY STONE-LIKE SKIN mottled with darker grey patches and thin pale lines like veins in granite, a heavy brow, a broad jaw, a clearly FEMININE face (a woman, softer features, defined lips) with long dark hair in one thick braid, small ears; clearly NOT a human: the skin is grey like rock, in her late twenties. An artificer in a leather work apron and brass-buckled coat with goggles, with a clockwork beetle crawling on the hand; clothing accents in ochre yellow. A female goliath artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_orc_male",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · orc · male",
+   "subject": "an ORC man: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), moss-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, iron-grey hair tied back, in his thirties. An artificer in a leather work apron and brass-buckled coat with goggles, with a riveted shield with a turret; clothing accents in deep red. A male orc artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_orc_female",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · orc · female",
+   "subject": "an ORC woman: a tall, powerfully muscular and dignified warrior-folk (serious, NOT comical), moss-green skin, TWO PROMINENT LOWER TUSKS jutting up from the jaw and clearly visible, SHORT pointed ears close to the head (NOT long elf ears), a heavy brow and a strong jaw, dark brown hair in thick braids, a young adult. An artificer in a leather work apron and brass-buckled coat with goggles, with a pair of copper wings folded on the back; clothing accents in deep red. A female orc artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_tiefling_male",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · tiefling · male",
+   "subject": "a TIEFLING man: dusky blue skin (NOT the pale purple of a dark elf), two spiralling HORNS rising from the forehead, solid glowing gold eyes with no pupils, pointed ears, dark violet hair, and a long thin devil TAIL visible curling beside them, in middle age. An artificer in a leather work apron and brass-buckled coat with goggles, with a spark-throwing wand; clothing accents in teal. A male tiefling artificer.",
+   "anchor": false
+  },
+  {
+   "key": "heroes/artificer_tiefling_female",
+   "kind": "portrait",
+   "group": "class:artificer",
+   "name": "Artificer · tiefling · female",
+   "subject": "a TIEFLING woman: dusky blue skin (NOT the pale purple of a dark elf), two swept-back HORNS rising from the forehead, solid glowing red eyes with no pupils, pointed ears, deep red hair, and a long thin devil TAIL visible curling beside them, in her late twenties. An artificer in a leather work apron and brass-buckled coat with goggles, with a blueprint scroll; clothing accents in teal. A female tiefling artificer.",
+   "anchor": false
+  },
   {
    "key": "heroes/fighter_1",
    "kind": "portrait",

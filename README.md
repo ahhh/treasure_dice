@@ -19,7 +19,7 @@ npm run sim -- 40 1 cinder standard   # quick single-cell Monte Carlo: runs, lev
 
 ## The loop
 
-1. **The Lantern Keep (persistent).** Recruit from all 12 SRD classes, gear up, enchant, train your reserves, then pick three heroes and an echo.
+1. **The Lantern Keep (persistent).** Recruit from 13 classes (the 12 SRD classes plus the Artificer) in any of 9 species and either sex, gear up, enchant, train your reserves, then pick three heroes and an echo.
 2. **The dungeon (one instance).** Move forward, left, right or back on a seeded grid. Search for secret doors, take skill checks, haggle with the Peddler, spin the Wheel of Fate, find the Boss Sigil, and kill the boss.
 3. **Aftermath.** Survivors gain **one class level** (1→20). Carried gold and items are banked. Clearing an echo unlocks the next one and earns a boss sigil for Keep upgrades. Dead heroes stay dead in Legacy mode. Story mode sends a wiped party home empty-handed instead.
 
@@ -70,6 +70,13 @@ Trinkets can now reach into the Fortune layer:
 - **Hand items** boost your own hands: Ring of Twin Fortune, Bracelet of Threes, Starweave Mantle, Torc of the Hoard.
 - **Colour items** make other dice count as yours: Circlet of Bone, Band of the Four Winds.
 - **Others:** the Bag of Tricks (a Wild die at the start of every fight), the Gambler's Purse and the Hourglass of Encores (starting tokens).
+
+## Subclasses, species feats and portraits
+
+- **120 subclasses.** Every 2014 fifth-edition subclass (PHB, XGE, TCE, SCAG, EGW, VRGR, FTD, BGG, DMG), adapted to this game. A hero picks one at **level 3** in the level-up wizard; recruits arrive with a random one, and heroes who never picked follow their class's SRD subclass. Mechanics are data (`src/content/subclassData.ts`): passive `mods` fold into `derive()` like gear, `immune` blocks conditions, and `power` is a generic active (blast, strike, heal, buff, debuff) resolved in `src/combat/hero.ts`. Words are in game.json → `subclasses`, editable under **Game · subclasses** in `npm run text`.
+- **Species feats.** Each species has two feats of its own (+1 to an ability and one perk), offered only to that species when a hero takes a feat instead of an Ability Score Improvement.
+- **Portraits.** One portrait per class × species × sex (`src/content/portraits.ts`, keys `heroes/<class>_<species>_<sex>`), matched to each recruit.
+- `tests/subclasses.test.ts` builds every class × subclass × species × sex, uses every subclass power in a real fight, puts every species feat through the level-up wizard, and runs every subclass through expeditions.
 
 ## Rules fidelity
 

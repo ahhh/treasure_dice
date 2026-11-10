@@ -5,8 +5,9 @@
 import type { Ability, ClassId, EquipSlot, GameState, Hero, ItemInstance } from '../engine/types.ts';
 import { Rng, makeStreams } from '../engine/rng.ts';
 import { CLASSES, CLASS_IDS, FEATS } from '../content/classes.ts';
+import { featuresAt } from '../content/subclasses.ts';
 import { ITEMS, sellValue, itemValue, isTwoHanded, itemName } from '../content/items.ts';
-import { createHero, derive, applyLevel, autoPrepare, fullRestore, makeItem, choiceOptions, maxPrepared } from '../rules/character.ts';
+import { armorTraining, createHero, derive, applyLevel, autoPrepare, fullRestore, makeItem, choiceOptions, maxPrepared } from '../rules/character.ts';
 import { spellsForClass } from '../content/spells.ts';
 import { markOffers, applyMark } from '../fortune/dicepath.ts';
 import { trainingClosed } from './quest.ts';
@@ -177,7 +178,7 @@ export function canEquip(h: Hero, inst: ItemInstance, slot: EquipSlot): string |
       return null;
     case 'offHand':
       if (def.kind === 'shield') {
-        if (!cls.armor.includes('shield') && !(h.classId === 'cleric' || h.classId === 'druid')) return tx('metaTown.sAreNotTrainedWith', { clsName: cls.name });
+        if (!armorTraining(h).has('shield')) return tx('metaTown.sAreNotTrainedWith', { clsName: cls.name });
         if (isTwoHanded(h.equipment.mainHand)) return tx('metaTown.yourMainWeaponNeedsBoth');
         return null;
       }
@@ -190,9 +191,7 @@ export function canEquip(h: Hero, inst: ItemInstance, slot: EquipSlot): string |
     case 'armor': {
       if (def.kind !== 'armor') return tx('metaTown.notArmor');
       const t = def.armor!.type;
-      const protector = h.classId === 'cleric' && h.choices.divineOrder?.includes('protector');
-      const warden = h.classId === 'druid' && h.choices.primalOrder?.includes('warden');
-      if (!cls.armor.includes(t) && !(t === 'heavy' && protector) && !(t === 'medium' && warden)) return tx('metaTown.sAreNotTrainedIn', { clsName: cls.name, t });
+      if (!armorTraining(h).has(t)) return tx('metaTown.sAreNotTrainedIn', { clsName: cls.name, t });
       if (def.armor!.str && h.abilities.str < def.armor!.str) return tx('metaTown.needsStrength', { str: def.armor!.str });
       return null;
     }
@@ -302,7 +301,7 @@ export interface LevelChoices {
 
 export function levelUpPreview(h: Hero) {
   const next = h.level + 1;
-  const feats = CLASSES[h.classId].features[next] ?? [];
+  const feats = featuresAt(h, next);
   const choices = feats.filter((f) => f.choice).map((f) => ({ feature: f, options: f.choice === 'asi' ? [] : choiceOptions({ ...h, level: next }, f.choice!) }));
   const before = spellsForClass(h).map((s) => s.id);
   const after = spellsForClass({ ...h, level: next }).map((s) => s.id).filter((id) => !before.includes(id));
@@ -314,13 +313,13 @@ export function levelUp(g: GameState, heroId: string, ch: LevelChoices): string 
   if (!h || !h.pendingLevel) return tx('metaTown.noPendingLevel');
   if (h.level >= 20) { h.pendingLevel = false; return null; }
   const next = h.level + 1;
-  const feats = CLASSES[h.classId].features[next] ?? [];
+  const feats = featuresAt(h, next);
   // Validate choices before mutating anything.
   for (const f of feats) {
     if (!f.choice) continue;
     if (f.choice === 'asi') {
       if (!ch.asi) return tx('metaTown.chooseAnAbilityScoreImprovement');
-      if (ch.asi.mode === 'feat' && (!FEATS[ch.asi.feat] || (h.feats.includes(ch.asi.feat) && !FEATS[ch.asi.feat].repeatable))) return tx('metaTown.invalidFeat');
+      if (ch.asi.mode === 'feat' && (!FEATS[ch.asi.feat] || (FEATS[ch.asi.feat].species && FEATS[ch.asi.feat].species !== h.ancestry) || (h.feats.includes(ch.asi.feat) && !FEATS[ch.asi.feat].repeatable))) return tx('metaTown.invalidFeat');
     } else if (f.choice === 'expertise') {
       const n = f.choiceCount ?? 2;
       const pick = (ch.expertise ?? []).filter((s) => h.skillProfs.includes(s as never) && !h.expertise.includes(s as never));

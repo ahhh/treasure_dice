@@ -30,6 +30,7 @@ import { ITEMS } from '../content/items.ts';
 import { MONSTERS } from '../content/monsters.ts';
 import { SPELLS } from '../content/spells.ts';
 import { CLASSES } from '../content/classes.ts';
+import { SUBCLASSES } from '../content/subclasses.ts';
 import { CHARM_BY_ID } from '../fortune/charms.ts';
 import { MATERIALS } from '../fortune/materials.ts';
 import uiContext from './ui-context.json';
@@ -478,6 +479,11 @@ function gameView(kind: string, id: string): HTMLElement {
       return recordsView(c?.name ?? id, 'Name, pitch, subclass, Fortune talent, resources and features by level. Features every class shares (Ability Score Improvement, Extra Attack…) are under Game · tables → Shared class features.', G, ['classes'],
         [{ id, face: pic(`heroes/${id}_1`, id, '⚔'), chips: [`d${c?.hitDie}`, c?.caster ? `${c.caster.kind} caster` : 'martial', MATERIALS[c?.material]?.name ?? null], live: c }]);
     }
+    case 'subclass': {
+      const c = CLASSES[id as keyof typeof CLASSES];
+      return recordsView(`${c?.name ?? id} · ${c?.subclassLabel ?? 'subclasses'}`, 'Each subclass: its name, pitch, resource names and features. A hero picks one at level 3. Feature text should describe the game rule exactly (dice, rounds, uses), since the numbers are not shown anywhere else.', G, ['subclasses', id],
+        (SUBCLASSES[id as keyof typeof SUBCLASSES] ?? []).map((sc) => ({ id: sc.id, chips: [sc.source, sc.srd ? 'SRD default' : null, ...Object.keys(sc.levels).map((l) => `L${l}`)], live: sc })));
+    }
     case 'charms': return recordsView(`Charms · ${id}`, '{n} is a charm\'s live counter; omens fill {hand}, {chips} and {mult}.', G, ['charms'],
       Object.values(CHARM_BY_ID).filter((c) => (c.theme === 'omen' ? 'omens' : c.rarity) === id).map((c) => ({ id: c.id, face: pic(`charms/${c.id}`, c.name, c.theme === 'omen' ? '✶' : '✦'), chips: [c.theme], live: c })));
     case 'table': {
@@ -589,6 +595,7 @@ function entries(): Entry[] {
     if (ids.length) add('Game · spells', `spells:${l}`, l ? `Level ${l}` : 'Cantrips', `${ids.length} spells`, ids.map((i) => [G, ['spells', i]] as [Ns, Path]));
   }
   for (const c of Object.values(CLASSES)) add('Game · classes', `class:${c.id}`, c.name, 'Features, talent, resources', [[G, ['classes', c.id]]]);
+  for (const c of Object.values(CLASSES)) add('Game · subclasses', `subclass:${c.id}`, c.name, `${SUBCLASSES[c.id]?.length ?? 0} ${c.subclassLabel}s`, (SUBCLASSES[c.id] ?? []).map((sc) => [G, ['subclasses', c.id, sc.id]] as [Ns, Path]));
   for (const grp of ['common', 'uncommon', 'rare', 'legendary', 'omens']) {
     const ids = Object.values(CHARM_BY_ID).filter((c) => (c.theme === 'omen' ? 'omens' : c.rarity) === grp).map((c) => c.id);
     add('Game · charms', `charms:${grp}`, pretty(grp), `${ids.length} charms`, ids.map((i) => [G, ['charms', i]] as [Ns, Path]));
@@ -761,7 +768,7 @@ function renderMain() {
   const [kind, id] = st.sel.split(/:(.*)/s);
   const s = kind === 'script' ? SCRIPTS.find((x) => x.id === id) : undefined;
   const e = kind === 'event' ? EVENTS[id] : undefined;
-  const gameKinds = ['biome', 'items', 'monsters', 'spells', 'class', 'charms', 'table'];
+  const gameKinds = ['biome', 'items', 'monsters', 'spells', 'class', 'subclass', 'charms', 'table'];
   content.append(s ? scriptView(s) : e ? eventView(e) : kind === 'barks' ? barksView(id) : kind === 'ui' ? uiView(id) : gameKinds.includes(kind) ? gameView(kind, id) : kind === 'loose' ? looseView(id) : VIEWS[kind]?.() ?? h('div', { class: 'empty' }, 'Pick an entry on the left.'));
 }
 

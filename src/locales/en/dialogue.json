@@ -75,9 +75,9 @@
       "lines": {
         "a0": "Eren. You were due at the loading dock an hour ago.",
         "a1": "I was being thanked by heroes, Veska.",
-        "a2": "Then you were being thanked on the Office's time.| Keeper. Veska, Provisions Registrar. Thank you for the First Door. The camps below will be safer for my runners. That's no small thing.",
+        "a2": "Then you were being thanked on the Office's time.| Hello Keeper, I am Veska, Provisions Registrar. Thank you for clearing the First Door. The camps below will be safer for my runners. That's no small thing.",
         "a3": "Veska, what's the Due?",
-        "a4": "A tithe arrangement for Kiln Row. Debt relief. It's registered and it's legal, and it's eleven at night.| Dock. Now."
+        "a4": "A tithe arrangement for Kiln Row. Debt relief. It's registered with the Guild Hall and legal. Now Eren, it's eleven at night, I need you at the Dock. Now."
       }
     },
     "corvin.round": {
@@ -85,7 +85,7 @@
       "lines": {
         "a0": "To the heroes of the First Door! Put the whole room on the Trust, Mistress Harrowgate.",
         "a1": "Splendid work, truly. Every door you open is a gift to us all. Do keep it up.",
-        "a2": "Generous man. Can't stand him.| Can't say why."
+        "a2": "Corvin's a generous man but I really can't stand him.| Something about him just rubs me the wrong way."
       }
     },
     "hessa.kilnrow": {

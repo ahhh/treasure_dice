@@ -14,6 +14,7 @@ import { exitsView, eventOptions, absoluteDir } from '../dungeon/explore.ts';
 import { DIRS, DELTA } from '../dungeon/generator.ts';
 import { derive, choiceOptions } from '../rules/character.ts';
 import { CLASSES } from '../content/classes.ts';
+import { featuresAt } from '../content/subclasses.ts';
 import { offerNeedsTarget } from '../fortune/boons.ts';
 import { charmSlots } from '../fortune/tray.ts';
 import type { LevelChoices } from '../meta/town.ts';
@@ -83,6 +84,8 @@ function pickAction(g: GameState): { opt: ActionOption; targets: string[]; slot?
     const o = byKey(k);
     if (o && ctx.combat.round <= 2) return { opt: o, targets: o.target === 'enemy' ? [pickEnemy(o)?.id].filter(Boolean) as string[] : [c.id] };
   }
+  const opener = opts.find((o) => o.key.startsWith('feat:power:') && o.fortune === 'none' && (o.target === 'self' || o.target === 'allies' || o.target === 'enemies'));
+  if (opener && ctx.combat.round <= 2) return { opt: opener, targets: [] };
   const reck = byKey('feat:reckless');
   if (reck) return { opt: reck, targets: [] };
   if (ctx.combat.round === 1 && byKey('spell:bless') && allies.length >= 2) return { opt: byKey('spell:bless')!, targets: [], slot: 1 };
@@ -99,6 +102,7 @@ function pickAction(g: GameState): { opt: ActionOption; targets: string[]; slot?
     let v = (o.group === 'attack' ? 10 + derive(h).attacks * 6 : 8 + lvl * 9) * aoe;
     if (lvl > 0) v -= lvl * (enemies.length <= 1 && !ctx.combat.kind.startsWith('boss') ? 6 : 2);
     if (o.key === 'smite' && ctx.combat.kind !== 'boss' && ctx.combat.kind !== 'elite') v -= 12;
+    if (o.key.startsWith('feat:power:')) v += 6;
     return v;
   };
   const best = dmg.sort((a, b) => scoreOpt(b) - scoreOpt(a))[0];
@@ -268,7 +272,7 @@ export function autoExploreStep(g: GameState): boolean {
 
 export function autoLevelChoices(h: Hero): LevelChoices {
   const next = h.level + 1;
-  const feats = CLASSES[h.classId].features[next] ?? [];
+  const feats = featuresAt(h, next);
   const ch: LevelChoices = { picks: {} };
   for (const f of feats) {
     if (!f.choice) continue;

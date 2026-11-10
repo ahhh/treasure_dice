@@ -21,7 +21,7 @@ export type DamageType =
 
 export type ClassId =
   | 'barbarian' | 'bard' | 'cleric' | 'druid' | 'fighter' | 'monk'
-  | 'paladin' | 'ranger' | 'rogue' | 'sorcerer' | 'warlock' | 'wizard';
+  | 'paladin' | 'ranger' | 'rogue' | 'sorcerer' | 'warlock' | 'wizard' | 'artificer';
 
 export type BiomeId = 'cinder' | 'rootbound' | 'drowned' | 'mirror' | 'starfall';
 
@@ -78,6 +78,8 @@ export interface Hero {
   name: string;
   portrait: string;
   ancestry: string;
+  /** Portrait/pronoun sex. Absent on older saves (read it from the portrait). */
+  sex?: 'male' | 'female';
   background: string;
   classId: ClassId;
   level: number;

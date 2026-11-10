@@ -268,7 +268,7 @@ function attack(ctx: Ctx, c: Combatant, t: Combatant, a: MonsterAction) {
   log(ctx, tx(crit ? 'combatAi.crits' : 'combatAi.hits', { attacker: c.name, action: a.name, target: t.name }), crit ? 'crit' : 'enemy');
   applyDamage(ctx, t, [{ type: a.damageType ?? 'bludgeoning', amount: dmg }], { source: c.name, attacker: c, crit, melee: !a.ranged });
   // Retaliation (Berserker 10).
-  if (!a.ranged && !t.dead && !t.downed && th.classId === 'barbarian' && th.level >= 10 && !t.used.reaction && !c.dead) {
+  if (!a.ranged && !t.dead && !t.downed && d.features.has('retaliation') && !t.used.reaction && !c.dead) {
     t.used.reaction = true;
     const r2 = rollD20(ctx.rng).natural + d.main.toHit;
     if (r2 >= c.ac) {
@@ -278,7 +278,7 @@ function attack(ctx: Ctx, c: Combatant, t: Combatant, a: MonsterAction) {
     }
   }
   // Multiattack Defense.
-  if (th.classId === 'ranger' && th.level >= 7) addCondition(ctx, c, { id: 'weakened', rounds: 1 });
+  if (d.features.has('defensiveTactics')) addCondition(ctx, c, { id: 'weakened', rounds: 1 });
 }
 
 export { enemies };

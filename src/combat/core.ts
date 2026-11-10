@@ -85,10 +85,12 @@ export function addCondition(ctx: Ctx, c: Combatant, condition: Condition) {
   // Immunities from features.
   const h = heroOf(ctx, c);
   if (h) {
-    if ((condition.id === 'charmed' || condition.id === 'frightened') && has(c, 'raging') && h.level >= 6 && h.classId === 'barbarian') return;
+    const hd = derive(h);
+    if (hd.immune.has(condition.id)) return;
+    if ((condition.id === 'charmed' || condition.id === 'frightened') && has(c, 'raging') && hd.features.has('mindlessRage')) return;
     if (condition.id === 'frightened' && partyHasAura(ctx, 'auraOfCourage')) return;
     if (condition.id === 'charmed' && partyHasAura(ctx, 'auraOfDevotion')) return;
-    if (condition.id === 'poisoned' && h.classId === 'druid' && h.level >= 10) return;
+    if (condition.id === 'poisoned' && hd.features.has('naturesWard')) return;
     if (condition.id === 'frightened' && h.ancestry === 'halfling' && ctx.rng.chance(0.5)) return;
   }
   if (c.mon?.tags.includes('construct') && (condition.id === 'poisoned' || condition.id === 'charmed' || condition.id === 'frightened')) return;
@@ -476,6 +478,19 @@ export function savingThrow(ctx: Ctx, c: Combatant, ability: Ability, dc: number
       ok = r2 >= dc;
       log(ctx, tx('combatCore.isIndomitableRerollsTheSave', { cName: c.name, result: tx(ok ? 'combatCore.success' : 'combatCore.fail') }), 'info');
     }
+    // Flash of Genius: an artificer in the party adds their Intelligence to a failed save.
+    if (!ok) {
+      for (const ally of livingHeroes(ctx)) {
+        const ah = heroOf(ctx, ally);
+        if (!ah || (ah.resources.flash ?? 0) < 1 || !derive(ah).features.has('flashOfGenius')) continue;
+        const intMod = derive(ah).mods.int;
+        if (nat + bonus + intMod < dc) continue;
+        ah.resources.flash -= 1;
+        ok = true;
+        log(ctx, tx('combatCore.flashOfGenius', { aName: ally.name, cName: c.name }), 'fortune');
+        break;
+      }
+    }
   }
   if (!ok && c.side === 'enemy' && opts.vsCondition && (ctx.combat.legendary[c.id] ?? 0) > 0) {
     ctx.combat.legendary[c.id] -= 1;
@@ -536,6 +551,9 @@ export function applyDamage(ctx: Ctx, target: Combatant, parts: DmgPart[], opts:
     ctx.combat.once[`invuln:${target.id}`] = true;
     log(ctx, tx('combatCore.theBlowGlancesOffS', { targetName: target.name }), 'info');
     return 0;
+  }
+  if (tLegend?.retort.amount && opts.melee && opts.attacker?.side === 'enemy' && !opts.attacker.dead) {
+    applyDamage(ctx, opts.attacker, [{ type: tLegend.retort.type, amount: Math.round(tHero!.level * tLegend.retort.amount * 2) }], { source: 'Retribution', attacker: target, noFortune: true });
   }
   if (tLegend?.thorns && opts.melee && opts.attacker?.side === 'enemy' && !opts.attacker.dead) {
     applyDamage(ctx, opts.attacker, [{ type: 'fire', amount: Math.round(tHero!.level * tLegend.thorns * 2) }], { source: `${target.name} (Efreeti Chain)`, attacker: target, noFortune: true });
@@ -682,7 +700,7 @@ export function kill(ctx: Ctx, target: Combatant, source: string, attacker?: Com
       const h = heroOf(ctx, attacker)!;
       h.history.kills += 1;
       const d = derive(h);
-      if (h.classId === 'warlock' && h.level >= 3) {
+      if (d.features.has('darkOnesBlessing')) {
         attacker.tempHp = Math.max(attacker.tempHp, Math.round((d.mods.cha + h.level) * VITALITY));
         log(ctx, tx('combatCore.drinksInTheKillDark', { attackerName: attacker.name }), 'heal');
       }

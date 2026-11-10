@@ -46,20 +46,20 @@ export const SPELLS: Record<string, SpellDef> = {};
 const S = (d: Textless<SpellDef, 'name' | 'text'>) => { SPELLS[d.id] = textTable<SpellDef, 'name' | 'text'>('game', ['spells', d.id], d); };
 
 // ── cantrips ─────────────────────────────────────────────────────────────────
-S({ id: 'fireBolt', level: 0, school: 'evocation', classes: ['sorcerer', 'wizard'], cost: 'action', target: 'enemy', kind: 'attack', dice: '1d10', dmgType: 'fire' });
-S({ id: 'rayOfFrost', level: 0, school: 'evocation', classes: ['sorcerer', 'wizard'], cost: 'action', target: 'enemy', kind: 'attack', dice: '1d8', dmgType: 'cold', condition: { id: 'slowed', rounds: 1 } });
-S({ id: 'shockingGrasp', level: 0, school: 'evocation', classes: ['sorcerer', 'wizard'], cost: 'action', target: 'enemy', kind: 'attack', melee: true, dice: '1d8', dmgType: 'lightning' });
+S({ id: 'fireBolt', level: 0, school: 'evocation', classes: ['sorcerer', 'wizard', 'artificer'], cost: 'action', target: 'enemy', kind: 'attack', dice: '1d10', dmgType: 'fire' });
+S({ id: 'rayOfFrost', level: 0, school: 'evocation', classes: ['sorcerer', 'wizard', 'artificer'], cost: 'action', target: 'enemy', kind: 'attack', dice: '1d8', dmgType: 'cold', condition: { id: 'slowed', rounds: 1 } });
+S({ id: 'shockingGrasp', level: 0, school: 'evocation', classes: ['sorcerer', 'wizard', 'artificer'], cost: 'action', target: 'enemy', kind: 'attack', melee: true, dice: '1d8', dmgType: 'lightning' });
 S({ id: 'chillTouch', level: 0, school: 'necromancy', classes: ['sorcerer', 'warlock', 'wizard'], cost: 'action', target: 'enemy', kind: 'attack', melee: true, dice: '1d10', dmgType: 'necrotic', condition: { id: 'noHeal', rounds: 1 } });
-S({ id: 'poisonSpray', level: 0, school: 'necromancy', classes: ['druid', 'sorcerer', 'warlock', 'wizard'], cost: 'action', target: 'enemy', kind: 'attack', dice: '1d12', dmgType: 'poison' });
+S({ id: 'poisonSpray', level: 0, school: 'necromancy', classes: ['druid', 'sorcerer', 'warlock', 'wizard', 'artificer'], cost: 'action', target: 'enemy', kind: 'attack', dice: '1d12', dmgType: 'poison' });
 S({ id: 'sacredFlame', level: 0, school: 'evocation', classes: ['cleric'], cost: 'action', target: 'enemy', kind: 'save', save: 'dex', dice: '1d8', dmgType: 'radiant' });
 S({ id: 'tollTheDead', level: 0, school: 'necromancy', classes: ['cleric', 'warlock', 'wizard'], cost: 'action', target: 'enemy', kind: 'save', save: 'wis', dice: '1d8', dmgType: 'necrotic', special: 'tollTheDead' });
 S({ id: 'eldritchBlast', level: 0, school: 'evocation', classes: ['warlock'], cost: 'action', target: 'enemy', kind: 'attack', dice: '1d10', dmgType: 'force', special: 'beams', priority: 9 });
 S({ id: 'viciousMockery', level: 0, school: 'enchantment', classes: ['bard'], cost: 'action', target: 'enemy', kind: 'save', save: 'wis', dice: '1d6', dmgType: 'psychic', condition: { id: 'weakened', rounds: 1 } });
 S({ id: 'starryWisp', level: 0, school: 'evocation', classes: ['bard', 'druid'], cost: 'action', target: 'enemy', kind: 'attack', dice: '1d8', dmgType: 'radiant', condition: { id: 'faerieFire', rounds: 1 } });
 S({ id: 'produceFlame', level: 0, school: 'conjuration', classes: ['druid'], cost: 'action', target: 'enemy', kind: 'attack', dice: '1d8', dmgType: 'fire', explore: 'light' });
-S({ id: 'thornWhip', level: 0, school: 'transmutation', classes: ['druid'], cost: 'action', target: 'enemy', kind: 'attack', dice: '1d6', dmgType: 'piercing', special: 'pull' });
-S({ id: 'light', level: 0, school: 'evocation', classes: ['bard', 'cleric', 'sorcerer', 'wizard'], cost: 'action', target: 'self', kind: 'special', explore: 'light', special: 'utility' });
-S({ id: 'guidance', level: 0, school: 'divination', classes: ['cleric', 'druid'], cost: 'action', target: 'self', kind: 'special', explore: 'guidance', special: 'utility' });
+S({ id: 'thornWhip', level: 0, school: 'transmutation', classes: ['druid', 'artificer'], cost: 'action', target: 'enemy', kind: 'attack', dice: '1d6', dmgType: 'piercing', special: 'pull' });
+S({ id: 'light', level: 0, school: 'evocation', classes: ['bard', 'cleric', 'sorcerer', 'wizard', 'artificer'], cost: 'action', target: 'self', kind: 'special', explore: 'light', special: 'utility' });
+S({ id: 'guidance', level: 0, school: 'divination', classes: ['cleric', 'druid', 'artificer'], cost: 'action', target: 'self', kind: 'special', explore: 'guidance', special: 'utility' });
 
 // ── 1st ──────────────────────────────────────────────────────────────────────
 S({ id: 'magicMissile', level: 1, school: 'evocation', classes: ARCANE, cost: 'action', target: 'enemy', kind: 'auto', dice: '3d4+3', dmgType: 'force', upcast: '1d4+1' });
@@ -69,7 +69,7 @@ S({ id: 'chromaticOrb', level: 1, school: 'evocation', classes: ARCANE, cost: 'a
 S({ id: 'iceKnife', level: 1, school: 'conjuration', classes: ['druid', 'sorcerer', 'wizard'], cost: 'action', target: 'enemy', kind: 'attack', dice: '1d10', dmgType: 'piercing', special: 'iceKnife', upcast: '1d6' });
 S({ id: 'sleep', level: 1, school: 'enchantment', classes: ['bard', 'sorcerer', 'wizard'], cost: 'action', target: 'rank', kind: 'debuff', save: 'wis', condition: { id: 'unconscious', rounds: 2, saveEnds: true }, concentration: true });
 S({ id: 'shield', level: 1, school: 'abjuration', classes: ARCANE, cost: 'bonus', target: 'self', kind: 'buff', condition: { id: 'shielded', rounds: 1, value: 5 } });
-S({ id: 'cureWounds', level: 1, school: 'abjuration', classes: ['bard', 'cleric', 'druid', 'paladin', 'ranger'], cost: 'action', target: 'ally', kind: 'heal', dice: '2d8', upcast: '2d8', explore: 'heal', priority: 8 });
+S({ id: 'cureWounds', level: 1, school: 'abjuration', classes: ['bard', 'cleric', 'druid', 'paladin', 'ranger', 'artificer'], cost: 'action', target: 'ally', kind: 'heal', dice: '2d8', upcast: '2d8', explore: 'heal', priority: 8 });
 S({ id: 'healingWord', level: 1, school: 'abjuration', classes: ['bard', 'cleric', 'druid'], cost: 'bonus', target: 'ally', kind: 'heal', dice: '2d4', upcast: '2d4', explore: 'heal', priority: 9 });
 S({ id: 'guidingBolt', level: 1, school: 'evocation', classes: ['cleric'], cost: 'action', target: 'enemy', kind: 'attack', dice: '4d6', dmgType: 'radiant', upcast: '1d6', condition: { id: 'faerieFire', rounds: 1 }, priority: 7 });
 S({ id: 'bless', level: 1, school: 'enchantment', classes: ['cleric', 'paladin'], cost: 'action', target: 'allies', kind: 'buff', condition: { id: 'blessed', rounds: 10, value: 4 }, concentration: true, priority: 6 });
@@ -81,11 +81,11 @@ S({ id: 'huntersMark', level: 1, school: 'divination', classes: ['ranger'], cost
 S({ id: 'hex', level: 1, school: 'enchantment', classes: ['warlock'], cost: 'bonus', target: 'enemy', kind: 'debuff', condition: { id: 'hexed', rounds: 10, value: 6 }, concentration: true, priority: 9 });
 S({ id: 'armorOfAgathys', level: 1, school: 'abjuration', classes: ['warlock'], cost: 'bonus', target: 'self', kind: 'buff', special: 'agathys' });
 S({ id: 'dissonantWhispers', level: 1, school: 'enchantment', classes: ['bard'], cost: 'action', target: 'enemy', kind: 'save', save: 'wis', half: true, dice: '3d6', dmgType: 'psychic', upcast: '1d6', condition: { id: 'frightened', rounds: 1 } });
-S({ id: 'faerieFire', level: 1, school: 'evocation', classes: ['bard', 'druid'], cost: 'action', target: 'enemies', kind: 'debuff', save: 'dex', condition: { id: 'faerieFire', rounds: 10 }, concentration: true });
+S({ id: 'faerieFire', level: 1, school: 'evocation', classes: ['bard', 'druid', 'artificer'], cost: 'action', target: 'enemies', kind: 'debuff', save: 'dex', condition: { id: 'faerieFire', rounds: 10 }, concentration: true });
 S({ id: 'entangle', level: 1, school: 'conjuration', classes: ['druid'], cost: 'action', target: 'rank', kind: 'debuff', save: 'str', condition: { id: 'restrained', rounds: 10, saveEnds: true }, concentration: true });
 S({ id: 'divineSmite', level: 1, school: 'evocation', classes: ['paladin'], cost: 'bonus', target: 'enemy', kind: 'special', dice: '2d8', dmgType: 'radiant', upcast: '1d8', special: 'smite', priority: 10 });
 S({ id: 'heroism', level: 1, school: 'enchantment', classes: ['bard', 'paladin'], cost: 'action', target: 'ally', kind: 'buff', special: 'heroism', concentration: true });
-S({ id: 'falseLife', level: 1, school: 'necromancy', classes: ['sorcerer', 'wizard'], cost: 'action', target: 'self', kind: 'buff', special: 'falseLife' });
+S({ id: 'falseLife', level: 1, school: 'necromancy', classes: ['sorcerer', 'wizard', 'artificer'], cost: 'action', target: 'self', kind: 'buff', special: 'falseLife' });
 
 // ── 2nd ──────────────────────────────────────────────────────────────────────
 S({ id: 'scorchingRay', level: 2, school: 'evocation', classes: ARCANE, cost: 'action', target: 'enemy', kind: 'attack', dice: '2d6', dmgType: 'fire', rays: 3, special: 'rays', priority: 7 });
@@ -93,27 +93,27 @@ S({ id: 'shatter', level: 2, school: 'evocation', classes: ['bard', 'sorcerer', 
 S({ id: 'holdPerson', level: 2, school: 'enchantment', classes: ['bard', 'cleric', 'druid', 'sorcerer', 'warlock', 'wizard'], cost: 'action', target: 'enemy', kind: 'debuff', save: 'wis', condition: { id: 'paralyzed', rounds: 10, saveEnds: true }, concentration: true, special: 'humanoid' });
 S({ id: 'spiritualWeapon', level: 2, school: 'evocation', classes: ['cleric'], cost: 'bonus', target: 'enemy', kind: 'special', dice: '1d8', dmgType: 'force', special: 'spiritualWeapon', concentration: true, priority: 8 });
 S({ id: 'mistyStep', level: 2, school: 'conjuration', classes: ['sorcerer', 'warlock', 'wizard'], cost: 'bonus', target: 'self', kind: 'buff', special: 'mistyStep' });
-S({ id: 'aid', level: 2, school: 'abjuration', classes: ['bard', 'cleric', 'druid', 'paladin', 'ranger'], cost: 'action', target: 'allies', kind: 'buff', special: 'aid', explore: 'aid' });
-S({ id: 'blur', level: 2, school: 'illusion', classes: ARCANE, cost: 'action', target: 'self', kind: 'buff', condition: { id: 'blurred', rounds: 10 }, concentration: true });
+S({ id: 'aid', level: 2, school: 'abjuration', classes: ['bard', 'cleric', 'druid', 'paladin', 'ranger', 'artificer'], cost: 'action', target: 'allies', kind: 'buff', special: 'aid', explore: 'aid' });
+S({ id: 'blur', level: 2, school: 'illusion', classes: [...ARCANE, 'artificer'], cost: 'action', target: 'self', kind: 'buff', condition: { id: 'blurred', rounds: 10 }, concentration: true });
 S({ id: 'moonbeam', level: 2, school: 'evocation', classes: ['druid'], cost: 'action', target: 'enemy', kind: 'zone', save: 'con', half: true, dice: '2d10', dmgType: 'radiant', upcast: '1d10', concentration: true });
-S({ id: 'lesserRestoration', level: 2, school: 'abjuration', classes: ['bard', 'cleric', 'druid', 'paladin', 'ranger'], cost: 'bonus', target: 'ally', kind: 'special', special: 'cleanse', explore: 'cleanse' });
-S({ id: 'invisibility', level: 2, school: 'illusion', classes: ['bard', 'sorcerer', 'warlock', 'wizard'], cost: 'action', target: 'ally', kind: 'buff', condition: { id: 'invisible', rounds: 10 }, concentration: true, explore: 'sneak' });
-S({ id: 'web', level: 2, school: 'conjuration', classes: ARCANE, cost: 'action', target: 'rank', kind: 'debuff', save: 'dex', condition: { id: 'restrained', rounds: 10, saveEnds: true }, concentration: true });
+S({ id: 'lesserRestoration', level: 2, school: 'abjuration', classes: ['bard', 'cleric', 'druid', 'paladin', 'ranger', 'artificer'], cost: 'bonus', target: 'ally', kind: 'special', special: 'cleanse', explore: 'cleanse' });
+S({ id: 'invisibility', level: 2, school: 'illusion', classes: ['bard', 'sorcerer', 'warlock', 'wizard', 'artificer'], cost: 'action', target: 'ally', kind: 'buff', condition: { id: 'invisible', rounds: 10 }, concentration: true, explore: 'sneak' });
+S({ id: 'web', level: 2, school: 'conjuration', classes: [...ARCANE, 'artificer'], cost: 'action', target: 'rank', kind: 'debuff', save: 'dex', condition: { id: 'restrained', rounds: 10, saveEnds: true }, concentration: true });
 S({ id: 'spikeGrowth', level: 2, school: 'transmutation', classes: ['druid', 'ranger'], cost: 'action', target: 'rank', kind: 'zone', dice: '2d4', dmgType: 'piercing', concentration: true });
-S({ id: 'heatMetal', level: 2, school: 'transmutation', classes: ['bard', 'druid'], cost: 'action', target: 'enemy', kind: 'zone', dice: '2d8', dmgType: 'fire', upcast: '1d8', concentration: true });
+S({ id: 'heatMetal', level: 2, school: 'transmutation', classes: ['bard', 'druid', 'artificer'], cost: 'action', target: 'enemy', kind: 'zone', dice: '2d8', dmgType: 'fire', upcast: '1d8', concentration: true });
 S({ id: 'cloudOfDaggers', level: 2, school: 'conjuration', classes: ['bard', 'sorcerer', 'warlock', 'wizard'], cost: 'action', target: 'enemy', kind: 'zone', dice: '4d4', dmgType: 'slashing', upcast: '2d4', concentration: true });
 S({ id: 'prayerOfHealing', level: 2, school: 'abjuration', classes: ['cleric', 'paladin'], cost: 'action', target: 'allies', kind: 'heal', dice: '2d8', upcast: '1d8', explore: 'partyHeal' });
-S({ id: 'findTraps', level: 2, school: 'divination', classes: ['cleric', 'druid', 'ranger'], cost: 'action', target: 'self', kind: 'special', special: 'utility', explore: 'traps' });
-S({ id: 'knock', level: 2, school: 'transmutation', classes: ['bard', 'sorcerer', 'wizard'], cost: 'action', target: 'self', kind: 'special', special: 'utility', explore: 'unlock' });
+S({ id: 'findTraps', level: 2, school: 'divination', classes: ['cleric', 'druid', 'ranger', 'artificer'], cost: 'action', target: 'self', kind: 'special', special: 'utility', explore: 'traps' });
+S({ id: 'knock', level: 2, school: 'transmutation', classes: ['bard', 'sorcerer', 'wizard', 'artificer'], cost: 'action', target: 'self', kind: 'special', special: 'utility', explore: 'unlock' });
 
 // ── 3rd ──────────────────────────────────────────────────────────────────────
 S({ id: 'fireball', level: 3, school: 'evocation', classes: ARCANE, cost: 'action', target: 'enemies', kind: 'save', save: 'dex', half: true, dice: '8d6', dmgType: 'fire', upcast: '1d6', priority: 10 });
 S({ id: 'lightningBolt', level: 3, school: 'evocation', classes: ARCANE, cost: 'action', target: 'rank', kind: 'save', save: 'dex', half: true, dice: '8d6', dmgType: 'lightning', upcast: '1d6' });
 S({ id: 'massHealingWord', level: 3, school: 'abjuration', classes: ['bard', 'cleric'], cost: 'bonus', target: 'allies', kind: 'heal', dice: '2d4', upcast: '1d4', priority: 8 });
 S({ id: 'spiritGuardians', level: 3, school: 'conjuration', classes: ['cleric'], cost: 'action', target: 'rank', kind: 'zone', save: 'wis', half: true, dice: '3d8', dmgType: 'radiant', upcast: '1d8', concentration: true, priority: 9 });
-S({ id: 'haste', level: 3, school: 'transmutation', classes: ARCANE, cost: 'action', target: 'ally', kind: 'buff', condition: { id: 'hasted', rounds: 10 }, concentration: true });
+S({ id: 'haste', level: 3, school: 'transmutation', classes: [...ARCANE, 'artificer'], cost: 'action', target: 'ally', kind: 'buff', condition: { id: 'hasted', rounds: 10 }, concentration: true });
 S({ id: 'hypnoticPattern', level: 3, school: 'illusion', classes: ['bard', 'sorcerer', 'warlock', 'wizard'], cost: 'action', target: 'enemies', kind: 'debuff', save: 'wis', condition: { id: 'incapacitated', rounds: 10 }, concentration: true });
-S({ id: 'revivify', level: 3, school: 'necromancy', classes: ['cleric', 'druid', 'paladin', 'ranger'], cost: 'action', target: 'fallenAlly', kind: 'special', special: 'revivify', explore: 'revive' });
+S({ id: 'revivify', level: 3, school: 'necromancy', classes: ['cleric', 'druid', 'paladin', 'ranger', 'artificer'], cost: 'action', target: 'fallenAlly', kind: 'special', special: 'revivify', explore: 'revive' });
 S({ id: 'callLightning', level: 3, school: 'conjuration', classes: ['druid'], cost: 'action', target: 'enemy', kind: 'zone', save: 'dex', half: true, dice: '3d10', dmgType: 'lightning', upcast: '1d10', concentration: true });
 S({ id: 'vampiricTouch', level: 3, school: 'necromancy', classes: ['sorcerer', 'warlock', 'wizard'], cost: 'action', target: 'enemy', kind: 'attack', melee: true, dice: '3d6', dmgType: 'necrotic', upcast: '1d6', special: 'drain' });
 S({ id: 'fear', level: 3, school: 'illusion', classes: ['bard', 'sorcerer', 'warlock', 'wizard'], cost: 'action', target: 'rank', kind: 'debuff', save: 'wis', condition: { id: 'frightened', rounds: 10, saveEnds: true }, concentration: true });
@@ -121,14 +121,14 @@ S({ id: 'slow', level: 3, school: 'transmutation', classes: ARCANE, cost: 'actio
 S({ id: 'hungerOfHadar', level: 3, school: 'conjuration', classes: ['warlock'], cost: 'action', target: 'rank', kind: 'zone', dice: '4d6', dmgType: 'cold', upcast: '1d6', condition: { id: 'blinded', rounds: 1 }, concentration: true });
 S({ id: 'crusadersMantle', level: 3, school: 'evocation', classes: ['paladin'], cost: 'action', target: 'allies', kind: 'buff', condition: { id: 'empowered', rounds: 10, value: 4 }, concentration: true });
 S({ id: 'conjureBarrage', level: 3, school: 'conjuration', classes: ['ranger'], cost: 'action', target: 'enemies', kind: 'save', save: 'dex', half: true, dice: '5d8', dmgType: 'piercing', upcast: '1d8' });
-S({ id: 'dispelMagic', level: 3, school: 'abjuration', classes: ['bard', 'cleric', 'druid', 'paladin', 'sorcerer', 'warlock', 'wizard'], cost: 'action', target: 'enemy', kind: 'special', special: 'dispel', explore: 'dispel' });
+S({ id: 'dispelMagic', level: 3, school: 'abjuration', classes: ['bard', 'cleric', 'druid', 'paladin', 'sorcerer', 'warlock', 'wizard', 'artificer'], cost: 'action', target: 'enemy', kind: 'special', special: 'dispel', explore: 'dispel' });
 
 // ── 4th ──────────────────────────────────────────────────────────────────────
 S({ id: 'iceStorm', level: 4, school: 'evocation', classes: ['druid', 'sorcerer', 'wizard'], cost: 'action', target: 'enemies', kind: 'save', save: 'dex', half: true, dice: '6d8', dmgType: 'cold', upcast: '1d8' });
 S({ id: 'blight', level: 4, school: 'necromancy', classes: ['druid', 'sorcerer', 'warlock', 'wizard'], cost: 'action', target: 'enemy', kind: 'save', save: 'con', half: true, dice: '8d8', dmgType: 'necrotic', upcast: '1d8' });
 S({ id: 'greaterInvisibility', level: 4, school: 'illusion', classes: ['bard', 'sorcerer', 'wizard'], cost: 'action', target: 'ally', kind: 'buff', condition: { id: 'invisible', rounds: 10, value: 1 }, concentration: true });
 S({ id: 'deathWard', level: 4, school: 'abjuration', classes: ['cleric', 'paladin'], cost: 'action', target: 'ally', kind: 'buff', special: 'deathWard' });
-S({ id: 'stoneskin', level: 4, school: 'transmutation', classes: ['druid', 'ranger', 'sorcerer', 'wizard'], cost: 'action', target: 'ally', kind: 'buff', condition: { id: 'stoneskin', rounds: 10 }, concentration: true });
+S({ id: 'stoneskin', level: 4, school: 'transmutation', classes: ['druid', 'ranger', 'sorcerer', 'wizard', 'artificer'], cost: 'action', target: 'ally', kind: 'buff', condition: { id: 'stoneskin', rounds: 10 }, concentration: true });
 S({ id: 'wallOfFire', level: 4, school: 'evocation', classes: ['druid', 'sorcerer', 'wizard'], cost: 'action', target: 'rank', kind: 'zone', save: 'dex', half: true, dice: '5d8', dmgType: 'fire', upcast: '1d8', concentration: true });
 S({ id: 'banishment', level: 4, school: 'abjuration', classes: ['cleric', 'paladin', 'sorcerer', 'warlock', 'wizard'], cost: 'action', target: 'enemy', kind: 'debuff', save: 'cha', condition: { id: 'incapacitated', rounds: 10, saveEnds: true }, concentration: true, special: 'banish' });
 S({ id: 'guardianOfFaith', level: 4, school: 'conjuration', classes: ['cleric'], cost: 'action', target: 'rank', kind: 'zone', save: 'dex', half: true, dice: '4d8', dmgType: 'radiant' });
@@ -140,7 +140,7 @@ S({ id: 'massCureWounds', level: 5, school: 'abjuration', classes: ['bard', 'cle
 S({ id: 'holdMonster', level: 5, school: 'enchantment', classes: ['bard', 'sorcerer', 'warlock', 'wizard'], cost: 'action', target: 'enemy', kind: 'debuff', save: 'wis', condition: { id: 'paralyzed', rounds: 10, saveEnds: true }, concentration: true });
 S({ id: 'insectPlague', level: 5, school: 'conjuration', classes: ['cleric', 'druid', 'sorcerer'], cost: 'action', target: 'rank', kind: 'zone', save: 'con', half: true, dice: '4d10', dmgType: 'piercing', upcast: '1d10', concentration: true });
 S({ id: 'raiseDead', level: 5, school: 'necromancy', classes: ['bard', 'cleric', 'paladin'], cost: 'action', target: 'fallenAlly', kind: 'special', special: 'raiseDead', explore: 'revive' });
-S({ id: 'greaterRestoration', level: 5, school: 'abjuration', classes: ['bard', 'cleric', 'druid', 'paladin', 'ranger'], cost: 'action', target: 'ally', kind: 'special', special: 'cleanseAll', explore: 'cleanse' });
+S({ id: 'greaterRestoration', level: 5, school: 'abjuration', classes: ['bard', 'cleric', 'druid', 'paladin', 'ranger', 'artificer'], cost: 'action', target: 'ally', kind: 'special', special: 'cleanseAll', explore: 'cleanse' });
 S({ id: 'cloudkill', level: 5, school: 'conjuration', classes: ARCANE, cost: 'action', target: 'enemies', kind: 'zone', save: 'con', half: true, dice: '5d8', dmgType: 'poison', upcast: '1d8', concentration: true });
 S({ id: 'destructiveWave', level: 5, school: 'evocation', classes: ['paladin'], cost: 'action', target: 'enemies', kind: 'save', save: 'con', half: true, dice: '10d6', dmgType: 'radiant', condition: { id: 'prone', rounds: 1 } });
 S({ id: 'swiftQuiver', level: 5, school: 'transmutation', classes: ['ranger'], cost: 'bonus', target: 'self', kind: 'buff', condition: { id: 'hasted', rounds: 10 }, concentration: true });

@@ -814,7 +814,7 @@ export function rest(g: GameState, kind: 'short' | 'long'): string | null {
       spendHitDice(h, rng, Math.min(h.hitDice, Math.max(0, need)));
       shortRest(h);
       // Wizard Arcane Recovery / Druid Natural Recovery.
-      if ((h.classId === 'wizard' && (h.resources.arcaneRecovery ?? 0) > 0) || (h.classId === 'druid' && h.level >= 6 && !exp.flags[`natrec:${h.id}`])) {
+      if ((h.classId === 'wizard' && (h.resources.arcaneRecovery ?? 0) > 0) || (d.features.has('naturalRecovery') && !exp.flags[`natrec:${h.id}`])) {
         if (h.classId === 'wizard') h.resources.arcaneRecovery -= 1; else exp.flags[`natrec:${h.id}`] = 1;
         let budget = Math.ceil(h.level / 2);
         const max = d.slots;
