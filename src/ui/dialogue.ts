@@ -16,6 +16,7 @@ import { EVIDENCE, LEADS } from '../content/quest.ts';
 import { SKILL_NAMES } from '../rules/character.ts';
 import { script, resolveNode, visibleChoices, bestAtKeep, has, readyScripts, type TalkResult } from '../meta/quest.ts';
 import type { DlgNode, Where } from '../content/dialogue.ts';
+import { lineText, choiceLabel } from '../i18n/dialogue.ts';
 
 interface DlgUi { script: string; node: string; cursor: number; roll?: TalkResult['roll']; roller?: string; log: { who: string; text: string }[]; showLog?: boolean }
 
@@ -58,7 +59,7 @@ function nodeOf(): DlgNode | null {
 
 /** Raw text with markup resolved, `|` kept as beat marks. */
 function rawText(g: GameState, n: DlgNode): string {
-  let t = typeof n.say === 'function' ? n.say(g) : n.say;
+  let t = lineText(g, dlg!.script, dlg!.node, n);
   t = t.replace(/\{keeper\}/g, g.profile.keeperName || 'Keeper');
   t = t.replace(/\{hero\}/g, dlg?.roller ?? 'Your hero');
   t = t.replace(/\{best:(\w+)\}/g, (_, sk) => bestAtKeep(g, sk)?.hero.name ?? 'Your hero');
@@ -246,7 +247,7 @@ export function dialogueBox(): HTMLElement | null {
           h('button', { class: `dlg-choice ${i === dlg!.cursor ? 'on' : ''}`, 'data-key': `choice-${i}`, on: { click: (e: Event) => { e.stopPropagation(); dlg!.cursor = i; step(i); }, mouseenter: () => { if (dlg && dlg.cursor !== i) { dlg.cursor = i; render(); } } } },
             h('span', { class: 'cur' }, i === dlg!.cursor ? '▶' : ''),
             c.check ? h('span', { class: 'dlg-check' }, `🎲 ${SKILL_NAMES[c.check.skill]} ${c.check.dc}`) : null,
-            c.label))) : null,
+            choiceLabel(dlg!.script, dlg!.node, n.choices!.indexOf(c))))) : null,
         h('div', { class: 'dlg-help' }, typing ? 'Space: finish line' : choices.length ? '↑↓ choose · Enter confirm' : 'Space: next · Esc: skip · L: log'))));
 }
 

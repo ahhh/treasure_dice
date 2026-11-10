@@ -1,6 +1,7 @@
 import './styles/main.css';
 import { app, render } from './ui/app.ts';
 import { loadManifest } from './ui/art.ts';
+import { setLocale, onLocaleChange } from './i18n/index.ts';
 import { titleScreen } from './ui/title.ts';
 import { townScreen } from './ui/town.ts';
 import { exploreScreen, move } from './ui/explore.ts';
@@ -62,6 +63,10 @@ document.addEventListener('keydown', (e) => {
 installTutorial();
 installTips();
 void loadManifest().then(render);
+onLocaleChange(render);
+// ?lang=fr previews a translation (a settings menu comes with UI localisation).
+const lang = new URLSearchParams(location.search).get('lang');
+if (lang) void setLocale(lang);
 render();
 
 // Dev-only hook for browser tests (stripped from production builds).

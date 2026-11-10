@@ -7,7 +7,7 @@ import { SCRIPTS } from '../src/content/dialogue.ts';
 import { NPCS, portraitKey } from '../src/content/npcs.ts';
 import { EVENTS } from '../src/content/events.ts';
 import { EVIDENCE, LEADS, RUMORS, MUSTER } from '../src/content/quest.ts';
-import { BARKS, HEAD_LINES } from '../src/content/dialogue/keep.ts';
+import en from '../src/locales/en/dialogue.json';
 import { CHROMATIC, hymnColour, applyFx, questOf, heads, readyScripts, talk, check, offerLead, placeQuestRoom, onExpeditionEnd, migrateQuest, visibleChoices, musterAct, trackDone } from '../src/meta/quest.ts';
 import { migrate } from '../src/persistence/save.ts';
 import { afterCombat } from '../src/dungeon/explore.ts';
@@ -69,8 +69,8 @@ describe('dialogue scripts (lint)', () => {
   });
 
   it('keepers have a bark for every stage, and every head has a voice', () => {
-    for (const lines of Object.values(BARKS)) expect(lines).toHaveLength(7);
-    for (const b of BIOMES) expect(HEAD_LINES[b]).toBeTruthy();
+    for (const lines of Object.values(en.barks)) expect(lines).toHaveLength(7);
+    for (const b of BIOMES) expect((en.heads as Record<string, string>)[b]).toBeTruthy();
   });
 
   it('quest rooms never appear at random, and their rewards are earned', () => {

@@ -21,7 +21,7 @@ import { EVENTS } from '../content/events.ts';
 import { eventOptions } from '../dungeon/explore.ts';
 import { staticBox } from './dialogue.ts';
 import { HEAD_EYES } from '../content/npcs.ts';
-import { HEAD_LINES } from '../content/dialogue/keep.ts';
+import { headLine } from '../i18n/dialogue.ts';
 import { EVIDENCE } from '../content/quest.ts';
 import { BIOMES } from '../content/biomes.ts';
 import { SKILL_ABILITY } from '../rules/character.ts';
@@ -331,7 +331,7 @@ export function resultScreen(): HTMLElement {
         h('h1', { class: `result-big ${r.kind === 'wiped' ? 'danger' : 'gold'}` }, title),
         h('p', { class: 'prose', style: 'text-align:center;margin:8px auto' }, `${r.finale ? 'The Dragon Throne' : r.tutorial ? 'The Training Cellar' : BIOMES[r.biome].name} — ${r.fights} fights, best hand ${fmt(r.score)}.`),
         chapter ? h('div', { class: 'chronicle story-beat' }, banner(`story/${chapter.id}`, chapter.title), h('div', { class: 'chapter-head' }, chapter.head), h('h2', null, chapter.title), ...chapter.text.map((t) => h('p', { class: 'prose' }, t))) : null,
-        r.quest?.head ? staticBox({ name: '???', color: HEAD_EYES[r.quest.head].color, face: art(HEAD_EYES[r.quest.head].key, 'An eye', 'dlg-face'), variant: 'head' }, HEAD_LINES[r.quest.head]) : null,
+        r.quest?.head ? staticBox({ name: '???', color: HEAD_EYES[r.quest.head].color, face: art(HEAD_EYES[r.quest.head].key, 'An eye', 'dlg-face'), variant: 'head' }, headLine(r.quest.head)) : null,
         r.quest?.found.length || r.quest?.notes.length ? h('div', { class: 'small gold', style: 'text-align:center;margin:6px 0' }, ...(r.quest.found.map((id) => h('div', null, `📜 Evidence: ${EVIDENCE[id]?.name ?? id}`))), ...r.quest.notes.map((n) => h('div', null, n))) : null,
         r.tutorial && r.kind !== 'won' ? h('p', { class: 'prose', style: 'text-align:center' }, 'Practice makes perfect. Nobody died, and the Training Cellar is still open in the Cartographer.') : null,
         h('table', { class: 'mini' },

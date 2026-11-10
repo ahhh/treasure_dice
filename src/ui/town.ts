@@ -29,7 +29,7 @@ import { persist } from './app.ts';
 import { tavernOpen, heads, awakened, tiamatSlain, readyScripts, leadsFor, has, trainingClosed, questOf, trackDone, hymnColour, CHROMATIC } from '../meta/quest.ts';
 import { ANNOTATIONS, DISSENT, EVIDENCE, LULLABY, TRACKS } from '../content/quest.ts';
 import { KEEPER_BY_TAB, NPCS } from '../content/npcs.ts';
-import { BARKS } from '../content/dialogue/keep.ts';
+import { barkLine, eulogyLine, scriptTitle } from '../i18n/dialogue.ts';
 import type { Where } from '../content/dialogue.ts';
 
 const ALL_TABS: [string, string, string][] = [
@@ -64,11 +64,12 @@ function keeperBark(tab: string): HTMLElement | null {
     const fallen = g.roster.filter((x) => x.status === 'dead' && !has(g, `note:eulogy:${x.id}`));
     if (tab === 'guild' && fallen.length) {
       const x = fallen[0];
-      pending = { who: 'maren', flag: `note:eulogy:${x.id}`, text: `I read ${x.name}'s name off the Wall this morning. ${x.history.clears} echo${x.history.clears === 1 ? '' : 'es'} broken, ${x.history.kills} foes put down. ${x.history.deathCause ? `Lost to ${x.history.deathCause}.` : ''} We'll read it every morning.` };
+      pending = { who: 'maren', flag: `note:eulogy:${x.id}`, text: eulogyLine(x.name, x.history.clears, x.history.kills, x.history.deathCause) };
     } else {
       const who = KEEPER_BY_TAB[tab];
       const stage = tiamatSlain(g) ? 6 : heads(g);
-      if (who && BARKS[who] && !has(g, `bark:${who}:${stage}`)) pending = { who, flag: `bark:${who}:${stage}`, text: BARKS[who][stage] };
+      const line = who ? barkLine(who, stage) : undefined;
+      if (who && line && !has(g, `bark:${who}:${stage}`)) pending = { who, flag: `bark:${who}:${stage}`, text: line };
     }
     if (!pending) return null;
     barkNow = { tab, who: pending.who, text: pending.text };
@@ -88,7 +89,7 @@ function keeperScenes(tab: string): HTMLElement | null {
   const list = readyScripts(g, where).filter((x) => !x.auto);
   if (!list.length) return null;
   return h('div', { class: 'win keeper-call' }, ...list.map((sc) => h('div', { class: 'row' },
-    h('span', { class: 'grow' }, h('b', null, NPCS[sc.speaker]?.name ?? ''), ` — ${sc.title}`),
+    h('span', { class: 'grow' }, h('b', null, NPCS[sc.speaker]?.name ?? ''), ` — ${scriptTitle(sc.id)}`),
     btn('Talk', () => openDialogue(sc.id), { cls: 'small primary', key: `scene-${sc.id}` }))));
 }
 

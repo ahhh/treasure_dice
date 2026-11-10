@@ -5,6 +5,7 @@ import { app, run, render } from './app.ts';
 import { art, banner } from './art.ts';
 import { sfx } from './audio.ts';
 import { openDialogue, autoDialogue, npcPortrait, speakerName } from './dialogue.ts';
+import { scriptTitle } from '../i18n/dialogue.ts';
 import { NPCS } from '../content/npcs.ts';
 import { BIOMES } from '../content/biomes.ts';
 import { DRINKS, EVIDENCE, LEADS, SOURCES, TRACKS, LEAD_PITY, type DrinkId, type Track } from '../content/quest.ts';
@@ -37,7 +38,7 @@ function patronList(scripts: Script[]): HTMLElement {
       npcPortrait(who, 'neutral', 'patron-face'),
       h('span', { class: 'col', style: 'gap:2px;align-items:flex-start' },
         h('b', null, speakerName(g, who)),
-        h('span', { class: 'small muted' }, fresh ? fresh.title : NPCS[who]?.title ?? '')),
+        h('span', { class: 'small muted' }, fresh ? scriptTitle(fresh.id) : NPCS[who]?.title ?? '')),
       fresh ? h('span', { class: 'badge red' }, '!') : h('span', { class: 'small muted' }, '…'));
   }));
 }
