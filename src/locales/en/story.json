@@ -1332,5 +1332,6 @@
       "boon": "Kindred Chorus: in the Dragon Throne, each hero's first hand scores +2 Mult.",
       "cost": "None. It only asks what you have already done."
     }
-  }
+  },
+  "questRoomText": "Something here is out of place. Someone has been through recently."
 }

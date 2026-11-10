@@ -10,6 +10,7 @@ import { DIFFICULTY_MOD } from '../rules/balance.ts';
 import { BIOMES } from '../content/biomes.ts';
 import { biomeMonsters, MONSTERS, type MonsterDef } from '../content/monsters.ts';
 import { eventsFor } from '../content/events.ts';
+import { ref, resolveRef, text } from '../i18n/index.ts';
 
 export const DIRS: Facing[] = ['N', 'E', 'S', 'W'];
 export const DELTA: Record<Facing, [number, number]> = { N: [0, -1], E: [1, 0], S: [0, 1], W: [-1, 0] };
@@ -280,13 +281,20 @@ const encounterWeight = (m: MonsterDef) => (m.minLevel ? 1.6 : 1);
 
 function dressRoom(r: Room, rng: Rng, opts: GenOptions) {
   const biome = BIOMES[opts.biome];
-  const names = biome.rooms[r.type] ?? biome.rooms.corridor ?? ['Chamber'];
-  r.name = rng.pick(names);
-  const parts = [rng.pick(biome.atmosphere)];
-  if (rng.chance(0.7)) parts.push(rng.pick(biome.details));
-  if (r.tags.includes(biome.tag.id)) parts.push(`(${biome.tag.label}.)`);
-  if (r.tags.includes(biome.resetTag.id)) parts.push(`(${biome.resetTag.label}.)`);
-  r.text = parts.join(' ');
+  const B = ['biomes', opts.biome];
+  // Pick from the biome's lists, remembering where each string came from (refs follow the language).
+  const pickRef = (path: string[], list: readonly string[]) => { const v = rng.pick(list); return { v, ref: ref('game', [...path, list.indexOf(v)]) }; };
+  const listKey = biome.rooms[r.type] ? r.type : biome.rooms.corridor ? 'corridor' : null;
+  const name = listKey ? pickRef([...B, 'rooms', listKey], biome.rooms[listKey]!) : { v: text('game', ['format', 'chamber']), ref: ref('game', ['format', 'chamber']) };
+  r.name = name.v;
+  r.nameRef = name.ref;
+  const parts = [pickRef([...B, 'atmosphere'], biome.atmosphere)];
+  if (rng.chance(0.7)) parts.push(pickRef([...B, 'details'], biome.details));
+  const note = (k: 'tag' | 'resetTag') => ({ v: resolveRef(`note|${ref('game', [...B, k, 'label'])}`), ref: `note|${ref('game', [...B, k, 'label'])}` });
+  if (r.tags.includes(biome.tag.id)) parts.push(note('tag'));
+  if (r.tags.includes(biome.resetTag.id)) parts.push(note('resetTag'));
+  r.text = parts.map((p) => p.v).join(' ');
+  r.textRefs = parts.map((p) => p.ref);
   r.art = roomArt(r, opts.biome);
   switch (r.type) {
     case 'combat':

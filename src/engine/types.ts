@@ -388,8 +388,12 @@ export interface Room {
   x: number;
   y: number;
   type: RoomType;
+  /** English at generation time; old saves only have these. Show `roomName`/`roomText` (src/dungeon/roomText.ts). */
   name: string;
   text: string;
+  /** Where the name and each sentence came from in the locale files, so a saved room follows the language. */
+  nameRef?: string;
+  textRefs?: string[];
   exits: Partial<Record<Facing, Door>>;
   encounter?: { monsters: string[]; kind: Combat['kind']; cleared: boolean };
   eventId?: string;
@@ -457,6 +461,8 @@ export interface Expedition {
   shortRests: number;
   longRestUsed: boolean;
   theme: { name: string; anomaly: string; faction: string; objective: string; boss: string; hook: string };
+  /** Locale refs for each theme field (see `themeText`); absent in saves from before localisation. */
+  themeRefs?: Partial<Record<'name' | 'anomaly' | 'faction' | 'objective' | 'boss' | 'hook', string>>;
   /** The Queen's Due: the lead whose room was placed this run, and the drink taken. */
   quest?: { lead?: string; drink?: string; /** Quest effects waiting on the current fight being won. */ onWin?: import('../content/questTypes.ts').QuestFx[] };
   fallen: string[];

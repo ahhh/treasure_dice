@@ -19,6 +19,11 @@ The editor covers:
   auto-succeed, costs and outcomes.
 - **Story and quest** (`story.json`): the Chronicle (chapters, later notes, lullaby), people,
   heads, doors and the finale, leads, evidence, rumours, drinks and the Muster.
+- **Game data** (`game.json`): echoes (names, meters, room-name lists, flavour lines), items
+  and affixes, monsters and their actions, spells, classes and their features, feats and other
+  class options, species, backgrounds, skills, dice, hands, curses, charms and omens, tokens,
+  facilities, the tutorial rooms, and the formats that assemble names (“Veteran {name}”,
+  “{prefix} {name}{plus} {suffix}”).
 
 Edit, then **Save** (⌘S): the JSON on disk changes, an open game tab swaps the new text in
 without reloading, and the editor keeps your place. Commit the file as usual. Link straight
@@ -70,6 +75,15 @@ outcomes sit at `events.<id>.options[i].success.<j>.t`.
 
 Art subjects (`look`, `moods`) stay in code: they describe pictures, not player text.
 
+## Saved runs
+
+Generated rooms and an expedition's theme store *references* to their words
+(`room.nameRef`, `room.textRefs`, `exp.themeRefs`, e.g. `game:biomes/cinder/rooms/combat/2`)
+next to the English they were made with. Show them with `roomName`, `roomText` and
+`themeText` (src/dungeon/roomText.ts), which resolve the refs in the current language and fall
+back to the stored English for saves from before localisation. The journal log is history: it
+keeps the language it was written in.
+
 ## Code API
 
 ```ts
@@ -83,6 +97,6 @@ await setLocale('fr');                   // loads that language's chunks, then r
 
 1. Dialogue scenes, barks, heads, eulogy: **done**.
 2. Story content (events, chapters, leads, evidence, rumours, drinks, Muster, NPC names): **done**.
-3. Game data names and descriptions: charms, items, monsters, spells, classes, biomes.
+3. Game data names and descriptions, plus saved room and theme text: **done**.
 4. UI strings in `src/ui/*` (buttons, labels, tutorial, tooltips) into `ui.json`, plus a
    language menu in settings.

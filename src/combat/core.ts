@@ -7,7 +7,10 @@ import type {
 } from '../engine/types.ts';
 import { Rng } from '../engine/rng.ts';
 import { rollD20, combineAdvantage, roll, type Advantage } from '../engine/dice.ts';
-import { MONSTERS, TIER_TITLES, tierIndex, monsterActions, monsterTraits } from '../content/monsters.ts';
+import { MONSTERS, tierName, tierIndex, monsterActions, monsterTraits } from '../content/monsters.ts';
+import { text } from '../i18n/index.ts';
+
+const eliteName = (elite: boolean | undefined, name: string) => (elite ? text('game', ['format', 'elite'], { name }) : name);
 import { derive, mod } from '../rules/character.ts';
 import {
   monsterHp, monsterDamage, monsterAttack, monsterAc, monsterDc, depthScale, levelPressure, DIFFICULTY_MOD, ROLE_MOD, ELITE_MOD, VITALITY, ECHO,
@@ -131,10 +134,9 @@ export function scaledMonster(ctx: { exp: Expedition }, entry: string, idx: numb
   const saveBase = Math.floor(L / 3) + 1;
   const saves: Record<Ability, number> = { str: saveBase, dex: saveBase, con: saveBase + 1, int: saveBase - 1, wis: saveBase, cha: saveBase - 1 };
   if (def.role === 'boss') for (const k of Object.keys(saves) as Ability[]) saves[k] += 2;
-  const tier = TIER_TITLES[tierIndex(L)];
   hp = Math.round(hp);
   return {
-    id: `e${idx}`, side: 'enemy', refId: id, name: `${elite ? 'Elite ' : ''}${def.role === 'boss' ? '' : tier}${def.name}`,
+    id: `e${idx}`, side: 'enemy', refId: id, name: eliteName(elite, def.role === 'boss' ? def.name : tierName(tierIndex(L), def.name)),
     art: `monsters/${def.biome}_${def.id}`, rank: def.rank, level: L, hp, maxHp: hp, tempHp: 0, ac, initiative: 0,
     dexMod: def.role === 'skirmisher' ? 3 : def.role === 'artillery' ? 2 : 1,
     conditions: [], downed: false, dead: false, stable: false, deathSaves: { s: 0, f: 0 },

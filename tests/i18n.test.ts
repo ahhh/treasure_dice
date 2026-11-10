@@ -9,6 +9,20 @@ import { EVENTS } from '../src/content/events.ts';
 import { CHAPTERS, PROLOGUE, EPILOGUE, HEADS, FINALE } from '../src/content/story.ts';
 import { EVIDENCE, DRINKS, LEADS, SOURCES, RUMORS, MUSTER, TRACKS, LULLABY } from '../src/content/quest.ts';
 import { NPCS } from '../src/content/npcs.ts';
+import game from '../src/locales/en/game.json';
+import { ITEMS, AFFIXES, itemName } from '../src/content/items.ts';
+import { MONSTERS } from '../src/content/monsters.ts';
+import { SPELLS } from '../src/content/spells.ts';
+import { CLASSES } from '../src/content/classes.ts';
+import { BIOMES } from '../src/content/biomes.ts';
+import { CHARM_BY_ID, charmText } from '../src/fortune/charms.ts';
+import { HANDS } from '../src/fortune/hands.ts';
+import { generateDungeon } from '../src/dungeon/generator.ts';
+import { buildTutorialMap } from '../src/dungeon/tutorial.ts';
+import { roomName, roomText, themeText } from '../src/dungeon/roomText.ts';
+import { dispatch } from '../src/app/commands.ts';
+import { Rng, seedState } from '../src/engine/rng.ts';
+import { setCatalog, setLocale } from '../src/i18n/index.ts';
 
 type Lines = Record<string, string | Record<string, string>>;
 const scripts = en.scripts as Record<string, { title: string; lines: Lines; choices?: Record<string, string[]>; terms?: Record<string, string> }>;
@@ -94,6 +108,53 @@ describe('story text', () => {
     expect(ids(story.muster)).toEqual(MUSTER.map((m) => m.id).sort());
     for (const m of MUSTER) expect(m.title && m.text, m.id).toBeTruthy();
     for (const t of Object.values(TRACKS)) expect(t.name && t.boon && t.cost).toBeTruthy();
+  });
+});
+
+describe('game data text', () => {
+  const ids = (o: object) => Object.keys(o).sort();
+  it('every item, monster, spell, class, charm and hand has its words, and nothing in game.json is orphaned', () => {
+    for (const [name, table] of [['items', ITEMS], ['affixes', AFFIXES], ['monsters', MONSTERS], ['spells', SPELLS], ['classes', CLASSES], ['biomes', BIOMES]] as const) {
+      expect(ids((game as Record<string, object>)[name]), name).toEqual(ids(table));
+    }
+    for (const i of Object.values(ITEMS)) expect(i.name, i.id).toBeTruthy();
+    for (const m of Object.values(MONSTERS)) {
+      expect(m.name && m.flavor, m.id).toBeTruthy();
+      for (const a of [...m.actions, ...(m.heroic ?? []), ...(m.mythic ?? [])]) expect(a.name, `${m.id}/${a.id}`).toBeTruthy();
+      if (m.boss) expect(m.boss.title && m.boss.intro, m.id).toBeTruthy();
+    }
+    for (const sp of Object.values(SPELLS)) expect(sp.name && sp.text, sp.id).toBeTruthy();
+    for (const c of Object.values(CLASSES)) {
+      expect(c.name && c.summary && c.subclass.name && c.fortuneTalent.name, c.id).toBeTruthy();
+      for (const r of c.resources) expect(r.name, `${c.id}/${r.id}`).toBeTruthy();
+      for (const list of Object.values(c.features)) for (const f of list) expect(f.name && f.text, `${c.id}/${f.id}`).toBeTruthy();
+    }
+    for (const c of Object.values(CHARM_BY_ID)) { expect(c.name, c.id).toBeTruthy(); expect(charmText(c), c.id).not.toMatch(/\{\w+\}/); }
+    for (const h of HANDS) expect(h.name && h.blurb, h.id).toBeTruthy();
+    const affs = Object.keys(AFFIXES);
+    expect(itemName({ uid: 'x', defId: 'dagger', plus: 1, affixes: [affs.find((a) => AFFIXES[a].prefix)!, affs.find((a) => !AFFIXES[a].prefix)!], qty: 2 } as never)).toBe('Flaming Dagger +1 of Warding ×2');
+  });
+
+  it('generated rooms and run themes keep refs that resolve, and follow a language switch', () => {
+    const map = generateDungeon(new Rng(seedState('refs')), { seed: 'refs', biome: 'cinder', level: 3, difficulty: 'standard' });
+    for (const r of [...Object.values(map.rooms), ...Object.values(buildTutorialMap().rooms)]) {
+      expect(r.nameRef, r.key).toBeTruthy();
+      expect(roomName(r)).toBe(r.name);
+      expect(roomText(r)).toBe(r.text);
+    }
+    const g = newGame(1, 'legacy', 'REFS');
+    dispatch(g, { type: 'startExpedition', partyIds: g.roster.map((h) => h.id), biome: 'cinder', difficulty: 'standard', seed: 'refs' });
+    const exp = g.expedition!;
+    for (const k of ['name', 'anomaly', 'faction', 'objective', 'boss', 'hook'] as const) expect(themeText(exp, k)).toBe(exp.theme[k]);
+    // A made-up language that only renames the Cinder Vaults' combat rooms.
+    const combat = Object.values(map.rooms).find((r) => r.type === 'combat')!;
+    setCatalog('xx', 'game', { biomes: { cinder: { name: 'Les Caves', rooms: { combat: ['Salle', 'Salle', 'Salle', 'Salle'] } } } });
+    return setLocale('xx').then(() => {
+      expect(roomName(combat)).toBe('Salle');
+      expect(themeText(exp, 'name')).toBe('Les Caves');
+      expect(roomText(combat)).toBe(combat.text); // untranslated lines fall back to English
+      return setLocale('en');
+    });
   });
 });
 

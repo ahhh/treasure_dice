@@ -12,6 +12,7 @@ import { portraitsFor } from '../content/portraits.ts';
 import { VITALITY } from './balance.ts';
 import { SPELLS, spellsForClass } from '../content/spells.ts';
 import { markOffers, applyMark } from '../fortune/dicepath.ts';
+import { bindText } from '../i18n/index.ts';
 
 export const SKILL_ABILITY: Record<Skill, Ability> = {
   athletics: 'str', acrobatics: 'dex', sleightOfHand: 'dex', stealth: 'dex',

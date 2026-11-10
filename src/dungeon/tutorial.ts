@@ -15,6 +15,7 @@
  */
 import type { DungeonMap, Facing, Room, RoomType } from '../engine/types.ts';
 import { key, OPPOSITE } from './generator.ts';
+import { ref, resolveRef } from '../i18n/index.ts';
 
 export const TUTORIAL_SEED = 'TUTORIAL';
 
@@ -30,9 +31,11 @@ export const TUT = {
 
 export function buildTutorialMap(): DungeonMap {
   const rooms: Record<string, Room> = {};
-  const mk = (k: string, type: RoomType, name: string, text: string, scene: string, extra: Partial<Room> = {}): Room => {
+  // Words: game.json → tutorialRooms.<x,y>.
+  const mk = (k: string, type: RoomType, scene: string, extra: Partial<Room> = {}): Room => {
     const [x, y] = k.split(',').map(Number);
-    const r: Room = { key: k, x, y, type, name, text, exits: {}, tags: [], art: `scenes/cinder_${scene}`, ...extra };
+    const at = (f: string) => ref('game', ['tutorialRooms', k, f]);
+    const r: Room = { key: k, x, y, type, name: resolveRef(at('name')), text: resolveRef(at('text')), nameRef: at('name'), textRefs: [at('text')], exits: {}, tags: [], art: `scenes/cinder_${scene}`, ...extra };
     rooms[k] = r;
     return r;
   };
@@ -41,14 +44,14 @@ export function buildTutorialMap(): DungeonMap {
     rooms[b].exits[OPPOSITE[dir]] = { to: a, lock };
   };
 
-  mk(TUT.entrance, 'entrance', 'Cellar Stair', 'Steps lead down from the Lantern Keep into the training cellar. The Keep keeps it stocked with soot goblins for practice. Mostly.', 'corridor');
-  mk(TUT.tunnel, 'corridor', 'Ash Tunnel', 'Ash drifts like grey snow. Somewhere ahead, a goblin is counting stolen dice out loud, badly.', 'corridor');
-  mk(TUT.fight, 'combat', 'Smelting Floor', 'Two soot goblins look up from a pile of dice. They do not look pleased to see you.', 'forge',
+  mk(TUT.entrance, 'entrance', 'corridor');
+  mk(TUT.tunnel, 'corridor', 'corridor');
+  mk(TUT.fight, 'combat', 'forge',
     { encounter: { monsters: ['sootGoblin', 'sootGoblin'], kind: 'normal', cleared: false } });
-  mk(TUT.treasure, 'treasure', "Smith's Hoard", 'A dented strongbox sits under a workbench. Somebody forgot to lock it.', 'vault',
+  mk(TUT.treasure, 'treasure', 'vault',
     { loot: { gold: 1, items: ['item'], charm: true, taken: false } });
-  mk(TUT.kiln, 'key', 'Sigil Kiln', 'A sigil-key glows on a plinth. The door beyond it is sealed with the same mark.', 'vault', { eventId: 'sigilKey' });
-  mk(TUT.boss, 'boss', 'The Practice Forge', 'An old forge-engine, kept running as a sparring partner, lifts its hammer. Today it is set to "gentle".', 'boss',
+  mk(TUT.kiln, 'key', 'vault', { eventId: 'sigilKey' });
+  mk(TUT.boss, 'boss', 'boss',
     { encounter: { monsters: ['forgemaster'], kind: 'boss', cleared: false } });
 
   link(TUT.entrance, 'N', TUT.tunnel);

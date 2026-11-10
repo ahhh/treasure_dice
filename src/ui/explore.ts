@@ -17,6 +17,7 @@ import { charmSlots } from '../fortune/tray.ts';
 import { TOKENS } from '../fortune/boons.ts';
 import { CLASSES } from '../content/classes.ts';
 import { sfx } from './audio.ts';
+import { roomName, roomText, themeText } from '../dungeon/roomText.ts';
 
 const ARROW: Record<string, string> = { N: '▲', E: '▶', S: '▼', W: '◀' };
 const ROOM_ICON: Record<string, string> = { boss: '☠', key: '⚿', treasure: '$', peddler: '¤', shrine: '✶', event: '?', camp: '⌂', elite: '!', entrance: '⇧', mechanism: '⚙' };
@@ -62,7 +63,7 @@ function minimap(): HTMLElement {
       if (!c.room || !c.seen) return h('div', { class: 'mm' });
       const doors = DIRS.filter((d) => c.room!.exits[d] && (!c.room!.exits[d]!.hidden || exp.searched.includes(`${c.room!.key}:${d}`)));
       const icon = c.here ? ARROW[exp.facing] : c.visited || c.room.type === 'boss' ? ROOM_ICON[c.room.type] ?? '' : '';
-      return h('div', { class: `mm seen ${c.visited ? 'visited' : ''} ${c.here ? 'here' : ''}`, title: c.visited ? c.room.name : 'Unexplored' },
+      return h('div', { class: `mm seen ${c.visited ? 'visited' : ''} ${c.here ? 'here' : ''}`, title: c.visited ? roomName(c.room) : 'Unexplored' },
         ...doors.map((d) => h('span', { class: `door ${d.toLowerCase()} ${c.room!.exits[d]!.lock && !(c.room!.exits[d]!.lock === 'sigil' && exp.keys.includes('sigil')) ? 'lock' : ''}` })),
         icon ? h('i', { style: c.here ? 'color:#1b1203' : c.room.type === 'boss' ? 'color:#ff8a80' : '' }, icon) : null);
     }));
@@ -106,8 +107,8 @@ export function exploreScreen(): HTMLElement {
         h('div', { class: 'room-view', style: bgStyle(firstArt(room.art, legacyRoomArt(room.type, exp.biome)), `linear-gradient(160deg, ${biome.color}55, #0b1230)`) },
           h('span', { class: 'meter-pill', title: biome.meter.text }, `${biome.meter.icon} ${biome.meter.name} ${exp.biome === 'drowned' ? (exp.meter ? 'high' : 'low') : `${exp.meter}/${biome.meter.max}`}`),
           h('span', { class: 'compass', 'aria-label': `Facing ${exp.facing}` }, ARROW[exp.facing], h('span', { class: 'small', style: 'position:absolute;bottom:2px' }, exp.facing)),
-          h('h1', null, room.name),
-          h('p', { class: 'prose', style: 'margin:0' }, room.text),
+          h('h1', null, roomName(room)),
+          h('p', { class: 'prose', style: 'margin:0' }, roomText(room)),
           mirror ? h('p', { class: 'small gold' }, '🪞 This room is mirrored: Left and Right are swapped.') : null,
           exp.biome === 'starfall' && exp.meter ? h('p', { class: 'small gold' }, `🌌 Gravity has turned ${exp.meter} quarter${exp.meter > 1 ? 's' : ''} — directions are rotated.`) : null),
         h('div', { class: 'row' }, ...actions),
@@ -117,7 +118,7 @@ export function exploreScreen(): HTMLElement {
       h('div', { class: 'col' },
         h('div', { class: 'win' }, h('h3', null, `Facing ${({ N: 'north', E: 'east', S: 'south', W: 'west' })[exp.facing]}`),
           h('div', { class: 'dpad' }, dirBtn('forward', 'Forward', '↑'), dirBtn('left', 'Left', '←'), h('div', { class: 'mid' }, `${exp.visited.length} rooms`), dirBtn('right', 'Right', '→'), dirBtn('back', 'Back', '↓'))),
-        h('div', { class: 'win' }, h('h3', null, 'Map'), minimap(), h('p', { class: 'small muted' }, exp.theme.objective[0].toUpperCase() + exp.theme.objective.slice(1) + `. ${exp.keys.includes('sigil') ? 'You hold the sigil — find the boss.' : 'Find the Boss Sigil to open the final door.'}`)),
+        h('div', { class: 'win' }, h('h3', null, 'Map'), minimap(), h('p', { class: 'small muted' }, themeText(exp, 'objective')[0].toUpperCase() + themeText(exp, 'objective').slice(1) + `. ${exp.keys.includes('sigil') ? 'You hold the sigil — find the boss.' : 'Find the Boss Sigil to open the final door.'}`)),
         suppliesWin()),
     ));
 }

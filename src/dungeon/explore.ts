@@ -5,7 +5,7 @@
 import type { BiomeId, Difficulty, Expedition, Facing, GameState, Hero, RelDir, Room, Skill, BoonOffer, LogEntry, HandType } from '../engine/types.ts';
 import { Rng, makeStreams, stream } from '../engine/rng.ts';
 import { rollD20, roll } from '../engine/dice.ts';
-import { text } from '../i18n/index.ts';
+import { ref, resolveRef, text } from '../i18n/index.ts';
 import { generateDungeon, tierFor, DIRS, DELTA, rollEncounter, key, parseKey } from './generator.ts';
 import { BIOMES, BIOME_ORDER } from '../content/biomes.ts';
 import { EVENTS, type Outcome } from '../content/events.ts';
@@ -27,6 +27,7 @@ import { buildTutorialMap, TUTORIAL_SEED } from './tutorial.ts';
 import { FINALE, CHAPTERS, EPILOGUE, finaleBlocked, storyOf } from '../content/story.ts';
 import { onExpeditionStart, onExpeditionEnd, applyFx } from '../meta/quest.ts';
 import { EVIDENCE, LEADS } from '../content/quest.ts';
+import { roomName, roomText, themeText } from './roomText.ts';
 
 export function xlog(exp: Expedition, t: string, kind?: LogEntry['kind']) {
   exp.log.push({ t, kind });
@@ -89,15 +90,24 @@ export function startExpedition(g: GameState, o: StartOpts): string | null {
     if (h!.feats.includes('lucky')) h!.resources.luck = derive(h!).pb;
     h!.history.expeditions += 1;
   }
+  // The run's theme: refs into the locale files (so a saved run follows the language) plus the words now.
+  const B = ['biomes', o.biome];
+  const pickRef = (k: 'anomalies' | 'factions' | 'objectives' | 'hooks') => ref('game', [...B, k, b[k].indexOf(narr.pick(b[k]))]);
+  const anomaly = pickRef('anomalies'), faction = pickRef('factions');
+  const objective = o.finale || o.tutorial ? '' : pickRef('objectives');
+  const themeRefs: NonNullable<Expedition['themeRefs']> = {
+    name: o.finale ? ref('story', ['finale', 'name']) : o.tutorial ? ref('game', ['themes', 'tutorial', 'name']) : ref('game', [...B, 'name']),
+    anomaly, faction,
+    objective: o.finale ? ref('game', ['themes', 'finale', 'objective']) : o.tutorial ? ref('game', ['themes', 'tutorial', 'objective']) : objective,
+    boss: o.finale ? ref('game', ['themes', 'finale', 'boss']) : ref('game', ['monsters', bossDef.id, 'name']),
+    hook: pickRef('hooks'),
+  };
+  const theme = Object.fromEntries(Object.entries(themeRefs).map(([k, r]) => [k, resolveRef(r)])) as Expedition['theme'];
   const exp: Expedition = {
     seed: o.seed, biome: o.biome, difficulty: o.difficulty, tier: tierFor(partyLevel), partyLevel, partyIds: o.partyIds.slice(),
     map, pos: map.start, facing: 'N', visited: [map.start], seen: [map.start], fortune, log: [], depth: 0, status: 'active', rng,
     carriedGold: 0, carriedItems: [], keys: [], flags: {}, meter: o.biome === 'drowned' ? 1 : 0, steps: 0, shortRests: 0, longRestUsed: false,
-    theme: {
-      name: o.finale ? FINALE.name : o.tutorial ? 'The Training Cellar' : b.name, anomaly: narr.pick(b.anomalies), faction: narr.pick(b.factions),
-      objective: o.finale ? 'end the Dragon Queen\'s reign' : o.tutorial ? 'take the Boss Sigil and beat the practice forge' : narr.pick(b.objectives),
-      boss: o.finale ? 'Tiamat, the Dragon Queen' : bossDef.name, hook: narr.pick(b.hooks),
-    },
+    theme, themeRefs,
     fallen: [], bossDefeated: false, journal: [], searched: [],
   };
   if (o.tutorial) exp.tutorial = true;
@@ -113,8 +123,8 @@ export function startExpedition(g: GameState, o: StartOpts): string | null {
   revealAround(exp);
   if (o.tutorial) xlog(exp, 'The Training Cellar: a short, gentle dungeon beneath the Keep. Your goal: take the Boss Sigil and beat the practice forge.', 'info');
   else if (o.finale) xlog(exp, `${FINALE.name}: ${FINALE.premise}`, 'warn');
-  else xlog(exp, `${b.name}: ${exp.theme.anomaly}. Your goal: ${exp.theme.objective}.`, 'info');
-  xlog(exp, `Rumour has it ${exp.theme.boss} waits in the deepest chamber.`, 'info');
+  else xlog(exp, `${b.name}: ${themeText(exp, 'anomaly')}. Your goal: ${themeText(exp, 'objective')}.`, 'info');
+  xlog(exp, `Rumour has it ${themeText(exp, 'boss')} waits in the deepest chamber.`, 'info');
   if (exp.quest?.lead) xlog(exp, `📜 Your lead is somewhere in here: ${LEADS[exp.quest.lead].title}.`, 'warn');
   g.profile.stats.expeditions += 1;
   // Face into the dungeon.
@@ -234,11 +244,11 @@ function biomeStep(g: GameState) {
 function enterRoom(g: GameState) {
   const exp = g.expedition!;
   const room = exp.map.rooms[exp.pos];
-  xlog(exp, `${room.name}. ${room.text}`);
+  xlog(exp, `${roomName(room)}. ${roomText(room)}`);
   if (room.encounter && !room.encounter.cleared) {
     const kind = room.encounter.kind;
     if (kind === 'ambush') xlog(exp, 'Ambush!', 'warn');
-    if (kind === 'boss') xlog(exp, `The air thickens. ${exp.theme.boss} awaits.`, 'warn');
+    if (kind === 'boss') xlog(exp, `The air thickens. ${themeText(exp, 'boss')} awaits.`, 'warn');
     startCombat(g, room.key, room.encounter.monsters, kind);
     return;
   }
@@ -658,7 +668,7 @@ function grantSpoils(g: GameState) {
       items.push(`✦ ${itemName(it)}`);
       xlog(exp, `Bonus for braving a ${exp.difficulty} echo: ${itemName(it)}.`, 'loot');
     }
-    xlog(exp, `${exp.theme.boss} is defeated! The echo begins to fade.`, 'loot');
+    xlog(exp, `${themeText(exp, 'boss')} is defeated! The echo begins to fade.`, 'loot');
   }
   endCombatTray(exp.fortune);
 }

@@ -6,6 +6,7 @@
  * rule). Wild faces may take any value; prism dice count as every material.
  */
 import type { HandType, Material } from '../engine/types.ts';
+import { textTable, type Textless } from '../i18n/index.ts';
 
 export interface HandInfo {
   id: HandType;
@@ -19,20 +20,20 @@ export interface HandInfo {
 }
 
 /** Ordered weakest → strongest. */
-export const HANDS: HandInfo[] = [
-  { id: 'high', name: 'High Die', chips: 2, mult: 1, lvChips: 2, lvMult: 1, blurb: 'Your single best die.' },
-  { id: 'pair', name: 'Pair', chips: 4, mult: 2, lvChips: 3, lvMult: 1, blurb: 'Two dice showing the same value.' },
-  { id: 'twoPair', name: 'Two Pair', chips: 6, mult: 2, lvChips: 3, lvMult: 1, blurb: 'Two different pairs.' },
-  { id: 'three', name: 'Three of a Kind', chips: 8, mult: 3, lvChips: 3, lvMult: 2, blurb: 'Three dice showing the same value.' },
-  { id: 'straight', name: 'Straight', chips: 10, mult: 4, lvChips: 4, lvMult: 2, blurb: 'Five dice in an unbroken run.' },
-  { id: 'set', name: 'Set', chips: 10, mult: 4, lvChips: 4, lvMult: 2, blurb: 'Five dice of the same material.' },
-  { id: 'fullHouse', name: 'Full House', chips: 12, mult: 4, lvChips: 4, lvMult: 2, blurb: 'A Three of a Kind and a Pair.' },
-  { id: 'four', name: 'Four of a Kind', chips: 16, mult: 6, lvChips: 6, lvMult: 3, blurb: 'Four dice showing the same value.' },
-  { id: 'straightSet', name: 'Straight Set', chips: 24, mult: 8, lvChips: 8, lvMult: 3, blurb: 'A Straight made of one material.' },
-  { id: 'five', name: 'Five of a Kind', chips: 30, mult: 10, lvChips: 8, lvMult: 3, blurb: 'All five dice the same. The Treasure.' },
-  { id: 'fullSet', name: 'Full Set', chips: 34, mult: 12, lvChips: 8, lvMult: 4, blurb: 'A Full House of one material.' },
-  { id: 'hoard', name: 'Dragon Hoard', chips: 40, mult: 14, lvChips: 10, lvMult: 4, blurb: 'Five of a Kind of one material.' },
-];
+export const HANDS: HandInfo[] = ([
+  { id: 'high', chips: 2, mult: 1, lvChips: 2, lvMult: 1 },
+  { id: 'pair', chips: 4, mult: 2, lvChips: 3, lvMult: 1 },
+  { id: 'twoPair', chips: 6, mult: 2, lvChips: 3, lvMult: 1 },
+  { id: 'three', chips: 8, mult: 3, lvChips: 3, lvMult: 2 },
+  { id: 'straight', chips: 10, mult: 4, lvChips: 4, lvMult: 2 },
+  { id: 'set', chips: 10, mult: 4, lvChips: 4, lvMult: 2 },
+  { id: 'fullHouse', chips: 12, mult: 4, lvChips: 4, lvMult: 2 },
+  { id: 'four', chips: 16, mult: 6, lvChips: 6, lvMult: 3 },
+  { id: 'straightSet', chips: 24, mult: 8, lvChips: 8, lvMult: 3 },
+  { id: 'five', chips: 30, mult: 10, lvChips: 8, lvMult: 3 },
+  { id: 'fullSet', chips: 34, mult: 12, lvChips: 8, lvMult: 4 },
+  { id: 'hoard', chips: 40, mult: 14, lvChips: 10, lvMult: 4 },
+] as Textless<HandInfo, 'name' | 'blurb'>[]).map((h) => textTable<HandInfo, 'name' | 'blurb'>('game', ['hands', h.id], h));
 
 export const HAND_BY_ID: Record<HandType, HandInfo> = Object.fromEntries(HANDS.map((h) => [h.id, h])) as Record<HandType, HandInfo>;
 export const HAND_RANK: Record<HandType, number> = Object.fromEntries(HANDS.map((h, i) => [h.id, i])) as Record<HandType, number>;

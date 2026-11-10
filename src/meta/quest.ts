@@ -16,6 +16,7 @@ import { DRINKS, LEADS, LEAD_CHANCE, LEAD_PITY, MUSTER, RUMORS, type DrinkId, ty
 import type { QuestCond, QuestFx } from '../content/questTypes.ts';
 import { SCRIPTS, type DlgChoice, type DlgNode, type Script } from '../content/dialogue.ts';
 import { NPCS } from '../content/npcs.ts';
+import { ref, text } from '../i18n/index.ts';
 
 // ── state ───────────────────────────────────────────────────────────────────
 
@@ -140,7 +141,9 @@ export function placeQuestRoom(g: GameState, exp: Expedition): string | null {
   room.eventId = ev.id;
   room.eventDone = false;
   room.name = ev.title;
-  room.text = 'Something here is out of place. Someone has been through recently.';
+  room.nameRef = ref('story', ['events', ev.id, 'title']);
+  room.text = text('story', ['questRoomText']);
+  room.textRefs = [ref('story', ['questRoomText'])];
   room.art = ev.scene;
   exp.quest = { ...exp.quest, lead: lead.id };
   return roomKey;

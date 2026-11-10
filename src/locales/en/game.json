@@ -1,0 +1,4917 @@
+{
+  "biomes": {
+    "cinder": {
+      "name": "The Cinder Vaults",
+      "tagline": "Ash-filled mines and molten catacombs.",
+      "premise": "Dwarven forge-halls that never cooled. Iron doors, slag rivers, and a heat that builds with every step.",
+      "meter": {
+        "name": "Heat",
+        "text": "Hot rooms raise Heat. At 3+, fights begin with the party burning — but Ember and Steel dice score +1 Mult. Cooling cisterns reset it."
+      },
+      "rooms": {
+        "corridor": [
+          "Slag Gallery",
+          "Ash Tunnel",
+          "Cinder Stair",
+          "Rail Cut",
+          "Bellows Hall",
+          "Chain Bridge"
+        ],
+        "combat": [
+          "Smelting Floor",
+          "Ore Crusher",
+          "Collapsed Shaft",
+          "Molten Catwalk"
+        ],
+        "elite": [
+          "The Anvil Court",
+          "Guardroom of Iron"
+        ],
+        "treasure": [
+          "Ingot Vault",
+          "Smith's Hoard"
+        ],
+        "peddler": [
+          "Soot-Market Stall"
+        ],
+        "shrine": [
+          "Furnace Shrine"
+        ],
+        "event": [
+          "Valve Chamber",
+          "Abandoned Foundry",
+          "Miners' Chapel"
+        ],
+        "camp": [
+          "Cooling Cistern"
+        ],
+        "boss": [
+          "The Deep Forge"
+        ],
+        "key": [
+          "Sigil Kiln"
+        ],
+        "entrance": [
+          "Iron Gate"
+        ],
+        "mechanism": [
+          "Steam Valve Room"
+        ]
+      },
+      "atmosphere": [
+        "Heat rolls off the walls in waves.",
+        "Ash drifts like grey snow.",
+        "Somewhere below, metal rings on metal.",
+        "The air tastes of copper and smoke.",
+        "Lava light paints everything orange."
+      ],
+      "details": [
+        "A cart of slag has frozen mid-pour.",
+        "Rune-plates on the wall have half melted.",
+        "Chains sway though there is no wind.",
+        "A dwarf-sized helmet lies cooling on the floor.",
+        "Old soot handprints climb the wall."
+      ],
+      "civilizations": [
+        "the Ironbound Clans",
+        "the Ember Guild",
+        "the Lost Smiths of Khar"
+      ],
+      "factions": [
+        "soot goblins",
+        "ash cultists",
+        "rogue automata",
+        "slag beasts"
+      ],
+      "anomalies": [
+        "the forge-heart beats again",
+        "ash falls upward",
+        "molten rivers run backwards"
+      ],
+      "objectives": [
+        "quench the forge-heart",
+        "recover the Ingot of Oaths",
+        "free the bound miners"
+      ],
+      "hooks": [
+        "a fighter's old shield-brother went missing here",
+        "the Keep's smith wants a lost recipe"
+      ],
+      "tag": {
+        "label": "Sweltering"
+      },
+      "resetTag": {
+        "label": "Cool air"
+      }
+    },
+    "rootbound": {
+      "name": "The Rootbound Halls",
+      "tagline": "Overgrown mausoleums and fungal shrines.",
+      "premise": "A necropolis swallowed by a living forest. Every footstep wakes the spores.",
+      "meter": {
+        "name": "Bloom",
+        "text": "Every step raises Bloom. At 3+, foes regenerate — but Verdant dice score +4 Chips. Quiet groves reset it."
+      },
+      "rooms": {
+        "corridor": [
+          "Root Tunnel",
+          "Fungal Arcade",
+          "Vine-Choked Crypt",
+          "Mossy Ossuary",
+          "Canopy Ruin"
+        ],
+        "combat": [
+          "Spore Chamber",
+          "Overgrown Tomb",
+          "Root-Cracked Hall"
+        ],
+        "elite": [
+          "The Briar Court",
+          "Bark Sentinel's Gate"
+        ],
+        "treasure": [
+          "Burial Cache",
+          "Druid Reliquary"
+        ],
+        "peddler": [
+          "Mushroom Trader's Hollow"
+        ],
+        "shrine": [
+          "Moss Altar"
+        ],
+        "event": [
+          "Whispering Tree",
+          "Sealed Sarcophagus",
+          "Glowcap Garden"
+        ],
+        "camp": [
+          "Quiet Grove"
+        ],
+        "boss": [
+          "The Heartroot"
+        ],
+        "key": [
+          "Seed Vault"
+        ],
+        "entrance": [
+          "Mausoleum Door"
+        ],
+        "mechanism": [
+          "Root Gate"
+        ]
+      },
+      "atmosphere": [
+        "Spores glitter in the lamplight.",
+        "The walls breathe softly.",
+        "Roots creak like old doors.",
+        "It smells of rain on graves.",
+        "Bioluminescent caps pulse green."
+      ],
+      "details": [
+        "A skeleton is cradled in a root like a hammock.",
+        "Names on the tombs have been eaten by lichen.",
+        "A shrine bell hangs choked by vines.",
+        "Mushrooms grow in a perfect ring.",
+        "Something has dug its way out of a grave."
+      ],
+      "civilizations": [
+        "the Mourning Druids",
+        "the Verdant Court",
+        "the Elder Keepers"
+      ],
+      "factions": [
+        "sporelings",
+        "moss wights",
+        "thorn fey",
+        "fungal folk"
+      ],
+      "anomalies": [
+        "the dead are flowering",
+        "the canopy blots out time",
+        "every root leads to one heart"
+      ],
+      "objectives": [
+        "cleanse the Heartroot",
+        "retrieve a druid's last seed",
+        "lay the moss-wights to rest"
+      ],
+      "hooks": [
+        "a cleric's old master was buried here",
+        "the Apothecary needs a rare glowcap"
+      ],
+      "tag": {
+        "label": "Spore-thick"
+      },
+      "resetTag": {
+        "label": "Still air"
+      }
+    },
+    "drowned": {
+      "name": "The Drowned Archive",
+      "tagline": "Sunken libraries and brass pumps.",
+      "premise": "An astronomers' library sank beneath an inverted tide. Brass pumps still move the water between wings.",
+      "meter": {
+        "name": "Water",
+        "text": "Pump levers raise or lower the water. Low water opens flooded passages; high water gives Storm and Frost dice +2 Mult but foes resist cold."
+      },
+      "rooms": {
+        "corridor": [
+          "Flooded Stacks",
+          "Brass Conduit",
+          "Reading Gallery",
+          "Collapsed Scriptorium",
+          "Tidal Stair"
+        ],
+        "combat": [
+          "Drowned Reading Room",
+          "Map Hall",
+          "Pump Gallery"
+        ],
+        "elite": [
+          "The Index Vault",
+          "Leviathan Pen"
+        ],
+        "treasure": [
+          "Sealed Archive",
+          "Star-Chart Cabinet"
+        ],
+        "peddler": [
+          "Bookbinder's Barge"
+        ],
+        "shrine": [
+          "Tide Altar"
+        ],
+        "event": [
+          "Ciphered Door",
+          "Drowned Observatory",
+          "Bell of the Deep"
+        ],
+        "camp": [
+          "Dry Alcove"
+        ],
+        "boss": [
+          "The Drowned Star"
+        ],
+        "key": [
+          "Archivist's Desk"
+        ],
+        "entrance": [
+          "Sea Stair"
+        ],
+        "mechanism": [
+          "Pump Room"
+        ]
+      },
+      "atmosphere": [
+        "Water drips through shattered shelves.",
+        "Ink swirls in the shallows.",
+        "The pumps groan like whales.",
+        "Pages float past like leaves.",
+        "Blue lamplight wavers through water."
+      ],
+      "details": [
+        "A brass orrery turns slowly underwater.",
+        "A ledger lists the drowned in neat handwriting.",
+        "Shelves lean together like tired friends.",
+        "An eel coils around a reading lamp.",
+        "A star chart is pinned to the ceiling."
+      ],
+      "civilizations": [
+        "the Astronomers of Vel",
+        "the Tidebound Scholars",
+        "the Brass Collegium"
+      ],
+      "factions": [
+        "eel cultists",
+        "drowned scribes",
+        "brass constructs",
+        "deep things"
+      ],
+      "anomalies": [
+        "the tide runs upward",
+        "glass-rot spreads through the shelves",
+        "the stars are reflected wrong"
+      ],
+      "objectives": [
+        "recover the Drowned Star",
+        "rescue the trapped archivists",
+        "silence the pump-heart"
+      ],
+      "hooks": [
+        "a wizard's missing tutor catalogued this wing",
+        "the Cartographer wants the old star charts"
+      ],
+      "tag": {
+        "label": "Waist-deep water"
+      },
+      "resetTag": {
+        "label": "Pump lever"
+      }
+    },
+    "mirror": {
+      "name": "The Mirror Reliquary",
+      "tagline": "Glass corridors and impossible reflections.",
+      "premise": "A cathedral built to trap a god inside its reflections. Facing matters here: doors exist only in the right light.",
+      "meter": {
+        "name": "Reflection",
+        "text": "Mirror rooms swap Left and Right. Visiting mirrored rooms raises Reflection; at 3, hidden mirror-doors reveal themselves."
+      },
+      "rooms": {
+        "corridor": [
+          "Glass Corridor",
+          "Hall of Facets",
+          "Shattered Nave",
+          "Prism Walk",
+          "Silvered Cloister"
+        ],
+        "combat": [
+          "Chapel of Shards",
+          "Reflecting Pool",
+          "Lens Gallery"
+        ],
+        "elite": [
+          "The Bright Choir",
+          "Hall of Doubles"
+        ],
+        "treasure": [
+          "Reliquary Case",
+          "Lens Vault"
+        ],
+        "peddler": [
+          "Glasswright's Booth"
+        ],
+        "shrine": [
+          "Altar of Reflections"
+        ],
+        "event": [
+          "Talking Mirror",
+          "Broken Window",
+          "The Confessional"
+        ],
+        "camp": [
+          "Dim Sanctuary"
+        ],
+        "boss": [
+          "The Bright Nave"
+        ],
+        "key": [
+          "Lens Altar"
+        ],
+        "entrance": [
+          "Silver Door"
+        ],
+        "mechanism": [
+          "Light Angle Room"
+        ]
+      },
+      "atmosphere": [
+        "Your reflections move a heartbeat late.",
+        "Light splits into colours that have no names.",
+        "Glass chimes like distant bells.",
+        "Every surface shows a different room.",
+        "The floor is a mirror; the sky beneath it is wrong."
+      ],
+      "details": [
+        "A reflection waves at you. You did not wave.",
+        "A stained-glass saint has your face.",
+        "Shards hang in the air, motionless.",
+        "A cracked mirror shows the boss room.",
+        "Prayer candles burn with reversed flames."
+      ],
+      "civilizations": [
+        "the Order of the Pane",
+        "the Lumen Monks",
+        "the Glasswright Saints"
+      ],
+      "factions": [
+        "shard stalkers",
+        "facet cultists",
+        "mirror mimics",
+        "hollow doubles"
+      ],
+      "anomalies": [
+        "reflections are trying to swap places",
+        "the light remembers",
+        "a god is cracking the glass from inside"
+      ],
+      "objectives": [
+        "seal the cracked god-mirror",
+        "recover the Lens of Truth",
+        "free a hero trapped in a reflection"
+      ],
+      "hooks": [
+        "a rogue swears they saw their double here",
+        "the Enchanter wants a perfect lens"
+      ],
+      "tag": {
+        "label": "Mirrored — Left and Right are swapped"
+      },
+      "resetTag": {
+        "label": "Dim light"
+      }
+    },
+    "starfall": {
+      "name": "The Starfall Ossuary",
+      "tagline": "Floating graves and silent cosmic machinery.",
+      "premise": "A tomb-city adrift among fallen stars. Gravity shifts as the ossuary turns.",
+      "meter": {
+        "name": "Gravity",
+        "text": "Every few steps gravity turns, rotating your directions. Low gravity grants +1 reroll in fights. Anchor shrines stabilise it."
+      },
+      "rooms": {
+        "corridor": [
+          "Floating Causeway",
+          "Bone Orbit",
+          "Meteor Crypt",
+          "Silent Engine",
+          "Star-Lit Ossuary"
+        ],
+        "combat": [
+          "Gravity Well",
+          "Comet Grave",
+          "Orrery Hall"
+        ],
+        "elite": [
+          "The Judgement Steps",
+          "Warden's Orbit"
+        ],
+        "treasure": [
+          "Meteor Vault",
+          "Astral Reliquary"
+        ],
+        "peddler": [
+          "Star-Pilgrim's Camp"
+        ],
+        "shrine": [
+          "Altar of Fate"
+        ],
+        "event": [
+          "Weighing Scales",
+          "Sleeping Star",
+          "Astronomer's Ghost"
+        ],
+        "camp": [
+          "Anchor Shrine"
+        ],
+        "boss": [
+          "The End of Ages"
+        ],
+        "key": [
+          "Star-Key Plinth"
+        ],
+        "entrance": [
+          "Falling Gate"
+        ],
+        "mechanism": [
+          "Gravity Lever"
+        ]
+      },
+      "atmosphere": [
+        "Graves drift past like slow boats.",
+        "There is no sound at all.",
+        "Starlight pours through a hole in the world.",
+        "Your hair floats as gravity slips.",
+        "Ancient machinery turns without power."
+      ],
+      "details": [
+        "A meteor is embedded in a sarcophagus.",
+        "Constellations are painted on a skull.",
+        "A bell rings with no clapper.",
+        "Bones orbit a small dead star.",
+        "A pilgrim's lantern still burns."
+      ],
+      "civilizations": [
+        "the Sky-Burial Kings",
+        "the Star-Readers",
+        "the Last Astronomers"
+      ],
+      "factions": [
+        "grave sentinels",
+        "void motes",
+        "comet cultists",
+        "astral leeches"
+      ],
+      "anomalies": [
+        "time leaks through the cracks",
+        "the stars are falling inward",
+        "the dead are being weighed"
+      ],
+      "objectives": [
+        "stop the Epoch Devourer",
+        "return the fallen star",
+        "witness the final judgement"
+      ],
+      "hooks": [
+        "a warlock's patron whispers of this place",
+        "the Keep's founder is buried here"
+      ],
+      "tag": {
+        "label": "Weightless"
+      },
+      "resetTag": {
+        "label": "Anchor shrine"
+      }
+    }
+  },
+  "items": {
+    "club": {
+      "name": "Club"
+    },
+    "dagger": {
+      "name": "Dagger"
+    },
+    "greatclub": {
+      "name": "Greatclub"
+    },
+    "handaxe": {
+      "name": "Handaxe"
+    },
+    "javelin": {
+      "name": "Javelin"
+    },
+    "mace": {
+      "name": "Mace"
+    },
+    "quarterstaff": {
+      "name": "Quarterstaff"
+    },
+    "spear": {
+      "name": "Spear"
+    },
+    "lightCrossbow": {
+      "name": "Light Crossbow"
+    },
+    "shortbow": {
+      "name": "Shortbow"
+    },
+    "dart": {
+      "name": "Darts"
+    },
+    "battleaxe": {
+      "name": "Battleaxe"
+    },
+    "flail": {
+      "name": "Flail"
+    },
+    "glaive": {
+      "name": "Glaive"
+    },
+    "greataxe": {
+      "name": "Greataxe"
+    },
+    "greatsword": {
+      "name": "Greatsword"
+    },
+    "halberd": {
+      "name": "Halberd"
+    },
+    "longsword": {
+      "name": "Longsword"
+    },
+    "maul": {
+      "name": "Maul"
+    },
+    "morningstar": {
+      "name": "Morningstar"
+    },
+    "rapier": {
+      "name": "Rapier"
+    },
+    "scimitar": {
+      "name": "Scimitar"
+    },
+    "shortsword": {
+      "name": "Shortsword"
+    },
+    "warhammer": {
+      "name": "Warhammer"
+    },
+    "whip": {
+      "name": "Whip"
+    },
+    "handCrossbow": {
+      "name": "Hand Crossbow"
+    },
+    "heavyCrossbow": {
+      "name": "Heavy Crossbow"
+    },
+    "longbow": {
+      "name": "Longbow"
+    },
+    "padded": {
+      "name": "Padded Armor"
+    },
+    "leather": {
+      "name": "Leather Armor"
+    },
+    "studdedLeather": {
+      "name": "Studded Leather"
+    },
+    "hide": {
+      "name": "Hide Armor"
+    },
+    "chainShirt": {
+      "name": "Chain Shirt"
+    },
+    "scaleMail": {
+      "name": "Scale Mail"
+    },
+    "breastplate": {
+      "name": "Breastplate"
+    },
+    "halfPlate": {
+      "name": "Half Plate"
+    },
+    "ringMail": {
+      "name": "Ring Mail"
+    },
+    "chainMail": {
+      "name": "Chain Mail"
+    },
+    "splint": {
+      "name": "Splint Armor"
+    },
+    "plate": {
+      "name": "Plate Armor"
+    },
+    "shield": {
+      "name": "Shield"
+    },
+    "thievesTools": {
+      "name": "Thieves' Tools",
+      "text": "Proficient users gain advantage on lockpicking and trap checks."
+    },
+    "ringProtection": {
+      "name": "Ring of Protection",
+      "text": "+1 AC and saving throws."
+    },
+    "cloakProtection": {
+      "name": "Cloak of Protection",
+      "text": "+1 AC and saving throws."
+    },
+    "amuletHealth": {
+      "name": "Amulet of Health",
+      "text": "Constitution becomes 19."
+    },
+    "gauntletsOgre": {
+      "name": "Gauntlets of Ogre Power",
+      "text": "Strength becomes 19."
+    },
+    "headbandIntellect": {
+      "name": "Headband of Intellect",
+      "text": "Intelligence becomes 19."
+    },
+    "bracersDefense": {
+      "name": "Bracers of Defense",
+      "text": "+2 AC while wearing no armor and no shield."
+    },
+    "pearlPower": {
+      "name": "Pearl of Power",
+      "text": "Once per expedition, recover a spell slot of 3rd level or lower at a safe room."
+    },
+    "bootsSpeed": {
+      "name": "Boots of Haste",
+      "text": "+5 initiative."
+    },
+    "periaptWound": {
+      "name": "Periapt of Wound Closure",
+      "text": "+10% max HP; you stabilise automatically when downed."
+    },
+    "luckstone": {
+      "name": "Luckstone",
+      "text": "+1 to saves and +1 reroll on your turns."
+    },
+    "emberCharm": {
+      "name": "Ember Ward",
+      "text": "Resistance to fire."
+    },
+    "frostCharm": {
+      "name": "Tideglass Ward",
+      "text": "Resistance to cold and lightning."
+    },
+    "graveCharm": {
+      "name": "Grave Ward",
+      "text": "Resistance to necrotic and poison."
+    },
+    "rodPact": {
+      "name": "Rod of the Pact Keeper",
+      "text": "+1 spell save DC and spell attacks."
+    },
+    "wandWar": {
+      "name": "Wand of the War Mage",
+      "text": "+1 spell attack rolls and save DC."
+    },
+    "hawkEye": {
+      "name": "Falconer's Eye",
+      "text": "Critical hits on one lower d20 face."
+    },
+    "diceOfTheDoor": {
+      "name": "Bone of the Sixth Door",
+      "text": "An old die-bone that hums near the door: +1 reroll, +1 AC, +1 saves."
+    },
+    "beltGiant": {
+      "name": "Belt of Hill Giant Strength",
+      "text": "Strength becomes 21."
+    },
+    "glovesThievery": {
+      "name": "Gloves of Thievery",
+      "text": "+5 Sleight of Hand, and its Palm trick: swap a tray die for the next one in the bag."
+    },
+    "bootsElvenkind": {
+      "name": "Boots of Elvenkind",
+      "text": "+5 Stealth, and its Lurk trick: reroll one die for free."
+    },
+    "eyesEagle": {
+      "name": "Eyes of the Eagle",
+      "text": "+5 Perception, and its Spot trick: a die's face turns Keen."
+    },
+    "hatDisguise": {
+      "name": "Hat of Disguise",
+      "text": "+5 Deception, and its Bluff trick: a die turns Wild."
+    },
+    "dossLute": {
+      "name": "Doss Lute",
+      "text": "+5 Performance and one extra skill trick each fight."
+    },
+    "iounInsight": {
+      "name": "Ioun Stone of Insight",
+      "text": "Insight proficiency and one extra skill trick each fight."
+    },
+    "bagTricks": {
+      "name": "Bag of Tricks",
+      "text": "Every fight starts with a Wild ghost die on the tray."
+    },
+    "ivoryBones": {
+      "name": "Ivory Knucklebones",
+      "text": "Adds a Loaded Die to the bag on every expedition."
+    },
+    "goldbugLocket": {
+      "name": "Goldbug Locket",
+      "text": "Adds a Goldbug Die (three gilded faces) to the bag on every expedition."
+    },
+    "glassEye": {
+      "name": "Glass Eye of Fortune",
+      "text": "Adds a Glass Die (×2 Mult, may shatter) to the bag on every expedition."
+    },
+    "prismShard": {
+      "name": "Prism Shard Pendant",
+      "text": "Adds a Prism Die (counts as every material) to the bag on every expedition."
+    },
+    "gamblersPurse": {
+      "name": "Gambler's Purse",
+      "text": "Start every expedition with a Fate Coin."
+    },
+    "encoreHourglass": {
+      "name": "Hourglass of Encores",
+      "text": "Start every expedition with an Encore token."
+    },
+    "boneCirclet": {
+      "name": "Circlet of Bone",
+      "text": "Bone dice count as your colour (+1 Mult each)."
+    },
+    "fourWinds": {
+      "name": "Band of the Four Winds",
+      "text": "Ember, Frost and Storm dice count as your colour."
+    },
+    "twinRing": {
+      "name": "Ring of Twin Fortune",
+      "text": "Your Pairs and Two Pairs gain +3 Mult."
+    },
+    "threesBracelet": {
+      "name": "Bracelet of Threes",
+      "text": "Your Three of a Kinds and Full Houses gain +4 Mult."
+    },
+    "starweave": {
+      "name": "Starweave Mantle",
+      "text": "Your Straights and Straight Sets gain ×1.5 Mult."
+    },
+    "hoardTorc": {
+      "name": "Torc of the Hoard",
+      "text": "Your Sets, Full Sets and Dragon Hoards gain ×2 Mult."
+    },
+    "potionHealing": {
+      "name": "Potion of Healing",
+      "text": "Restore 2d4+2 HP (× vitality)."
+    },
+    "potionGreater": {
+      "name": "Potion of Greater Healing",
+      "text": "Restore 4d4+4 HP (× vitality)."
+    },
+    "potionSuperior": {
+      "name": "Potion of Superior Healing",
+      "text": "Restore 8d4+8 HP (× vitality)."
+    },
+    "potionSupreme": {
+      "name": "Potion of Supreme Healing",
+      "text": "Restore 10d4+20 HP (× vitality)."
+    },
+    "antitoxin": {
+      "name": "Antitoxin",
+      "text": "End poisoned and similar ailments."
+    },
+    "alchemistsFire": {
+      "name": "Alchemist's Fire",
+      "text": "Hurl: 2d6 fire and the target burns."
+    },
+    "holyWater": {
+      "name": "Holy Water",
+      "text": "2d8 radiant to a fiend or undead (half to others)."
+    },
+    "potionHeroism": {
+      "name": "Potion of Heroism",
+      "text": "10 temp HP (× vitality) and Bless for the fight."
+    },
+    "smokeBomb": {
+      "name": "Smoke Bomb",
+      "text": "Escape from a non-boss fight (lose this room's rewards)."
+    },
+    "elixirHealth": {
+      "name": "Elixir of Health",
+      "text": "Cure all conditions and heal 25%."
+    },
+    "campSupplies": {
+      "name": "Camp Supplies",
+      "text": "Take a short rest anywhere that is not a combat room."
+    },
+    "diamond": {
+      "name": "Resurrection Diamond",
+      "text": "Revive a fallen hero at a safe room (consumed)."
+    },
+    "luckyCharm": {
+      "name": "Gambler's Rabbit Foot",
+      "text": "Gain a Mulligan Coin for this expedition."
+    },
+    "scrollCure": {
+      "name": "Scroll of Cure Wounds",
+      "text": "Cast Cure Wounds (1st). Anyone can read it."
+    },
+    "scrollFireball": {
+      "name": "Scroll of Fireball",
+      "text": "Cast Fireball (3rd). Anyone can read it."
+    },
+    "scrollShield": {
+      "name": "Scroll of Shield of Faith",
+      "text": "Cast Shield of Faith. Anyone can read it."
+    },
+    "scrollRevivify": {
+      "name": "Scroll of Revivify",
+      "text": "Cast Revivify on an ally who fell this fight."
+    },
+    "ladyLuck": {
+      "name": "Lady Luck's Rapier",
+      "text": "Your High Die plays gain +4 Mult: one die at a time is a strategy now.",
+      "legend": {
+        "lore": "A riverboat gambler won it on a single die and never rolled two again."
+      }
+    },
+    "spellthiefKris": {
+      "name": "Spellthief's Kris",
+      "text": "Attack and damage with your spellcasting ability if it is higher. Casters can fight in melee.",
+      "legend": {
+        "lore": "A blade-dancer's wavy dagger that answers to the mind rather than the arm."
+      }
+    },
+    "bloodCleaver": {
+      "name": "Bloodthirst Cleaver",
+      "text": "+30% damage while you are at or below half HP; heal 5% of damage dealt; −1 AC.",
+      "legend": {
+        "lore": "An oversized black cleaver from a mercenary legend: it grows hungrier the more its wielder bleeds."
+      }
+    },
+    "frostbrand": {
+      "name": "Frost Brand",
+      "text": "+1d6 cold on hit; resistance to fire; Frost dice count as your colour.",
+      "legend": {
+        "lore": "Forged in a glacier's heart, it sheds pale light and puts out flames."
+      }
+    },
+    "starshotBow": {
+      "name": "Starshot Longbow",
+      "text": "Your Straights and Straight Sets gain ×1.5 Mult; +2 initiative.",
+      "legend": {
+        "lore": "Each arrow loosed from it draws a line of stars, one point after the next."
+      }
+    },
+    "twinGale": {
+      "name": "Twin Gale Blade",
+      "text": "Your attack action always strikes at least twice, but your weapon damage is 15% lower.",
+      "legend": {
+        "lore": "A wind-spirit's sword that cuts once and echoes once, whoever holds it."
+      }
+    },
+    "dragonfang": {
+      "name": "Dragonfang Greatsword",
+      "text": "+25% damage against elites and bosses; −2 initiative.",
+      "legend": {
+        "lore": "Too big to be called a sword: a slab of iron hammered from a dragon's fallen tooth."
+      }
+    },
+    "earthshaker": {
+      "name": "Earthshaker Maul",
+      "text": "+1d6 thunder on hit; your overkill carries into the next foe.",
+      "legend": {
+        "lore": "Giants used it to drive mountain roots. One swing never stops at one body."
+      }
+    },
+    "stormcaller": {
+      "name": "Stormcaller Hammer",
+      "text": "+1d8 lightning on hit; resistance to lightning; Storm dice count as your colour.",
+      "legend": {
+        "lore": "A sky-god's hammer that only the worthy can lift."
+      }
+    },
+    "moonreaper": {
+      "name": "Moonreaper Glaive",
+      "text": "+1d8 necrotic on hit; heal 12% of damage dealt; healing from others is halved on you.",
+      "legend": {
+        "lore": "A reaper's polearm that feeds its bearer and nobody else."
+      }
+    },
+    "ninelives": {
+      "name": "Nine Lives Stealer",
+      "text": "When you kill a foe: heal 10% of max HP and gain a reroll; −10% max HP.",
+      "legend": {
+        "lore": "A duellist's blade with nine notches on the guard. It is always hungry for the tenth."
+      }
+    },
+    "vorpal": {
+      "name": "Vorpal Sword",
+      "text": "Crits on one lower face; a crit kills any non-boss foe at or below 25% HP outright.",
+      "legend": {
+        "lore": "Snicker-snack. The oldest legend in the Keep."
+      }
+    },
+    "staffMagi": {
+      "name": "Staff of the Magi",
+      "text": "+1 spell save DC and attack; +4 damage on every spell; one extra 5th-level slot.",
+      "legend": {
+        "lore": "The staff of an archmage who outlived their own legend."
+      }
+    },
+    "starcleaver": {
+      "name": "Starcleaver",
+      "text": "+15% damage; every fight opens with a Wild ghost die on the tray.",
+      "legend": {
+        "lore": "The hero's sword at the end of the story, made from the star that fell over the Keep."
+      }
+    },
+    "glamouredLeather": {
+      "name": "Glamoured Studded Leather",
+      "text": "Deception proficiency (+3) and its Bluff trick; +1 initiative.",
+      "legend": {
+        "lore": "Armor that looks like a fine coat until the knives come out."
+      }
+    },
+    "mithralShirt": {
+      "name": "Mithral Shirt",
+      "text": "A chain shirt that counts as LIGHT armor: AC 13 + full DEX. Any class trained in light armor can wear it.",
+      "legend": {
+        "lore": "Woven by deep-delving smiths from silver-bright mithral, light as silk."
+      }
+    },
+    "sentinelShield": {
+      "name": "Sentinel Shield",
+      "text": "+4 initiative; Perception proficiency and its Spot trick.",
+      "legend": {
+        "lore": "An eye painted on its face never closes."
+      }
+    },
+    "dragonscale": {
+      "name": "Red Dragon Scale Mail",
+      "text": "Resistance to fire; Ember dice count as your colour.",
+      "legend": {
+        "lore": "Scales shed by a red dragon, still warm to the touch."
+      }
+    },
+    "demonArmor": {
+      "name": "Demon Armor",
+      "text": "Your unarmed strikes become 1d8 claws, so you can fight bare-handed in plate; −1 to all saves.",
+      "legend": {
+        "lore": "Fiend-forged plate whose gauntlets end in talons. It whispers."
+      }
+    },
+    "invulnerable": {
+      "name": "Armor of Invulnerability",
+      "text": "The first hit you take each fight deals no damage.",
+      "legend": {
+        "lore": "Plate that the first blow of any battle simply slides off."
+      }
+    },
+    "wolfPelt": {
+      "name": "Wolfmother's Pelt",
+      "text": "+1 Rage; heal 3% of max HP at the start of each of your turns.",
+      "legend": {
+        "lore": "The pelt of a great white wolf who mothered a whole tribe."
+      }
+    },
+    "efreetiChain": {
+      "name": "Efreeti Chain",
+      "text": "Resistance to fire; melee attackers take fire damage equal to your level.",
+      "legend": {
+        "lore": "Chain woven from the brass of the City of Fire."
+      }
+    },
+    "dawnPlate": {
+      "name": "Plate of the Unbroken Oath",
+      "text": "The first time you would drop to 0 HP each fight, you stay at 1; healing you receive +25%.",
+      "legend": {
+        "lore": "A paladin's armor that held the line for a hundred years."
+      }
+    },
+    "dragonboneAegis": {
+      "name": "Dragonbone Aegis",
+      "text": "Resistance to acid, cold, fire, lightning and poison; −2 initiative.",
+      "legend": {
+        "lore": "Carved from a skull-plate of one of the Dragon Queen's fallen consorts."
+      }
+    },
+    "foxMask": {
+      "name": "Fox Spirit Mask",
+      "text": "Each fight opens with a Wild ghost die on the tray; Deception proficiency and its Bluff trick.",
+      "legend": {
+        "lore": "A shrine fox's white mask. Wear it and luck mistakes you for a friend."
+      }
+    },
+    "ringSpellStoring": {
+      "name": "Ring of Spell Storing",
+      "text": "Spellcasters gain an extra 1st- and 2nd-level spell slot.",
+      "legend": {
+        "lore": "A ring that keeps a spell or two tucked away for later."
+      }
+    },
+    "robeStars": {
+      "name": "Robe of Stars",
+      "text": "+2 damage on every spell; +1 to all saves.",
+      "legend": {
+        "lore": "A night-black robe whose embroidered stars can be plucked and thrown."
+      }
+    },
+    "capeMountebank": {
+      "name": "Cape of the Mountebank",
+      "text": "Each fight you start hidden: advantage on your first attack (and Sneak Attack).",
+      "legend": {
+        "lore": "A showman's cape that smells faintly of brimstone and applause."
+      }
+    },
+    "animatedShield": {
+      "name": "Animated Shield",
+      "text": "+2 AC while you hold no shield: it floats beside you, leaving both hands free.",
+      "legend": {
+        "lore": "A shield that guards on its own, so a greatsword need not choose."
+      }
+    },
+    "ringRegeneration": {
+      "name": "Ring of Regeneration",
+      "text": "Heal 4% of max HP at the start of each of your turns.",
+      "legend": {
+        "lore": "Its wearer's wounds close as you watch."
+      }
+    },
+    "hundredFists": {
+      "name": "Gauntlets of the Hundred Fists",
+      "text": "Unarmed strikes roll 1d10; +2 Focus for monks.",
+      "legend": {
+        "lore": "Fighting-school gauntlets that throw a hundred punches in the time it takes to blink."
+      }
+    },
+    "saintRosary": {
+      "name": "Rosary of the Dawn Saint",
+      "text": "Healing you give +30%; +1 Channel Divinity.",
+      "legend": {
+        "lore": "Prayer beads of a saint who never let a friend fall."
+      }
+    },
+    "hellfireContract": {
+      "name": "Hellfire Contract",
+      "text": "+12% damage and +1 spell save DC; −15% max HP.",
+      "legend": {
+        "lore": "Signed in blood. The fine print is written in fire."
+      }
+    },
+    "hollowEye": {
+      "name": "Eye of the Hollow King",
+      "text": "Crits on one lower face; +1 spell save DC; −10% max HP.",
+      "legend": {
+        "lore": "Plucked from a lich-king who saw everything and spared nothing."
+      }
+    },
+    "robeArchmagi": {
+      "name": "Robe of the Archmagi",
+      "text": "With no body armor your AC is 15 + DEX; +2 spell save DC and attack.",
+      "legend": {
+        "lore": "The robe of the highest office of magic. It protects as well as plate."
+      }
+    },
+    "dragonOrb": {
+      "name": "Orb of Dragonkind",
+      "text": "Ember, Verdant, Shadow, Frost and Storm dice all count as your colour.",
+      "legend": {
+        "lore": "Five dragon souls swirl inside. They do not agree on anything, except you."
+      }
+    }
+  },
+  "affixes": {
+    "flaming": {
+      "name": "Flaming",
+      "text": "+1d4 fire on hit."
+    },
+    "frost": {
+      "name": "Frostbitten",
+      "text": "+1d4 cold on hit."
+    },
+    "shocking": {
+      "name": "Storm-forged",
+      "text": "+1d6 lightning on hit."
+    },
+    "holy": {
+      "name": "Hallowed",
+      "text": "+1d6 radiant on hit."
+    },
+    "keen": {
+      "name": "Keen",
+      "text": "Critical hits on one lower face."
+    },
+    "vampiric": {
+      "name": "Vampiric",
+      "text": "Heal 8% of damage dealt."
+    },
+    "lucky": {
+      "name": "Lucky",
+      "text": "+1 reroll on your turns."
+    },
+    "gilded": {
+      "name": "Gilded",
+      "text": "+1 doubloon when you land a killing blow."
+    },
+    "warding": {
+      "name": "of Warding",
+      "text": "+1 AC."
+    },
+    "vitality": {
+      "name": "of Vitality",
+      "text": "+10% max HP."
+    },
+    "swiftness": {
+      "name": "of Swiftness",
+      "text": "+3 initiative."
+    },
+    "embers": {
+      "name": "of the Ember",
+      "text": "Resistance to fire."
+    },
+    "tides": {
+      "name": "of the Tide",
+      "text": "Resistance to cold."
+    }
+  },
+  "monsters": {
+    "sootGoblin": {
+      "name": "Soot Goblin",
+      "actions": [
+        {
+          "name": "Soot Shiv"
+        },
+        {
+          "name": "Pilfer"
+        }
+      ],
+      "flavor": "Quick hands, sooty grins, and a nose for your dice."
+    },
+    "emberImp": {
+      "name": "Ember Imp",
+      "actions": [
+        {
+          "name": "Ember Bolt"
+        },
+        {
+          "name": "Jinx"
+        }
+      ],
+      "flavor": "A cackling spark with a grudge against good fortune."
+    },
+    "slagHound": {
+      "name": "Slag Hound",
+      "actions": [
+        {
+          "name": "Molten Bite"
+        },
+        {
+          "name": "Burning Lunge"
+        }
+      ],
+      "flavor": "Its hide is cooling slag; its bite is not."
+    },
+    "forgeAutomaton": {
+      "name": "Forge Automaton",
+      "actions": [
+        {
+          "name": "Anvil Fist"
+        },
+        {
+          "name": "Bulwark Stance"
+        }
+      ],
+      "flavor": "Built to guard the forge long after the smiths were gone."
+    },
+    "ashCultist": {
+      "name": "Ash Cultist",
+      "actions": [
+        {
+          "name": "Cinder Lash"
+        },
+        {
+          "name": "Ash Mending"
+        },
+        {
+          "name": "Brand of Ash"
+        }
+      ],
+      "flavor": "Robed in grey, chanting to a furnace god."
+    },
+    "magmaOoze": {
+      "name": "Magma Ooze",
+      "actions": [
+        {
+          "name": "Engulf"
+        },
+        {
+          "name": "Spatter"
+        }
+      ],
+      "flavor": "It remembers being a mountain."
+    },
+    "forgemaster": {
+      "name": "The Forgemaster",
+      "actions": [
+        {
+          "name": "Hammerfall"
+        },
+        {
+          "name": "Slag Wave"
+        },
+        {
+          "name": "Reforge"
+        },
+        {
+          "name": "Molten Seal"
+        }
+      ],
+      "boss": {
+        "title": "Warden of the Deep Forge",
+        "intro": "Bellows breathe. A giant of black iron lifts its hammer."
+      },
+      "flavor": "A colossal smith-engine that still keeps the forge lit."
+    },
+    "ashHydra": {
+      "name": "Ash Hydra",
+      "actions": [
+        {
+          "name": "Five Heads"
+        },
+        {
+          "name": "Ash Breath"
+        },
+        {
+          "name": "Regrow Head"
+        }
+      ],
+      "boss": {
+        "title": "The Many-Throated",
+        "intro": "Five necks of cinder rise from the ash pit."
+      },
+      "flavor": "Every head you cut grows back hotter."
+    },
+    "boundEmber": {
+      "name": "The Bound Ember",
+      "actions": [
+        {
+          "name": "Solar Flare"
+        },
+        {
+          "name": "Nova"
+        },
+        {
+          "name": "Searing Grip"
+        }
+      ],
+      "boss": {
+        "title": "Fire in Chains",
+        "intro": "Chained in runes, a living star strains against its prison."
+      },
+      "flavor": "A fire elemental chained beneath the vaults for an age."
+    },
+    "sporeling": {
+      "name": "Sporeling",
+      "actions": [
+        {
+          "name": "Cap Bash"
+        },
+        {
+          "name": "Spore Puff"
+        }
+      ],
+      "flavor": "Waddling mushrooms with a toxic sneeze."
+    },
+    "mossWight": {
+      "name": "Moss Wight",
+      "actions": [
+        {
+          "name": "Life Drain"
+        },
+        {
+          "name": "Root Claw"
+        }
+      ],
+      "flavor": "A mausoleum knight wrapped in moss and grave-roots."
+    },
+    "thornSprite": {
+      "name": "Thorn Sprite",
+      "actions": [
+        {
+          "name": "Thorn Dart"
+        },
+        {
+          "name": "Hex of Brambles"
+        }
+      ],
+      "flavor": "Giggling fey that think your luck is their toy."
+    },
+    "vineStrangler": {
+      "name": "Vine Strangler",
+      "actions": [
+        {
+          "name": "Vine Lash"
+        },
+        {
+          "name": "Strangling Grasp"
+        }
+      ],
+      "flavor": "The hallway is alive, and it wants to hug you."
+    },
+    "fungalShaman": {
+      "name": "Fungal Shaman",
+      "actions": [
+        {
+          "name": "Spore Bolt"
+        },
+        {
+          "name": "Healing Bloom"
+        },
+        {
+          "name": "Mycelial Theft"
+        }
+      ],
+      "flavor": "A myconid elder whose staff blooms with healing caps."
+    },
+    "barkGolem": {
+      "name": "Bark Golem",
+      "actions": [
+        {
+          "name": "Trunk Slam"
+        },
+        {
+          "name": "Barkskin Grove"
+        }
+      ],
+      "flavor": "Old oak shaped into a guardian by forgotten druids."
+    },
+    "mycelialMonarch": {
+      "name": "The Mycelial Monarch",
+      "actions": [
+        {
+          "name": "Sporestorm"
+        },
+        {
+          "name": "Tendril"
+        },
+        {
+          "name": "Spawn Sporelings"
+        }
+      ],
+      "boss": {
+        "title": "Crown of the Undergrowth",
+        "intro": "The whole hall breathes spores. Something vast is thinking."
+      },
+      "flavor": "A fungal intelligence that rules the halls from a throne of caps."
+    },
+    "thornKnight": {
+      "name": "The Thorn Knight",
+      "actions": [
+        {
+          "name": "Briar Lance"
+        },
+        {
+          "name": "Thicket"
+        },
+        {
+          "name": "Vow of Thorns"
+        }
+      ],
+      "boss": {
+        "title": "Oathsworn of the Briar",
+        "intro": "A knight in armour of living thorns lowers her lance."
+      },
+      "flavor": "A fey knight sworn to keep the dead asleep."
+    },
+    "rootDragon": {
+      "name": "The Root Dragon",
+      "actions": [
+        {
+          "name": "Heartwood Bite"
+        },
+        {
+          "name": "Rot Breath"
+        },
+        {
+          "name": "Tail Sweep"
+        }
+      ],
+      "boss": {
+        "title": "The Hollow Wyrm",
+        "intro": "Roots uncoil into a serpentine shape. Bark-scales creak."
+      },
+      "flavor": "An ancient wyrm that became more tree than dragon."
+    },
+    "inkEel": {
+      "name": "Ink Eel",
+      "actions": [
+        {
+          "name": "Ink Bite"
+        },
+        {
+          "name": "Ink Cloud"
+        }
+      ],
+      "flavor": "It swims through the drowned stacks in clouds of black ink."
+    },
+    "drownedScribe": {
+      "name": "Drowned Scribe",
+      "actions": [
+        {
+          "name": "Cursed Quill"
+        },
+        {
+          "name": "Rewrite Fate"
+        },
+        {
+          "name": "Edict of Silence"
+        }
+      ],
+      "flavor": "Still copying the same page it drowned writing."
+    },
+    "brassCrab": {
+      "name": "Brass Crab",
+      "actions": [
+        {
+          "name": "Brass Pincer"
+        },
+        {
+          "name": "Shell Up"
+        }
+      ],
+      "flavor": "A clockwork librarian's guard, barnacled and furious."
+    },
+    "tideCultist": {
+      "name": "Tide Cultist",
+      "actions": [
+        {
+          "name": "Coral Trident"
+        },
+        {
+          "name": "Tidal Blessing"
+        },
+        {
+          "name": "Undertow"
+        }
+      ],
+      "flavor": "Eel-cult priests who sing to the inverted tide."
+    },
+    "glyphWisp": {
+      "name": "Glyph Wisp",
+      "actions": [
+        {
+          "name": "Glyph Bolt"
+        },
+        {
+          "name": "Arc Discharge"
+        }
+      ],
+      "flavor": "A loose letter of power, crackling between the shelves."
+    },
+    "deepLurker": {
+      "name": "Deep Lurker",
+      "actions": [
+        {
+          "name": "Crushing Tentacle"
+        },
+        {
+          "name": "Drag Under"
+        }
+      ],
+      "flavor": "Something with too many arms lives in the reading pool."
+    },
+    "drownedArchivist": {
+      "name": "The Drowned Archivist",
+      "actions": [
+        {
+          "name": "Tome Strike"
+        },
+        {
+          "name": "Erasure"
+        },
+        {
+          "name": "Redaction"
+        },
+        {
+          "name": "Call the Scribes"
+        }
+      ],
+      "boss": {
+        "title": "Keeper of Unwritten Things",
+        "intro": "Pages swirl in the black water. The Archivist turns to your chapter."
+      },
+      "flavor": "It has catalogued every death in the archive. Yours is next."
+    },
+    "tideOracle": {
+      "name": "The Tide Oracle",
+      "actions": [
+        {
+          "name": "Water Lance"
+        },
+        {
+          "name": "Inverted Tide"
+        },
+        {
+          "name": "Healing Pool"
+        }
+      ],
+      "boss": {
+        "title": "She Who Reads the Tide",
+        "intro": "The water rises upward. A blind oracle smiles at you."
+      },
+      "flavor": "A sea-witch who sees futures in reversed tides."
+    },
+    "armoredLeviathan": {
+      "name": "The Armored Leviathan",
+      "actions": [
+        {
+          "name": "Brass Ram"
+        },
+        {
+          "name": "Pressure Surge"
+        },
+        {
+          "name": "Seal Plates"
+        }
+      ],
+      "boss": {
+        "title": "The Pump-Heart Beast",
+        "intro": "Pistons thunder. A whale of brass and barnacles surfaces."
+      },
+      "flavor": "A great beast caged in brass to drive the archive's pumps."
+    },
+    "shardStalker": {
+      "name": "Shard Stalker",
+      "actions": [
+        {
+          "name": "Glass Slice"
+        },
+        {
+          "name": "Splinter"
+        }
+      ],
+      "flavor": "A predator of broken glass that moves between reflections."
+    },
+    "mirrorMimic": {
+      "name": "Mirror Mimic",
+      "actions": [
+        {
+          "name": "Glass Maw"
+        },
+        {
+          "name": "Reversal"
+        }
+      ],
+      "heroic": [
+        {
+          "name": "Swallow Whole"
+        }
+      ],
+      "flavor": "It looks like you. Then it opens its mouth."
+    },
+    "prismWisp": {
+      "name": "Prism Wisp",
+      "actions": [
+        {
+          "name": "Prism Ray"
+        },
+        {
+          "name": "Dazzle"
+        }
+      ],
+      "flavor": "Light, split and angry."
+    },
+    "glassGolem": {
+      "name": "Glass Golem",
+      "actions": [
+        {
+          "name": "Crystal Fist"
+        },
+        {
+          "name": "Mirror Guard"
+        }
+      ],
+      "flavor": "A cathedral window that got up and walked."
+    },
+    "facetCultist": {
+      "name": "Facet Cultist",
+      "actions": [
+        {
+          "name": "Shard Throw"
+        },
+        {
+          "name": "Mirror Mend"
+        },
+        {
+          "name": "Evil Eye"
+        }
+      ],
+      "flavor": "Worshippers of the perfect reflection."
+    },
+    "hollowDouble": {
+      "name": "Hollow Double",
+      "actions": [
+        {
+          "name": "Stolen Strike"
+        },
+        {
+          "name": "Pickpocket"
+        }
+      ],
+      "flavor": "Your reflection, hungry and hollow."
+    },
+    "prismSentinel": {
+      "name": "The Prism Sentinel",
+      "actions": [
+        {
+          "name": "Refracting Halberd"
+        },
+        {
+          "name": "Light Lattice"
+        },
+        {
+          "name": "Mirror Turn"
+        }
+      ],
+      "boss": {
+        "title": "Guardian of the Bright Nave",
+        "intro": "Light bends into a towering knight of crystal."
+      },
+      "flavor": "The reliquary's last guardian, built of a thousand lenses."
+    },
+    "shatteredDouble": {
+      "name": "The Shattered Double",
+      "actions": [
+        {
+          "name": "Mirror Blade"
+        },
+        {
+          "name": "Shatterburst"
+        },
+        {
+          "name": "Your Own Luck"
+        },
+        {
+          "name": "Split Reflection"
+        }
+      ],
+      "boss": {
+        "title": "What the Mirror Kept",
+        "intro": "A cracked reflection steps out. It knows every hand you played."
+      },
+      "flavor": "Everything the mirrors ever stole, wearing your face."
+    },
+    "glassSeraph": {
+      "name": "The Glass Seraph",
+      "actions": [
+        {
+          "name": "Lance of Dawn"
+        },
+        {
+          "name": "Shattering Hymn"
+        },
+        {
+          "name": "False Grace"
+        }
+      ],
+      "boss": {
+        "title": "The Cracked Halo",
+        "intro": "Six wings of stained glass unfold. Silence falls."
+      },
+      "flavor": "An angel of stained glass with a cracked halo."
+    },
+    "graveSentinel": {
+      "name": "Grave Sentinel",
+      "actions": [
+        {
+          "name": "Bone Glaive"
+        },
+        {
+          "name": "Eternal Watch"
+        }
+      ],
+      "flavor": "Skeletal guardians of the floating tombs."
+    },
+    "voidMote": {
+      "name": "Void Mote",
+      "actions": [
+        {
+          "name": "Void Pulse"
+        },
+        {
+          "name": "Entropy"
+        }
+      ],
+      "flavor": "A pinprick of nothing that eats light."
+    },
+    "starboneHound": {
+      "name": "Starbone Hound",
+      "actions": [
+        {
+          "name": "Comet Bite"
+        },
+        {
+          "name": "Gravity Howl"
+        }
+      ],
+      "flavor": "A hound of constellations, held together by old light."
+    },
+    "cometCultist": {
+      "name": "Comet Cultist",
+      "actions": [
+        {
+          "name": "Falling Star"
+        },
+        {
+          "name": "Starlight Mend"
+        },
+        {
+          "name": "Tithe"
+        }
+      ],
+      "flavor": "They pray for the sky to fall again."
+    },
+    "astralLeech": {
+      "name": "Astral Leech",
+      "actions": [
+        {
+          "name": "Latch"
+        },
+        {
+          "name": "Siphon Luck"
+        }
+      ],
+      "flavor": "It feeds on luck, then on blood."
+    },
+    "orbitWarden": {
+      "name": "Orbit Warden",
+      "actions": [
+        {
+          "name": "Orbital Strike"
+        },
+        {
+          "name": "Gravity Well"
+        },
+        {
+          "name": "Turn the Sky"
+        }
+      ],
+      "flavor": "A brass orrery that commands gravity."
+    },
+    "astralJudge": {
+      "name": "The Astral Judge",
+      "actions": [
+        {
+          "name": "Gavel of Stars"
+        },
+        {
+          "name": "Verdict"
+        },
+        {
+          "name": "Sentence"
+        }
+      ],
+      "boss": {
+        "title": "Arbiter of the Fallen Sky",
+        "intro": "A skeletal judge in robes of night raises a gavel of starlight."
+      },
+      "flavor": "It weighs every soul that falls from the sky."
+    },
+    "fallenComet": {
+      "name": "The Fallen Comet",
+      "actions": [
+        {
+          "name": "Impact"
+        },
+        {
+          "name": "Debris Field"
+        },
+        {
+          "name": "Tidal Gravity"
+        }
+      ],
+      "boss": {
+        "title": "The Burning Visitor",
+        "intro": "The ceiling is gone. A comet with a mind stares down."
+      },
+      "flavor": "A star that fell and did not die."
+    },
+    "epochDevourer": {
+      "name": "The Epoch Devourer",
+      "actions": [
+        {
+          "name": "Devouring Maw"
+        },
+        {
+          "name": "Unmaking"
+        },
+        {
+          "name": "Eat the Future"
+        },
+        {
+          "name": "Rot the Hours"
+        }
+      ],
+      "boss": {
+        "title": "That Which Ends Ages",
+        "intro": "Time goes thin. Something that eats eras uncurls."
+      },
+      "flavor": "It ate the civilisation that built the ossuary. It is still hungry."
+    },
+    "cinderGiant": {
+      "name": "Cinder Giant",
+      "actions": [
+        {
+          "name": "Furnace Maul"
+        },
+        {
+          "name": "Ember Quake"
+        }
+      ],
+      "mythic": [
+        {
+          "name": "Hurl Slag"
+        }
+      ],
+      "flavor": "The forge-tenders the smiths were afraid of."
+    },
+    "pyreDrake": {
+      "name": "Pyre Drake",
+      "actions": [
+        {
+          "name": "Firespit"
+        },
+        {
+          "name": "Pyre Breath"
+        }
+      ],
+      "flavor": "A lean drake that nests in the bellows and breathes the forge's heat."
+    },
+    "blightTreant": {
+      "name": "Blight Treant",
+      "actions": [
+        {
+          "name": "Root Crush"
+        },
+        {
+          "name": "Grasping Roots"
+        },
+        {
+          "name": "Blighted Grove"
+        }
+      ],
+      "flavor": "A rotting oak-warden that still remembers its oath."
+    },
+    "briarHag": {
+      "name": "Briar Hag",
+      "actions": [
+        {
+          "name": "Thorn Claws"
+        },
+        {
+          "name": "Bramble Curse"
+        },
+        {
+          "name": "Crooked Luck"
+        }
+      ],
+      "heroic": [
+        {
+          "name": "Lullaby of Rot"
+        }
+      ],
+      "flavor": "She trades in luck and pays in thorns."
+    },
+    "krakenSpawn": {
+      "name": "Kraken Spawn",
+      "actions": [
+        {
+          "name": "Lashing Tentacles"
+        },
+        {
+          "name": "Constrict"
+        }
+      ],
+      "flavor": "Young, hungry, and already too big for the reading pool."
+    },
+    "sunkenLich": {
+      "name": "Sunken Lich",
+      "actions": [
+        {
+          "name": "Drowning Touch"
+        },
+        {
+          "name": "Black Tide"
+        },
+        {
+          "name": "Word of Stillness"
+        }
+      ],
+      "mythic": [
+        {
+          "name": "Unwrite"
+        }
+      ],
+      "flavor": "A scholar who chose the water over forgetting."
+    },
+    "mirrorKnight": {
+      "name": "Mirror Knight",
+      "actions": [
+        {
+          "name": "Reflected Blade"
+        },
+        {
+          "name": "Mirror Stance"
+        }
+      ],
+      "heroic": [
+        {
+          "name": "Turn the Blade"
+        }
+      ],
+      "flavor": "Armour polished so long it forgot there was a knight inside."
+    },
+    "facetArchon": {
+      "name": "Facet Archon",
+      "actions": [
+        {
+          "name": "Refracted Beam"
+        },
+        {
+          "name": "Prismatic Renewal"
+        },
+        {
+          "name": "Blinding Facet"
+        }
+      ],
+      "flavor": "An angel of the reliquary, cut like a jewel."
+    },
+    "nebulaWraith": {
+      "name": "Nebula Wraith",
+      "actions": [
+        {
+          "name": "Starless Touch"
+        },
+        {
+          "name": "Void Chill"
+        }
+      ],
+      "mythic": [
+        {
+          "name": "Drink the Light"
+        }
+      ],
+      "flavor": "A dead astronomer, now mostly the dark between stars."
+    },
+    "starwyrm": {
+      "name": "Starwyrm",
+      "actions": [
+        {
+          "name": "Comet Bite"
+        },
+        {
+          "name": "Starbolt"
+        },
+        {
+          "name": "Gravity Breath"
+        }
+      ],
+      "flavor": "A serpent that coils in orbit and breathes falling stars."
+    },
+    "tiamat": {
+      "name": "Tiamat",
+      "actions": [
+        {
+          "name": "Five-Headed Bite"
+        },
+        {
+          "name": "Tail of the Abyss"
+        },
+        {
+          "name": "Red Breath"
+        },
+        {
+          "name": "Blue Breath"
+        },
+        {
+          "name": "Green Breath"
+        },
+        {
+          "name": "White Breath"
+        },
+        {
+          "name": "Black Breath"
+        },
+        {
+          "name": "Chromatic Dominion"
+        },
+        {
+          "name": "Claim the Hoard"
+        },
+        {
+          "name": "Queen's Glare"
+        }
+      ],
+      "boss": {
+        "title": "the Dragon Queen",
+        "intro": "Five heads rise above the hoard. Each breathes a different death."
+      },
+      "flavor": "The five-headed Dragon Queen, sealed behind the Sixth Door for an age, and awake again."
+    }
+  },
+  "monsterTraits": {
+    "multiattack": {
+      "name": "Multiattack",
+      "text": "Its attacks strike several times."
+    },
+    "uncannyDodge": {
+      "name": "Uncanny Dodge",
+      "text": "Halves the first hit it takes each round."
+    },
+    "magicResist": {
+      "name": "Magic Resistance",
+      "text": "Advantage on saving throws."
+    },
+    "retaliate": {
+      "name": "Retaliation",
+      "text": "Strikes back at anyone who hits it in melee."
+    },
+    "deathburst": {
+      "name": "Death Burst",
+      "text": "Explodes when it dies, hurting the front rank."
+    },
+    "massMend": {
+      "name": "Mass Mending",
+      "text": "Its healing reaches every ally."
+    },
+    "frenzy": {
+      "name": "Frenzy",
+      "text": "Hits 30% harder while bloodied."
+    },
+    "pack": {
+      "name": "Pack Tactics",
+      "text": "Advantage on attacks while an ally stands in its rank."
+    },
+    "lair": {
+      "name": "Lair Actions",
+      "text": "The lair itself strikes at the top of every round."
+    },
+    "relentless": {
+      "name": "Relentless",
+      "text": "Often strikes twice in a turn."
+    }
+  },
+  "spells": {
+    "fireBolt": {
+      "name": "Fire Bolt",
+      "text": "Ranged spell attack: 1d10 fire."
+    },
+    "rayOfFrost": {
+      "name": "Ray of Frost",
+      "text": "Ranged spell attack: 1d8 cold; the target is slowed."
+    },
+    "shockingGrasp": {
+      "name": "Shocking Grasp",
+      "text": "Melee spell attack: 1d8 lightning; the target loses its reaction."
+    },
+    "chillTouch": {
+      "name": "Chill Touch",
+      "text": "Melee spell attack: 1d10 necrotic; the target cannot regain HP."
+    },
+    "poisonSpray": {
+      "name": "Poison Spray",
+      "text": "Ranged spell attack: 1d12 poison."
+    },
+    "sacredFlame": {
+      "name": "Sacred Flame",
+      "text": "DEX save or take 1d8 radiant."
+    },
+    "tollTheDead": {
+      "name": "Toll the Dead",
+      "text": "WIS save or take 1d8 necrotic (1d12 if the target is wounded)."
+    },
+    "eldritchBlast": {
+      "name": "Eldritch Blast",
+      "text": "One beam (more at 5, 11, 17): ranged spell attack, 1d10 force each."
+    },
+    "viciousMockery": {
+      "name": "Vicious Mockery",
+      "text": "WIS save or 1d6 psychic and disadvantage on its next attack."
+    },
+    "starryWisp": {
+      "name": "Starry Wisp",
+      "text": "Ranged spell attack: 1d8 radiant; the target glows (attacks against it have advantage)."
+    },
+    "produceFlame": {
+      "name": "Produce Flame",
+      "text": "Ranged spell attack: 1d8 fire. Lights dark rooms."
+    },
+    "thornWhip": {
+      "name": "Thorn Whip",
+      "text": "Melee-range spell attack at any rank: 1d6 piercing; pulls a back-rank target to the front."
+    },
+    "light": {
+      "name": "Light",
+      "text": "Exploration: illuminates dark rooms and reveals clues."
+    },
+    "guidance": {
+      "name": "Guidance",
+      "text": "Exploration: +1d4 to the next skill check."
+    },
+    "magicMissile": {
+      "name": "Magic Missile",
+      "text": "Three darts that never miss: 3d4+3 force."
+    },
+    "burningHands": {
+      "name": "Burning Hands",
+      "text": "A rank of foes: DEX save, 3d6 fire (half on success)."
+    },
+    "thunderwave": {
+      "name": "Thunderwave",
+      "text": "A rank of foes: CON save, 2d8 thunder; failures are pushed back."
+    },
+    "chromaticOrb": {
+      "name": "Chromatic Orb",
+      "text": "Ranged spell attack: 3d8 of the element the target is weakest to."
+    },
+    "iceKnife": {
+      "name": "Ice Knife",
+      "text": "Ranged attack 1d10 piercing, then the target's rank makes a DEX save vs 2d6 cold."
+    },
+    "sleep": {
+      "name": "Sleep",
+      "text": "A rank of foes: WIS save or fall asleep (damage wakes them)."
+    },
+    "shield": {
+      "name": "Shield",
+      "text": "Adapted: +5 AC until your next turn (cast as a bonus action)."
+    },
+    "cureWounds": {
+      "name": "Cure Wounds",
+      "text": "Heal 2d8 + casting modifier."
+    },
+    "healingWord": {
+      "name": "Healing Word",
+      "text": "Bonus Action: heal 2d4 + casting modifier at range — can lift a downed ally."
+    },
+    "guidingBolt": {
+      "name": "Guiding Bolt",
+      "text": "Ranged spell attack: 4d6 radiant; the next attack against the target has advantage."
+    },
+    "bless": {
+      "name": "Bless",
+      "text": "The party adds 1d4 to attack rolls and saves."
+    },
+    "bane": {
+      "name": "Bane",
+      "text": "Up to three foes: CHA save or subtract 1d4 from attacks and saves."
+    },
+    "shieldOfFaith": {
+      "name": "Shield of Faith",
+      "text": "An ally gains +2 AC."
+    },
+    "inflictWounds": {
+      "name": "Inflict Wounds",
+      "text": "Touch: CON save, 2d10 necrotic (half on success)."
+    },
+    "command": {
+      "name": "Command",
+      "text": "WIS save or the target grovels: prone and loses its next action."
+    },
+    "huntersMark": {
+      "name": "Hunter's Mark",
+      "text": "Bonus Action: mark a foe; your hits deal +1d6 force to it."
+    },
+    "hex": {
+      "name": "Hex",
+      "text": "Bonus Action: curse a foe; your hits deal +1d6 necrotic to it."
+    },
+    "armorOfAgathys": {
+      "name": "Armor of Agathys",
+      "text": "Gain 5 temp HP per slot level (× vitality); attackers that hit you take cold damage."
+    },
+    "dissonantWhispers": {
+      "name": "Dissonant Whispers",
+      "text": "WIS save: 3d6 psychic and frightened (half, no fear on success)."
+    },
+    "faerieFire": {
+      "name": "Faerie Fire",
+      "text": "All foes: DEX save or glow — attacks against them have advantage."
+    },
+    "entangle": {
+      "name": "Entangle",
+      "text": "A rank of foes: STR save or restrained."
+    },
+    "divineSmite": {
+      "name": "Divine Smite",
+      "text": "Attack with a smite: on a hit add 2d8 radiant (+1d8 vs fiends/undead) and Oath Seal Mult."
+    },
+    "heroism": {
+      "name": "Heroism",
+      "text": "An ally gains temp HP equal to your modifier (× vitality) each turn and is immune to fear."
+    },
+    "falseLife": {
+      "name": "False Life",
+      "text": "Gain 2d4+4 temp HP (× vitality)."
+    },
+    "scorchingRay": {
+      "name": "Scorching Ray",
+      "text": "Three rays (+1 per upcast level): ranged spell attacks, 2d6 fire each."
+    },
+    "shatter": {
+      "name": "Shatter",
+      "text": "A rank of foes: CON save, 3d8 thunder."
+    },
+    "holdPerson": {
+      "name": "Hold Person",
+      "text": "A humanoid foe: WIS save or paralyzed (repeat save each turn)."
+    },
+    "spiritualWeapon": {
+      "name": "Spiritual Weapon",
+      "text": "A floating weapon strikes now and as a free strike each of your turns: 1d8 + mod force."
+    },
+    "mistyStep": {
+      "name": "Misty Step",
+      "text": "Teleport: switch ranks and become blurred until your next turn."
+    },
+    "aid": {
+      "name": "Aid",
+      "text": "The party gains 5 temp HP per slot level above 1st (× vitality)."
+    },
+    "blur": {
+      "name": "Blur",
+      "text": "Attacks against you have disadvantage."
+    },
+    "moonbeam": {
+      "name": "Moonbeam",
+      "text": "A beam of moonlight sears a foe now and at the start of each of your turns (CON half)."
+    },
+    "lesserRestoration": {
+      "name": "Lesser Restoration",
+      "text": "End one condition (blinded, paralyzed, poisoned…) on an ally."
+    },
+    "invisibility": {
+      "name": "Invisibility",
+      "text": "An ally turns invisible until it attacks."
+    },
+    "web": {
+      "name": "Web",
+      "text": "A rank of foes: DEX save or restrained."
+    },
+    "spikeGrowth": {
+      "name": "Spike Growth",
+      "text": "Thorns rake a rank of foes each of your turns (no save)."
+    },
+    "heatMetal": {
+      "name": "Heat Metal",
+      "text": "A foe's metal glows: 2d8 fire now and each of your turns."
+    },
+    "cloudOfDaggers": {
+      "name": "Cloud of Daggers",
+      "text": "Spinning blades: 4d4 slashing now and each of your turns."
+    },
+    "prayerOfHealing": {
+      "name": "Prayer of Healing",
+      "text": "Exploration: the party heals 2d8 + modifier each."
+    },
+    "findTraps": {
+      "name": "Find Traps",
+      "text": "Exploration: reveals traps — automatically succeed trap checks this expedition room."
+    },
+    "knock": {
+      "name": "Knock",
+      "text": "Exploration: opens a locked door or chest."
+    },
+    "fireball": {
+      "name": "Fireball",
+      "text": "All foes: DEX save, 8d6 fire."
+    },
+    "lightningBolt": {
+      "name": "Lightning Bolt",
+      "text": "A rank of foes: DEX save, 8d6 lightning."
+    },
+    "massHealingWord": {
+      "name": "Mass Healing Word",
+      "text": "Bonus Action: the whole party heals 2d4 + modifier."
+    },
+    "spiritGuardians": {
+      "name": "Spirit Guardians",
+      "text": "Spirits sear the front rank of foes each of your turns (WIS half)."
+    },
+    "haste": {
+      "name": "Haste",
+      "text": "An ally gains +2 AC, advantage on DEX saves, and plays an extra Fortune hand each turn (attack only)."
+    },
+    "hypnoticPattern": {
+      "name": "Hypnotic Pattern",
+      "text": "All foes: WIS save or incapacitated until damaged."
+    },
+    "revivify": {
+      "name": "Revivify",
+      "text": "Return an ally who died during this fight to 1 HP (costs 300 carried gold)."
+    },
+    "callLightning": {
+      "name": "Call Lightning",
+      "text": "A storm cloud strikes a foe now and each of your turns (DEX half)."
+    },
+    "vampiricTouch": {
+      "name": "Vampiric Touch",
+      "text": "Melee spell attack: 3d6 necrotic; you heal half the damage dealt."
+    },
+    "fear": {
+      "name": "Fear",
+      "text": "A rank of foes: WIS save or frightened."
+    },
+    "slow": {
+      "name": "Slow",
+      "text": "Up to six foes: WIS save or slowed (-2 AC, no reactions, weaker turns)."
+    },
+    "hungerOfHadar": {
+      "name": "Hunger of Hadar",
+      "text": "A void swallows a rank: 4d6 cold each of your turns and they are blinded."
+    },
+    "crusadersMantle": {
+      "name": "Crusader's Mantle",
+      "text": "Allies' weapon hits deal +1d4 radiant."
+    },
+    "conjureBarrage": {
+      "name": "Conjure Barrage",
+      "text": "A storm of spectral blades: all foes DEX save, 5d8 force."
+    },
+    "dispelMagic": {
+      "name": "Dispel Magic",
+      "text": "Strip magical buffs from a foe; exploration: dispel wards."
+    },
+    "iceStorm": {
+      "name": "Ice Storm",
+      "text": "All foes: DEX save, 2d10 bludgeoning + 4d6 cold (folded as 6d8)."
+    },
+    "blight": {
+      "name": "Blight",
+      "text": "CON save: 8d8 necrotic (plants are devastated)."
+    },
+    "greaterInvisibility": {
+      "name": "Greater Invisibility",
+      "text": "An ally stays invisible even while attacking."
+    },
+    "deathWard": {
+      "name": "Death Ward",
+      "text": "The next time the ally would drop to 0 HP, it drops to 1 instead."
+    },
+    "stoneskin": {
+      "name": "Stoneskin",
+      "text": "An ally resists bludgeoning, piercing and slashing."
+    },
+    "wallOfFire": {
+      "name": "Wall of Fire",
+      "text": "Flames scour a rank each of your turns (DEX half)."
+    },
+    "banishment": {
+      "name": "Banishment",
+      "text": "CHA save or the foe is banished (incapacitated, untargetable; bosses resist)."
+    },
+    "guardianOfFaith": {
+      "name": "Guardian of Faith",
+      "text": "A spectral guardian strikes a rank each of your turns (DEX half)."
+    },
+    "coneOfCold": {
+      "name": "Cone of Cold",
+      "text": "All foes: CON save, 8d8 cold."
+    },
+    "flameStrike": {
+      "name": "Flame Strike",
+      "text": "A rank of foes: DEX save, 5d6 fire + 5d6 radiant."
+    },
+    "massCureWounds": {
+      "name": "Mass Cure Wounds",
+      "text": "The whole party heals 5d8 + modifier."
+    },
+    "holdMonster": {
+      "name": "Hold Monster",
+      "text": "Any foe: WIS save or paralyzed (repeat save each turn)."
+    },
+    "insectPlague": {
+      "name": "Insect Plague",
+      "text": "Locusts devour a rank each of your turns (CON half)."
+    },
+    "raiseDead": {
+      "name": "Raise Dead",
+      "text": "Exploration (safe room): return a fallen ally to life (costs 500 carried gold)."
+    },
+    "greaterRestoration": {
+      "name": "Greater Restoration",
+      "text": "End every condition on an ally."
+    },
+    "cloudkill": {
+      "name": "Cloudkill",
+      "text": "Poison fog hits all foes each of your turns (CON half)."
+    },
+    "destructiveWave": {
+      "name": "Destructive Wave",
+      "text": "All foes: CON save, 5d6 thunder + 5d6 radiant and prone."
+    },
+    "swiftQuiver": {
+      "name": "Swift Quiver",
+      "text": "Your quiver refills itself: play an extra attack hand each turn."
+    },
+    "chainLightning": {
+      "name": "Chain Lightning",
+      "text": "Up to four foes: DEX save, 10d8 lightning."
+    },
+    "disintegrate": {
+      "name": "Disintegrate",
+      "text": "DEX save or take 10d6+40 force. Reduced to dust at 0."
+    },
+    "heal": {
+      "name": "Heal",
+      "text": "An ally regains 70 HP and is cured of blindness and disease."
+    },
+    "harm": {
+      "name": "Harm",
+      "text": "CON save: 14d6 necrotic."
+    },
+    "sunbeam": {
+      "name": "Sunbeam",
+      "text": "A rank of foes: CON save, 6d8 radiant and blinded."
+    },
+    "bladeBarrier": {
+      "name": "Blade Barrier",
+      "text": "A wall of whirling blades shreds a rank each turn (DEX half)."
+    },
+    "circleOfDeath": {
+      "name": "Circle of Death",
+      "text": "All foes: CON save, 8d8 necrotic."
+    },
+    "eyebite": {
+      "name": "Eyebite",
+      "text": "WIS save or fall unconscious."
+    },
+    "fingerOfDeath": {
+      "name": "Finger of Death",
+      "text": "CON save: 7d8+30 necrotic."
+    },
+    "fireStorm": {
+      "name": "Fire Storm",
+      "text": "All foes: DEX save, 7d10 fire."
+    },
+    "delayedBlastFireball": {
+      "name": "Delayed Blast Fireball",
+      "text": "All foes: DEX save, 12d6 fire."
+    },
+    "regenerate": {
+      "name": "Regenerate",
+      "text": "Heal 4d8+15 and regenerate each turn."
+    },
+    "powerWordFortify": {
+      "name": "Power Word Fortify",
+      "text": "The party shares 120 temp HP (× vitality)."
+    },
+    "prismaticSpray": {
+      "name": "Prismatic Spray",
+      "text": "All foes: DEX save, 12d6 of mixed elements."
+    },
+    "sunburst": {
+      "name": "Sunburst",
+      "text": "All foes: CON save, 12d6 radiant and blinded."
+    },
+    "incendiaryCloud": {
+      "name": "Incendiary Cloud",
+      "text": "Burning smoke engulfs all foes each of your turns."
+    },
+    "powerWordStun": {
+      "name": "Power Word Stun",
+      "text": "A foe below 40% HP is stunned (CON save each turn); otherwise it is slowed."
+    },
+    "holyAura": {
+      "name": "Holy Aura",
+      "text": "Allies gain advantage on saves; attacks against them have disadvantage."
+    },
+    "meteorSwarm": {
+      "name": "Meteor Swarm",
+      "text": "All foes: DEX save, 20d6 fire + 20d6 bludgeoning."
+    },
+    "powerWordKill": {
+      "name": "Power Word Kill",
+      "text": "A non-boss foe below 35% HP dies; otherwise 12d12 psychic."
+    },
+    "massHeal": {
+      "name": "Mass Heal",
+      "text": "Restore up to 700 HP split across the party and cure conditions."
+    },
+    "powerWordHeal": {
+      "name": "Power Word Heal",
+      "text": "An ally regains all HP and is cured of every condition."
+    },
+    "timeStop": {
+      "name": "Time Stop",
+      "text": "Act twice more immediately — and play two extra Fortune hands."
+    },
+    "foresight": {
+      "name": "Foresight",
+      "text": "An ally gains advantage on everything; foes have disadvantage against it."
+    },
+    "trueResurrection": {
+      "name": "True Resurrection",
+      "text": "Return a fallen ally to full health."
+    }
+  },
+  "classes": {
+    "barbarian": {
+      "name": "Barbarian",
+      "subclass": {
+        "name": "Path of the Berserker"
+      },
+      "summary": "A storm of fury that shrugs off blows and hits like a landslide.",
+      "fortuneTalent": {
+        "name": "Blood Dice",
+        "text": "While Raging, you may reroll without spending rerolls by paying HP (2 + your level, doubled by vitality)."
+      },
+      "resources": [
+        {
+          "name": "Rage"
+        },
+        {
+          "name": "Intimidating Presence"
+        }
+      ],
+      "features": {
+        "1": {
+          "0": {
+            "name": "Rage",
+            "text": "Bonus Action: +rage damage on Strength attacks, resistance to bludgeoning, piercing and slashing for 10 rounds."
+          },
+          "1": {
+            "name": "Unarmored Defense",
+            "text": "Without armor, AC = 10 + DEX + CON (shield allowed)."
+          }
+        },
+        "2": [
+          {
+            "name": "Reckless Attack",
+            "text": "Gain advantage on Strength attacks this turn; attacks against you have advantage until your next turn."
+          },
+          {
+            "name": "Danger Sense",
+            "text": "Advantage on Dexterity saving throws."
+          }
+        ],
+        "3": [
+          {
+            "name": "Frenzy",
+            "text": "While Raging and Reckless, your first hit each turn deals extra d6s equal to your rage damage."
+          },
+          {
+            "name": "Primal Knowledge",
+            "text": "Gain a skill proficiency; Strength powers some checks while raging."
+          }
+        ],
+        "5": {
+          "1": {
+            "name": "Fast Movement",
+            "text": "Advantage on initiative is gained at level 7; here you may always switch ranks freely."
+          }
+        },
+        "6": [
+          {
+            "name": "Mindless Rage",
+            "text": "While Raging you are immune to charmed and frightened."
+          }
+        ],
+        "7": [
+          {
+            "name": "Feral Instinct",
+            "text": "Advantage on initiative rolls."
+          },
+          {
+            "name": "Instinctive Pounce",
+            "text": "Entering Rage also moves you to the front rank."
+          }
+        ],
+        "9": [
+          {
+            "name": "Brutal Strike",
+            "text": "Forgo Reckless advantage on one attack to add 1d10 damage and push or hamstring the target."
+          }
+        ],
+        "10": [
+          {
+            "name": "Retaliation",
+            "text": "When a melee attack damages you, strike back with your reaction."
+          }
+        ],
+        "11": [
+          {
+            "name": "Relentless Rage",
+            "text": "While Raging, dropping to 0 HP instead leaves you at 1 HP on a DC 10 CON save (DC rises by 5 each use)."
+          }
+        ],
+        "13": [
+          {
+            "name": "Improved Brutal Strike",
+            "text": "Brutal Strike may also stagger: the target has disadvantage on its next save."
+          }
+        ],
+        "14": [
+          {
+            "name": "Intimidating Presence",
+            "text": "Bonus Action, once per long rest: enemies make a WIS save or are frightened."
+          }
+        ],
+        "15": [
+          {
+            "name": "Persistent Rage",
+            "text": "Rage lasts the whole combat and initiative restores a use if you have none."
+          }
+        ],
+        "17": [
+          {
+            "name": "Improved Brutal Strike II",
+            "text": "Brutal Strike deals 2d10."
+          }
+        ],
+        "18": [
+          {
+            "name": "Indomitable Might",
+            "text": "Strength checks and saves use at least your Strength score."
+          }
+        ],
+        "20": [
+          {
+            "name": "Primal Champion",
+            "text": "Strength and Constitution +4 (max 25)."
+          }
+        ]
+      }
+    },
+    "bard": {
+      "name": "Bard",
+      "subclass": {
+        "name": "College of Lore"
+      },
+      "summary": "Words and music shape the dice — a bard turns luck into a party resource.",
+      "fortuneTalent": {
+        "name": "Inspiration Dice",
+        "text": "Bardic Inspiration places a bonus die (your Inspiration die roll, Arcane) straight onto the tray."
+      },
+      "resources": [
+        {
+          "name": "Bardic Inspiration"
+        }
+      ],
+      "features": {
+        "1": {
+          "0": {
+            "name": "Bardic Inspiration",
+            "text": "Bonus Action: add an Inspiration die (d6, d8 at 5, d10 at 10, d12 at 15) to the Fortune Tray as a ghost die."
+          }
+        },
+        "2": [
+          {
+            "name": "Expertise",
+            "text": "Double proficiency in two skills."
+          },
+          {
+            "name": "Jack of All Trades",
+            "text": "Add half proficiency to checks without proficiency."
+          }
+        ],
+        "3": [
+          {
+            "name": "Cutting Words",
+            "text": "Reaction: when an ally is hit, spend Inspiration to reduce the damage by your Inspiration die."
+          },
+          {
+            "name": "Bonus Proficiencies",
+            "text": "Gain proficiency in three skills."
+          }
+        ],
+        "5": [
+          {
+            "name": "Font of Inspiration",
+            "text": "Inspiration recharges on a short rest."
+          }
+        ],
+        "6": [
+          {
+            "name": "Magical Discoveries",
+            "text": "Learn spells from any list (Cleric, Druid or Wizard)."
+          }
+        ],
+        "7": [
+          {
+            "name": "Countercharm",
+            "text": "Allies have advantage on saves against charmed and frightened."
+          }
+        ],
+        "10": [
+          {
+            "name": "Magical Secrets",
+            "text": "Prepare spells from the Cleric, Druid and Wizard lists."
+          }
+        ],
+        "14": [
+          {
+            "name": "Peerless Skill",
+            "text": "Add an Inspiration die to failed checks."
+          }
+        ],
+        "18": [
+          {
+            "name": "Superior Inspiration",
+            "text": "Start each combat with at least two Inspiration uses."
+          }
+        ],
+        "20": [
+          {
+            "name": "Words of Creation",
+            "text": "Power Word Heal and Power Word Kill always prepared; may target two creatures."
+          }
+        ]
+      }
+    },
+    "cleric": {
+      "name": "Cleric",
+      "subclass": {
+        "name": "Life Domain"
+      },
+      "summary": "A conduit of divine light: heals, shields, and burns the undead.",
+      "fortuneTalent": {
+        "name": "Sanctify",
+        "text": "Once per combat, turn one tray die into a blazing 6 (Sun)."
+      },
+      "resources": [
+        {
+          "name": "Channel Divinity"
+        },
+        {
+          "name": "Divine Intervention"
+        }
+      ],
+      "features": {
+        "1": {
+          "1": {
+            "name": "Divine Order",
+            "text": "Protector (heavy armor, martial weapons) or Thaumaturge (extra cantrip, +WIS to Arcana/Religion)."
+          }
+        },
+        "2": [
+          {
+            "name": "Channel Divinity: Divine Spark",
+            "text": "Heal an ally or blast a foe for 1d8 + WIS (more dice at 7, 13, 18)."
+          },
+          {
+            "name": "Channel Divinity: Turn Undead",
+            "text": "Undead make a WIS save or are frightened and incapacitated."
+          }
+        ],
+        "3": [
+          {
+            "name": "Disciple of Life",
+            "text": "Healing spells restore 2 + spell level extra HP."
+          },
+          {
+            "name": "Preserve Life",
+            "text": "Channel Divinity: restore 5 × level HP split among wounded allies."
+          }
+        ],
+        "5": [
+          {
+            "name": "Sear Undead",
+            "text": "Turn Undead also deals WIS-mod d8 radiant damage."
+          }
+        ],
+        "6": [
+          {
+            "name": "Blessed Healer",
+            "text": "Healing an ally also heals you for 2 + spell level."
+          }
+        ],
+        "7": [
+          {
+            "name": "Blessed Strikes",
+            "text": "Once per turn, weapon or cantrip damage deals an extra 1d8 radiant."
+          }
+        ],
+        "10": [
+          {
+            "name": "Divine Intervention",
+            "text": "Once per long rest, heal the whole party to at least half and cleanse their conditions."
+          }
+        ],
+        "14": [
+          {
+            "name": "Improved Blessed Strikes",
+            "text": "Blessed Strikes deals 2d8."
+          }
+        ],
+        "17": [
+          {
+            "name": "Supreme Healing",
+            "text": "Healing dice always roll their maximum."
+          }
+        ],
+        "20": [
+          {
+            "name": "Greater Divine Intervention",
+            "text": "Divine Intervention also revives fallen allies at 1 HP."
+          }
+        ]
+      }
+    },
+    "druid": {
+      "name": "Druid",
+      "subclass": {
+        "name": "Circle of the Land"
+      },
+      "summary": "Shapeshifter and storm-caller, rooted in the old magic of living things.",
+      "fortuneTalent": {
+        "name": "Overgrowth",
+        "text": "Once per combat, a chosen tray die sprouts a ghost copy of itself."
+      },
+      "resources": [
+        {
+          "name": "Wild Shape"
+        }
+      ],
+      "features": {
+        "1": {
+          "1": {
+            "name": "Primal Order",
+            "text": "Magician (extra cantrip) or Warden (medium armor, martial weapons)."
+          }
+        },
+        "2": [
+          {
+            "name": "Wild Shape",
+            "text": "Bonus Action: take beast form — gain temp HP equal to 3 × level, and your attacks become claws (1d8 + WIS)."
+          }
+        ],
+        "3": [
+          {
+            "name": "Land's Aid",
+            "text": "Spend Wild Shape: foes in a rank take 2d6 necrotic (CON half) and an ally heals 2d6 (3d6 at 10, 4d6 at 14)."
+          }
+        ],
+        "5": [
+          {
+            "name": "Wild Resurgence",
+            "text": "Spend a spell slot to regain a Wild Shape use."
+          }
+        ],
+        "6": [
+          {
+            "name": "Natural Recovery",
+            "text": "Recover spell slots on a short rest (once per expedition)."
+          }
+        ],
+        "7": [
+          {
+            "name": "Elemental Fury",
+            "text": "Add WIS to cantrip damage."
+          }
+        ],
+        "10": [
+          {
+            "name": "Nature's Ward",
+            "text": "Immune to poisoned; resist poison."
+          }
+        ],
+        "14": [
+          {
+            "name": "Nature's Sanctuary",
+            "text": "Allies in your rank gain resistance while you are Wild Shaped."
+          }
+        ],
+        "15": [
+          {
+            "name": "Improved Elemental Fury",
+            "text": "Cantrips gain +1 die of damage."
+          }
+        ],
+        "18": [
+          {
+            "name": "Beast Spells",
+            "text": "Cast spells while Wild Shaped."
+          }
+        ],
+        "20": [
+          {
+            "name": "Archdruid",
+            "text": "Regain a Wild Shape use at the start of each combat."
+          }
+        ]
+      }
+    },
+    "fighter": {
+      "name": "Fighter",
+      "subclass": {
+        "name": "Champion"
+      },
+      "summary": "The master of weapons and armor — steady, durable, relentless.",
+      "fortuneTalent": {
+        "name": "Steady Hand",
+        "text": "Once per turn, nudge one tray die up or down by 1."
+      },
+      "resources": [
+        {
+          "name": "Second Wind"
+        },
+        {
+          "name": "Action Surge"
+        },
+        {
+          "name": "Indomitable"
+        }
+      ],
+      "features": {
+        "1": {
+          "0": {
+            "name": "Fighting Style",
+            "text": "Choose a Fighting Style."
+          },
+          "1": {
+            "name": "Second Wind",
+            "text": "Bonus Action: regain 1d10 + level HP."
+          }
+        },
+        "2": [
+          {
+            "name": "Action Surge",
+            "text": "Take one additional action — and play one more Fortune hand — this turn."
+          },
+          {
+            "name": "Tactical Mind",
+            "text": "Spend Second Wind to add 1d10 to a failed check."
+          }
+        ],
+        "3": [
+          {
+            "name": "Improved Critical",
+            "text": "Critical hits on 19–20."
+          },
+          {
+            "name": "Remarkable Athlete",
+            "text": "Advantage on initiative and Athletics checks."
+          }
+        ],
+        "5": {
+          "1": {
+            "name": "Tactical Shift",
+            "text": "Second Wind also lets you switch ranks."
+          }
+        },
+        "7": [
+          {
+            "name": "Additional Fighting Style",
+            "text": "Choose a second Fighting Style."
+          }
+        ],
+        "9": [
+          {
+            "name": "Indomitable",
+            "text": "Reroll a failed saving throw with a bonus equal to your level."
+          },
+          {
+            "name": "Tactical Master",
+            "text": "Your attacks may use Push, Sap or Slow instead of the weapon's mastery."
+          }
+        ],
+        "10": [
+          {
+            "name": "Heroic Warrior",
+            "text": "Start each of your turns with one extra reroll."
+          }
+        ],
+        "13": [
+          {
+            "name": "Studied Attacks",
+            "text": "After you miss a target, your next attack against it has advantage."
+          }
+        ],
+        "15": [
+          {
+            "name": "Superior Critical",
+            "text": "Critical hits on 18–20."
+          }
+        ],
+        "17": [
+          {
+            "name": "Action Surge (two uses)",
+            "text": "Two uses of Action Surge per rest."
+          }
+        ],
+        "18": [
+          {
+            "name": "Survivor",
+            "text": "At the start of your turn while bloodied, regain 5 + CON HP."
+          }
+        ]
+      }
+    },
+    "monk": {
+      "name": "Monk",
+      "subclass": {
+        "name": "Warrior of the Open Hand"
+      },
+      "summary": "A blur of fists and focus who plays more hands than anyone.",
+      "fortuneTalent": {
+        "name": "Flow of Fortune",
+        "text": "Flurry of Blows plays a second Fortune hand of up to 3 dice."
+      },
+      "resources": [
+        {
+          "name": "Focus Points"
+        },
+        {
+          "name": "Wholeness of Body"
+        }
+      ],
+      "features": {
+        "1": [
+          {
+            "name": "Martial Arts",
+            "text": "Unarmed strikes and monk weapons use DEX and a Martial Arts die (d6 → d12). Bonus Action unarmed strike."
+          },
+          {
+            "name": "Unarmored Defense",
+            "text": "Without armor or shield, AC = 10 + DEX + WIS."
+          }
+        ],
+        "2": [
+          {
+            "name": "Flurry of Blows",
+            "text": "1 Focus, Bonus Action: two unarmed strikes (three at 10), playing a second hand of up to 3 dice."
+          },
+          {
+            "name": "Patient Defense",
+            "text": "1 Focus, Bonus Action: Dodge — attacks against you have disadvantage."
+          },
+          {
+            "name": "Uncanny Metabolism",
+            "text": "Regain all Focus when you roll initiative, once per long rest."
+          }
+        ],
+        "3": [
+          {
+            "name": "Deflect Attacks",
+            "text": "Reaction: reduce attack damage by 1d10 + DEX + level."
+          },
+          {
+            "name": "Open Hand Technique",
+            "text": "Flurry hits can topple (DEX save or prone) or push the target to the back rank."
+          }
+        ],
+        "4": {
+          "1": {
+            "name": "Slow Fall",
+            "text": "Ignore pit and fall damage while exploring."
+          }
+        },
+        "5": {
+          "1": {
+            "name": "Stunning Strike",
+            "text": "1 Focus on hit: CON save or stunned until your next turn."
+          }
+        },
+        "6": [
+          {
+            "name": "Empowered Strikes",
+            "text": "Unarmed strikes deal force damage."
+          },
+          {
+            "name": "Wholeness of Body",
+            "text": "Bonus Action: heal Martial Arts die + WIS."
+          }
+        ],
+        "7": [
+          {
+            "name": "Evasion",
+            "text": "DEX saves for half take none on a success, half on a failure."
+          }
+        ],
+        "9": [
+          {
+            "name": "Acrobatic Movement",
+            "text": "Switch ranks freely."
+          }
+        ],
+        "10": [
+          {
+            "name": "Heightened Focus",
+            "text": "Flurry makes three strikes; Patient Defense also grants temp HP."
+          },
+          {
+            "name": "Self-Restoration",
+            "text": "End charmed, frightened or poisoned at the end of your turn."
+          }
+        ],
+        "11": [
+          {
+            "name": "Fleet Step",
+            "text": "Patient Defense also lets you switch ranks."
+          }
+        ],
+        "13": [
+          {
+            "name": "Deflect Energy",
+            "text": "Deflect Attacks works on any damage type."
+          }
+        ],
+        "14": [
+          {
+            "name": "Disciplined Survivor",
+            "text": "Proficiency in all saving throws."
+          }
+        ],
+        "15": [
+          {
+            "name": "Perfect Focus",
+            "text": "Start combat with at least 4 Focus."
+          }
+        ],
+        "17": [
+          {
+            "name": "Quivering Palm",
+            "text": "4 Focus: on hit, CON save or take 10d12 force (half on success)."
+          }
+        ],
+        "18": [
+          {
+            "name": "Superior Defense",
+            "text": "3 Focus: resistance to all damage but force for 10 rounds."
+          }
+        ],
+        "20": [
+          {
+            "name": "Body and Mind",
+            "text": "Dexterity and Wisdom +4 (max 25)."
+          }
+        ]
+      }
+    },
+    "paladin": {
+      "name": "Paladin",
+      "subclass": {
+        "name": "Oath of Devotion"
+      },
+      "summary": "An oath made steel — smites, auras and hands that mend.",
+      "fortuneTalent": {
+        "name": "Oath Seal",
+        "text": "Divine Smite adds +1 Mult per spell-slot level spent."
+      },
+      "resources": [
+        {
+          "name": "Lay on Hands"
+        },
+        {
+          "name": "Channel Divinity"
+        },
+        {
+          "name": "Paladin's Smite"
+        }
+      ],
+      "features": {
+        "1": {
+          "0": {
+            "name": "Lay on Hands",
+            "text": "Bonus Action: restore HP from a pool of 5 × level."
+          }
+        },
+        "2": [
+          {
+            "name": "Fighting Style",
+            "text": "Choose a Fighting Style."
+          },
+          {
+            "name": "Paladin's Smite",
+            "text": "Divine Smite is always prepared, and once per long rest it costs no slot."
+          }
+        ],
+        "3": [
+          {
+            "name": "Sacred Weapon",
+            "text": "Channel Divinity, Bonus Action: add CHA to attack rolls for 10 rounds; weapon sheds holy light."
+          },
+          {
+            "name": "Divine Sense",
+            "text": "Reveal hidden fiends and undead in the next rooms."
+          }
+        ],
+        "5": {
+          "1": {
+            "name": "Faithful Steed",
+            "text": "Find Steed is always prepared (exploration speed)."
+          }
+        },
+        "6": [
+          {
+            "name": "Aura of Protection",
+            "text": "You and your allies add your CHA to saving throws."
+          }
+        ],
+        "7": [
+          {
+            "name": "Aura of Devotion",
+            "text": "Allies are immune to charmed."
+          }
+        ],
+        "9": [
+          {
+            "name": "Abjure Foes",
+            "text": "Channel Divinity: up to CHA enemies make a WIS save or are frightened."
+          }
+        ],
+        "10": [
+          {
+            "name": "Aura of Courage",
+            "text": "Allies are immune to frightened."
+          }
+        ],
+        "11": [
+          {
+            "name": "Radiant Strikes",
+            "text": "Weapon hits deal an extra 1d8 radiant."
+          }
+        ],
+        "14": [
+          {
+            "name": "Restoring Touch",
+            "text": "Lay on Hands also removes conditions."
+          }
+        ],
+        "15": [
+          {
+            "name": "Smite of Protection",
+            "text": "When you Smite, allies gain +2 AC until your next turn."
+          }
+        ],
+        "18": [
+          {
+            "name": "Aura Expansion",
+            "text": "Auras reach the whole party regardless of rank."
+          }
+        ],
+        "20": [
+          {
+            "name": "Holy Nimbus",
+            "text": "Once per long rest: radiant aura deals CHA + PB to foes each turn and grants advantage on saves."
+          }
+        ]
+      }
+    },
+    "ranger": {
+      "name": "Ranger",
+      "subclass": {
+        "name": "Hunter"
+      },
+      "summary": "Tracker and archer who marks a quarry and never lets it go.",
+      "fortuneTalent": {
+        "name": "Quarry",
+        "text": "Against your Marked target, Straights score ×2 Mult."
+      },
+      "resources": [
+        {
+          "name": "Favored Enemy"
+        },
+        {
+          "name": "Tireless"
+        }
+      ],
+      "features": {
+        "1": {
+          "1": {
+            "name": "Favored Enemy",
+            "text": "Cast Hunter's Mark without a slot a few times per long rest."
+          }
+        },
+        "2": [
+          {
+            "name": "Deft Explorer",
+            "text": "Expertise in one skill; exploration bonus to Survival checks."
+          },
+          {
+            "name": "Fighting Style",
+            "text": "Choose a Fighting Style."
+          }
+        ],
+        "3": [
+          {
+            "name": "Hunter's Prey: Colossus Slayer",
+            "text": "Once per turn, +1d8 damage to a target that is already wounded."
+          },
+          {
+            "name": "Hunter's Lore",
+            "text": "Marked targets reveal their resistances."
+          }
+        ],
+        "6": [
+          {
+            "name": "Roving",
+            "text": "Climb and swim freely; flooded corridors cost no extra time."
+          }
+        ],
+        "7": [
+          {
+            "name": "Defensive Tactics: Multiattack Defense",
+            "text": "After a creature hits you, its further attacks this turn have disadvantage."
+          }
+        ],
+        "9": [
+          {
+            "name": "Expertise",
+            "text": "Expertise in two skills."
+          }
+        ],
+        "10": [
+          {
+            "name": "Tireless",
+            "text": "Action: gain 1d8 + WIS temp HP."
+          }
+        ],
+        "11": [
+          {
+            "name": "Superior Hunter's Prey: Volley",
+            "text": "Action: make a ranged attack against every enemy in one rank."
+          }
+        ],
+        "13": [
+          {
+            "name": "Relentless Hunter",
+            "text": "Damage can't break your concentration on Hunter's Mark."
+          }
+        ],
+        "14": [
+          {
+            "name": "Nature's Veil",
+            "text": "Bonus Action: become invisible until the end of your next turn."
+          }
+        ],
+        "15": [
+          {
+            "name": "Superior Hunter's Defense",
+            "text": "Reaction: resistance to one attack's damage."
+          }
+        ],
+        "17": [
+          {
+            "name": "Precise Hunter",
+            "text": "Advantage on attacks against your Marked target."
+          }
+        ],
+        "18": [
+          {
+            "name": "Feral Senses",
+            "text": "Ignore invisibility and blindness when attacking."
+          }
+        ],
+        "20": [
+          {
+            "name": "Foe Slayer",
+            "text": "Hunter's Mark deals d10s instead of d6s."
+          }
+        ]
+      }
+    },
+    "rogue": {
+      "name": "Rogue",
+      "subclass": {
+        "name": "Thief"
+      },
+      "summary": "A knife in the dark who loves a loaded die.",
+      "fortuneTalent": {
+        "name": "Loaded Dice",
+        "text": "+1 reroll on your turns. Sneak Attack triggers whenever you play a Pair or better."
+      },
+      "resources": [
+        {
+          "name": "Stroke of Luck"
+        }
+      ],
+      "features": {
+        "1": {
+          "0": {
+            "name": "Expertise",
+            "text": "Double proficiency in two skills."
+          },
+          "1": {
+            "name": "Sneak Attack",
+            "text": "Once per turn add extra d6s when you have advantage, an ally stands in the front rank, or you play a Pair or better."
+          },
+          "2": {
+            "name": "Thieves' Cant",
+            "text": "Read secret marks in the dungeon."
+          }
+        },
+        "2": [
+          {
+            "name": "Cunning Action",
+            "text": "Bonus Action: Hide (your next attack has advantage) or switch ranks."
+          }
+        ],
+        "3": [
+          {
+            "name": "Fast Hands",
+            "text": "Use items as a Bonus Action."
+          },
+          {
+            "name": "Steady Aim",
+            "text": "Bonus Action: advantage on your next attack this turn."
+          }
+        ],
+        "5": [
+          {
+            "name": "Cunning Strike",
+            "text": "Trade a Sneak Attack die to poison, trip or withdraw."
+          },
+          {
+            "name": "Uncanny Dodge",
+            "text": "Reaction: halve the damage of an attack that hits you."
+          }
+        ],
+        "6": [
+          {
+            "name": "Expertise",
+            "text": "Two more Expertise skills."
+          }
+        ],
+        "7": [
+          {
+            "name": "Evasion",
+            "text": "DEX saves for half take none on a success, half on a failure."
+          },
+          {
+            "name": "Reliable Talent",
+            "text": "Treat a d20 of 9 or lower as 10 on proficient checks."
+          }
+        ],
+        "9": [
+          {
+            "name": "Supreme Sneak",
+            "text": "Hide costs nothing after an attack once per turn."
+          }
+        ],
+        "11": [
+          {
+            "name": "Improved Cunning Strike",
+            "text": "Use two Cunning Strike effects."
+          }
+        ],
+        "13": [
+          {
+            "name": "Use Magic Device",
+            "text": "Use any scroll; attune to more trinkets."
+          }
+        ],
+        "14": [
+          {
+            "name": "Devious Strikes",
+            "text": "Cunning Strike may daze or knock out."
+          }
+        ],
+        "15": [
+          {
+            "name": "Slippery Mind",
+            "text": "Proficiency in WIS and CHA saves."
+          }
+        ],
+        "17": [
+          {
+            "name": "Thief's Reflexes",
+            "text": "Take two turns in the first round of combat."
+          }
+        ],
+        "18": [
+          {
+            "name": "Elusive",
+            "text": "No attack roll has advantage against you."
+          }
+        ],
+        "20": [
+          {
+            "name": "Stroke of Luck",
+            "text": "Turn a missed attack into a hit, once per short rest."
+          }
+        ]
+      }
+    },
+    "sorcerer": {
+      "name": "Sorcerer",
+      "subclass": {
+        "name": "Draconic Sorcery"
+      },
+      "summary": "Raw magic in the blood; bends spells — and dice — at will.",
+      "fortuneTalent": {
+        "name": "Wild Surge",
+        "text": "Spend Sorcery Points: 1 for a reroll, 2 to flip a tray die (7 − value)."
+      },
+      "resources": [
+        {
+          "name": "Sorcery Points"
+        },
+        {
+          "name": "Innate Sorcery"
+        }
+      ],
+      "features": {
+        "1": {
+          "1": {
+            "name": "Innate Sorcery",
+            "text": "Bonus Action, twice per long rest: +1 spell save DC and advantage on spell attacks for 10 rounds."
+          }
+        },
+        "2": [
+          {
+            "name": "Font of Magic",
+            "text": "Sorcery Points equal to level fuel metamagic and dice tricks."
+          },
+          {
+            "name": "Metamagic",
+            "text": "Choose two Metamagic options."
+          }
+        ],
+        "3": [
+          {
+            "name": "Draconic Resilience",
+            "text": "+1 HP per level; unarmored AC = 10 + DEX + CHA."
+          }
+        ],
+        "5": [
+          {
+            "name": "Sorcerous Restoration",
+            "text": "Regain half your level in Sorcery Points on a short rest."
+          }
+        ],
+        "6": [
+          {
+            "name": "Elemental Affinity",
+            "text": "Add CHA to fire spell damage; resist fire."
+          }
+        ],
+        "7": [
+          {
+            "name": "Sorcery Incarnate",
+            "text": "While Innate Sorcery is active, use two Metamagic options on one spell."
+          }
+        ],
+        "10": [
+          {
+            "name": "Metamagic",
+            "text": "Learn another Metamagic option."
+          }
+        ],
+        "14": [
+          {
+            "name": "Dragon Wings",
+            "text": "Fly over pits and chasms while exploring."
+          }
+        ],
+        "17": [
+          {
+            "name": "Metamagic",
+            "text": "Learn another Metamagic option."
+          }
+        ],
+        "18": [
+          {
+            "name": "Dragon Companion",
+            "text": "Resistance to your affinity element for the party."
+          }
+        ],
+        "20": [
+          {
+            "name": "Arcane Apotheosis",
+            "text": "While Innate Sorcery is active, one Metamagic per turn is free."
+          }
+        ]
+      }
+    },
+    "warlock": {
+      "name": "Warlock",
+      "subclass": {
+        "name": "Fiend Patron"
+      },
+      "summary": "A bargain with a fiend: few spells, short rests, terrible power.",
+      "fortuneTalent": {
+        "name": "Dark Bargain",
+        "text": "Once per combat, pay 10% of max HP to set a tray die to any face it has."
+      },
+      "resources": [
+        {
+          "name": "Mystic Arcanum (6th)"
+        },
+        {
+          "name": "Mystic Arcanum (7th)"
+        },
+        {
+          "name": "Mystic Arcanum (8th)"
+        },
+        {
+          "name": "Mystic Arcanum (9th)"
+        },
+        {
+          "name": "Dark One's Own Luck"
+        },
+        {
+          "name": "Hurl Through Hell"
+        }
+      ],
+      "features": {
+        "1": [
+          {
+            "name": "Eldritch Invocations",
+            "text": "Choose invocations that reshape your magic."
+          },
+          {
+            "name": "Pact Magic",
+            "text": "Few spell slots, always cast at your highest slot level, recovered on a short rest."
+          }
+        ],
+        "2": [
+          {
+            "name": "Magical Cunning",
+            "text": "Recover half your pact slots once per long rest (used automatically at a safe room)."
+          },
+          {
+            "name": "Eldritch Invocations",
+            "text": "Learn two more invocations."
+          }
+        ],
+        "3": [
+          {
+            "name": "Dark One's Blessing",
+            "text": "When you reduce an enemy to 0 HP, gain CHA + level temp HP."
+          }
+        ],
+        "5": [
+          {
+            "name": "Eldritch Invocations",
+            "text": "Learn two more invocations."
+          }
+        ],
+        "6": [
+          {
+            "name": "Dark One's Own Luck",
+            "text": "Add a d10 to a check or save — or turn one tray die to any face (CHA times per long rest)."
+          }
+        ],
+        "7": [
+          {
+            "name": "Eldritch Invocation",
+            "text": "Learn another invocation."
+          }
+        ],
+        "9": [
+          {
+            "name": "Contact Patron",
+            "text": "Ask your patron about the dungeon: reveals the boss room."
+          },
+          {
+            "name": "Eldritch Invocation",
+            "text": "Learn another invocation."
+          }
+        ],
+        "10": [
+          {
+            "name": "Fiendish Resilience",
+            "text": "Resistance to one damage type (fire)."
+          }
+        ],
+        "11": [
+          {
+            "name": "Mystic Arcanum (6th level)",
+            "text": "Cast a 6th-level spell once per long rest."
+          }
+        ],
+        "12": {
+          "1": {
+            "name": "Eldritch Invocation",
+            "text": "Learn another invocation."
+          }
+        },
+        "13": [
+          {
+            "name": "Mystic Arcanum (7th level)",
+            "text": "Cast a 7th-level spell once per long rest."
+          }
+        ],
+        "14": [
+          {
+            "name": "Hurl Through Hell",
+            "text": "Once per long rest: a target takes 8d10 psychic (CHA save avoids)."
+          }
+        ],
+        "15": [
+          {
+            "name": "Mystic Arcanum (8th level)",
+            "text": "Cast an 8th-level spell once per long rest."
+          },
+          {
+            "name": "Eldritch Invocation",
+            "text": "Learn another invocation."
+          }
+        ],
+        "17": [
+          {
+            "name": "Mystic Arcanum (9th level)",
+            "text": "Cast a 9th-level spell once per long rest."
+          }
+        ],
+        "18": [
+          {
+            "name": "Eldritch Invocation",
+            "text": "Learn another invocation."
+          }
+        ],
+        "20": [
+          {
+            "name": "Eldritch Master",
+            "text": "Magical Cunning restores all pact slots."
+          }
+        ]
+      }
+    },
+    "wizard": {
+      "name": "Wizard",
+      "subclass": {
+        "name": "Evoker"
+      },
+      "summary": "A scholar of the arcane with the largest spellbook in the Keep.",
+      "fortuneTalent": {
+        "name": "Arcane Foresight",
+        "text": "See the next die in the bag; once per turn, swap a tray die with it."
+      },
+      "resources": [
+        {
+          "name": "Arcane Recovery"
+        },
+        {
+          "name": "Overchannel"
+        }
+      ],
+      "features": {
+        "1": {
+          "1": {
+            "name": "Arcane Recovery",
+            "text": "Once per long rest, during a short rest, recover slots totalling half your level."
+          }
+        },
+        "2": [
+          {
+            "name": "Scholar",
+            "text": "Expertise in one INT skill."
+          }
+        ],
+        "3": [
+          {
+            "name": "Potent Cantrip",
+            "text": "Cantrips that miss or are saved against still deal half damage."
+          },
+          {
+            "name": "Evocation Savant",
+            "text": "Learn extra evocation spells."
+          }
+        ],
+        "5": [
+          {
+            "name": "Memorize Spell",
+            "text": "Swap a prepared spell at any safe room."
+          }
+        ],
+        "6": [
+          {
+            "name": "Sculpt Spells",
+            "text": "Your area spells never strike allies (already true here) and deal +2 Mult when hitting 3+ foes."
+          }
+        ],
+        "10": [
+          {
+            "name": "Empowered Evocation",
+            "text": "Add INT to evocation damage."
+          }
+        ],
+        "14": [
+          {
+            "name": "Overchannel",
+            "text": "Once per long rest, a spell of 5th level or lower deals maximum dice damage."
+          }
+        ],
+        "18": [
+          {
+            "name": "Spell Mastery",
+            "text": "Magic Missile and Shield cost no slot."
+          }
+        ],
+        "20": [
+          {
+            "name": "Signature Spells",
+            "text": "Fireball and Counterspell... here: Fireball and Lightning Bolt once each per rest without a slot."
+          }
+        ]
+      }
+    }
+  },
+  "fightingStyles": {
+    "archery": {
+      "name": "Archery",
+      "text": "+2 to ranged weapon attack rolls."
+    },
+    "defense": {
+      "name": "Defense",
+      "text": "+1 AC while wearing armor."
+    },
+    "dueling": {
+      "name": "Dueling",
+      "text": "+2 damage with a one-handed melee weapon and no other weapon."
+    },
+    "greatWeapon": {
+      "name": "Great Weapon Fighting",
+      "text": "Treat 1s and 2s on two-handed weapon damage dice as 3s."
+    },
+    "protection": {
+      "name": "Protection",
+      "text": "Reaction: impose disadvantage on an attack against an ally (needs a shield)."
+    },
+    "twoWeapon": {
+      "name": "Two-Weapon Fighting",
+      "text": "Add your ability modifier to off-hand attacks."
+    },
+    "blindFighting": {
+      "name": "Blind Fighting",
+      "text": "Ignore blindness and invisibility penalties."
+    },
+    "interception": {
+      "name": "Interception",
+      "text": "Reaction: reduce damage to an ally by 1d10 + PB."
+    }
+  },
+  "metamagic": {
+    "quickened": {
+      "name": "Quickened Spell",
+      "text": "Cast a spell as a Bonus Action."
+    },
+    "twinned": {
+      "name": "Twinned Spell",
+      "text": "A single-target spell also strikes a second target."
+    },
+    "empowered": {
+      "name": "Empowered Spell",
+      "text": "+2 Mult to this spell's Fortune score."
+    },
+    "heightened": {
+      "name": "Heightened Spell",
+      "text": "One target has disadvantage on its save."
+    },
+    "careful": {
+      "name": "Careful Spell",
+      "text": "Allies are unaffected (already true) and gain +1 AC until your next turn."
+    },
+    "seeking": {
+      "name": "Seeking Spell",
+      "text": "Reroll a missed spell attack."
+    }
+  },
+  "invocations": {
+    "agonizingBlast": {
+      "name": "Agonizing Blast",
+      "text": "Add CHA to Eldritch Blast damage."
+    },
+    "repellingBlast": {
+      "name": "Repelling Blast",
+      "text": "Eldritch Blast pushes front-rank targets to the back."
+    },
+    "armorOfShadows": {
+      "name": "Armor of Shadows",
+      "text": "Unarmored AC = 13 + DEX."
+    },
+    "pactOfTheBlade": {
+      "name": "Pact of the Blade",
+      "text": "Use CHA for weapon attacks; weapons count as magic."
+    },
+    "thirstingBlade": {
+      "name": "Thirsting Blade",
+      "text": "Extra Attack with your pact weapon."
+    },
+    "devilsSight": {
+      "name": "Devil's Sight",
+      "text": "Ignore blindness from magical darkness; see hidden doors."
+    },
+    "lifedrinker": {
+      "name": "Lifedrinker",
+      "text": "Pact weapon hits deal +1d6 necrotic and heal you."
+    },
+    "eldritchMind": {
+      "name": "Eldritch Mind",
+      "text": "Advantage on concentration saves."
+    },
+    "fiendishVigor": {
+      "name": "Fiendish Vigor",
+      "text": "Start each combat with temp HP."
+    },
+    "gazeOfTwoMinds": {
+      "name": "Gaze of Two Minds",
+      "text": "Reveal the next room ahead while exploring."
+    }
+  },
+  "feats": {
+    "alert": {
+      "name": "Alert",
+      "text": "Add your proficiency bonus to initiative."
+    },
+    "tough": {
+      "name": "Tough",
+      "text": "+2 HP per level."
+    },
+    "lucky": {
+      "name": "Lucky",
+      "text": "Gain Luck equal to PB each expedition: spend one for a free reroll."
+    },
+    "savageAttacker": {
+      "name": "Savage Attacker",
+      "text": "Roll weapon damage dice twice, keep the higher, once per turn."
+    },
+    "greatWeaponMaster": {
+      "name": "Great Weapon Master",
+      "text": "Heavy weapon hits deal + PB damage; +1 STR."
+    },
+    "sharpshooter": {
+      "name": "Sharpshooter",
+      "text": "Ranged attacks ignore cover and can strike the back rank freely; +1 DEX."
+    },
+    "warCaster": {
+      "name": "War Caster",
+      "text": "Advantage on concentration saves; +1 casting score."
+    },
+    "resilient": {
+      "name": "Resilient (CON)",
+      "text": "Proficiency in CON saves; +1 CON."
+    },
+    "defensiveDuelist": {
+      "name": "Defensive Duelist",
+      "text": "Reaction: +PB AC against one melee attack each round."
+    },
+    "healer": {
+      "name": "Healer",
+      "text": "Healing potions and kits you use restore extra HP equal to your level."
+    },
+    "magicInitiate": {
+      "name": "Magic Initiate",
+      "text": "Learn two cantrips and a 1st-level spell (Cure Wounds)."
+    }
+  },
+  "epicBoons": {
+    "combatProwess": {
+      "name": "Boon of Combat Prowess",
+      "text": "Once per turn, turn a missed attack into a hit."
+    },
+    "fortitude": {
+      "name": "Boon of Fortitude",
+      "text": "+40 max HP."
+    },
+    "fate": {
+      "name": "Boon of Fate",
+      "text": "+1 tray size and +1 reroll on your turns."
+    },
+    "spellRecall": {
+      "name": "Boon of Spell Recall",
+      "text": "One free 1st–4th level spell per rest."
+    }
+  },
+  "divineOrders": {
+    "protector": "Protector",
+    "thaumaturge": "Thaumaturge"
+  },
+  "primalOrders": {
+    "magician": "Magician",
+    "warden": "Warden"
+  },
+  "species": {
+    "human": {
+      "name": "Human",
+      "text": "Resourceful and skilled: an extra skill and an extra reroll at the start of each expedition."
+    },
+    "elf": {
+      "name": "Elf",
+      "text": "Keen senses (Perception) and fey ancestry (advantage against charm)."
+    },
+    "dwarf": {
+      "name": "Dwarf",
+      "text": "Dwarven toughness (+1 HP per level) and poison resistance."
+    },
+    "halfling": {
+      "name": "Halfling",
+      "text": "Luck: a natural 1 on an attack or save is rerolled. Brave against fear."
+    },
+    "dragonborn": {
+      "name": "Dragonborn",
+      "text": "Breath Weapon (1d10 per tier, DEX save, a whole rank) and fire resistance."
+    },
+    "gnome": {
+      "name": "Gnome",
+      "text": "Gnomish cunning: advantage on INT, WIS and CHA saves."
+    },
+    "goliath": {
+      "name": "Goliath",
+      "text": "Stone's Endurance: reduce a hit by 1d12 + CON, PB times per rest."
+    },
+    "orc": {
+      "name": "Orc",
+      "text": "Relentless Endurance: once per long rest drop to 1 HP instead of 0."
+    },
+    "tiefling": {
+      "name": "Tiefling",
+      "text": "Infernal legacy: fire resistance and the Fire Bolt cantrip."
+    }
+  },
+  "backgrounds": {
+    "acolyte": {
+      "name": "Acolyte",
+      "text": "Raised in a temple."
+    },
+    "criminal": {
+      "name": "Criminal",
+      "text": "Knows the underside of every city."
+    },
+    "sage": {
+      "name": "Sage",
+      "text": "A lifetime among books."
+    },
+    "soldier": {
+      "name": "Soldier",
+      "text": "Drilled, scarred, dependable."
+    }
+  },
+  "skills": {
+    "athletics": "Athletics",
+    "acrobatics": "Acrobatics",
+    "sleightOfHand": "Sleight of Hand",
+    "stealth": "Stealth",
+    "arcana": "Arcana",
+    "history": "History",
+    "investigation": "Investigation",
+    "nature": "Nature",
+    "religion": "Religion",
+    "animalHandling": "Animal Handling",
+    "insight": "Insight",
+    "medicine": "Medicine",
+    "perception": "Perception",
+    "survival": "Survival",
+    "deception": "Deception",
+    "intimidation": "Intimidation",
+    "performance": "Performance",
+    "persuasion": "Persuasion"
+  },
+  "abilities": {
+    "str": "Strength",
+    "dex": "Dexterity",
+    "con": "Constitution",
+    "int": "Intelligence",
+    "wis": "Wisdom",
+    "cha": "Charisma"
+  },
+  "skillTricks": {
+    "athletics": {
+      "name": "Heave",
+      "text": "Raise a die by 1."
+    },
+    "acrobatics": {
+      "name": "Tumble",
+      "text": "Flip a die (7 − value)."
+    },
+    "sleightOfHand": {
+      "name": "Palm",
+      "text": "Swap a die for the next one in the bag."
+    },
+    "stealth": {
+      "name": "Lurk",
+      "text": "Reroll one die for free."
+    },
+    "arcana": {
+      "name": "Attune",
+      "text": "A die becomes your colour (same value)."
+    },
+    "history": {
+      "name": "Precedent",
+      "text": "Set a die to the most common value on the tray."
+    },
+    "investigation": {
+      "name": "Deduce",
+      "text": "Swap a die for the best of the next 3 in the bag."
+    },
+    "nature": {
+      "name": "Weathersense",
+      "text": "Reroll every 1 and 2 on the tray for free."
+    },
+    "animalHandling": {
+      "name": "Fetch",
+      "text": "Draw one extra die onto the tray."
+    },
+    "insight": {
+      "name": "Read the Room",
+      "text": "+1 reroll this turn."
+    },
+    "medicine": {
+      "name": "Mend",
+      "text": "Clear every jinx on the tray and lift cursed faces."
+    },
+    "perception": {
+      "name": "Spot",
+      "text": "A die's face turns Keen (+6 chips)."
+    },
+    "religion": {
+      "name": "Prayer",
+      "text": "Your next hand this turn gains +2 Mult."
+    },
+    "survival": {
+      "name": "Make Do",
+      "text": "A die showing 1 or 2 becomes a 5."
+    },
+    "deception": {
+      "name": "Bluff",
+      "text": "A die turns Wild."
+    },
+    "intimidation": {
+      "name": "Menace",
+      "text": "Your next hand this turn gains +1 Mult per living foe."
+    },
+    "performance": {
+      "name": "Showstopper",
+      "text": "Your next hand this turn: ×1.5 Mult if it is a Straight or better."
+    },
+    "persuasion": {
+      "name": "Rally",
+      "text": "Copy a die onto the tray."
+    }
+  },
+  "materials": {
+    "bone": {
+      "name": "Bone",
+      "text": "Plain old bone. No special effect."
+    },
+    "steel": {
+      "name": "Steel",
+      "text": "Fighter affinity."
+    },
+    "sun": {
+      "name": "Sun",
+      "text": "Cleric & Paladin affinity."
+    },
+    "shadow": {
+      "name": "Shadow",
+      "text": "Rogue & Warlock affinity."
+    },
+    "ember": {
+      "name": "Ember",
+      "text": "Sorcerer affinity."
+    },
+    "frost": {
+      "name": "Frost",
+      "text": "When scored: +8 chips."
+    },
+    "verdant": {
+      "name": "Verdant",
+      "text": "Druid & Ranger affinity."
+    },
+    "arcane": {
+      "name": "Arcane",
+      "text": "Wizard & Bard affinity."
+    },
+    "blood": {
+      "name": "Blood",
+      "text": "Barbarian affinity."
+    },
+    "storm": {
+      "name": "Storm",
+      "text": "Monk affinity."
+    },
+    "gold": {
+      "name": "Gold",
+      "text": "When scored: +1 doubloon."
+    },
+    "glass": {
+      "name": "Glass",
+      "text": "When scored: ×2 mult. 1 in 4 chance to shatter."
+    },
+    "prism": {
+      "name": "Prism",
+      "text": "Counts as every material."
+    },
+    "lead": {
+      "name": "Lead",
+      "text": "Loaded: rolls twice and keeps the higher face."
+    }
+  },
+  "faceMods": {
+    "gilded": {
+      "name": "Gilded",
+      "text": "+1 doubloon when scored."
+    },
+    "keen": {
+      "name": "Keen",
+      "text": "+6 chips when scored."
+    },
+    "fierce": {
+      "name": "Fierce",
+      "text": "+2 mult when scored."
+    },
+    "savage": {
+      "name": "Savage",
+      "text": "×1.5 mult when scored."
+    },
+    "wild": {
+      "name": "Wild",
+      "text": "Counts as any value."
+    },
+    "lucky": {
+      "name": "Lucky",
+      "text": "1 in 3 chance: +6 mult when scored."
+    },
+    "cursed": {
+      "name": "Cursed",
+      "text": "Scores no pips and -1 mult."
+    }
+  },
+  "specialDice": {
+    "twinned": {
+      "name": "Twinned Die",
+      "text": "Only threes and fours. Pairs come easy."
+    },
+    "highroller": {
+      "name": "High Roller's Die",
+      "text": "Weighted toward big pips."
+    },
+    "snake": {
+      "name": "Snake Die",
+      "text": "Ones and sixes — feast or famine."
+    },
+    "ladder": {
+      "name": "Ladder Die",
+      "text": "Built for straights. One wild face."
+    },
+    "goldbug": {
+      "name": "Goldbug Die",
+      "text": "Gold die with three gilded faces."
+    },
+    "glass": {
+      "name": "Glass Die",
+      "text": "×2 mult when scored; might shatter."
+    },
+    "prism": {
+      "name": "Prism Die",
+      "text": "Counts as every material — Sets love it."
+    },
+    "loaded": {
+      "name": "Loaded Die",
+      "text": "Rolls twice, keeps the higher."
+    },
+    "frost": {
+      "name": "Frost Die",
+      "text": "+8 chips whenever it scores."
+    },
+    "nine": {
+      "name": "Ninefold Die",
+      "text": "Faces from four to nine."
+    },
+    "starseed": {
+      "name": "Starseed Die",
+      "text": "Prism die with a wild face."
+    },
+    "berserk": {
+      "name": "Berserk Die",
+      "text": "Two fierce sixes."
+    }
+  },
+  "hands": {
+    "high": {
+      "name": "High Die",
+      "blurb": "Your single best die."
+    },
+    "pair": {
+      "name": "Pair",
+      "blurb": "Two dice showing the same value."
+    },
+    "twoPair": {
+      "name": "Two Pair",
+      "blurb": "Two different pairs."
+    },
+    "three": {
+      "name": "Three of a Kind",
+      "blurb": "Three dice showing the same value."
+    },
+    "straight": {
+      "name": "Straight",
+      "blurb": "Five dice in an unbroken run."
+    },
+    "set": {
+      "name": "Set",
+      "blurb": "Five dice of the same material."
+    },
+    "fullHouse": {
+      "name": "Full House",
+      "blurb": "A Three of a Kind and a Pair."
+    },
+    "four": {
+      "name": "Four of a Kind",
+      "blurb": "Four dice showing the same value."
+    },
+    "straightSet": {
+      "name": "Straight Set",
+      "blurb": "A Straight made of one material."
+    },
+    "five": {
+      "name": "Five of a Kind",
+      "blurb": "All five dice the same. The Treasure."
+    },
+    "fullSet": {
+      "name": "Full Set",
+      "blurb": "A Full House of one material."
+    },
+    "hoard": {
+      "name": "Dragon Hoard",
+      "blurb": "Five of a Kind of one material."
+    }
+  },
+  "curses": {
+    "ashen": {
+      "name": "Ashen Pall",
+      "text": "Dice showing 1 or 2 are debuffed (score nothing)."
+    },
+    "molten": {
+      "name": "Molten Seal",
+      "text": "Steel and Ember dice are debuffed."
+    },
+    "thorns": {
+      "name": "Thorned Cup",
+      "text": "Each reroll costs the acting hero 4% of max HP."
+    },
+    "barren": {
+      "name": "Barren Bones",
+      "text": "Bone dice are debuffed."
+    },
+    "tide": {
+      "name": "Undertow",
+      "text": "All Mult is halved."
+    },
+    "oddDrown": {
+      "name": "Drowned Odds",
+      "text": "Odd dice are debuffed."
+    },
+    "evenMirror": {
+      "name": "Mirror Pall",
+      "text": "Even dice are debuffed."
+    },
+    "void": {
+      "name": "The Unwritten",
+      "text": "Omens are ignored: every hand scores at Lv.1."
+    },
+    "gravity": {
+      "name": "Crushing Weight",
+      "text": "Dice showing 5 or more are debuffed."
+    },
+    "hunger": {
+      "name": "Gnawing Hunger",
+      "text": "Tray size -2."
+    },
+    "silence": {
+      "name": "Hush",
+      "text": "-1 reroll every turn."
+    },
+    "chromatic": {
+      "name": "Chromatic Dominion",
+      "text": "Ember, Verdant, Shadow, Frost and Storm dice are debuffed, and Mult is ×0.75."
+    },
+    "judgement": {
+      "name": "Judgement",
+      "text": "Playing the same hand type twice in a row scores ×0.5."
+    }
+  },
+  "charms": {
+    "copperTooth": {
+      "name": "Copper Tooth",
+      "text": "+3 Mult."
+    },
+    "twinFang": {
+      "name": "Twin Fang",
+      "text": "+5 Mult if the hand contains a Pair."
+    },
+    "tripleCrown": {
+      "name": "Triple Crown",
+      "text": "+8 Mult if the hand contains Three of a Kind."
+    },
+    "ladderOfBones": {
+      "name": "Ladder of Bones",
+      "text": "+8 Mult if the hand contains a Straight."
+    },
+    "guildmark": {
+      "name": "Guildmark",
+      "text": "+7 Mult if the hand contains a Set."
+    },
+    "pebblePouch": {
+      "name": "Pebble Pouch",
+      "text": "+16 Chips if the hand contains Two Pair."
+    },
+    "oddFellow": {
+      "name": "Odd Fellow's Coin",
+      "text": "Scored odd dice give +2 Mult."
+    },
+    "evenKeel": {
+      "name": "Even Keel",
+      "text": "Scored even dice give +4 Chips."
+    },
+    "snakeEyes": {
+      "name": "Snake-Eye Locket",
+      "text": "Scored 1s give +5 Mult."
+    },
+    "hexSpur": {
+      "name": "Hexagon Spur",
+      "text": "Scored 6s give +6 Chips and +1 Mult."
+    },
+    "whetstone": {
+      "name": "Whetstone",
+      "text": "+20 Chips if 3 or fewer dice are played."
+    },
+    "gamblersGrin": {
+      "name": "Gambler's Grin",
+      "text": "+3 Mult per unused reroll (up to +9)."
+    },
+    "lastLaugh": {
+      "name": "Last Laugh",
+      "text": "+10 Mult if the acting hero is below half HP."
+    },
+    "rustedKey": {
+      "name": "Rusted Key",
+      "text": "Earn 2 doubloons after each combat."
+    },
+    "kinship": {
+      "name": "Kinship Band",
+      "text": "Scored dice matching the hero's affinity give +1 extra Mult."
+    },
+    "lanternMoth": {
+      "name": "Lantern Moth",
+      "text": "+12 Chips on spells."
+    },
+    "brawlersKnuckle": {
+      "name": "Brawler's Knuckle",
+      "text": "+4 Mult on weapon attacks."
+    },
+    "bloodstone": {
+      "name": "Bloodstone",
+      "text": "Gains +1 Mult whenever an enemy dies. (Currently +{n})"
+    },
+    "dragonLedger": {
+      "name": "Dragon's Ledger",
+      "text": "+1 Mult for every 3 doubloons you hold."
+    },
+    "loadedBone": {
+      "name": "Loaded Knucklebone",
+      "text": "+1 reroll every turn."
+    },
+    "deepPockets": {
+      "name": "Deep Pockets",
+      "text": "+1 tray size."
+    },
+    "crookedLadder": {
+      "name": "Crooked Ladder",
+      "text": "Straights and Sets can be made with 4 dice."
+    },
+    "gapTooth": {
+      "name": "Gap-Tooth Grin",
+      "text": "Straights may skip one number."
+    },
+    "weightedFate": {
+      "name": "Weighted Fate",
+      "text": "+2 to hit on all attack rolls."
+    },
+    "butchersHook": {
+      "name": "Butcher's Hook",
+      "text": "Overkill from a single-target hit carries half into the next foe."
+    },
+    "hawkMonocle": {
+      "name": "Hawk's Monocle",
+      "text": "Critical hits on one lower d20 face."
+    },
+    "stoicShield": {
+      "name": "Stoic Shield",
+      "text": "Guard grants double Ward."
+    },
+    "mendersThread": {
+      "name": "Mender's Thread",
+      "text": "Healing is 50% stronger."
+    },
+    "luckySeven": {
+      "name": "Lucky Seven",
+      "text": "×3 Mult if scored pips total a multiple of 7."
+    },
+    "snowball": {
+      "name": "Rolling Snowball",
+      "text": "Gains +3 Chips each time a Pair is played. (Currently +{n})"
+    },
+    "ironPiggy": {
+      "name": "Iron Piggy",
+      "text": "Interest cap +5."
+    },
+    "paritySeal": {
+      "name": "Parity Seal",
+      "text": "×1.5 Mult if all scored dice are odd, or all even."
+    },
+    "magpie": {
+      "name": "Magpie Nest",
+      "text": "Scored Gold dice give +2 more doubloons."
+    },
+    "echoBell": {
+      "name": "Echo Bell",
+      "text": "The first scored die triggers twice."
+    },
+    "sixfoldBell": {
+      "name": "Sixfold Bell",
+      "text": "Scored 6s trigger twice."
+    },
+    "hourglass": {
+      "name": "Sandglass",
+      "text": "×2 Mult on the first hand of each combat."
+    },
+    "quarrymark": {
+      "name": "Quarry Sigil",
+      "text": "×1.5 Mult against a Marked or Hexed target."
+    },
+    "pocketSun": {
+      "name": "Pocket Sun",
+      "text": "+3 Mult per scored Sun or Ember die."
+    },
+    "nightOwl": {
+      "name": "Night Owl",
+      "text": "+3 Mult per scored Shadow or Arcane die."
+    },
+    "ironRoot": {
+      "name": "Iron Root",
+      "text": "+3 Mult per scored Steel, Verdant, Storm or Blood die."
+    },
+    "boneDust": {
+      "name": "Bone Dust",
+      "text": "Scored Bone dice give +10 Chips."
+    },
+    "tyrantCrown": {
+      "name": "Tyrant's Crown",
+      "text": "×2 Mult on Four of a Kind or better."
+    },
+    "twinSuns": {
+      "name": "Twin Suns",
+      "text": "×2 Mult if the hand contains Two Pair."
+    },
+    "glassHeart": {
+      "name": "Glass Heart",
+      "text": "×3 Mult. The acting hero loses 5% max HP per hand."
+    },
+    "ouroboros": {
+      "name": "Ouroboros Ring",
+      "text": "Gains ×0.1 Mult per hand played this run. (Currently ×{n})"
+    },
+    "fortuneWheel": {
+      "name": "Wheel of Chance",
+      "text": "1 in 3 chance for ×3 Mult."
+    },
+    "paupersCrown": {
+      "name": "Pauper's Crown",
+      "text": "×2.5 Mult while you hold fewer than 5 doubloons."
+    },
+    "monolith": {
+      "name": "Monolith",
+      "text": "A single played die scores as Three of a Kind."
+    },
+    "prismLens": {
+      "name": "Prismatic Lens",
+      "text": "Every die counts as every material."
+    },
+    "mimicTongue": {
+      "name": "Mimic Tongue",
+      "text": "Copies the charm to its right."
+    },
+    "avalanche": {
+      "name": "Avalanche Idol",
+      "text": "Gains ×0.25 Mult each combat won without a hero falling. Resets if one falls. (Currently ×{n})"
+    },
+    "warDrum": {
+      "name": "War Drum",
+      "text": "×1 Mult per enemy still standing (min ×1)."
+    },
+    "cartographer": {
+      "name": "Cartographer's Pin",
+      "text": "+1 Charm slot."
+    },
+    "dragonHoard": {
+      "name": "Heart of the Hoard",
+      "text": "×0.2 Mult for every 5 doubloons held (min ×1)."
+    },
+    "crownOfAges": {
+      "name": "Crown of Ages",
+      "text": "×3 Mult. -1 reroll every turn."
+    },
+    "fifthDoor": {
+      "name": "Key of the Sixth Door",
+      "text": "+1 tray size, +1 reroll, +1 Charm slot."
+    },
+    "starEater": {
+      "name": "Star-Eater Fang",
+      "text": "Scored dice of 5 or higher give ×1.25 Mult."
+    },
+    "idol_steel": {
+      "name": "Anvil Idol",
+      "text": "Scored Steel dice give +3 Chips and +2 Mult."
+    },
+    "idol_sun": {
+      "name": "Dawn Idol",
+      "text": "Scored Sun dice give +3 Chips and +2 Mult."
+    },
+    "idol_shadow": {
+      "name": "Dusk Idol",
+      "text": "Scored Shadow dice give +3 Chips and +2 Mult."
+    },
+    "idol_ember": {
+      "name": "Pyre Idol",
+      "text": "Scored Ember dice give +3 Chips and +2 Mult."
+    },
+    "idol_verdant": {
+      "name": "Thorn Idol",
+      "text": "Scored Verdant dice give +3 Chips and +2 Mult."
+    },
+    "idol_arcane": {
+      "name": "Sigil Idol",
+      "text": "Scored Arcane dice give +3 Chips and +2 Mult."
+    },
+    "idol_blood": {
+      "name": "Fury Idol",
+      "text": "Scored Blood dice give +3 Chips and +2 Mult."
+    },
+    "idol_storm": {
+      "name": "Gale Idol",
+      "text": "Scored Storm dice give +3 Chips and +2 Mult."
+    },
+    "omen_high": {
+      "name": "Omen of the Lone Star",
+      "text": "{hand} +1 level while held (+{chips} Chips, +{mult} Mult)."
+    },
+    "omen_pair": {
+      "name": "Omen of the Twins",
+      "text": "{hand} +1 level while held (+{chips} Chips, +{mult} Mult)."
+    },
+    "omen_twoPair": {
+      "name": "Omen of the Mirror",
+      "text": "{hand} +1 level while held (+{chips} Chips, +{mult} Mult)."
+    },
+    "omen_three": {
+      "name": "Omen of the Triad",
+      "text": "{hand} +1 level while held (+{chips} Chips, +{mult} Mult)."
+    },
+    "omen_straight": {
+      "name": "Omen of the Road",
+      "text": "{hand} +1 level while held (+{chips} Chips, +{mult} Mult)."
+    },
+    "omen_set": {
+      "name": "Omen of the Banner",
+      "text": "{hand} +1 level while held (+{chips} Chips, +{mult} Mult)."
+    },
+    "omen_fullHouse": {
+      "name": "Omen of the Hearth",
+      "text": "{hand} +1 level while held (+{chips} Chips, +{mult} Mult)."
+    },
+    "omen_four": {
+      "name": "Omen of the Tower",
+      "text": "{hand} +1 level while held (+{chips} Chips, +{mult} Mult)."
+    },
+    "omen_straightSet": {
+      "name": "Omen of the Comet",
+      "text": "{hand} +1 level while held (+{chips} Chips, +{mult} Mult)."
+    },
+    "omen_five": {
+      "name": "Omen of the Hoard",
+      "text": "{hand} +1 level while held (+{chips} Chips, +{mult} Mult)."
+    },
+    "omen_fullSet": {
+      "name": "Omen of the Crown",
+      "text": "{hand} +1 level while held (+{chips} Chips, +{mult} Mult)."
+    },
+    "omen_hoard": {
+      "name": "Omen of the Dragon",
+      "text": "{hand} +1 level while held (+{chips} Chips, +{mult} Mult)."
+    }
+  },
+  "tokens": {
+    "mulligan": {
+      "name": "Mulligan Coin",
+      "text": "Reroll your whole tray for free."
+    },
+    "fateCoin": {
+      "name": "Fate Coin",
+      "text": "Turn one tray die to any face it has."
+    },
+    "loadedCoin": {
+      "name": "Loaded Coin",
+      "text": "Your next attack roll is a natural 20."
+    },
+    "encore": {
+      "name": "Encore Coin",
+      "text": "The acting hero may play a second hand this turn."
+    },
+    "tonic": {
+      "name": "Tonic Coin",
+      "text": "Heal the acting hero for 30% of max HP."
+    }
+  },
+  "upgrades": {
+    "handSize": {
+      "name": "Wider Tray",
+      "text": "+1 tray size for the rest of this run."
+    },
+    "rerolls": {
+      "name": "Steady Wrist",
+      "text": "+1 reroll every turn for the rest of this run."
+    },
+    "charmSlot": {
+      "name": "Charm Hook",
+      "text": "+1 charm slot for the rest of this run."
+    },
+    "chisel": {
+      "name": "Mason's Chisel",
+      "text": "Raise every face of one die by 1 except its highest (max 9)."
+    }
+  },
+  "dieTraits": {
+    "loaded": {
+      "name": "Loaded",
+      "text": "Rolls twice and keeps the higher face."
+    },
+    "kindred": {
+      "name": "Kindred",
+      "text": "+2 Mult when its owner plays it."
+    },
+    "echoing": {
+      "name": "Echoing",
+      "text": "Scores twice when its owner plays it."
+    },
+    "steadfast": {
+      "name": "Steadfast",
+      "text": "Can't be jinxed, stolen or cursed."
+    },
+    "eager": {
+      "name": "Eager",
+      "text": "Always lands in the opening tray."
+    }
+  },
+  "facilities": {
+    "guild": {
+      "name": "Guild Hall",
+      "text": "More recruits to choose from and a bigger roster."
+    },
+    "armory": {
+      "name": "Armory",
+      "text": "Rarer trinkets and better stock."
+    },
+    "apothecary": {
+      "name": "Apothecary",
+      "text": "Stronger potions and scrolls."
+    },
+    "enchanter": {
+      "name": "Enchanter",
+      "text": "Higher enchantment caps (+1 per level, max +3)."
+    },
+    "training": {
+      "name": "Training Grounds",
+      "text": "Cheaper reserve training."
+    }
+  },
+  "difficulties": {
+    "explorer": "Softer foes and a gentler climb; slightly less gold. A good first legacy.",
+    "standard": "The intended challenge: real fights from the first door to the last, and heroes can die.",
+    "perilous": "More foes, tougher fights, cursed elites, ×1.5 gold. Better loot, +1 bonus magic item for beating the boss.",
+    "deadly": "Brutal: much tougher foes, crowded boss lairs, cursed elites, ×2 gold. Much better loot, +2 bonus magic items for beating the boss. Expect funerals."
+  },
+  "classFeatures": {
+    "weaponMastery": {
+      "name": "Weapon Mastery",
+      "text": "Use the mastery property of your equipped weapon (Cleave, Graze, Nick, Push, Sap, Slow, Topple, Vex)."
+    },
+    "asi": {
+      "name": "Ability Score Improvement",
+      "text": "Raise one score by 2 or two by 1 (max 20), or take a feat."
+    },
+    "extraAttack": {
+      "name": "Extra Attack",
+      "text": "Attack 2 times whenever you take the Attack action."
+    },
+    "epicBoon": {
+      "name": "Epic Boon",
+      "text": "Choose an Epic Boon."
+    },
+    "spellcasting_Charisma": {
+      "name": "Spellcasting",
+      "text": "Cast prepared spells using Charisma."
+    },
+    "spellcasting_Wisdom": {
+      "name": "Spellcasting",
+      "text": "Cast prepared spells using Wisdom."
+    },
+    "extraAttack2": {
+      "name": "Two Extra Attacks",
+      "text": "Attack 3 times whenever you take the Attack action."
+    },
+    "extraAttack3": {
+      "name": "Three Extra Attacks",
+      "text": "Attack 4 times whenever you take the Attack action."
+    },
+    "spellcasting_Intelligence": {
+      "name": "Spellcasting",
+      "text": "Cast prepared spells using Intelligence."
+    }
+  },
+  "tierNames": [
+    "{name}",
+    "Veteran {name}",
+    "Dread {name}",
+    "Mythic {name}"
+  ],
+  "tutorialRooms": {
+    "2,4": {
+      "name": "Cellar Stair",
+      "text": "Steps lead down from the Lantern Keep into the training cellar. The Keep keeps it stocked with soot goblins for practice. Mostly."
+    },
+    "2,3": {
+      "name": "Ash Tunnel",
+      "text": "Ash drifts like grey snow. Somewhere ahead, a goblin is counting stolen dice out loud, badly."
+    },
+    "2,2": {
+      "name": "Smelting Floor",
+      "text": "Two soot goblins look up from a pile of dice. They do not look pleased to see you."
+    },
+    "1,2": {
+      "name": "Smith's Hoard",
+      "text": "A dented strongbox sits under a workbench. Somebody forgot to lock it."
+    },
+    "2,1": {
+      "name": "Sigil Kiln",
+      "text": "A sigil-key glows on a plinth. The door beyond it is sealed with the same mark."
+    },
+    "2,0": {
+      "name": "The Practice Forge",
+      "text": "An old forge-engine, kept running as a sparring partner, lifts its hammer. Today it is set to \"gentle\"."
+    }
+  },
+  "format": {
+    "roomNote": "({label}.)",
+    "itemName": "{prefix} {name}{plus} {suffix}",
+    "itemPlus": " +{n}",
+    "itemQty": " ×{n}",
+    "elite": "Elite {name}",
+    "chamber": "Chamber"
+  },
+  "themes": {
+    "tutorial": {
+      "name": "The Training Cellar",
+      "objective": "take the Boss Sigil and beat the practice forge"
+    },
+    "finale": {
+      "objective": "end the Dragon Queen's reign",
+      "boss": "Tiamat, the Dragon Queen"
+    }
+  },
+  "genericActions": {
+    "barrage": "Barrage"
+  },
+  "faceEnchants": {
+    "gilded": "+1 doubloon when scored.",
+    "keen": "+6 chips when scored.",
+    "fierce": "+2 mult when scored.",
+    "savage": "×1.5 mult when scored.",
+    "wild": "counts as any value.",
+    "lucky": "1 in 3: +6 mult.",
+    "cursed": ""
+  }
+}

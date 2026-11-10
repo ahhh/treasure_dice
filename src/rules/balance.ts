@@ -5,6 +5,7 @@
  *   monster HP            × the curve below, then × dungeon depth
  * Values were calibrated with scripts/sim.ts (Monte Carlo party-vs-dungeon).
  */
+import { bindText } from '../i18n/index.ts';
 export const VITALITY = 2.5;
 
 /** Echo factor for damage that doesn't pass through a Fortune hand (reactions, riders, zones). */
@@ -73,12 +74,8 @@ export const DIFFICULTY_MOD = {
 
 export const DIFFICULTY_ORDER = ['explorer', 'standard', 'perilous', 'deadly'] as const;
 
-export const DIFFICULTY_INFO: Record<keyof typeof DIFFICULTY_MOD, string> = {
-  explorer: 'Softer foes and a gentler climb; slightly less gold. A good first legacy.',
-  standard: 'The intended challenge: real fights from the first door to the last, and heroes can die.',
-  perilous: 'More foes, tougher fights, cursed elites, ×1.5 gold. Better loot, +1 bonus magic item for beating the boss.',
-  deadly: 'Brutal: much tougher foes, crowded boss lairs, cursed elites, ×2 gold. Much better loot, +2 bonus magic items for beating the boss. Expect funerals.',
-};
+/** One-line description per difficulty: game.json → difficulties. */
+export const DIFFICULTY_INFO = bindText({} as Record<keyof typeof DIFFICULTY_MOD, string>, 'game', ['difficulties']);
 
 export const ROLE_MOD: Record<string, { hp: number; dmg: number; ac: number; atk: number }> = {
   brute: { hp: 1.35, dmg: 1.25, ac: -1, atk: 0 },

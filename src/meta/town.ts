@@ -10,19 +10,20 @@ import { createHero, derive, applyLevel, autoPrepare, fullRestore, makeItem, cho
 import { spellsForClass } from '../content/spells.ts';
 import { markOffers, applyMark } from '../fortune/dicepath.ts';
 import { trainingClosed } from './quest.ts';
+import { textTable } from '../i18n/index.ts';
 
 export const SCHEMA_VERSION = 1;
 export const CONTENT_REVISION = 'td-1.2';
 /** Banked gold for a brand-new Keep: enough for a potion or two, not a shopping spree. */
 export const STARTING_GOLD = 50;
 
-export const FACILITIES: Record<string, { name: string; text: string; max: number }> = {
-  guild: { name: 'Guild Hall', text: 'More recruits to choose from and a bigger roster.', max: 4 },
-  armory: { name: 'Armory', text: 'Rarer trinkets and better stock.', max: 4 },
-  apothecary: { name: 'Apothecary', text: 'Stronger potions and scrolls.', max: 4 },
-  enchanter: { name: 'Enchanter', text: 'Higher enchantment caps (+1 per level, max +3).', max: 3 },
-  training: { name: 'Training Grounds', text: 'Cheaper reserve training.', max: 3 },
-};
+export const FACILITIES = textTable<Record<string, { name: string; text: string; max: number }>, 'name' | 'text'>('game', ['facilities'], {
+  guild: { max: 4 },
+  armory: { max: 4 },
+  apothecary: { max: 4 },
+  enchanter: { max: 3 },
+  training: { max: 3 },
+});
 
 export function facilityCost(id: string, level: number): { gold: number; sigils: number } {
   return { gold: 250 * level * level, sigils: Math.max(0, level - 1) };

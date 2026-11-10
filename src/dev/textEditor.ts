@@ -20,22 +20,29 @@ import { BIOMES } from '../content/biomes.ts';
 import { SKILL_NAMES } from '../rules/character.ts';
 import { EVENTS, type EventDef, type Outcome } from '../content/events.ts';
 import { EVIDENCE, DRINKS, LEADS, SOURCES, RUMORS, MUSTER, TRACKS } from '../content/quest.ts';
+import { ITEMS } from '../content/items.ts';
+import { MONSTERS } from '../content/monsters.ts';
+import { SPELLS } from '../content/spells.ts';
+import { CLASSES } from '../content/classes.ts';
+import { CHARM_BY_ID } from '../fortune/charms.ts';
+import { MATERIALS } from '../fortune/materials.ts';
 
 type Json = Record<string, unknown>;
 type Path = string[];
-type Ns = 'dialogue' | 'story';
+type Ns = 'dialogue' | 'story' | 'game';
 
-const NAMESPACES: Ns[] = ['dialogue', 'story'];
+const NAMESPACES: Ns[] = ['dialogue', 'story', 'game'];
 const D: Ns = 'dialogue';
 const S: Ns = 'story';
+const G: Ns = 'game';
 const root = document.getElementById('app')!;
 
 const st = {
   langs: {} as Record<string, string[]>,
   lang: 'en',
-  en: { dialogue: {}, story: {} } as Record<Ns, Json>,
-  work: { dialogue: {}, story: {} } as Record<Ns, Json>,
-  saved: { dialogue: '', story: '' } as Record<Ns, string>,
+  en: { dialogue: {}, story: {}, game: {} } as Record<Ns, Json>,
+  work: { dialogue: {}, story: {}, game: {} } as Record<Ns, Json>,
+  saved: { dialogue: '', story: '', game: '' } as Record<Ns, string>,
   sel: `script:${SCRIPTS[0]?.id}`,
   q: '',
   status: '',
@@ -368,6 +375,110 @@ const worldView = () => view(
     ...fields(S, ['finale'], [['name', 'Name', 1], ['tagline', 'Tagline', 1], ['premise', 'Premise', 3], ['bossRoom', 'Boss room', 1], ['bossText', 'Boss room text']])),
   card(h('div', { class: 'face glyph' }, '🔁'), h('b', null, 'Shared lines'), field(S, ['leadOpen'], { label: 'Appended to a failed quest check' })));
 
+// ── game data views (generic) ───────────────────────────────────────────────
+
+const pretty = (k: string) => k.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (c) => c.toUpperCase());
+
+/** A label for a string's path inside a record: numeric steps show the live element's id when it has one. */
+function labelFor(rel: Path, live: unknown): string {
+  const out: string[] = [];
+  let cur = live;
+  for (const k of rel) {
+    const next = cur && typeof cur === 'object' ? (cur as Json)[k] : undefined;
+    const id = next && typeof next === 'object' ? (next as Json).id : undefined;
+    const parent = out.length ? rel[out.length - 1] : '';
+    out.push(!/^\d+$/.test(k) ? pretty(k) : typeof id === 'string' ? id : parent === 'features' ? `Level ${k}` : Array.isArray(cur) ? `#${Number(k) + 1}` : k);
+    cur = next;
+  }
+  return out.join(' › ');
+}
+
+interface Rec { id: string; face?: HTMLElement | null; chips?: (HTMLElement | string | null)[]; look?: string; live?: unknown }
+
+/** Every string English has under ns/path/<id>, labelled, with the record's context. */
+const recordCard = (ns: Ns, path: Path, r: Rec) => {
+  const base = [...path, r.id];
+  const longText = (p: Path) => { const v = getAt(st.en[ns], p); return typeof v === 'string' && v.length > 90 ? 3 : v && String(v).length > 40 ? 2 : 1; };
+  return card(r.face ?? null,
+    h('div', { class: 'meta' }, chip(`id ${r.id}`, 'id'), ...(r.chips ?? []).map((c) => (typeof c === 'string' ? chip(c) : c))),
+    ...leaves(getAt(st.en[ns], base), base).map((p) => field(ns, p, { label: labelFor(p.slice(base.length), r.live), rows: longText(p) })),
+    r.look ? h('details', { class: 'who' }, h('summary', null, 'Description (art subject)'), h('p', null, r.look)) : null);
+};
+
+const recordsView = (title: string, note: string, ns: Ns, path: Path, recs: Rec[]) => view(heading(title, note), ...recs.map((r) => recordCard(ns, path, r)));
+
+/** All ids under a path, as plain records (for tables with no extra context). */
+const plain = (ns: Ns, path: Path, live?: Record<string, unknown>): Rec[] =>
+  Object.keys((getAt(st.en[ns], path) as Json) ?? {}).map((id) => ({ id, live: live?.[id] }));
+
+const ITEM_KINDS: Record<string, string> = { weapon: 'Weapons', armor: 'Armor', shield: 'Armor', trinket: 'Trinkets', consumable: 'Consumables' };
+const itemGroup = (id: string) => (ITEMS[id]?.legend ? 'Legendaries' : ITEM_KINDS[ITEMS[id]?.kind ?? ''] ?? 'Other');
+
+function gameView(kind: string, id: string): HTMLElement {
+  switch (kind) {
+    case 'biome': {
+      const b = BIOMES[id as keyof typeof BIOMES];
+      return recordsView(b?.name ?? id, 'The echo\'s name and pitch, its meter, and the word lists rooms are dressed from: room names by room type, then flavour lines. Room text is assembled from one atmosphere line, maybe a detail, and the tag notes.', G, ['biomes'],
+        [{ id, face: pic(`story/${id}`, id, '🗺'), chips: [chip(`${b?.meter.icon} meter max ${b?.meter.max}`)], live: b }]);
+    }
+    case 'items': return recordsView(`Items · ${id}`, 'Names, rules text and, for legendaries, their lore. Affix names attach to these (see Format → item name).', G, ['items'],
+      Object.values(ITEMS).filter((i) => itemGroup(i.id) === id).map((i) => ({ id: i.id, face: pic(i.art, i.name, '🎒'), chips: [i.rarity, `${i.price} gold`, i.weapon ? `${i.weapon.dice} ${i.weapon.type}` : null, i.armor ? `AC ${i.armor.base}` : null], look: i.legend?.look, live: i })));
+    case 'monsters': return recordsView(`Monsters · ${biomeName(id)}`, 'Names, flavour, action names and boss titles. Tier titles (“Veteran …”) are in Format.', G, ['monsters'],
+      Object.values(MONSTERS).filter((m) => m.biome === id).map((m) => ({ id: m.id, face: pic(`monsters/${m.biome}_${m.id}`, m.name, '👹'), chips: [m.role, m.rank, m.boss ? 'boss' : null, m.finale ? 'finale' : null], look: m.look, live: m })));
+    case 'spells': return recordsView(Number(id) ? `Spells · level ${id}` : 'Spells · cantrips', 'Spell names and the rules text on the spell button.', G, ['spells'],
+      Object.values(SPELLS).filter((sp) => String(sp.level) === id).map((sp) => ({ id: sp.id, chips: [sp.school, sp.classes.join(', '), sp.cost], live: sp })));
+    case 'class': {
+      const c = CLASSES[id as keyof typeof CLASSES];
+      return recordsView(c?.name ?? id, 'Name, pitch, subclass, Fortune talent, resources and features by level. Features every class shares (Ability Score Improvement, Extra Attack…) are under Game · tables → Shared class features.', G, ['classes'],
+        [{ id, face: pic(`heroes/${id}_1`, id, '⚔'), chips: [`d${c?.hitDie}`, c?.caster ? `${c.caster.kind} caster` : 'martial', MATERIALS[c?.material]?.name ?? null], live: c }]);
+    }
+    case 'charms': return recordsView(`Charms · ${id}`, '{n} is a charm\'s live counter; omens fill {hand}, {chips} and {mult}.', G, ['charms'],
+      Object.values(CHARM_BY_ID).filter((c) => (c.theme === 'omen' ? 'omens' : c.rarity) === id).map((c) => ({ id: c.id, face: pic(`charms/${c.id}`, c.name, c.theme === 'omen' ? '✶' : '✦'), chips: [c.theme], live: c })));
+    case 'table': {
+      const [label, path] = GAME_TABLES[id];
+      return recordsView(label, '', G, path, plain(G, path));
+    }
+  }
+  return h('p', null, 'Unknown entry.');
+}
+
+/** Smaller game tables, one sidebar entry each: key → [label, path]. */
+const GAME_TABLES: Record<string, [string, Path]> = {
+  affixes: ['Item affixes', ['affixes']],
+  monsterTraits: ['Monster traits', ['monsterTraits']],
+  classFeatures: ['Shared class features', ['classFeatures']],
+  fightingStyles: ['Fighting styles', ['fightingStyles']],
+  metamagic: ['Metamagic', ['metamagic']],
+  invocations: ['Invocations', ['invocations']],
+  feats: ['Feats', ['feats']],
+  epicBoons: ['Epic boons', ['epicBoons']],
+  species: ['Species', ['species']],
+  backgrounds: ['Backgrounds', ['backgrounds']],
+  skillTricks: ['Skill tricks', ['skillTricks']],
+  materials: ['Dice materials', ['materials']],
+  faceMods: ['Face mods', ['faceMods']],
+  faceEnchants: ['Face enchant offers', ['faceEnchants']],
+  specialDice: ['Special dice', ['specialDice']],
+  dieTraits: ['Die traits', ['dieTraits']],
+  hands: ['Hands', ['hands']],
+  curses: ['Boss curses', ['curses']],
+  tokens: ['Tokens', ['tokens']],
+  upgrades: ['Upgrades', ['upgrades']],
+  facilities: ['Keep facilities', ['facilities']],
+  tutorialRooms: ['Tutorial rooms', ['tutorialRooms']],
+};
+
+/** Whole-object tables of loose strings (names lists, formats): one card per top-level key. */
+const LOOSE: Record<string, [string, string, Path[]]> = {
+  names: ['Names and orders', 'Skill and ability names, cleric and druid orders, difficulty descriptions.', [['skills'], ['abilities'], ['divineOrders'], ['primalOrders'], ['difficulties']]],
+  format: ['Formats', '{placeholders} are filled by the game. Word order is yours: “{prefix} {name}{plus} {suffix}” builds item names.', [['format'], ['tierNames'], ['themes'], ['genericActions']]],
+};
+const looseView = (key: string) => {
+  const [title, note, paths] = LOOSE[key];
+  return view(heading(title, note), ...paths.map((p) => card(h('div', { class: 'face glyph' }, '¶'), h('b', null, pretty(p[0])),
+    ...leaves(getAt(st.en[G], p), p).map((q) => field(G, q, { label: labelFor(q.slice(p.length), undefined) || pretty(p[0]), rows: 1 })))));
+};
+
 // ── layout ──────────────────────────────────────────────────────────────────
 
 interface Entry { key: string; label: string; sub: string; parts: [Ns, Path][]; search: string }
@@ -394,6 +505,26 @@ function entries(): { group: string; items: Entry[] }[] {
   add('Quest', 'rumors', 'Rumours', `${RUMORS.length} rumours`, [[S, ['rumorSources']], [S, ['rumors']]]);
   add('Quest', 'drinks', 'Drinks', 'The Low Lantern', [[S, ['drinks']]]);
   add('Quest', 'muster', 'The Muster', 'Tracks and tasks', [[S, ['tracks']], [S, ['muster']]]);
+  for (const b of Object.keys(BIOMES)) add('Game · echoes', `biome:${b}`, BIOMES[b as keyof typeof BIOMES].name, 'Rooms, meter, flavour', [[G, ['biomes', b]]]);
+  for (const grp of ['Weapons', 'Armor', 'Trinkets', 'Consumables', 'Legendaries']) {
+    const ids = Object.keys(ITEMS).filter((i) => itemGroup(i) === grp);
+    add('Game · items', `items:${grp}`, grp, `${ids.length} items`, ids.map((i) => [G, ['items', i]] as [Ns, Path]));
+  }
+  for (const b of [...new Set(Object.values(MONSTERS).map((m) => m.biome))]) {
+    const ids = Object.values(MONSTERS).filter((m) => m.biome === b).map((m) => m.id);
+    add('Game · monsters', `monsters:${b}`, biomeName(b), `${ids.length} monsters`, ids.map((i) => [G, ['monsters', i]] as [Ns, Path]), ids.join(' '));
+  }
+  for (let l = 0; l <= 9; l++) {
+    const ids = Object.values(SPELLS).filter((sp) => sp.level === l).map((sp) => sp.id);
+    if (ids.length) add('Game · spells', `spells:${l}`, l ? `Level ${l}` : 'Cantrips', `${ids.length} spells`, ids.map((i) => [G, ['spells', i]] as [Ns, Path]));
+  }
+  for (const c of Object.values(CLASSES)) add('Game · classes', `class:${c.id}`, c.name, 'Features, talent, resources', [[G, ['classes', c.id]]]);
+  for (const grp of ['common', 'uncommon', 'rare', 'legendary', 'omens']) {
+    const ids = Object.values(CHARM_BY_ID).filter((c) => (c.theme === 'omen' ? 'omens' : c.rarity) === grp).map((c) => c.id);
+    add('Game · charms', `charms:${grp}`, pretty(grp), `${ids.length} charms`, ids.map((i) => [G, ['charms', i]] as [Ns, Path]));
+  }
+  for (const [k, [label, path]] of Object.entries(GAME_TABLES)) add('Game · tables', `table:${k}`, label, path.join('.'), [[G, path]]);
+  for (const [k, [title, , paths]] of Object.entries(LOOSE)) add('Game · tables', `loose:${k}`, title, '', paths.map((p) => [G, p] as [Ns, Path]));
   const q = st.q.trim().toLowerCase();
   return [...groups.entries()].map(([group, items]) => ({ group, items: q ? items.filter((e) => e.search.toLowerCase().includes(q)) : items })).filter((g) => g.items.length);
 }
@@ -433,7 +564,8 @@ function renderMain() {
   const [kind, id] = st.sel.split(/:(.*)/s);
   const s = kind === 'script' ? SCRIPTS.find((x) => x.id === id) : undefined;
   const e = kind === 'event' ? EVENTS[id] : undefined;
-  main.append(s ? scriptView(s) : e ? eventView(e) : kind === 'barks' ? barksView(id) : VIEWS[kind]?.() ?? h('p', null, 'Pick something on the left.'));
+  const gameKinds = ['biome', 'items', 'monsters', 'spells', 'class', 'charms', 'table'];
+  main.append(s ? scriptView(s) : e ? eventView(e) : kind === 'barks' ? barksView(id) : gameKinds.includes(kind) ? gameView(kind, id) : kind === 'loose' ? looseView(id) : VIEWS[kind]?.() ?? h('p', null, 'Pick something on the left.'));
 }
 
 function renderBar() {

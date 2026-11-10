@@ -23,6 +23,7 @@ export const LOCALES: { code: string; name: string }[] = [
 // their text also load under plain Node (scripts/sim.ts, playtest). Add new namespaces here.
 import enDialogue from '../locales/en/dialogue.json' with { type: 'json' };
 import enStory from '../locales/en/story.json' with { type: 'json' };
+import enGame from '../locales/en/game.json' with { type: 'json' };
 
 /** Other languages: one lazy chunk per file. Vite rewrites this call; under plain Node it doesn't exist. */
 let lazy: Record<string, () => Promise<Catalog>> = {};
@@ -31,7 +32,7 @@ try { lazy = import.meta.glob<Catalog>(['../locales/*/*.json', '!../locales/en/*
 const nsOf = (path: string) => /\/locales\/([^/]+)\/([^/]+)\.json$/.exec(path);
 
 /** catalogs[lang][namespace] */
-const catalogs: Record<string, Record<string, Catalog>> = { en: { dialogue: enDialogue, story: enStory } };
+const catalogs: Record<string, Record<string, Catalog>> = { en: { dialogue: enDialogue, story: enStory, game: enGame } };
 
 let current = SOURCE_LOCALE;
 const listeners = new Set<() => void>();
@@ -135,6 +136,18 @@ export function format(text: string, vars?: Record<string, string | number>): st
 export function text(ns: string, path: readonly string[], vars?: Record<string, string | number>): string {
   const v = lookup(ns, path);
   return typeof v === 'string' ? format(v, vars) : `⟦${ns}:${path.join('/')}⟧`;
+}
+
+/**
+ * A reference to one string, stored in save data instead of the words themselves:
+ * `game:biomes/cinder/rooms/combat/2`. `note|<ref>` wraps it in format.roomNote ("(Sweltering.)").
+ */
+export const ref = (ns: string, path: readonly (string | number)[]) => `${ns}:${path.join('/')}`;
+
+export function resolveRef(r: string): string {
+  if (r.startsWith('note|')) return text('game', ['format', 'roomNote'], { label: resolveRef(r.slice(5)) });
+  const i = r.indexOf(':');
+  return text(r.slice(0, i), r.slice(i + 1).split('/'));
 }
 
 /** Dotted shorthand: `t('ui:menu.newGame', { n: 3 })`. Namespace defaults to `ui`. */

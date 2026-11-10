@@ -5,30 +5,31 @@
  */
 import type { BoonOffer, FaceMod, FortuneRun, HandType } from '../engine/types.ts';
 import type { Rng } from '../engine/rng.ts';
-import { CHARMS, CHARM_BY_ID, CHARM_PRICE, OMEN_NAMES, newCharm, omenId, omenLevels, type CharmRarity } from './charms.ts';
+import { CHARMS, CHARM_BY_ID, CHARM_PRICE, newCharm, charmText, omenId, omenLevels, type CharmRarity } from './charms.ts';
 import { HANDS, HAND_BY_ID } from './hands.ts';
 import { SPECIAL_DICE, SPECIAL_BY_ID, makeDie, MATERIALS } from './materials.ts';
 import { charmSlots, MAX_TOKENS } from './tray.ts';
+import { bindText, textTable } from '../i18n/index.ts';
 
 export interface TokenDef { id: string; name: string; text: string; price: number }
 
-export const TOKENS: Record<string, TokenDef> = {
-  mulligan: { id: 'mulligan', name: 'Mulligan Coin', text: 'Reroll your whole tray for free.', price: 3 },
-  fateCoin: { id: 'fateCoin', name: 'Fate Coin', text: 'Turn one tray die to any face it has.', price: 4 },
-  loadedCoin: { id: 'loadedCoin', name: 'Loaded Coin', text: 'Your next attack roll is a natural 20.', price: 4 },
-  encore: { id: 'encore', name: 'Encore Coin', text: 'The acting hero may play a second hand this turn.', price: 5 },
-  tonic: { id: 'tonic', name: 'Tonic Coin', text: 'Heal the acting hero for 30% of max HP.', price: 3 },
-};
+export const TOKENS = textTable<Record<string, TokenDef>, 'name' | 'text'>('game', ['tokens'], {
+  mulligan: { id: 'mulligan', price: 3 },
+  fateCoin: { id: 'fateCoin', price: 4 },
+  loadedCoin: { id: 'loadedCoin', price: 4 },
+  encore: { id: 'encore', price: 5 },
+  tonic: { id: 'tonic', price: 3 },
+});
 
 export const FACE_BOONS: FaceMod[] = ['gilded', 'keen', 'fierce', 'savage', 'wild', 'lucky'];
 export const FACE_PRICE: Record<string, number> = { gilded: 3, keen: 3, fierce: 4, lucky: 4, savage: 6, wild: 6 };
 
-export const UPGRADES: Record<string, { name: string; text: string }> = {
-  handSize: { name: 'Wider Tray', text: '+1 tray size for the rest of this run.' },
-  rerolls: { name: 'Steady Wrist', text: '+1 reroll every turn for the rest of this run.' },
-  charmSlot: { name: 'Charm Hook', text: '+1 charm slot for the rest of this run.' },
-  chisel: { name: "Mason's Chisel", text: 'Raise every face of one die by 1 except its highest (max 9).' },
-};
+export const UPGRADES = textTable<Record<string, { name: string; text: string }>, 'name' | 'text'>('game', ['upgrades'], {
+  handSize: {},
+  rerolls: {},
+  charmSlot: {},
+  chisel: {},
+});
 
 function rollRarity(rng: Rng, rank: number, boost = 0): CharmRarity {
   const r = rng.next() * 100;
@@ -159,7 +160,7 @@ export function rollShop(rng: Rng, run: FortuneRun): BoonOffer[] {
 export function offerTitle(o: BoonOffer): string {
   switch (o.kind) {
     case 'charm': return CHARM_BY_ID[o.id]?.name ?? o.id;
-    case 'omen': return OMEN_NAMES[o.hand!];
+    case 'omen': return CHARM_BY_ID[omenId(o.hand!)]?.name ?? o.id;
     case 'die': return o.die?.name ?? SPECIAL_BY_ID[o.id]?.name ?? 'Die';
     case 'face': return `${o.face![0].toUpperCase()}${o.face!.slice(1)} Face`;
     case 'token': return TOKENS[o.id]?.name ?? o.id;
@@ -172,7 +173,7 @@ export function offerTitle(o: BoonOffer): string {
 
 export function offerText(o: BoonOffer): string {
   switch (o.kind) {
-    case 'charm': return CHARM_BY_ID[o.id]?.text.replace('{n}', String(CHARM_BY_ID[o.id]?.startCounter ?? 0)) ?? '';
+    case 'charm': return CHARM_BY_ID[o.id] ? charmText(CHARM_BY_ID[o.id]) : '';
     case 'omen': {
       const h = HAND_BY_ID[o.hand!];
       return `${h.name} +1 level while held: +${h.lvChips} chips, +${h.lvMult} mult. Takes a charm slot.`;
@@ -187,10 +188,8 @@ export function offerText(o: BoonOffer): string {
   }
 }
 
-const FACE_TEXT: Record<FaceMod, string> = {
-  gilded: '+1 doubloon when scored.', keen: '+6 chips when scored.', fierce: '+2 mult when scored.',
-  savage: '×1.5 mult when scored.', wild: 'counts as any value.', lucky: '1 in 3: +6 mult.', cursed: '',
-};
+/** Rules text for a face enchant offer: game.json → faceEnchants. */
+const FACE_TEXT = bindText({} as Record<FaceMod, string>, 'game', ['faceEnchants']);
 
 /** Does this offer need the player to pick a die (and face)? */
 export function offerNeedsTarget(o: BoonOffer): 'die' | 'face' | null {

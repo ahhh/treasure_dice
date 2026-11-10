@@ -16,6 +16,7 @@
 import type { DieTrait, Face, FaceMod, Hero, HeroDie, Material } from '../engine/types.ts';
 import { Rng, seedState } from '../engine/rng.ts';
 import { CLASS_MATERIAL, MATERIALS, FACE_MODS, standardFaces } from './materials.ts';
+import { textTable } from '../i18n/index.ts';
 
 export const TRAIT_LEVELS = [5, 10, 15, 20];
 export const NEW_DIE_LEVELS = [8, 16];
@@ -32,13 +33,13 @@ export function heroColour(hero: Pick<Hero, 'classId' | 'colour'>): Material {
   return hero.colour ?? CLASS_MATERIAL[hero.classId];
 }
 
-export const TRAITS: Record<DieTrait, { name: string; text: string; glyph: string }> = {
-  loaded: { name: 'Loaded', text: 'Rolls twice and keeps the higher face.', glyph: '⬢' },
-  kindred: { name: 'Kindred', text: '+2 Mult when its owner plays it.', glyph: '♥' },
-  echoing: { name: 'Echoing', text: 'Scores twice when its owner plays it.', glyph: '↻' },
-  steadfast: { name: 'Steadfast', text: "Can't be jinxed, stolen or cursed.", glyph: '⛨' },
-  eager: { name: 'Eager', text: 'Always lands in the opening tray.', glyph: '➚' },
-};
+export const TRAITS = textTable<Record<DieTrait, { name: string; text: string; glyph: string }>, 'name' | 'text'>('game', ['dieTraits'], {
+  loaded: { glyph: '⬢' },
+  kindred: { glyph: '♥' },
+  echoing: { glyph: '↻' },
+  steadfast: { glyph: '⛨' },
+  eager: { glyph: '➚' },
+});
 
 export type DiceMark =
   | { kind: 'engrave'; die: number; face: number; mod: FaceMod }
