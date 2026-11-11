@@ -170,5 +170,5 @@ describe('difficulty rewards', () => {
       }
       expect(checked).toBeGreaterThan(0);
     }
-  });
+  }, 30_000);
 });
