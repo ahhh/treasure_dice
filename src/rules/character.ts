@@ -27,6 +27,8 @@ export const SKILL_NAMES = bindText({} as Record<Skill, string>, 'game', ['skill
 
 /** Ability names: game.json → abilities. */
 export const ABILITY_NAMES = bindText({} as Record<Ability, string>, 'game', ['abilities']);
+/** What each ability does in this game, for the hero sheet's tooltips. */
+export const ABILITY_INFO = bindText({} as Record<Ability, string>, 'game', ['abilityInfo']);
 
 export const mod = (score: number) => Math.floor((score - 10) / 2);
 

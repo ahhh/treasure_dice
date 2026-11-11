@@ -3716,6 +3716,14 @@
     "wis": "Wisdom",
     "cha": "Charisma"
   },
+  "abilityInfo": {
+    "str": "Hit and damage bonus with melee weapons (unless a finesse weapon favours Dexterity) and unarmed strikes. The core stat for Fighters, Barbarians and Paladins.",
+    "dex": "Hit and damage bonus with ranged and finesse weapons. Also adds to AC (capped or ignored in heavier armour) and to initiative, so you act sooner. The core stat for Rogues, Rangers and Monks.",
+    "con": "Adds hit points every level and to each Hit Die spent on a rest. Every hero wants some; unarmoured Barbarians also add it to AC.",
+    "int": "Spellcasting stat for Wizards and Artificers: raises their spell attack bonus and the DC enemies must beat to resist their spells.",
+    "wis": "Spellcasting stat for Clerics, Druids and Rangers: raises spell attack and spell DC. Unarmoured Monks add it to AC, and it sets the DC of their Stunning Strike.",
+    "cha": "Spellcasting stat for Bards, Sorcerers, Warlocks and Paladins: raises spell attack and spell DC, and fuels many Paladin and Warlock features."
+  },
   "skillTricks": {
     "athletics": {
       "name": "Heave",

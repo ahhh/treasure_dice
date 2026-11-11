@@ -12,7 +12,7 @@ import { featuresUpTo, subclassOf, subclassById } from '../content/subclasses.ts
 import { ITEMS, itemName } from '../content/items.ts';
 import { SPECIES, BACKGROUNDS } from '../content/origins.ts';
 import { spellsForClass, SPELLS } from '../content/spells.ts';
-import { derive, SKILL_NAMES, ABILITY_NAMES, maxPrepared, choiceOptions } from '../rules/character.ts';
+import { derive, SKILL_NAMES, ABILITY_NAMES, ABILITY_INFO, maxPrepared, choiceOptions } from '../rules/character.ts';
 import { levelUpPreview, canEquip, type LevelChoices } from '../meta/town.ts';
 import { offerNeedsTarget, offerTakesSlot } from '../fortune/boons.ts';
 import { charmSlots } from '../fortune/tray.ts';
@@ -67,10 +67,10 @@ export function heroSheet(id: string): HTMLElement {
         h('span', { class: 'small' }, hero.level < 3 ? tx('modals.subclassAtLevel3', { name: cls.subclassLabel }) : subclassOf(hero)?.name ?? ''),
         h('span', { class: 'small muted' }, `${SPECIES[hero.ancestry]?.name} · ${BACKGROUNDS[hero.background]?.name}`)),
       h('div', { class: 'col' },
-        h('div', { class: 'row' }, h('span', null, tx('modals.hp', { hp: hero.hp, maxHp: d.maxHp })), h('span', null, tx('modals.ac', { ac: d.ac })), h('span', null, tx('modals.init', { mod: mod(d.init) })), h('span', null, tx('modals.prof', { mod: mod(d.pb) })),
-          d.spellAbility ? h('span', null, tx('modals.spellDcAttack', { spellDc: d.spellDc, mod: mod(d.spellAttack) })) : null),
+        h('div', { class: 'row' }, h('span', { title: tx('modals.hpTip') }, tx('modals.hp', { hp: hero.hp, maxHp: d.maxHp })), h('span', { title: tx('modals.acTip') }, tx('modals.ac', { ac: d.ac })), h('span', { title: tx('modals.initTip') }, tx('modals.init', { mod: mod(d.init) })), h('span', { title: tx('modals.profTip') }, tx('modals.prof', { mod: mod(d.pb) })),
+          d.spellAbility ? h('span', { title: tx('modals.spellTip') }, tx('modals.spellDcAttack', { spellDc: d.spellDc, mod: mod(d.spellAttack) })) : null),
         hpBar(hero.hp, d.maxHp),
-        h('div', { class: 'abil' }, ...ABILITIES.map((a) => h('div', { title: ABILITY_NAMES[a] }, a.toUpperCase(), h('b', null, d.abilities[a]), h('span', { class: 'small muted' }, tx('modals.save', { mod: mod(d.mods[a]), mod2: mod(d.saves[a]), v: d.saveProf.includes(a) ? '●' : '' }))))),
+        h('div', { class: 'abil' }, ...ABILITIES.map((a) => h('div', { title: tx('modals.abilityTip', { name: ABILITY_NAMES[a], text: ABILITY_INFO[a] }) }, a.toUpperCase(), h('b', null, d.abilities[a]), h('span', { class: 'small muted' }, tx('modals.save', { mod: mod(d.mods[a]), mod2: mod(d.saves[a]), v: d.saveProf.includes(a) ? '●' : '' }))))),
         h('div', { class: 'small' }, ...rich(tx('modals.attackToHit', { mainName: d.main.name, attacks: d.attacks, toHit: d.main.toHit, dice: d.main.dice, mod: mod(d.main.bonus), type: term('damageTypes', d.main.type), mastery: d.main.mastery ? tx('modals.masterySuffix', { mastery: term('masteries', d.main.mastery) }) : '' }))),
         h('div', { class: 'small' }, h('b', null, tx('modals.fortuneTalent')), `${cls.fortuneTalent.name} — ${cls.fortuneTalent.text}`, h('span', { class: 'impl adapted' }, 'adapted')),
         h('div', { class: 'small' }, h('b', null, tx('modals.dice')), tx('modals.bringsSignatureDiceToThe', { length: heroDice(hero).length, name: MATERIALS[heroColour(hero)].name, v: d.diceGear.affinity.length ? `, ${[...new Set(d.diceGear.affinity)].map((m) => MATERIALS[m].name).join(', ')}` : '' }), d.rerollBonus ? tx('modals.rerollOnTheirTurns', { rerollBonus: d.rerollBonus }) : ''),
@@ -336,7 +336,7 @@ export function resultScreen(): HTMLElement {
   const r = g.lastResult!;
   const title = r.finale && r.kind === 'won' ? tx('modals.theDragonQueenFalls') : r.tutorial && r.kind === 'won' ? tx('modals.practiceComplete') : r.practice && r.kind === 'won' ? tx('modals.explorerRunComplete') : r.kind === 'won' ? tx('modals.theEchoIsBroken') : r.kind === 'retreated' ? tx('modals.aTacticalRetreat') : tx('modals.thePartyHasFallen');
   const chapter: Chapter | undefined = r.chapter === EPILOGUE.id ? EPILOGUE : r.chapter ? CHAPTERS[r.chapter as keyof typeof CHAPTERS] : undefined;
-  return h('div', { class: 'title-screen', style: bgStyle(r.kind === 'won' ? `scenes/${r.biome}_boss` : firstArt(`story/${r.kind === 'retreated' ? 'retreat' : 'wipe'}`, 'town/keep'), '#0b1230') + ';background-size:cover;background-position:center' },
+  return h('div', { class: 'title-screen', style: bgStyle(r.kind === 'won' ? (r.tutorial ? firstArt('scenes/cellar_victory', 'scenes/cellar_boss') : `scenes/${r.biome}_boss`) : firstArt(`story/${r.kind === 'retreated' ? 'retreat' : 'wipe'}`, 'town/keep'), '#0b1230') + ';background-size:cover;background-position:center' },
     h('div', { class: 'title-inner' },
       h('div', { class: 'win', style: 'width:min(640px,100%)' },
         h('h1', { class: `result-big ${r.kind === 'wiped' ? 'danger' : 'gold'}` }, title),

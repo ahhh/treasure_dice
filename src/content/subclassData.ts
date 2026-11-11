@@ -40,6 +40,7 @@ export const SUBCLASS_DATA: SubclassSpec[] = [
   {
     id: 'battlerager',
     classId: 'barbarian',
+    dice: 'steel',
     source: 'SCAG',
     levels: {
       3: [{ id: 'battleragerArmor', impl: 'adapted', mods: { onHit: [{ dice: '1d4', type: 'piercing' }], thorns: 0.5, thornsType: 'piercing' } }],
@@ -143,6 +144,7 @@ export const SUBCLASS_DATA: SubclassSpec[] = [
   {
     id: 'totemWarrior',
     classId: 'barbarian',
+    dice: 'verdant',
     source: 'PHB',
     levels: {
       3: [{ id: 'totemSpirit', impl: 'adapted', mods: { resist: ['cold', 'fire', 'lightning', 'poison'] } }],
@@ -596,6 +598,7 @@ export const SUBCLASS_DATA: SubclassSpec[] = [
   {
     id: 'war',
     classId: 'cleric',
+    dice: 'steel',
     source: 'PHB',
     resources: [{ id: 'warPriest', max: 'wis', recharge: 'long' }],
     levels: {
@@ -686,6 +689,7 @@ export const SUBCLASS_DATA: SubclassSpec[] = [
   {
     id: 'stars',
     classId: 'druid',
+    dice: 'sun',
     source: 'TCE',
     levels: {
       3: [
@@ -952,6 +956,7 @@ export const SUBCLASS_DATA: SubclassSpec[] = [
   {
     id: 'runeKnight',
     classId: 'fighter',
+    dice: 'storm',
     source: 'TCE',
     resources: [{ id: 'might', max: 'pb', recharge: 'long' }, { id: 'runicShield', max: 'pb', recharge: 'long', from: 7 }],
     levels: {
@@ -1188,6 +1193,7 @@ export const SUBCLASS_DATA: SubclassSpec[] = [
   {
     id: 'kensei',
     classId: 'monk',
+    dice: 'steel',
     source: 'XGE',
     levels: {
       3: [{ id: 'pathOfTheKensei', impl: 'adapted', mods: { martialWeapons: true, ac: 1, onHit: [{ dice: '1d4', type: 'piercing' }] } }],
@@ -1205,6 +1211,7 @@ export const SUBCLASS_DATA: SubclassSpec[] = [
   {
     id: 'longDeath',
     classId: 'monk',
+    dice: 'blood',
     source: 'SCAG',
     resources: [{ id: 'reaping', max: 'pb', recharge: 'long', from: 6 }],
     levels: {
@@ -1271,6 +1278,7 @@ export const SUBCLASS_DATA: SubclassSpec[] = [
   {
     id: 'conquest',
     classId: 'paladin',
+    dice: 'blood',
     source: 'XGE',
     resources: [{ id: 'conqueror', max: 1, recharge: 'long', from: 20 }],
     levels: {
@@ -1555,6 +1563,7 @@ export const SUBCLASS_DATA: SubclassSpec[] = [
   {
     id: 'horizonWalker',
     classId: 'ranger',
+    dice: 'storm',
     source: 'XGE',
     resources: [{ id: 'etherealStep', max: 1, recharge: 'short', from: 7 }],
     levels: {
@@ -1794,6 +1803,7 @@ export const SUBCLASS_DATA: SubclassSpec[] = [
   {
     id: 'aberrantMind',
     classId: 'sorcerer',
+    dice: 'arcane',
     source: 'TCE',
     resources: [{ id: 'implosion', max: 1, recharge: 'long', from: 18 }],
     levels: {
@@ -1944,6 +1954,7 @@ export const SUBCLASS_DATA: SubclassSpec[] = [
   {
     id: 'archfey',
     classId: 'warlock',
+    dice: 'verdant',
     source: 'PHB',
     resources: [
       { id: 'feyPresence', max: 1, recharge: 'short' },
@@ -2062,6 +2073,7 @@ export const SUBCLASS_DATA: SubclassSpec[] = [
   {
     id: 'hexblade',
     classId: 'warlock',
+    dice: 'blood',
     source: 'XGE',
     resources: [{ id: 'curse', max: 1, recharge: 'short' }],
     levels: {
@@ -2303,6 +2315,7 @@ export const SUBCLASS_DATA: SubclassSpec[] = [
   {
     id: 'necromancy',
     classId: 'wizard',
+    dice: 'shadow',
     source: 'PHB',
     resources: [{ id: 'thralls', max: 'pb', recharge: 'long', from: 6 }, { id: 'commandUndead', max: 1, recharge: 'long', from: 14 }],
     levels: {
@@ -2394,6 +2407,7 @@ export const SUBCLASS_DATA: SubclassSpec[] = [
   {
     id: 'artillerist',
     classId: 'artificer',
+    dice: 'ember',
     source: 'TCE',
     resources: [{ id: 'cannon', max: 'pb', recharge: 'short' }, { id: 'fortified', max: 1, recharge: 'long', from: 15 }],
     levels: {

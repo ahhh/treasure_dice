@@ -150,6 +150,7 @@ const CELLAR_TEXT: Record<string, string> = {
   store: "a cosy quartermaster's storeroom in a castle cellar: shelves of cheese wheels, hanging hams and jars, and on the floor a dented iron-bound strongbox standing open with a little gold inside",
   sigil: 'a cellar alcove of tall wooden wine racks full of dusty bottles, one small glowing golden key-shaped sigil resting on a middle shelf, a heavy oak door with iron bands at the back of the alcove',
   boss: 'a big round brick-vaulted cask hall under a castle, an enormous barrel the size of a cottage on its side at the back, a ring of straw bales around an open sparring circle chalked on the flagstones, lanterns on chains overhead',
+  victory: 'the brick-vaulted cask hall under a castle just after a practice bout, calm and triumphant: a knocked-over straw sparring dummy in the chalked circle, a dented brass thimble helmet lying on the flagstones, a small open strongbox glinting with coins, golden lantern light streaming down a stone stair from an open door above, no fire, no lava',
 };
 for (const [s, text] of Object.entries(CELLAR_TEXT)) {
   out.push({ key: `scenes/cellar_${s}`, kind: 'scene', group: 'scene:cellar', name: `The Training Cellar — ${s}`, subject: text, anchor: s === 'corridor' });

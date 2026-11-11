@@ -91,11 +91,11 @@
     "hessa.kilnrow": {
       "title": "Hessa of Kiln Row",
       "lines": {
-        "a0": "Kiln Row smells of hot iron and bread. Every doorway has a small clay lamp burning blue. Eren's mother takes the sweets, does not eat them, and likes you for it.",
+        "a0": "Kiln Row smells of hot iron and bread. Every doorway has a small clay lamp burning blue. Eren's mother takes the sweets, but she does not eat them.",
         "a1": "Every family on this street keeps a hearth-flame. It doesn't go out while the family lives. When someone dies, we let it go out.| We don't snuff it. We let it.",
         "a2": "The Due. Six winters ago the Guild wouldn't give Kiln Row credit, and the snow came early, and we buried forty-one. The Choir came with grain.",
         "a3": "Now we pay the Choir a tithe. And when a family can't pay, someone goes below for a season to work it off. Then they come home.| They used to come home.",
-        "cult": "It's a cult, love. It's also the only people who came. Both things are true on this street.",
+        "cult": "It's a cult, love. It's also the only people who came to help us. Both things are true on this street.",
         "who0": "I keep a list. Nobody asked me to. Somebody ought to.",
         "who1": "She gives you a folded sheet of names and seasons, tied with red thread. The last name is Tarn.",
         "who2": "Tarn's my sister's boy. Eren's cousin. Went down last spring. His flame's still burning.| I check it every morning."
@@ -340,11 +340,11 @@
         "a2": "On the house.| Don't get used to it.",
         "a3": {
           "fallen": "{names}.| (She pours a glass for each, and sets them on the candle shelf.)",
-          "none": "(She looks at the candle shelf for a long moment. Every candle is pinched out. Every one of them came home.)"
+          "none": "(She looks at the candle shelf for a long moment. Every candle is out.  But not all of them came home.)"
         },
         "a4": {
-          "scarred": "So there I was, tied to a mirror, and Tuesday just walks in —| Fine. Fine, it was a different story last time. It gets better every time.",
-          "default": "So there I was, and Tuesday just walks in —| Bet. Bet, I'm telling it."
+          "scarred": "So there I was, tied to a mirror, and Tuesday just walks in and saves me! | Fine. Fine, it really went down way different, but it's more fun this way!",
+          "default": "So there I was, and Tuesday just walks in..."
         },
         "a5": {
           "captured": "His flame went out last night. I let it.| Pour him one, Bet.",
@@ -359,7 +359,7 @@
         },
         "a8": {
           "captive": "Somewhere in the Keep's cells, Corvin Aldane is writing letters nobody will send.",
-          "default": "A letter came for you this morning. Unsigned. It says only: \"Splendidly done.\""
+          "default": "A letter came for you this morning. Unsigned. It says only: \"Well done.\""
         },
         "a9": "You said. Before any of us. I remember you said.",
         "a10": "To those who come back.",
@@ -422,7 +422,7 @@
     "pell.coins": {
       "title": "Black coins",
       "lines": {
-        "a0": "Seventy-one. Seventy-two. Seventy-th— they've gone black. Why have they gone black?",
+        "a0": "Seventy-one. Seventy-two. Seventy-th— wait, what? They've gone black. Why have the coins gone black?",
         "a1": "In rings, Keeper. Like something wet sat on them. Only the coins from the Trust's accounts. The rest are fine.",
         "a2": "And the Trust's ledger doesn't balance. Every season, more goes out than comes in. Out where? There's nowhere to send it but down."
       }
@@ -431,12 +431,12 @@
       "title": "Warn the Keep",
       "lines": {
         "a0": "You want something in the Chronicle. Everyone does, lately. Most of them want the word \"triumph\".",
-        "a1": "You lay it out: the manifest, the roster, the letter signed P., the mirror's broken line. \"Break no—\".",
-        "a2": "No, or now. A crack's width between them.| And you want me to write that the Keep has been wrong for three hundred years.",
+        "a1": "You lay it out: the manifest, the roster, the letter signed P., the mirror's broken line. \"DO NOT BREAK\".",
+        "a2": "Do not Break, huh?| And you want me to write that the Keep has been wrong for three hundred years.",
         "a3": "If I write it, the Guild will read it. They won't stop. But people will know someone said it.",
         "warn0": "Then it's written. In my own hand, so nobody can say a clerk did it.",
         "warn1": "I read it. Four heads are loose already and the fifth echo is falling in on itself. Do you want her to wake with no one at the door?| The Guild goes on. But I'll have the shelters dug.",
-        "wait": "Sure is a luxury, Keeper. Come back when you can't afford it."
+        "wait": "Must be a luxury, Keeper. Come back when you can't afford it."
       },
       "choices": {
         "a3": [

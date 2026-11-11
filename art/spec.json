@@ -1,6 +1,6 @@
 {
  "game": "treasure_dice",
- "count": 738,
+ "count": 739,
  "entries": [
   {
    "key": "heroes/barbarian_human_male",
@@ -4587,6 +4587,14 @@
    "group": "scene:cellar",
    "name": "The Training Cellar — boss",
    "subject": "a big round brick-vaulted cask hall under a castle, an enormous barrel the size of a cottage on its side at the back, a ring of straw bales around an open sparring circle chalked on the flagstones, lanterns on chains overhead",
+   "anchor": false
+  },
+  {
+   "key": "scenes/cellar_victory",
+   "kind": "scene",
+   "group": "scene:cellar",
+   "name": "The Training Cellar — victory",
+   "subject": "the brick-vaulted cask hall under a castle just after a practice bout, calm and triumphant: a knocked-over straw sparring dummy in the chalked circle, a dented brass thimble helmet lying on the flagstones, a small open strongbox glinting with coins, golden lantern light streaming down a stone stair from an open door above, no fire, no lava",
    "anchor": false
   },
   {
