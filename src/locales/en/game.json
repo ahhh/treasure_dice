@@ -1165,6 +1165,40 @@
     }
   },
   "monsters": {
+    "cellarRat": {
+      "name": "Cellar Rat",
+      "actions": [
+        {
+          "name": "Nip"
+        },
+        {
+          "name": "Pilfer"
+        }
+      ],
+      "flavor": "Fat on the Keep's cheese, and fond of anything that rolls."
+    },
+    "oldCooper": {
+      "name": "Old Cooper",
+      "actions": [
+        {
+          "name": "Hoop Slam"
+        },
+        {
+          "name": "Barrel Roll"
+        },
+        {
+          "name": "Straw Patch"
+        },
+        {
+          "name": "Wobble"
+        }
+      ],
+      "boss": {
+        "title": "Sparring Partner of the Keep",
+        "intro": "Hoops creak. A tower of ale barrels lifts a padded sword and salutes."
+      },
+      "flavor": "The Keep's trainers built him from spare casks. He has knocked down every recruit since, very politely."
+    },
     "sootGoblin": {
       "name": "Soot Goblin",
       "actions": [
@@ -4441,27 +4475,27 @@
   "tutorialRooms": {
     "2,4": {
       "name": "Cellar Stair",
-      "text": "Steps lead down from the Lantern Keep into the training cellar. The Keep keeps it stocked with soot goblins for practice. Mostly."
+      "text": "Steps lead down from the Lantern Keep into the training cellar, past racks of practice swords and sacks of flour. The Keep keeps it stocked with rats for practice. Mostly on purpose."
     },
     "2,3": {
-      "name": "Ash Tunnel",
-      "text": "Ash drifts like grey snow. Somewhere ahead, a goblin is counting stolen dice out loud, badly."
+      "name": "Barrel Row",
+      "text": "Ale casks line both walls under a vaulted ceiling. Somewhere ahead, something small is rolling dice across the flagstones."
     },
     "2,2": {
-      "name": "Smelting Floor",
-      "text": "Two soot goblins look up from a pile of dice. They do not look pleased to see you."
+      "name": "Sparring Floor",
+      "text": "Two cellar rats look up from a nest of stolen dice in the sawdust. They do not look pleased to see you."
     },
     "1,2": {
-      "name": "Smith's Hoard",
-      "text": "A dented strongbox sits under a workbench. Somebody forgot to lock it."
+      "name": "Quartermaster's Store",
+      "text": "A dented strongbox sits under a shelf of cheese wheels. Somebody forgot to lock it."
     },
     "2,1": {
-      "name": "Sigil Kiln",
-      "text": "A sigil-key glows on a plinth. The door beyond it is sealed with the same mark."
+      "name": "Sigil Shelf",
+      "text": "A sigil-key glows on a wine rack. The door beyond it is sealed with the same mark."
     },
     "2,0": {
-      "name": "The Practice Forge",
-      "text": "An old forge-engine, kept running as a sparring partner, lifts its hammer. Today it is set to \"gentle\"."
+      "name": "The Old Cask Hall",
+      "text": "A tower of barrels and straw, built by the Keep's trainers as a sparring partner, creaks to its feet. Today it is set to \"gentle\"."
     }
   },
   "format": {
@@ -4475,7 +4509,7 @@
   "themes": {
     "tutorial": {
       "name": "The Training Cellar",
-      "objective": "take the Boss Sigil and beat the practice forge"
+      "objective": "take the Boss Sigil and beat Old Cooper"
     },
     "finale": {
       "objective": "end the Dragon Queen's reign",

@@ -1,11 +1,11 @@
 /**
- * The guided first dungeon: a fixed, hand-built map in the Cinder Vaults that
+ * The guided first dungeon: a fixed, hand-built map in the cellar under the Keep that
  * walks a level-1 party through every basic beat once — movement, a fight,
  * treasure, the Boss Sigil and a (gentle) boss — and ends with level 2.
  *
  *            (2,0) boss
  *              │ sigil door
- *            (2,1) Sigil Kiln
+ *            (2,1) Sigil Shelf
  *              │
  *   (1,2) ── (2,2) first fight
  *  treasure    │
@@ -35,7 +35,7 @@ export function buildTutorialMap(): DungeonMap {
   const mk = (k: string, type: RoomType, scene: string, extra: Partial<Room> = {}): Room => {
     const [x, y] = k.split(',').map(Number);
     const at = (f: string) => ref('game', ['tutorialRooms', k, f]);
-    const r: Room = { key: k, x, y, type, name: resolveRef(at('name')), text: resolveRef(at('text')), nameRef: at('name'), textRefs: [at('text')], exits: {}, tags: [], art: `scenes/cinder_${scene}`, ...extra };
+    const r: Room = { key: k, x, y, type, name: resolveRef(at('name')), text: resolveRef(at('text')), nameRef: at('name'), textRefs: [at('text')], exits: {}, tags: [], art: `scenes/cellar_${scene}`, ...extra };
     rooms[k] = r;
     return r;
   };
@@ -44,15 +44,15 @@ export function buildTutorialMap(): DungeonMap {
     rooms[b].exits[OPPOSITE[dir]] = { to: a, lock };
   };
 
-  mk(TUT.entrance, 'entrance', 'corridor');
+  mk(TUT.entrance, 'entrance', 'stair');
   mk(TUT.tunnel, 'corridor', 'corridor');
-  mk(TUT.fight, 'combat', 'forge',
-    { encounter: { monsters: ['sootGoblin', 'sootGoblin'], kind: 'normal', cleared: false } });
-  mk(TUT.treasure, 'treasure', 'vault',
+  mk(TUT.fight, 'combat', 'floor',
+    { encounter: { monsters: ['cellarRat', 'cellarRat'], kind: 'normal', cleared: false } });
+  mk(TUT.treasure, 'treasure', 'store',
     { loot: { gold: 1, items: ['item'], charm: true, taken: false } });
-  mk(TUT.kiln, 'key', 'vault', { eventId: 'sigilKey' });
+  mk(TUT.kiln, 'key', 'sigil', { eventId: 'sigilKey' });
   mk(TUT.boss, 'boss', 'boss',
-    { encounter: { monsters: ['forgemaster'], kind: 'boss', cleared: false } });
+    { encounter: { monsters: ['oldCooper'], kind: 'boss', cleared: false } });
 
   link(TUT.entrance, 'N', TUT.tunnel);
   link(TUT.tunnel, 'N', TUT.fight);

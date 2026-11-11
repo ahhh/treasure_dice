@@ -47,7 +47,8 @@ describe('the training cellar', () => {
     expect(exp.biome).toBe('cinder');
     expect(exp.difficulty).toBe('explorer');
     expect(exp.pos).toBe(TUT.entrance);
-    expect(exp.map.rooms[TUT.fight].encounter?.monsters).toEqual(['sootGoblin', 'sootGoblin']);
+    expect(exp.map.rooms[TUT.fight].encounter?.monsters).toEqual(['cellarRat', 'cellarRat'])
+    expect(exp.map.rooms[TUT.boss].encounter?.monsters).toEqual(['oldCooper']);
     playOut(g);
     expect(g.lastResult?.tutorial).toBe(true);
     expect(g.lastResult?.kind).toBe('won');

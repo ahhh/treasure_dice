@@ -83,8 +83,8 @@
     "corvin.round": {
       "title": "A generous stranger",
       "lines": {
-        "a0": "To the heroes of the First Door! Put the whole room on the Trust, Mistress Harrowgate.",
-        "a1": "Splendid work, truly. Every door you open is a gift to us all. Do keep it up.",
+        "a0": "To the heroes of the First Door! A round of drinks for the whole room, Mistress Harrowgate.",
+        "a1": "Splendid work, really. Every door you open is a gift to us all. Keep up the good work.",
         "a2": "Corvin's a generous man but I really can't stand him.| Something about him just rubs me the wrong way."
       }
     },
@@ -108,34 +108,34 @@
       }
     },
     "eren.trust": {
-      "title": "Somebody is paying",
+      "title": "You ever wonder who's putting the bounties on the doors below, Keeper?",
       "lines": {
         "a0": "I've been at the Guild's records after hours. Don't tell Veska. Don't tell the Guild. Don't tell anybody, actually.",
-        "a1": "Every big bounty on the things at the bottom of the Doors is sponsored by the Aldane Expeditionary Trust. Corvin Aldane. Him in the good coat.",
-        "a2": "And the Trust keeps its accounts at the same counting-house as the Due.| Somebody is paying you to break those doors, and paying my mother's neighbours to dig under them. That's the same purse.",
-        "a3": "Why is it the same purse?",
-        "a4": "Barge people drink here too. One of them says there's a boat in the Third Door, low in the water. Boxes stamped with mouths."
+        "a1": "Every big bounty on the things at the bottom of the Doors is sponsored by the Aldane Expeditionary Trust. Corvin Aldane. You know the man.",
+        "a2": "And his Trust keeps its accounts at the same counting-house as V's Due.| The money comes from the same place for you to break those doors, as it does for my mother's neighbours to dig under them. That's the same counting-house.",
+        "a3": "Just seems strange to me is all, all those funds coming from the same place.",
+        "a4": "Barge people drink here too. One of them says there's a boat in the Third Door, low in the water. That boat is filled with boxes with strange stamps all over them."
       }
     },
     "sereth.intro": {
       "title": "A healer at the Stair",
       "lines": {
-        "a0": "Sit them down. Gently.| There. What's their name?",
-        "a1": "You took a root through the shoulder. It missed everything that matters. You're very lucky, or very good.",
-        "a2": "I'm Sereth. I'm here most nights, at the foot of the Stair. The Choir sends supplies. I send them where they're needed.",
+        "a0": "Sit them down. Gently now.| There, there. What's their name?",
+        "a1": "You took a spear through the shoulder. It missed everything that matters. You're very lucky to be alive.",
+        "a2": "I'm Sereth. I'm here most nights, at the foot of the Stair. The Choir sends me supplies. I send them where they're needed.",
         "why": "Because you're bleeding.| Is there usually another reason?",
-        "what0": "A family, mostly. Soup on cold nights. A doctor who'll come to Kiln Row. A song.",
-        "what1": "They call us a cult up here. I suppose we are. And a hope, which is the part people don't like.| That she wakes.",
-        "what2": "Every people with a god who loves them gets to be a people. We had a mother once. The wardens put her to sleep and called it peace.",
+        "what0": "A family, mostly. Soup on cold nights. A doctor who'll come to Kiln Row. A song for the people to all get behind.",
+        "what1": "They call us a cult up here. I suppose we are. But we have hope, which is the part people don't like.",
+        "what2": "Every group needs a God. We had a mother once. The wardens put her to sleep and called it peace.",
         "what3": "I don't want the world to burn, Keeper. I want her to open her eyes and see us. Is that so different from what you want from your gods?",
         "insight": "(aside) He believes every word of it. And he's good at this. That shoulder will heal clean.",
-        "religion": "(aside) Five bells, one for each head. That's a devotional to Tiamat, not a healer's habit.",
+        "religion": "(aside) Five bells, one for each head. That's a devotional to Tiamat.",
         "end0": "Come and find me before you go down. I'll have something ready for your heroes.| No charge. No hymn either, if you'd rather."
       },
       "choices": {
         "a2": [
           "\"Why help us?\"",
-          "\"The Choir. The Dragon's Choir. What is it?\""
+          "\"The Choir... I've heard of the Dragon's Choir before, what is it?\""
         ],
         "what3": [
           "[Insight] Read him.",
@@ -147,72 +147,72 @@
     "ilo.freed": {
       "title": "The worker you freed",
       "lines": {
-        "a0": "You're the ones from the grove. I'm Ilo. Bet says I can sit here till I stop shaking. I've been here two days.",
-        "a1": "We carry the Due. Coin, oil. Down past where the Guild camps stop. Down to the big door, the one with no number.",
-        "a2": "And we stack it.| That's all. We stack it. Higher every season."
+        "a0": "You're the ones from the grove. I'm Ilo. Bet says I can stay here till I recover. I've been here two days already.",
+        "a1": "We carry the Due. Coin, oil, rice. Down past where the Guild camps stop. Down to the big door, the one with no number.",
+        "a2": "There we stack it. Higher and higher every season."
       }
     },
     "bet.choirCorner": {
       "title": "The corner table",
       "lines": {
-        "a0": "Dace hasn't been in. Says the well-water tastes of ink. He's right, it does.",
-        "a1": "See the corner? Grey robes. They've started drinking here. Quiet. Polite. They stop talking when your lot walks past.",
-        "a2": "Half my regulars won't go below now. The other half say the strange things prove she's desperate, and you should go faster.| I just pour."
+        "a0": "I havent seen Dace in awhile. Last thing I remember he was saying the well-water tastes of ink. He's not wrong you know, it does taste strange.",
+        "a1": "See the corner? In the grey robes. They've recently started drinking here often. Quiet. Polite. But they stop talking whenever you walk past.",
+        "a2": "Half my regulars won't even come back now. They say the strange things happening prove she's desperate.| I just pour the drinks."
       }
     },
     "eren.containment": {
       "title": "Not digging. Carrying.",
       "lines": {
-        "a0": "Sabeline at the Enchanter's had a look at that glass you brought up from the Drowned Star. Know what she said? \"It's not a weapon. It's a cradle.\"",
-        "a1": "And Ilo says they stack it. And the Trust pays the bounties.",
-        "a2": "They're not digging down there, Keeper. They're carrying. The Due goes to the Sixth Door. Somebody's building something under us, and they're paying you to clear the road.",
+        "a0": "Sabeline at the Enchanter's had a look at that glass you brought up from the Drowned Star. Know what she said? \"It's not a weapon, It's a tithe.\"",
+        "a1": "And Ilo says they are stockpiling it down there.",
+        "a2": "They're not digging down there, Keeper. They're carrying supplies. The Due goes to the Sixth Door. Somebody's building something under us, and they're paying you to clear the road.",
         "a3": "I'm done asking people. I'm going to go and look.",
         "a4": "Eren.",
-        "a5": "I'll take Tuesday. Nobody suspects a mule."
+        "a5": "I'll take Tuesday. Nobody is more trustworth than that mule."
       }
     },
     "bet.erenGone": {
       "title": "Eren didn't come back",
       "lines": {
-        "a0": "Eren took Tuesday and a crate of nothing down the Fourth Door last night. No lantern.",
-        "a1": "Said if he wasn't back in a few days I should tell you.| I'm telling you.",
-        "a2": "His candle's still lit.| Keep it that way, love."
+        "a0": "Eren went alone except for Tuesday, his mule, down the Fourth Door last night. I told him it was wreckless, but he didn't listen.",
+        "a1": "Said if he wasn't back in a few days I should tell you.| Well, I'm telling you.",
+        "a2": "His candle's still lit, and it worries me, love."
       }
     },
     "eren.rescued": {
       "title": "Eren is home",
       "lines": {
-        "a0": "Tuesday got home first. Walked the whole Stair by herself and stood outside Bet's door till somebody let her in.",
-        "a1": "They had me tied to a mirror, Keeper. They kept saying the Queen would want me whole. Like I was cargo.| I was cargo.",
-        "a2": "Anyway. I owe you a drink. I owe you a brewery.",
-        "a3": "Whatever you do next, I'm with you. Write that down, Bet.",
-        "a4": "Written."
+        "a0": "Tuesday got home first. She walked the whole Stair by herself and stood outside Bet's door till somebody let her in.",
+        "a1": "They had me tied to a mirror, Keeper. They kept saying the Queen would want me whole. Like I was cargo.| I was to be a sacrifice Keeper!",
+        "a2": "Anyway. I owe you a drink. Hell, a round for everyone, on me!",
+        "a3": "Whatever you do next, I'm with you.",
+        "a4": "Noted. Now come get your drinks."
       }
     },
     "bet.erenCaptured": {
       "title": "The candle",
       "lines": {
         "a0": "One candle on the shelf has been pinched out.",
-        "a1": "I kept his candle lit four days. I'd have kept it lit forty.",
-        "a2": "Hessa came in. Asked me if I'd pinched it. I said yes. She said her hearth-flame's still burning.| So he's alive somewhere. That's what it means. That's all it means."
+        "a1": "I kept his candle lit four days. I'd have kept it lit forty, but it went out on it's own.",
+        "a2": "Hessa came in. Asked me if I'd pinched it. I said no. She said her hearth-flame's still burning.| I think he may still be alive somewhere, only Ilmater knows in what condition. "
       }
     },
     "veska.ledger": {
       "title": "Confront Veska",
       "lines": {
-        "a0": "Keeper. If this is about Eren's hours —",
+        "a0": "Keeper. If this is about Eren's hours...",
         "a1": "You put the names on the table.",
         "a2": "...Where did you get that.",
-        "a3": "Six winters ago the Guild refused Kiln Row credit. Forty-one people died between the first snow and the thaw. I wrote them down.| I'm a registrar. I write things down.",
-        "a4": "The Choir came with grain. They asked for a tithe, and then for hands. A season's work below and the family's debt was forgiven. It was a good arrangement.| It was a good arrangement.",
+        "a3": "Six winters ago the Guild refused Kiln Row any credit. Forty-one people died between the first snow and the thaw. I wrote every name down.| I'm a registrar after all, thats what I do.",
+        "a4": "The Choir came with hardtack and bags of rice. They only asked for our voices, and then for hands. A season's work below and the family's debt was forgiven. It was a good arrangement.| An offer I couldn't refuse.",
         "a5": "What else do you want me to say?",
-        "dates": "I stopped writing them.| Not because I knew. Because I didn't want to keep writing a date and then crossing it out.",
-        "letter": "\"Keep the Keep grateful.\"| That's Aldane's hand. I've had a hundred slips from him. Splendidly. He always writes splendidly.",
+        "dates": "I stopped writing them.| Not because I didn't know. Because I didn't want to keep writing a date and then crossing it out.",
+        "letter": "\"Keep the Keep grateful.\"| That's Aldane's command. I've had a hundred different notes and guidance from them over the years.",
         "tarn": "I know where Tarn is on the list. I know where everyone is on the list.",
         "m0": "Tarn's my cousin, Veska.",
         "m1": "What do you want from me, Keeper?",
-        "help": "...Then you'll need this.| Every name. Every season. Every date I stopped writing. Keep it. I've kept it long enough.",
-        "expose": "Yes.| Yes, it does. Here. All of it.| Tell them about the winter too.",
+        "help": "...Then you'll need this.| Every name. Every season. Every date I didn't write on the official ledger. Keep it. I've kept it long enough.",
+        "expose": "Yes.| Yes, it does. Here. All of it.| But we can't leave out what our people went through. We picked the lesser of two evils, or so I thought.",
         "leave": "By morning the Provisions Office is locked, and Veska is gone."
       },
       "choices": {
@@ -232,16 +232,16 @@
       "title": "Three voices",
       "lines": {
         "a0": "Frost on the inside of the windows. The mirror behind the bar shows the room a heartbeat late. The argument has already started.",
-        "a1": "\"Break no—\". No. It says no. We have to tell the Keep. We have to stop the expeditions.",
-        "a2": "Eren would've had a lot to say about that mirror. \"Break no—\". He'd have said it means no.",
-        "a3": "You've read a cracked mirror and decided it's a curse. I've read the hymn every day of my life. She's waking because it is time.",
-        "a4": "Stop the expeditions and the Choir stops paying, and Kiln Row starves again. Warn them about that too.",
-        "a5": "And what will you do, Keeper? Leave the last door shut, with four heads already loose?",
-        "letter": "\"Keep the Keep grateful.\"| That's the Precentor's hand. He signs our hymnals.| Why would he want you grateful?",
-        "ledger": "These are — I know these names. I tended him. And her.| Why are there no return dates?",
+        "a1": "\"DO NOT BREAK\". No. It says don't do it! We have to tell the Keep. We have to stop the expeditions.",
+        "a2": "\"DO NOT BREAK\", huh. Eren would've had a lot to say about that mirror. Me, I'm not quite as sure.",
+        "a3": "You've read a cracked mirror and decided it's a curse, eh? I've read the hymn every day of my life. She's waking because it is her time, no other reason.",
+        "a4": "Stop the expeditions and the Choir stops paying, and Kiln Row starves again...",
+        "a5": "And what will you do, Keeper? Leave the last door shut, with four heads already loose and the last echo screaming?",
+        "letter": "\"Keep the Keep grateful.\"| That's the Precentor's hand. He writes all our hymnals.| Why would he want you grateful?",
+        "ledger": "These are... I know these names. I tended him. And her.| Why are there no return dates?",
         "b0": "The handwriting on the Trust slips. And on that letter. Same loops on the P. Corvin Aldane is the Precentor.",
-        "b1": "Aldane's coach left the Keep an hour ago. In a hurry. Didn't settle his tab.",
-        "b2": "The Chronicler's still up. If you want the Keep warned, that's where you write it down."
+        "b1": "Aldane's coach left the Keep an hour ago. In a hurry. The bastard never settled his tab.",
+        "b2": "The Chronicler's still up. If you want the Keep warned, that's where you should go."
       },
       "choices": {
         "a5": [
@@ -254,16 +254,16 @@
     "awaken.onlyLight": {
       "title": "The only light",
       "lines": {
-        "a0": "Every lamp in the Keep went out.| Every lamp. The tower. The Guild. The Chronicler's little reading candles.",
-        "a1": "Not mine.",
-        "a2": "I buy my oil.",
+        "a0": "Every lamp in the Keep went out.| Every lamp. Every candle. The tower. The Guild. The Chronicler's little reading candles.",
+        "a1": "Even mine, but I was able to relight the single tavern light.",
+        "a2": "Several seasons ago I bought some magic oil, it's the only thing thats working.",
         "a3": "Sit down, love. Everyone else has.",
         "a4": {
-          "scarred": "They kept me in the dark a long time, Keeper. I don't mind the dark so much now. I mind it for them.",
-          "default": "I'm handing out blankets. Tuesday's carrying the soup. Don't laugh, she's good at it."
+          "scarred": "They kept me in the dark a long time, Keeper. I don't mind the dark so much now. ",
+          "default": "I'm handing out soup. Tuesday's carrying the blankets. Don't laugh, she's good at it."
         },
-        "a5": "I sit by his stool. His flame's still burning. He's somewhere.",
-        "a6": "I've been reading names to people all night. Who went below. Who came back. They have a right to hear it from me.",
+        "a5": "I sit by his stool. His flame's out but I'm sure he's out there somewhere.",
+        "a6": "I've been reading names to people all night. Who went below. Who came back. They have a right to hear it from me. The candles no longer tell the truth.",
         "a7": {
           "doubts": "I cut the bells off. I didn't know what else to do with my hands.",
           "default": "She's awake. Someone who loves her should be there when she opens her eyes."
@@ -273,19 +273,19 @@
         "s1": "Sereth buttons his coat and goes down the Stair. He does not take a lantern.",
         "martyr": "Then that's where I'm going. Someone has to ask him why.| Pour me nothing, Bet. I'll be back for it.",
         "stay": "...Yes. All right. Yes.| Hold this. I need both hands.",
-        "r0": "I copied it off the inside of the Sixth Door. It's open, by the way. You'll want to know that.| I'll read it once. I don't think I can do it twice.",
+        "r0": "I copied it off the inside of the Sixth Door. It's open, by the way. You should know that.| I'll read it once. I don't think I can do it twice.",
         "r1": "Hush now, Mother of Five. We give you five dreams to keep. To the Red, a forge that never cools, that she may rage asleep. To the Green, a garden of the dead, that she may grow and grieve.",
         "r2": "To the Black, a drowning library, that she may hoard and never leave. To the White, a hall of mirrors, that she see no face but hers. To the Blue, a sky of falling stars, that she chase what never stirs.",
         "r3": "Light a lamp for every dream, and let the lamps burn low. Break no dream that she is dreaming. Let no lantern-bearer go behind the doors to end them.",
         "r4": "But should the dreaming fail, raise a champion at the height of power, for nothing less avails.",
         "r5": "\"Break no dream that she is dreaming.\"| No. Not now.| No.",
-        "r6": "...Right.| Who's hungry. Nobody's hungry. I'm cooking anyway.",
+        "r6": "...Right.| Who's hungry? I got some rice and fish, and lots of beer.",
         "r7": "This is a muster hall now. Everyone who wants to help, tell me. I was a quartermaster once. I can be one again."
       },
       "choices": {
         "a8": [
           "\"Below. To her.\"",
-          "\"Stay. They need a healer here more than you need him.\""
+          "\"Stay. They need a healer here more than he needs you.\""
         ]
       }
     },

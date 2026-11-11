@@ -1,6 +1,6 @@
 {
  "game": "treasure_dice",
- "count": 730,
+ "count": 738,
  "entries": [
   {
    "key": "heroes/barbarian_human_male",
@@ -2331,6 +2331,22 @@
    "anchor": false
   },
   {
+   "key": "monsters/cinder_cellarRat",
+   "kind": "sprite",
+   "group": "biome:cellar",
+   "name": "Cellar Rat",
+   "subject": "a plump grey cellar rat the size of a terrier, a dented brass thimble worn as a helmet, whiskers twitching, a stolen white die clutched in its front paws, long pink tail. Fat on the Keep's cheese, and fond of anything that rolls.",
+   "anchor": true
+  },
+  {
+   "key": "monsters/cinder_oldCooper",
+   "kind": "sprite",
+   "group": "biome:cellar",
+   "name": "Old Cooper",
+   "subject": "a big lumbering sparring golem built from stacked oak ale barrels bound with iron hoops, thick arms of knotted rope and straw-stuffed sacks, a dented upturned bucket for a head with two friendly lantern-glow eyes, a red-and-white archery target painted on its barrel chest, gripping a padded wooden practice sword and a pot-lid shield. The Keep's trainers built him from spare casks. He has knocked down every recruit since, very politely. It is a towering BOSS: monumental, imposing, filling the frame.",
+   "anchor": false
+  },
+  {
    "key": "monsters/rootbound_sporeling",
    "kind": "sprite",
    "group": "biome:rootbound",
@@ -4523,6 +4539,54 @@
    "group": "scene:starfall",
    "name": "The Starfall Ossuary — boss",
    "subject": "the End of Ages: a ruined temple adrift in a nebula, a black hole swallowing the stars",
+   "anchor": false
+  },
+  {
+   "key": "scenes/cellar_corridor",
+   "kind": "scene",
+   "group": "scene:cellar",
+   "name": "The Training Cellar — corridor",
+   "subject": "a long vaulted stone cellar passage under a castle, rows of big oak ale casks on wooden cradles along both walls, a lantern on a hook, sawdust on worn flagstones",
+   "anchor": true
+  },
+  {
+   "key": "scenes/cellar_stair",
+   "kind": "scene",
+   "group": "scene:cellar",
+   "name": "The Training Cellar — stair",
+   "subject": "a worn stone spiral stair leading down into a castle cellar, a rack of wooden practice swords and padded shields at its foot, sacks of flour, warm lantern light spilling down from the open door above",
+   "anchor": false
+  },
+  {
+   "key": "scenes/cellar_floor",
+   "kind": "scene",
+   "group": "scene:cellar",
+   "name": "The Training Cellar — floor",
+   "subject": "a wide cellar training floor of flagstones strewn with sawdust, straw sparring dummies and archery targets propped against the stone pillars, wooden practice weapons on wall racks, plenty of open floor",
+   "anchor": false
+  },
+  {
+   "key": "scenes/cellar_store",
+   "kind": "scene",
+   "group": "scene:cellar",
+   "name": "The Training Cellar — store",
+   "subject": "a cosy quartermaster's storeroom in a castle cellar: shelves of cheese wheels, hanging hams and jars, and on the floor a dented iron-bound strongbox standing open with a little gold inside",
+   "anchor": false
+  },
+  {
+   "key": "scenes/cellar_sigil",
+   "kind": "scene",
+   "group": "scene:cellar",
+   "name": "The Training Cellar — sigil",
+   "subject": "a cellar alcove of tall wooden wine racks full of dusty bottles, one small glowing golden key-shaped sigil resting on a middle shelf, a heavy oak door with iron bands at the back of the alcove",
+   "anchor": false
+  },
+  {
+   "key": "scenes/cellar_boss",
+   "kind": "scene",
+   "group": "scene:cellar",
+   "name": "The Training Cellar — boss",
+   "subject": "a big round brick-vaulted cask hall under a castle, an enormous barrel the size of a cottage on its side at the back, a ring of straw bales around an open sparring circle chalked on the flagstones, lanterns on chains overhead",
    "anchor": false
   },
   {

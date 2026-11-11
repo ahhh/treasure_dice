@@ -106,7 +106,7 @@ export function exploreScreen(): HTMLElement {
     h('div', { class: 'explore' },
       h('div', { class: 'col' },
         h('div', { class: 'room-view', style: bgStyle(firstArt(room.art, legacyRoomArt(room.type, exp.biome)), `linear-gradient(160deg, ${biome.color}55, #0b1230)`) },
-          h('span', { class: 'meter-pill', title: biome.meter.text }, `${biome.meter.icon} ${biome.meter.name} ${exp.biome === 'drowned' ? tx(exp.meter ? 'explore.meterHigh' : 'explore.meterLow') : `${exp.meter}/${biome.meter.max}`}`),
+          exp.tutorial ? null : h('span', { class: 'meter-pill', title: biome.meter.text }, `${biome.meter.icon} ${biome.meter.name} ${exp.biome === 'drowned' ? tx(exp.meter ? 'explore.meterHigh' : 'explore.meterLow') : `${exp.meter}/${biome.meter.max}`}`),
           h('span', { class: 'compass', 'aria-label': tx('explore.facing', { facing: exp.facing }) }, ARROW[exp.facing], h('span', { class: 'small', style: 'position:absolute;bottom:2px' }, exp.facing)),
           h('h1', null, roomName(room)),
           h('p', { class: 'prose', style: 'margin:0' }, roomText(room)),

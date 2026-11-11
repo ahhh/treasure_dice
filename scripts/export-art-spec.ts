@@ -29,9 +29,11 @@ for (const p of PORTRAITS) {
 
 const seenBiome = new Set<string>();
 for (const m of MONSTER_LIST) {
-  const anchor = !seenBiome.has(m.biome) && m.role !== 'boss';
-  if (anchor) seenBiome.add(m.biome);
-  out.push({ key: `monsters/${m.biome}_${m.id}`, kind: 'sprite', group: `biome:${m.biome}`, name: m.name, subject: `${m.look}. ${m.flavor}${m.role === 'boss' ? ' It is a towering BOSS: monumental, imposing, filling the frame.' : ''}`, anchor });
+  // Training Cellar monsters keep the game's art path but are painted as their own family.
+  const fam = m.tutorial ? 'cellar' : m.biome;
+  const anchor = !seenBiome.has(fam) && m.role !== 'boss';
+  if (anchor) seenBiome.add(fam);
+  out.push({ key: `monsters/${m.biome}_${m.id}`, kind: 'sprite', group: `biome:${fam}`, name: m.name, subject: `${m.look}. ${m.flavor}${m.role === 'boss' ? ' It is a towering BOSS: monumental, imposing, filling the frame.' : ''}`, anchor });
 }
 
 // Charms whose names the model kept overriding with the rarity's gold-and-gem look.
@@ -139,6 +141,18 @@ for (const [b, scenes] of Object.entries(SCENE_TEXT)) {
   for (const [s, text] of Object.entries(scenes)) {
     out.push({ key: `scenes/${b}_${s}`, kind: 'scene', group: `scene:${b}`, name: `${BIOMES[b as keyof typeof BIOMES].name} — ${s}`, subject: text, anchor: s === 'corridor' });
   }
+}
+// The Training Cellar under the Keep (src/dungeon/tutorial.ts): its own look, not the Cinder Vaults.
+const CELLAR_TEXT: Record<string, string> = {
+  corridor: 'a long vaulted stone cellar passage under a castle, rows of big oak ale casks on wooden cradles along both walls, a lantern on a hook, sawdust on worn flagstones',
+  stair: 'a worn stone spiral stair leading down into a castle cellar, a rack of wooden practice swords and padded shields at its foot, sacks of flour, warm lantern light spilling down from the open door above',
+  floor: 'a wide cellar training floor of flagstones strewn with sawdust, straw sparring dummies and archery targets propped against the stone pillars, wooden practice weapons on wall racks, plenty of open floor',
+  store: "a cosy quartermaster's storeroom in a castle cellar: shelves of cheese wheels, hanging hams and jars, and on the floor a dented iron-bound strongbox standing open with a little gold inside",
+  sigil: 'a cellar alcove of tall wooden wine racks full of dusty bottles, one small glowing golden key-shaped sigil resting on a middle shelf, a heavy oak door with iron bands at the back of the alcove',
+  boss: 'a big round brick-vaulted cask hall under a castle, an enormous barrel the size of a cottage on its side at the back, a ring of straw bales around an open sparring circle chalked on the flagstones, lanterns on chains overhead',
+};
+for (const [s, text] of Object.entries(CELLAR_TEXT)) {
+  out.push({ key: `scenes/cellar_${s}`, kind: 'scene', group: 'scene:cellar', name: `The Training Cellar — ${s}`, subject: text, anchor: s === 'corridor' });
 }
 // Room-specific scenes and corridor variants (newer art; the game falls back to the four above).
 const ROOM_TEXT: Record<string, Record<string, string>> = {

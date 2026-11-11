@@ -23,6 +23,8 @@ export interface MonsterDef {
   boss?: { curse: CurseId; phases: number; title: string; intro: string; hpMult?: number };
   /** Final-stage boss: never rolled into an ordinary echo. */
   finale?: boolean;
+  /** Training Cellar only: never rolled into an ordinary echo. */
+  tutorial?: boolean;
   /** Party level band in which it is rolled into encounters (like a CR band). Summons ignore this. */
   minLevel?: number;
   maxLevel?: number;
@@ -140,6 +142,15 @@ M({ id: 'boundEmber', biome: 'cinder', role: 'boss', rank: 'back', tags: ['eleme
   actions: [atk('flare', 1.2, 'fire', 3, { ranged: true }), save('nova', 1.1, 'fire', 'dex', 'all', 2, { telegraph: true }), hex('thorns', 'drain', 1.5)],
   boss: { curse: 'thorns', phases: 2 },
   look: 'a blazing fire elemental bound by glowing runic chains, a white-hot core and a crown of flame' });
+
+// ── The Training Cellar (tutorial only; filed under Cinder for typing, never rolled) ──
+M({ id: 'cellarRat', biome: 'cinder', role: 'skirmisher', rank: 'front', tags: ['beast'], tutorial: true,
+  actions: [atk('nip', 1, 'piercing'), hex('pilfer', 'pilfer', 1.2)],
+  look: 'a plump grey cellar rat the size of a terrier, a dented brass thimble worn as a helmet, whiskers twitching, a stolen white die clutched in its front paws, long pink tail' });
+M({ id: 'oldCooper', biome: 'cinder', role: 'boss', rank: 'front', tags: ['construct'], tutorial: true, vuln: ['fire'],
+  actions: [atk('hoopSlam', 1.1, 'bludgeoning', 3), save('barrelRoll', 0.9, 'bludgeoning', 'dex', 'all', 2, { telegraph: true }), { id: 'strawPatch', kind: 'heal', dmg: 2, target: 'self', weight: 1, phase: 2 }, hex('wobble', 'jinx', 1)],
+  boss: { curse: 'ashen', phases: 2 },
+  look: 'a big lumbering sparring golem built from stacked oak ale barrels bound with iron hoops, thick arms of knotted rope and straw-stuffed sacks, a dented upturned bucket for a head with two friendly lantern-glow eyes, a red-and-white archery target painted on its barrel chest, gripping a padded wooden practice sword and a pot-lid shield' });
 
 // ── 2. Rootbound Halls ───────────────────────────────────────────────────────
 M({ id: 'sporeling', biome: 'rootbound', role: 'minion', rank: 'front', tags: ['plant'], resist: ['poison'], maxLevel: 14,
@@ -329,7 +340,7 @@ export const MONSTER_LIST = Object.values(MONSTERS);
 
 /** A biome's monsters; with `level`, only those whose level band fits. */
 export function biomeMonsters(biome: BiomeId, bosses = false, level?: number): MonsterDef[] {
-  return MONSTER_LIST.filter((m) => m.biome === biome && !m.finale && (bosses ? m.role === 'boss' : m.role !== 'boss')
+  return MONSTER_LIST.filter((m) => m.biome === biome && !m.finale && !m.tutorial && (bosses ? m.role === 'boss' : m.role !== 'boss')
     && (level === undefined || ((m.minLevel ?? 1) <= level && level <= (m.maxLevel ?? 20))));
 }
 
