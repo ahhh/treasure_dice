@@ -4,7 +4,10 @@ import { dispatch } from '../src/app/commands.ts';
 import { autoExploreStep, autoCombatStep } from '../src/app/autoplay.ts';
 import { createHero, derive, makeItem } from '../src/rules/character.ts';
 import { Rng } from '../src/engine/rng.ts';
-import { markOffers, applyMark, heroDice, heroColour, TRAIT_LEVELS, RECOLOUR_LEVEL, DICE_COLOURS } from '../src/fortune/dicepath.ts';
+import { markOffers, applyMark, heroDice, heroColour, subclassColour, maxSignatureDice, MAX_SIGNATURE_DICE, TRAIT_LEVELS, RECOLOUR_LEVEL, DICE_COLOURS } from '../src/fortune/dicepath.ts';
+import { CLASS_MATERIAL } from '../src/fortune/materials.ts';
+import { migrate } from '../src/persistence/save.ts';
+import { SUBCLASSES } from '../src/content/subclasses.ts';
 import { newFortuneRun, startCombatTray, applyHex } from '../src/fortune/tray.ts';
 import { scoreHand } from '../src/fortune/scoring.ts';
 import type { GameState, Hero } from '../src/engine/types.ts';
@@ -50,6 +53,56 @@ describe('dice path', () => {
     const k = hero();
     applyMark(k, markOffers(k, RECOLOUR_LEVEL)[0]);
     expect(k.colour).toBeUndefined();
+  });
+
+  it('a subclass colour adds a signature die that marks can land on', () => {
+    // Eldritch Knight adds Arcane to the Fighter's Steel.
+    const h = createHero(new Rng([5, 4, 3, 2]), 'fighter', 3, { subclass: 'eldritchKnight' });
+    h.dice = undefined; h.colour = undefined; // a clean path, whatever auto-levelling picked
+    expect(subclassColour(h)).toBe('arcane');
+    expect(heroDice(h).map((d) => d.material)).toEqual(['steel', 'steel', 'arcane']);
+    expect(derive(h).diceGear.affinity).toContain('arcane');
+    // Engraves stick to it, and a recolour leaves it alone.
+    applyMark(h, { kind: 'engrave', die: 2, face: 5, mod: 'keen' });
+    applyMark(h, { kind: 'recolour', material: 'storm' });
+    const d = heroDice(h);
+    expect(d.map((x) => x.material)).toEqual(['storm', 'storm', 'arcane']);
+    expect(d[2].faces[5].mod).toBe('keen');
+    // It doesn't take one of the Dice Path's four slots.
+    expect(maxSignatureDice(d)).toBe(MAX_SIGNATURE_DICE + 1);
+    for (let i = 0; i < 3; i++) applyMark(h, { kind: 'newDie' });
+    expect(heroDice(h).length).toBe(MAX_SIGNATURE_DICE + 1);
+    // Switching subclass repaints that die (marks kept); a colourless subclass drops it.
+    h.choices.subclass = ['arcaneArcher'];
+    expect(heroDice(h)[2]).toMatchObject({ material: 'arcane', sub: true });
+    h.choices.subclass = ['champion'];
+    expect(heroDice(h).some((x) => x.sub)).toBe(false);
+    expect(derive(h).diceGear.affinity).not.toContain('arcane');
+    // Below level 3 there is no subclass, so no extra die.
+    expect(heroDice(hero(2)).length).toBe(2);
+  });
+
+  it('every dice colour belongs to at least two classes once subclasses count', () => {
+    const by = new Map<string, Set<string>>();
+    const add = (m: string, c: string) => { if (!by.has(m)) by.set(m, new Set()); by.get(m)!.add(c); };
+    for (const [c, m] of Object.entries(CLASS_MATERIAL)) add(m, c);
+    for (const [c, list] of Object.entries(SUBCLASSES)) for (const s of list) if (s.dice) { expect(s.dice).not.toBe(CLASS_MATERIAL[c as keyof typeof CLASS_MATERIAL]); add(s.dice, c); }
+    for (const m of DICE_COLOURS) expect(by.get(m)?.size ?? 0, m).toBeGreaterThanOrEqual(2);
+  });
+
+  it('old saves lose Frost: heroes go back to their colour, stray Frost dice are repainted', () => {
+    const g = newGame(1, 'legacy', 'FROST');
+    const h = g.roster[0];
+    h.colour = 'frost' as never;
+    h.dice = [{ material: 'frost' as never, faces: [] }];
+    // A run saved mid-expedition: one Frost die of the hero's, one unowned (a Frost Die boon).
+    const bag = [{ uid: 'a', material: 'frost', faces: [], owner: h.id }, { uid: 'b', material: 'frost', faces: [] }];
+    g.expedition = { fortune: { bag, charms: [] } } as never;
+    migrate(g);
+    expect(h.colour).toBeUndefined();
+    expect(h.dice![0].material).toBe(heroColour(h));
+    expect(bag[0].material).toBe(heroColour(h));
+    expect(bag[1].material).toBe('storm');
   });
 
   it('marks permanently reshape signature dice', () => {

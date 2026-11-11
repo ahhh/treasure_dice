@@ -11,7 +11,7 @@
  * Words: game.json → subclasses.<classId>.<subclassId>: name, summary,
  * resources.<id>.name and features.<featureId>.{name,text}.
  */
-import type { Ability, ClassId, Hero } from '../engine/types.ts';
+import type { Ability, ClassId, Hero, Material } from '../engine/types.ts';
 import { bindNamed, CLASSES, type FeatureDef, type ResourceDef } from './classes.ts';
 import { text } from '../i18n/index.ts';
 import { SUBCLASS_DATA } from './subclassData.ts';
@@ -26,6 +26,8 @@ export interface SubclassSpec {
   source: string;
   /** The class's SRD subclass: the default for heroes who never chose. */
   srd?: boolean;
+  /** A second dice colour: one extra signature die of it, and +1 Mult on it like the class colour. */
+  dice?: Material;
   resources?: PoolSpec[];
   levels: Record<number, Omit<FeatureDef, 'name' | 'text'>[]>;
 }

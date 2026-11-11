@@ -234,7 +234,7 @@ const T = (id: string, price: number, rarity: Rarity, trinket: TrinketMods, shop
   T('gamblersPurse', 150, 'common', { tokens: ['fateCoin'] }, 1),
   T('encoreHourglass', 700, 'rare', { tokens: ['encore'] }, 3),
   T('boneCirclet', 150, 'common', { affinity: ['bone'] }, 1),
-  T('fourWinds', 700, 'rare', { affinity: ['ember', 'frost', 'storm'] }, 2),
+  T('fourWinds', 700, 'rare', { affinity: ['ember', 'verdant', 'storm'] }, 2),
   T('twinRing', 400, 'uncommon', { hand: { hands: ['pair', 'twoPair'], mult: 3 } }, 1),
   T('threesBracelet', 450, 'uncommon', { hand: { hands: ['three', 'fullHouse'], mult: 4 } }, 2),
   T('starweave', 1000, 'rare', { hand: { hands: ['straight', 'straightSet'], xmult: 1.5 } }, 3),
@@ -354,7 +354,7 @@ const LG = (id: string, base: string | 'trinket', level: number, mods: LegendMod
   LG('ladyLuck', 'rapier', 1, { hand: { hands: ['high'], mult: 4 } }, 'a slender rapier with a swept gold hilt shaped like a coiled ribbon, a single ivory six-sided die set into the pommel, a red tassel'),
   LG('spellthiefKris', 'dagger', 2, { attackAbility: 'spell' }, 'a wavy-bladed kris dagger whose flame-shaped blade is etched with faintly glowing violet arcane circles, a silver hilt wrapped in indigo cord'),
   LG('bloodCleaver', 'greataxe', 4, { bloodied: 0.3, lifesteal: 0.05, ac: -1 }, 'a huge, crude two-handed cleaver-axe of black iron, a single broad slab of a blade with a jagged edge and red veins glowing in the metal, a long bandaged grip'),
-  LG('frostbrand', 'longsword', 6, { onHit: [{ dice: '1d6', type: 'cold' }], resist: ['fire'], affinity: ['frost'] }, 'a straight longsword whose blade is clear blue ice-crystal with frost creeping along the edge, a silver crossguard shaped like snowflake points, cold mist trailing from it'),
+  LG('frostbrand', 'longsword', 6, { onHit: [{ dice: '1d6', type: 'cold' }], resist: ['fire'], affinity: ['storm'] }, 'a straight longsword whose blade is clear blue ice-crystal with frost creeping along the edge, a silver crossguard shaped like snowflake points, cold mist trailing from it'),
   LG('starshotBow', 'longbow', 7, { hand: { hands: ['straight', 'straightSet'], xmult: 1.5 }, init: 2 }, 'an elegant white-wood longbow with golden tips curled like crescent moons, a string of faint starlight, tiny stars dotted along the limbs'),
   LG('twinGale', 'scimitar', 8, { minAttacks: 2, dmgPct: -0.15 }, 'a single clearly visible curved scimitar shown whole and diagonally: a broad, strongly curved pale jade-green steel blade, a gold crossguard and a wrapped grip, a short green ribbon at the pommel, with a faint translucent after-image of the same blade offset just behind it like a gust of wind'),
   LG('dragonfang', 'greatsword', 9, { bossDmgPct: 0.25, init: -2 }, 'an enormous, absurdly broad and thick greatsword taller than a man, a plain heavy slab of dark iron with a dragon tooth set into the guard, worn leather grip'),
@@ -390,7 +390,7 @@ const LG = (id: string, base: string | 'trinket', level: number, mods: LegendMod
   LG('hellfireContract', 'trinket', 14, { dmgPct: 0.12, spellDc: 1, hpPct: -0.15 }, 'a rolled black parchment contract sealed with a red wax seal shaped like a horned skull, edges smouldering with tiny flames, abstract marks only'),
   LG('hollowEye', 'trinket', 16, { critRange: 1, spellDc: 1, hpPct: -0.1 }, 'a withered amber-gold eyeball set in a black iron claw pendant, its slit pupil glowing violet'),
   LG('robeArchmagi', 'trinket', 18, { unarmoredBase: 15, spellDc: 2 }, 'a folded flowing robe of white and silver silk with glowing arcane sigil embroidery along the hems, faint light rising from it'),
-  LG('dragonOrb', 'trinket', 20, { affinity: ['ember', 'verdant', 'shadow', 'frost', 'storm'] }, 'a crystal orb held in a gold dragon-claw stand, five swirling coloured mists inside it: red, green, black, white and blue'),
+  LG('dragonOrb', 'trinket', 20, { affinity: ['ember', 'verdant', 'shadow', 'storm'] }, 'a crystal orb held in a gold dragon-claw stand, five swirling coloured mists inside it: red, green, black, white and blue'),
 ].forEach(add);
 
 export const LEGENDARIES: ItemDef[] = Object.values(ITEMS).filter((d) => d.legend);

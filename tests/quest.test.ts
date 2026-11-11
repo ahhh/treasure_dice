@@ -210,8 +210,8 @@ describe('the Queen\'s Due', () => {
     party[0].classId = 'monk';
     expect(hymnColour(g, party)).toBe('storm');
     expect(dispatch(g, { type: 'setHymn', colour: 'steel' }).ok).toBe(false);
-    expect(dispatch(g, { type: 'setHymn', colour: 'frost' }).ok).toBe(true);
-    expect(hymnColour(g, party)).toBe('frost');
+    expect(dispatch(g, { type: 'setHymn', colour: 'verdant' }).ok).toBe(true);
+    expect(hymnColour(g, party)).toBe('verdant');
   });
 
   it('every rumor resolves, and investigative ones open leads', () => {

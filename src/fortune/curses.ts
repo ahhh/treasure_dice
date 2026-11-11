@@ -34,6 +34,6 @@ export const CURSES = textTable<Record<CurseId, CurseDef>, 'name' | 'text'>('gam
   gravity: { id: 'gravity', debuff: (d) => d.value >= 5 },
   hunger: { id: 'hunger', handSizeDelta: -2 },
   silence: { id: 'silence', rerollDelta: -1 },
-  chromatic: { id: 'chromatic', debuff: (d) => ['ember', 'verdant', 'shadow', 'frost', 'storm'].includes(d.material), multFactor: 0.75 },
+  chromatic: { id: 'chromatic', debuff: (d) => ['ember', 'verdant', 'shadow', 'storm'].includes(d.material), multFactor: 0.75 },
   judgement: { id: 'judgement', repeatPenalty: true },
 });

@@ -212,7 +212,7 @@
       "premise": "An astronomers' library sank beneath an inverted tide. Brass pumps still move the water between wings.",
       "meter": {
         "name": "Water",
-        "text": "Pump levers raise or lower the water. Low water opens flooded passages; high water gives Storm and Frost dice +2 Mult but foes resist cold."
+        "text": "Pump levers raise or lower the water. Low water opens flooded passages; high water gives Storm dice +2 Mult but foes resist cold."
       },
       "rooms": {
         "corridor": [
@@ -771,7 +771,7 @@
     },
     "fourWinds": {
       "name": "Band of the Four Winds",
-      "text": "Ember, Frost and Storm dice count as your colour."
+      "text": "Ember, Verdant and Storm dice count as your colour."
     },
     "twinRing": {
       "name": "Ring of Twin Fortune",
@@ -880,7 +880,7 @@
     },
     "frostbrand": {
       "name": "Frost Brand",
-      "text": "+1d6 cold on hit; resistance to fire; Frost dice count as your colour.",
+      "text": "+1d6 cold on hit; resistance to fire; Storm dice count as your colour.",
       "legend": {
         "lore": "Forged in a glacier's heart, it sheds pale light and puts out flames."
       }
@@ -1104,7 +1104,7 @@
     },
     "dragonOrb": {
       "name": "Orb of Dragonkind",
-      "text": "Ember, Verdant, Shadow, Frost and Storm dice all count as your colour.",
+      "text": "Ember, Verdant, Shadow and Storm dice all count as your colour.",
       "legend": {
         "lore": "Five dragon souls swirl inside. They do not agree on anything, except you."
       }
@@ -3777,10 +3777,6 @@
       "name": "Ember",
       "text": "Sorcerer affinity."
     },
-    "frost": {
-      "name": "Frost",
-      "text": "When scored: +8 chips."
-    },
     "verdant": {
       "name": "Verdant",
       "text": "Druid & Ranger affinity."
@@ -3876,10 +3872,6 @@
     "loaded": {
       "name": "Loaded Die",
       "text": "Rolls twice, keeps the higher."
-    },
-    "frost": {
-      "name": "Frost Die",
-      "text": "+8 chips whenever it scores."
     },
     "nine": {
       "name": "Ninefold Die",
@@ -3991,7 +3983,7 @@
     },
     "chromatic": {
       "name": "Chromatic Dominion",
-      "text": "Ember, Verdant, Shadow, Frost and Storm dice are debuffed, and Mult is ×0.75."
+      "text": "Ember, Verdant, Shadow and Storm dice are debuffed, and Mult is ×0.75."
     },
     "judgement": {
       "name": "Judgement",

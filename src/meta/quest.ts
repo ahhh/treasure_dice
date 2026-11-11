@@ -184,7 +184,7 @@ export function tend(g: GameState): string | null {
 // ── expedition hooks ────────────────────────────────────────────────────────
 
 /** The colours Chromatic Dominion debuffs: the only ones the Silenced Hymn can spare. */
-export const CHROMATIC = ['ember', 'verdant', 'shadow', 'frost', 'storm'] as const;
+export const CHROMATIC = ['ember', 'verdant', 'shadow', 'storm'] as const;
 export type Chromatic = typeof CHROMATIC[number];
 
 /**

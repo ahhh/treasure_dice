@@ -116,6 +116,7 @@ function validate(g: GameState): string | null {
 
 import { migrateQuest } from '../meta/quest.ts';
 import { newCharm, omenId } from '../fortune/charms.ts';
+import { heroColour } from '../fortune/dicepath.ts';
 
 /** Schema migrations live here as the format evolves. */
 export function migrate(g: GameState): GameState {
@@ -132,5 +133,30 @@ export function migrate(g: GameState): GameState {
     for (const [hand, n] of Object.entries(f.omens)) for (let i = 0; i < (n ?? 0); i++) f.charms.push(newCharm(omenId(hand as HandType)));
     delete f.omens;
   }
+  dropFrost(g);
   return g;
+}
+
+/**
+ * Frost dice were removed. Heroes who took Frost on the Dice Path go back to their
+ * class colour; any other Frost die (bag, boon offers) becomes its owner's colour, else Storm.
+ */
+function dropFrost(g: GameState): void {
+  const isFrost = (m: unknown) => m === 'frost';
+  const heroes = [...g.roster, ...(g.recruits ?? [])];
+  for (const h of heroes) {
+    if (isFrost(h.colour)) delete h.colour;
+    for (const d of h.dice ?? []) if (isFrost(d.material)) d.material = heroColour(h);
+  }
+  const colourOf = (owner: unknown) => { const h = heroes.find((x) => x.id === owner); return h ? heroColour(h) : 'storm'; };
+  const walk = (v: unknown): void => {
+    if (!v || typeof v !== 'object') return;
+    if (Array.isArray(v)) { v.forEach(walk); return; }
+    const o = v as Record<string, unknown>;
+    if (isFrost(o.material)) o.material = colourOf(o.owner);
+    Object.values(o).forEach(walk);
+  };
+  walk(g.expedition);
+  const q = g.profile.quest;
+  if (q && isFrost(q.hymn)) delete q.hymn;
 }

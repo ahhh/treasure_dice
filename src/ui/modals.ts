@@ -132,7 +132,8 @@ export function levelUpModal(id: string): HTMLElement {
     const sc = subclassById(hero.classId, o);
     if (!sc) return '';
     const plan = Object.entries(sc.levels).map(([l, fs]) => tx('modals.subclassLevelPlan', { level: l, names: fs.map((f) => f.name).join(', ') })).join(' · ');
-    return `${sc.summary} ${plan}`;
+    const dice = sc.dice ? ` ${tx('modals.subclassDice', { name: MATERIALS[sc.dice].name })}` : '';
+    return `${sc.summary}${dice} ${plan}`;
   };
   const choiceText = (o: string, kind = '') => (kind === 'subclass' ? subText(o) : '') || (FIGHTING_STYLES[o]?.text ?? METAMAGIC[o]?.text ?? INVOCATIONS[o]?.text ?? EPIC_BOONS[o]?.text ?? '');
   const sheetSelect = (val: string, on: (v: string) => void, opts: [string, string][]) => h('select', { style: 'background:#0b1230;color:inherit;border:1px solid #556;border-radius:4px;padding:4px', on: { change: (e: Event) => on((e.target as HTMLSelectElement).value) } }, ...opts.map(([v, l]) => h('option', { value: v, selected: v === val }, l)));

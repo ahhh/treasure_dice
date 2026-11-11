@@ -240,6 +240,9 @@ export function derive(hero: Hero): Derived {
   const jack = hero.classId === 'bard' && L >= 2;
   const proficient = new Set<Skill>(hero.skillProfs);
   const diceGear: Derived['diceGear'] = { affinity: [], hands: [], startDice: [], tokens: [], openingWild: 0 };
+  // The subclass's second colour scores like the class colour (its die comes from heroDice()).
+  const subColour = subclassOf(hero)?.dice;
+  if (subColour) diceGear.affinity.push(subColour);
   let tricks = 1 + (hero.expertise.length ? 1 : 0);
   const skillBonus: Partial<Record<Skill, number>> = {};
   const handSources: [string, LegendMods | undefined][] = [...items.map((inst) => [ITEMS[inst.defId].name, gearMods(inst)] as [string, LegendMods | undefined]), ...featList.filter((f) => f.mods).map((f) => [f.name, f.mods] as [string, LegendMods]), ...hero.feats.filter((id) => FEATS[id]?.mods).map((id) => [FEATS[id].name, FEATS[id].mods] as [string, LegendMods])];

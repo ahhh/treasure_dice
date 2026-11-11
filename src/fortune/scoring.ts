@@ -127,7 +127,6 @@ export function scoreHand(inp: ScoreInput): ScoreOutput {
     // Signature-die traits only wake for their owner.
     const own = !!d.owner && d.owner === inp.actor.heroId;
     if (own && d.trait === 'kindred') apply({ mult: 2 }, 'Kindred', { dieIndex: di });
-    if (d.material === 'frost') apply({ chips: 8 }, 'Frost', { dieIndex: di });
     if (d.material === 'gold') apply({ doubloons: 1 }, 'Gold', { dieIndex: di });
     if (d.material === 'glass') {
       apply({ xmult: 2 }, 'Glass', { dieIndex: di });

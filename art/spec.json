@@ -1,6 +1,6 @@
 {
  "game": "treasure_dice",
- "count": 718,
+ "count": 730,
  "entries": [
   {
    "key": "heroes/barbarian_human_male",
@@ -3227,6 +3227,90 @@
    "anchor": false
   },
   {
+   "key": "charms/omen_high",
+   "kind": "icon",
+   "group": "charm:omen",
+   "name": "Omen of the Lone Star",
+   "subject": "a single bright five-pointed star shining alone above a small dark hill, nothing else in the sky. The emblem glows inside a round violet glass fortune token with a polished silver rim and a small silver hanging loop at the top."
+  },
+  {
+   "key": "charms/omen_pair",
+   "kind": "icon",
+   "group": "charm:omen",
+   "name": "Omen of the Twins",
+   "subject": "two identical white swallows flying side by side, wingtips almost touching, mirror images of each other. The emblem glows inside a round violet glass fortune token with a polished silver rim and a small silver hanging loop at the top."
+  },
+  {
+   "key": "charms/omen_twoPair",
+   "kind": "icon",
+   "group": "charm:omen",
+   "name": "Omen of the Mirror",
+   "subject": "two pale crescent moons facing each other across a thin glowing vertical line, the right one an exact reflection of the left, small and fully contained inside the token glass. The emblem glows inside a round violet glass fortune token with a polished silver rim and a small silver hanging loop at the top."
+  },
+  {
+   "key": "charms/omen_three",
+   "kind": "icon",
+   "group": "charm:omen",
+   "name": "Omen of the Triad",
+   "subject": "three interlocking gold rings arranged in a triangle, all three linked together. The emblem glows inside a round violet glass fortune token with a polished silver rim and a small silver hanging loop at the top."
+  },
+  {
+   "key": "charms/omen_straight",
+   "kind": "icon",
+   "group": "charm:omen",
+   "name": "Omen of the Road",
+   "subject": "a pale winding road running from the bottom of the token up to a bright horizon, flat fields either side. The emblem glows inside a round violet glass fortune token with a polished silver rim and a small silver hanging loop at the top."
+  },
+  {
+   "key": "charms/omen_set",
+   "kind": "icon",
+   "group": "charm:omen",
+   "name": "Omen of the Banner",
+   "subject": "a small swallow-tailed pennant flag on a short pole, painted INSIDE the token glass and fully contained by the silver rim, the cloth plain with no symbols; nothing sticks out of the token. The emblem glows inside a round violet glass fortune token with a polished silver rim and a small silver hanging loop at the top."
+  },
+  {
+   "key": "charms/omen_fullHouse",
+   "kind": "icon",
+   "group": "charm:omen",
+   "name": "Omen of the Hearth",
+   "subject": "a small stone hearth with a warm crackling fire, a cooking pot hanging above the flames. The emblem glows inside a round violet glass fortune token with a polished silver rim and a small silver hanging loop at the top."
+  },
+  {
+   "key": "charms/omen_four",
+   "kind": "icon",
+   "group": "charm:omen",
+   "name": "Omen of the Tower",
+   "subject": "one tall slender stone watchtower with four stacked storeys and a lit window at the top. The emblem glows inside a round violet glass fortune token with a polished silver rim and a small silver hanging loop at the top."
+  },
+  {
+   "key": "charms/omen_straightSet",
+   "kind": "icon",
+   "group": "charm:omen",
+   "name": "Omen of the Comet",
+   "subject": "a comet with a bright head and a long glowing tail streaking diagonally across the token. The emblem glows inside a round violet glass fortune token with a polished silver rim and a small silver hanging loop at the top."
+  },
+  {
+   "key": "charms/omen_five",
+   "kind": "icon",
+   "group": "charm:omen",
+   "name": "Omen of the Hoard",
+   "subject": "a heaped pile of gold coins with a few gems glinting among them. The emblem glows inside a round violet glass fortune token with a polished silver rim and a small silver hanging loop at the top."
+  },
+  {
+   "key": "charms/omen_fullSet",
+   "kind": "icon",
+   "group": "charm:omen",
+   "name": "Omen of the Crown",
+   "subject": "a regal gold crown with five points, each point tipped by a small gem. The emblem glows inside a round violet glass fortune token with a polished silver rim and a small silver hanging loop at the top."
+  },
+  {
+   "key": "charms/omen_hoard",
+   "kind": "icon",
+   "group": "charm:omen",
+   "name": "Omen of the Dragon",
+   "subject": "a small coiled dragon curled protectively around a glowing egg-shaped gem, wings folded, shown whole. The emblem glows inside a round violet glass fortune token with a polished silver rim and a small silver hanging loop at the top."
+  },
+  {
    "key": "items/simple_club",
    "kind": "icon",
    "group": "item:weapon",
@@ -3822,7 +3906,7 @@
    "kind": "icon",
    "group": "item:trinket",
    "name": "Band of the Four Winds",
-   "subject": "Band of the Four Winds — Ember, Frost and Storm dice count as your colour.",
+   "subject": "Band of the Four Winds — Ember, Verdant and Storm dice count as your colour.",
    "anchor": false
   },
   {

@@ -9,7 +9,7 @@ import { CLASSES } from '../src/content/classes.ts';
 import { PORTRAITS } from '../src/content/portraits.ts';
 import { MONSTER_LIST } from '../src/content/monsters.ts';
 import { BIOMES } from '../src/content/biomes.ts';
-import { CHARMS } from '../src/fortune/charms.ts';
+import { CHARMS, OMENS } from '../src/fortune/charms.ts';
 import { ITEMS } from '../src/content/items.ts';
 import { EVENTS } from '../src/content/events.ts';
 import { NPCS, HEAD_EYES, portraitKey, type Mood } from '../src/content/npcs.ts';
@@ -50,6 +50,25 @@ for (const c of CHARMS) {
   const anchor = !seenRarity.has(c.rarity);
   seenRarity.add(c.rarity);
   out.push({ key: `charms/${c.id}`, kind: 'icon', group: `charm:${c.rarity}`, name: c.name, subject: CHARM_ART[c.id] ?? `a magical trinket charm called "${c.name}". Its power: ${c.text.replace(/\{n\}/g, '').replace(/\(Currently.*\)/, '')}`, anchor });
+}
+
+// Omens: one emblem per omen, taken from its name. No dice or numbers: the hand name is drawn over it in the UI.
+const OMEN_ART: Record<string, string> = {
+  omen_high: 'a single bright five-pointed star shining alone above a small dark hill, nothing else in the sky',
+  omen_pair: 'two identical white swallows flying side by side, wingtips almost touching, mirror images of each other',
+  omen_twoPair: 'two pale crescent moons facing each other across a thin glowing vertical line, the right one an exact reflection of the left, small and fully contained inside the token glass',
+  omen_three: 'three interlocking gold rings arranged in a triangle, all three linked together',
+  omen_straight: 'a pale winding road running from the bottom of the token up to a bright horizon, flat fields either side',
+  omen_set: 'a small swallow-tailed pennant flag on a short pole, painted INSIDE the token glass and fully contained by the silver rim, the cloth plain with no symbols; nothing sticks out of the token',
+  omen_fullHouse: 'a small stone hearth with a warm crackling fire, a cooking pot hanging above the flames',
+  omen_four: 'one tall slender stone watchtower with four stacked storeys and a lit window at the top',
+  omen_straightSet: 'a comet with a bright head and a long glowing tail streaking diagonally across the token',
+  omen_five: 'a heaped pile of gold coins with a few gems glinting among them',
+  omen_fullSet: 'a regal gold crown with five points, each point tipped by a small gem',
+  omen_hoard: 'a small coiled dragon curled protectively around a glowing egg-shaped gem, wings folded, shown whole',
+};
+for (const c of OMENS) {
+  out.push({ key: `charms/${c.id}`, kind: 'icon', group: 'charm:omen', name: c.name, subject: `${OMEN_ART[c.id]}. The emblem glows inside a round violet glass fortune token with a polished silver rim and a small silver hanging loop at the top.` });
 }
 
 // Weapons whose names alone came out as near-duplicates.

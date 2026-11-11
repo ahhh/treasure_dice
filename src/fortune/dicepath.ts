@@ -17,6 +17,7 @@ import type { DieTrait, Face, FaceMod, Hero, HeroDie, Material } from '../engine
 import { Rng, seedState } from '../engine/rng.ts';
 import { CLASS_MATERIAL, MATERIALS, FACE_MODS, standardFaces } from './materials.ts';
 import { textTable } from '../i18n/index.ts';
+import { subclassOf } from '../content/subclasses.ts';
 
 export const TRAIT_LEVELS = [5, 10, 15, 20];
 export const NEW_DIE_LEVELS = [8, 16];
@@ -25,8 +26,8 @@ export const MAX_SIGNATURE_DICE = 4;
 export const MAX_ENGRAVED_PER_DIE = 3;
 export const HONE_FLOOR = 3;
 export const RECOLOUR_LEVEL = 3;
-/** Colours a hero can adopt at the recolour step: the class colours plus Frost (no specials like Glass or Prism). */
-export const DICE_COLOURS: Material[] = ['steel', 'sun', 'shadow', 'ember', 'frost', 'verdant', 'arcane', 'blood', 'storm'];
+/** Colours a hero can adopt at the recolour step: the class colours (no specials like Glass or Prism). */
+export const DICE_COLOURS: Material[] = ['steel', 'sun', 'shadow', 'ember', 'verdant', 'arcane', 'blood', 'storm'];
 
 /** The hero's dice colour: their class colour unless they changed it on the Dice Path. Dice of this colour earn their affinity bonus. */
 export function heroColour(hero: Pick<Hero, 'classId' | 'colour'>): Material {
@@ -48,10 +49,30 @@ export type DiceMark =
   | { kind: 'newDie' }
   | { kind: 'recolour'; material: Material };
 
-/** The hero's signature dice (a fresh copy; never mutate the result to change the hero). */
-export function heroDice(hero: Pick<Hero, 'classId' | 'dice' | 'colour'>): HeroDie[] {
+type DiceOwner = Pick<Hero, 'classId' | 'dice' | 'colour'> & Partial<Pick<Hero, 'level' | 'choices'>>;
+
+/** The second colour the hero's subclass adds, if any. */
+export function subclassColour(hero: DiceOwner): Material | undefined {
+  if (hero.level === undefined || !hero.choices) return undefined;
+  return subclassOf(hero as Pick<Hero, 'classId' | 'level' | 'choices'>)?.dice;
+}
+
+/**
+ * The hero's signature dice (a fresh copy; never mutate the result to change the hero).
+ * A subclass with a colour adds one die of it; it is appended the first time it
+ * appears and then saved with the hero's marks, recoloured if the subclass changes.
+ */
+export function heroDice(hero: DiceOwner): HeroDie[] {
   const src: HeroDie[] = hero.dice ?? [0, 1].map(() => ({ material: heroColour(hero), faces: standardFaces() }));
-  return src.map((d) => ({ material: d.material, faces: d.faces.map((f) => ({ ...f })), trait: d.trait }));
+  const sub = subclassColour(hero);
+  const out = src.filter((d) => !d.sub || sub).map((d): HeroDie => ({ material: d.sub ? sub! : d.material, faces: d.faces.map((f) => ({ ...f })), trait: d.trait, ...(d.sub ? { sub: true as const } : {}) }));
+  if (sub && !out.some((d) => d.sub)) out.push({ material: sub, faces: standardFaces(), sub: true });
+  return out;
+}
+
+/** Signature dice cap: the subclass die doesn't use up one of the Dice Path's slots. */
+export function maxSignatureDice(dice: HeroDie[]): number {
+  return MAX_SIGNATURE_DICE + (dice.some((d) => d.sub) ? 1 : 0);
 }
 
 function lowestFace(faces: Face[]): number {
@@ -89,7 +110,7 @@ export function markOffers(hero: Hero, level: number): DiceMark[] {
       return out;
     }
   }
-  if (NEW_DIE_LEVELS.includes(level) && dice.length < MAX_SIGNATURE_DICE) push({ kind: 'newDie' });
+  if (NEW_DIE_LEVELS.includes(level) && dice.length < maxSignatureDice(dice)) push({ kind: 'newDie' });
 
   const engrave = (): DiceMark | null => {
     const cands = dice.flatMap((d, di) => (d.faces.filter((f) => f.mod).length >= MAX_ENGRAVED_PER_DIE ? [] : d.faces.map((f, fi) => ({ di, fi, f })))).filter((x) => !x.f.mod);
@@ -104,7 +125,7 @@ export function markOffers(hero: Hero, level: number): DiceMark[] {
   };
   for (let guard = 0; out.length < 3 && guard < 30; guard++) push(rng.chance(0.7) ? engrave() : hone());
   // A fully walked path still offers growth: another die while there is room.
-  if (!out.length && dice.length < MAX_SIGNATURE_DICE) push({ kind: 'newDie' });
+  if (!out.length && dice.length < maxSignatureDice(dice)) push({ kind: 'newDie' });
   return out;
 }
 
@@ -128,11 +149,11 @@ export function applyMark(hero: Hero, mark: DiceMark): void {
       break;
     }
     case 'newDie':
-      if (dice.length < MAX_SIGNATURE_DICE) dice.push({ material: heroColour(hero), faces: standardFaces() });
+      if (dice.length < maxSignatureDice(dice)) dice.push({ material: heroColour(hero), faces: standardFaces() });
       break;
     case 'recolour': {
       const old = heroColour(hero);
-      for (const d of dice) if (d.material === old) d.material = mark.material;
+      for (const d of dice) if (!d.sub && d.material === old) d.material = mark.material;
       if (mark.material === CLASS_MATERIAL[hero.classId]) delete hero.colour;
       else hero.colour = mark.material;
       break;
@@ -168,13 +189,12 @@ export function markText(hero: Hero, m: DiceMark): string {
       return `Raise the ${lo} on ${dieLabel(hero, m.die)} to a ${lo + 1}. Higher pips, easier pairs.`;
     }
     case 'trait': return `${dieLabel(hero, m.die)} becomes ${TRAITS[m.trait].name}: ${TRAITS[m.trait].text}`;
-    case 'newDie': return `Add a plain ${MATERIALS[heroColour(hero)].name} die (${dice.length + 1} of ${MAX_SIGNATURE_DICE}). More of your colour in the bag means more Sets.`;
+    case 'newDie': return `Add a plain ${MATERIALS[heroColour(hero)].name} die (${dice.length + 1} of ${maxSignatureDice(dice)}). More of your colour in the bag means more Sets.`;
     case 'recolour': {
       const m2 = MATERIALS[m.material];
-      const extra = m.material === 'frost' ? ' Frost dice also add +8 chips when scored.' : '';
       return m.material === heroColour(hero)
         ? `Keep your ${m2.name} dice. ${m2.name} dice keep scoring +1 Mult for you.`
-        : `Repaint your signature dice ${m2.name}. From now on ${m2.name} dice (not ${MATERIALS[heroColour(hero)].name}) score +1 Mult for you, and new signature dice come in ${m2.name}.${extra}`;
+        : `Repaint your signature dice ${m2.name}. From now on ${m2.name} dice (not ${MATERIALS[heroColour(hero)].name}) score +1 Mult for you, and new signature dice come in ${m2.name}.`;
     }
   }
 }

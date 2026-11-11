@@ -69,7 +69,7 @@
     "sealedClearThePreviousEcho": "Sealed — clear the previous echo",
     "cleared": "Cleared ×{sigils}",
     "tiamatSlain": "Tiamat slain ×{tiamat}",
-    "finalStageALongStarfall": "Final stage: a long Starfall dungeon, and Tiamat on her throne in place of its boss. Her Chromatic Dominion curse debuffs Ember, Verdant, Shadow, Frost and Storm dice and cuts Mult to ×0.75.",
+    "finalStageALongStarfall": "Final stage: a long Starfall dungeon, and Tiamat on her throne in place of its boss. Her Chromatic Dominion curse debuffs Ember, Verdant, Shadow and Storm dice and cuts Mult to ×0.75.",
     "silencedHymnSpares": "✦ Silenced Hymn spares:",
     "length": "Length",
     "seed": "Seed",
@@ -322,7 +322,8 @@
     "traitMilestone": "a trait milestone! ",
     "thievesTools": "thieves' tools",
     "subclassAtLevel3": "{name} (at level 3)",
-    "subclassLevelPlan": "{level}: {names}"
+    "subclassLevelPlan": "{level}: {names}",
+    "subclassDice": "Dice: adds a {name} signature die, and {name} dice score +1 Mult for this hero."
   },
   "tutorial": {
     "tapDirectionsAreRelativeTo": "**Tap {REL_LABEL}.** Directions are relative to the way you face, so the same door can be Forward one moment and Left the next.",
@@ -1151,7 +1152,7 @@
     "thePartyHasFallen": "The party has fallen...",
     "heatThePartyIsBurning": "{icon} Heat {meter}: the party is burning — Ember & Steel dice +1 Mult.",
     "bloomFoesRegenerateVerdantDice": "{icon} Bloom {meter}: foes regenerate — Verdant dice +4 Chips.",
-    "highWaterStormFrostDice": "{icon} High water: Storm & Frost dice +2 Mult; foes resist cold.",
+    "highWaterStormFrostDice": "{icon} High water: Storm dice +2 Mult; foes resist cold.",
     "mirroredRoomDiceReflectionsRerolled": "{icon} Mirrored room: dice reflections — rerolled dice show their opposite on a 1 in 4.",
     "gravityWeightless1RerollEvery": "{icon} Gravity {meter}: weightless — +1 reroll every turn.",
     "helpless": "helpless",
@@ -1329,7 +1330,7 @@
     "costsGold": "{dName} costs {price} gold.",
     "serethIsnTHere": "Sereth isn't here.",
     "serethHasAlreadySeenTo": "Sereth has already seen to your heroes today.",
-    "theHymnCanOnlySpare": "The hymn can only spare Ember, Verdant, Shadow, Frost or Storm.",
+    "theHymnCanOnlySpare": "The hymn can only spare Ember, Verdant, Shadow or Storm.",
     "nobodyIsSayingThatTonight": "Nobody is saying that tonight.",
     "theMusterIsNotCalled": "The Muster is not called.",
     "noSuchTask": "No such task.",

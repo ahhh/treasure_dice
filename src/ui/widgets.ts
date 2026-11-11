@@ -47,7 +47,7 @@ export function charmEl(id: string, counter?: number, extra = ''): HTMLElement {
   const omen = def?.passive?.omen;
   if (omen) {
     return h('div', { class: `charm omen ${extra}`, title: tx('widgets.omen', { defName: def.name, text }), tabindex: 0, 'data-charm': id },
-      h('span', { class: 'omen-star' }, '✶'), h('span', { class: 'omen-hand' }, HAND_BY_ID[omen].name));
+      art(`charms/${id}`, def.name, '', '#6b4fd0'), h('span', { class: 'omen-hand' }, HAND_BY_ID[omen].name));
   }
   return h('div', { class: `charm ${def?.rarity ?? ''} ${extra}`, title: `${def?.name} (${def?.rarity}) — ${text}`, tabindex: 0, 'data-charm': id },
     art(`charms/${id}`, def?.name ?? id, '', '#5a4a1a'),

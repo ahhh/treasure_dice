@@ -125,6 +125,8 @@ export interface HeroDie {
   material: Material;
   faces: Face[];
   trait?: DieTrait;
+  /** The die a subclass grants. Its colour always follows the subclass; Dice Path marks stick to it. */
+  sub?: true;
 }
 
 export type EquipSlot = 'mainHand' | 'offHand' | 'armor' | 'trinket1' | 'trinket2';
@@ -133,7 +135,7 @@ export const EQUIP_SLOTS: EquipSlot[] = ['mainHand', 'offHand', 'armor', 'trinke
 // ── fortune (the run-only dice layer) ────────────────────────────────────────
 
 export type Material =
-  | 'bone' | 'steel' | 'sun' | 'shadow' | 'ember' | 'frost' | 'verdant' | 'arcane'
+  | 'bone' | 'steel' | 'sun' | 'shadow' | 'ember' | 'verdant' | 'arcane'
   | 'blood' | 'gold' | 'glass' | 'prism' | 'lead' | 'storm';
 
 export type FaceMod =

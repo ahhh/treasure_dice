@@ -707,7 +707,7 @@ function biomeDie(ctx: Ctx): ((d: PlayedDie) => Effect | null) | undefined {
   const exp = ctx.exp;
   if (exp.biome === 'cinder' && exp.meter >= 3) return (d) => (d.material === 'ember' || d.material === 'steel' ? { mult: 1, note: 'Forge-hot' } : null);
   if (exp.biome === 'rootbound' && exp.meter >= 3) return (d) => (d.material === 'verdant' ? { chips: 4, note: 'Bloom' } : null);
-  if (exp.biome === 'drowned' && exp.meter >= 1) return (d) => (d.material === 'storm' || d.material === 'frost' ? { mult: 2, note: tx('combatHero.highWater') } : null);
+  if (exp.biome === 'drowned' && exp.meter >= 1) return (d) => (d.material === 'storm' ? { mult: 2, note: tx('combatHero.highWater') } : null);
   return undefined;
 }
 
