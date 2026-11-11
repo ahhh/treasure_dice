@@ -244,7 +244,7 @@ describe('species feats', () => {
 });
 
 describe('every subclass finishes expeditions', () => {
-  it('parties of three subclasses (cycling species, sex and species feats) complete runs without getting stuck', () => {
+  it('parties of three subclasses (cycling species, sex and species feats) complete runs without getting stuck', async () => {
     const rng = new Rng([4, 4, 2, 2]);
     const biomes = ['cinder', 'rootbound', 'drowned', 'mirror', 'starfall'] as const;
     for (let i = 0; i < ALL.length; i += 3) {
@@ -264,6 +264,8 @@ describe('every subclass finishes expeditions', () => {
       expect(dispatch(g, { type: 'startExpedition', partyIds: g.roster.map((h) => h.id), biome, difficulty: 'standard', seed: `SUB-${i}` }).ok).toBe(true);
       const rep = autoExpedition(g, 8000);
       expect(rep.result, `L${lvl} ${trio.map((x) => `${x.c}/${x.s}`).join(' + ')} in ${biome}`).not.toBe('stuck');
+      // This loop runs for about a minute; yield so vitest's worker RPC isn't starved and doesn't time out.
+      await new Promise((r) => setImmediate(r));
     }
   }, 600000);
 });
