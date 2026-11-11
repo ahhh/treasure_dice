@@ -6,6 +6,7 @@
  * Values were calibrated with scripts/sim.ts (Monte Carlo party-vs-dungeon).
  */
 import { bindText } from '../i18n/index.ts';
+import type { BiomeId, Difficulty, GameState } from '../engine/types.ts';
 export const VITALITY = 2.5;
 
 /** Echo factor for damage that doesn't pass through a Fortune hand (reactions, riders, zones). */
@@ -73,6 +74,25 @@ export const DIFFICULTY_MOD = {
 } as const;
 
 export const DIFFICULTY_ORDER = ['explorer', 'standard', 'perilous', 'deadly'] as const;
+
+/** Difficulties open on an echo you have never broken; the rest unlock with its first clear. */
+export const BASE_DIFFICULTIES: readonly Difficulty[] = ['explorer', 'standard'];
+export type DungeonSize = 'short' | 'normal' | 'long';
+
+/** Has this echo been broken at least once (any length, any difficulty)? */
+export function echoCleared(g: GameState, biome: BiomeId): boolean {
+  return (g.profile.sigils[biome] ?? 0) > 0;
+}
+
+/** Perilous and Deadly open per echo after its first clear. */
+export function difficultyOpen(g: GameState, biome: BiomeId, d: Difficulty): boolean {
+  return BASE_DIFFICULTIES.includes(d) || echoCleared(g, biome);
+}
+
+/** Short and Long runs open per echo after its first clear. */
+export function sizeOpen(g: GameState, biome: BiomeId, s: DungeonSize): boolean {
+  return s === 'normal' || echoCleared(g, biome);
+}
 
 /** One-line description per difficulty: game.json → difficulties. */
 export const DIFFICULTY_INFO = bindText({} as Record<keyof typeof DIFFICULTY_MOD, string>, 'game', ['difficulties']);

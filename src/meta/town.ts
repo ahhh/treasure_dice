@@ -48,7 +48,7 @@ export function newGame(slot: number, mode: 'legacy' | 'story', seed = `KEEP-${D
     tutorial: { step: 0, tips: [] },
   };
   // The plan's starting trio.
-  g.roster.push(createHero(rng, 'fighter', 1, { name: tx('metaTown.alaricHeartwood'), ancestry: 'human', background: 'soldier', portrait: 'heroes/fighter_1' }));
+  g.roster.push(createHero(rng, 'fighter', 1, { name: tx('metaTown.rossHeartwood'), ancestry: 'human', background: 'soldier', portrait: 'heroes/fighter_1' }));
   g.roster.push(createHero(rng, 'cleric', 1, { name: tx('metaTown.kelseyCoppervein'), ancestry: 'dwarf', background: 'acolyte', portrait: 'heroes/cleric_1' }));
   g.roster.push(createHero(rng, 'rogue', 1, { name: tx('metaTown.pippenUnderbough'), ancestry: 'halfling', background: 'criminal', portrait: 'heroes/rogue_1' }));
   g.vault.push(makeItem(rng, 'potionHealing', 0, [], 2));

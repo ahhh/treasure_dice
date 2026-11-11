@@ -31,6 +31,12 @@ every entry in that tab. The editor covers:
   and the tutorial, one section per source file. Each string shows its key, the file and line
   that uses it and the code around it (from src/dev/ui-context.json).
 
+- **Hero names** (`game.json` → `heroNames`, editor: Game → tables → Hero names): per species,
+  female and male first names plus surname starts and ends that the game joins (“Iron” + “beard”).
+  Separate names with commas or new lines; each card shows sample names as you type. Keep every
+  species' names its own: `tests/names.test.ts` fails if two species share a first name or a
+  surname half. The starting three are named in Interface → Meta Town.
+
 Edit, then **Save** (⌘S): the JSON on disk changes, an open game tab (`npm run dev`) swaps the
 new text in without reloading, and the editor keeps your place. Commit the file as usual. Link
 straight to an entry with its id: `localhost:5180/#event:q_stalledCart`, `#evidence`,
@@ -48,6 +54,17 @@ straight to an entry with its id: `localhost:5180/#event:q_stalledCart`, `#evide
   to select the phrase). The sidebar shows ⚑ counts; the **⚑ Flagged** filter lists only entries
   with hits, **To review** only those not yet marked. Edit the JSON to tune the list: each entry
   is a case-insensitive regex and a reason.
+
+### Offline and up to date
+
+The editor needs nothing off your machine: fonts are bundled, art and text are read from the
+repo, and saves go straight to the JSON files. Once `npm install` has run, it works with no
+network. Its “Where it is used” notes (src/dev/ui-context.json) are rebuilt from the code every
+time the editor starts; `npm run text:context` rebuilds them by hand.
+
+`npm run test:ui -- editor` opens every editor entry and fails if any English string has no box,
+if the page throws, or if it requests anything from outside localhost. Run it after adding a new
+kind of text.
 
 The editor only exists as a dev server (`scripts/vite-locales.ts`, `scripts/vite-review.ts`,
 `apply: 'serve'`); it is not in the production build.

@@ -23,7 +23,7 @@ const kinds = await page.evaluate(async () => {
     try { render(); seen.result = (seen.result ?? 0) + 1; } catch (err) { errs.push(`result: ${err}`); }
     dispatch(g, { type: 'ackResult' });
     for (const h of g.roster.filter((x) => x.pendingLevel)) { app.ui.levelUp = h.id; try { render(); } catch (err) { errs.push(`levelup: ${err}`); } app.ui.levelUp = undefined; }
-    for (const tab of ['guild', 'cartographer', 'armory', 'apothecary', 'enchanter', 'training', 'vault', 'codex']) { app.ui.townTab = tab; try { render(); } catch (err) { errs.push(`town-${tab}: ${err}`); } }
+    for (const tab of ['guild', 'cartographer', 'armory', 'apothecary', 'enchanter', 'training', 'vault', 'chronicle']) { app.ui.townTab = tab; try { render(); } catch (err) { errs.push(`town-${tab}: ${err}`); } }
   }
   return { seen, errs };
 });

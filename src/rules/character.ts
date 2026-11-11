@@ -464,7 +464,7 @@ export function createHero(rng: Rng, classId: ClassId, level: number, opts: Crea
   }
   const hero: Hero = {
     id: heroUid(rng),
-    name: opts.name ?? uniqueName(rng, opts.taken ?? []),
+    name: opts.name ?? uniqueName(rng, opts.taken ?? [], ancestry, sex),
     portrait: opts.portrait ?? variant?.key ?? `heroes/${classId}_1`,
     ancestry, sex, background: bg.id, classId, level: 1, abilities,
     hpRolls: [], hp: 1, hitDice: 1,

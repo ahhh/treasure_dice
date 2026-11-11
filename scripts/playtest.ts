@@ -47,7 +47,7 @@ import { BIOME_ORDER } from '../src/content/biomes.ts';
 import { echoesUncleared } from '../src/content/story.ts';
 import { average } from '../src/engine/dice.ts';
 import { rollItem } from '../src/meta/loot.ts';
-import { DIFFICULTY_ORDER } from '../src/rules/balance.ts';
+import { DIFFICULTY_ORDER, difficultyOpen } from '../src/rules/balance.ts';
 import type { BiomeId, ClassId, Combat, Combatant, Difficulty, EquipSlot, GameState, Hero } from '../src/engine/types.ts';
 
 // ── run records ─────────────────────────────────────────────────────────────
@@ -213,6 +213,8 @@ function runSweep(j: SweepJob): RunRec {
   const g = newGame(1, 'legacy', j.seed);
   g.profile.unlockedBiomes = [...BIOME_ORDER];
   if (j.finale) for (const b of BIOME_ORDER) g.profile.sigils[b] = 1;
+  // Perilous and Deadly open after an echo's first clear: sweeps count this one as broken.
+  else if (!difficultyOpen(g, j.biome, j.difficulty)) g.profile.sigils[j.biome] = 1;
   // The Queen's Due: finish Muster tracks before the finale (--muster shelter,break,unite|all).
   if (j.finale && j.muster && j.muster !== 'none') {
     const want = j.muster === 'all' ? ['shelter', 'break', 'unite'] : j.muster.split(',');
@@ -318,7 +320,9 @@ function runCampaign(j: CampaignJob): { runs: RunRec[]; camp: CampaignRec } {
     const biome = finale ? 'starfall' : level >= 20 && unbroken ? unbroken : biomeFor(level);
     const rec = newRec('campaign', level, biome, j.difficulty, finale, party.map((h) => h.classId));
     rec.campaign = { id: j.id, attempt: attempt++ };
-    const r = dispatch(g, { type: 'startExpedition', partyIds: party.map((h) => h.id), biome, difficulty: j.difficulty, seed: `${j.seed}-${guard}`, finale });
+    // Harder tiers open per echo after its first clear, as they do for players.
+    const difficulty = finale || difficultyOpen(g, biome, j.difficulty) ? j.difficulty : 'standard';
+    const r = dispatch(g, { type: 'startExpedition', partyIds: party.map((h) => h.id), biome, difficulty, seed: `${j.seed}-${guard}`, finale });
     if (!r.ok) throw new Error(`campaign start failed: ${r.error}`);
     playExpedition(g, rec);
     runs.push(rec);

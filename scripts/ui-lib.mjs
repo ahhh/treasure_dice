@@ -13,7 +13,7 @@ import { createServer } from 'node:net';
 export const OUT = process.env.SHOTS ?? 'test-results';
 mkdirSync(OUT, { recursive: true });
 
-const freePort = () => new Promise((res, rej) => {
+export const freePort = () => new Promise((res, rej) => {
   const s = createServer();
   s.once('error', rej);
   s.listen(0, () => { const { port } = s.address(); s.close(() => res(port)); });

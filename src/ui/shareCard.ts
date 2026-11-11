@@ -13,6 +13,7 @@ import { SPECIES } from '../content/origins.ts';
 import { BIOMES, BIOME_ORDER } from '../content/biomes.ts';
 import { HEADS, FINALE_LEVEL, storyOf } from '../content/story.ts';
 import { tx } from '../i18n/index.ts';
+import { keepSummary, topThree, tripcodeOf } from '../meta/tripcode.ts';
 
 export const W = 1080, H = 1350;
 const HEAD = '"TD Digits", "Pixelify Sans", system-ui, sans-serif';
@@ -30,13 +31,7 @@ const RANKS: RankDef[] = [
   { get n() { return tx('shareCard.rank.dragonslayer'); }, get sub() { return tx('shareCard.tiamatHasFallen'); }, a: '#ffe08a', b: '#ff6bd5' },
 ];
 
-/** The Keep's three best heroes: living first, by level, clears and kills. */
-export function topThree(g: GameState): Hero[] {
-  const score = (x: Hero) => x.level * 10000 + x.history.clears * 100 + x.history.kills;
-  const alive = g.roster.filter((x) => x.status === 'alive').sort((a, b) => score(b) - score(a));
-  const fallen = g.roster.filter((x) => x.status === 'dead').sort((a, b) => score(b) - score(a));
-  return [...alive, ...fallen].slice(0, 3);
-}
+export { topThree };
 
 export function rankOf(g: GameState): number {
   if (storyOf(g).tiamat > 0) return 5;
@@ -249,7 +244,7 @@ export async function renderShareCard(game: GameState, canvas: HTMLCanvasElement
   });
 
   // Record.
-  const px = 70, py = 1080, pwid = W - 140, phh = 140;
+  const px = 70, py = 1062, pwid = W - 140, phh = 128;
   g.save();
   g.fillStyle = 'rgba(8,12,28,.7)';
   g.strokeStyle = rgba(R.a, 0.3);
@@ -262,13 +257,23 @@ export async function renderShareCard(game: GameState, canvas: HTMLCanvasElement
   ];
   cells.forEach(([v, l], i) => {
     const x = px + (pwid / 4) * (i + 0.5);
-    text(g, v, x, py + 72, { font: `600 46px ${HEAD}`, fill: v === '—' || v === '0' ? '#5d6684' : '#ffffff', maxW: pwid / 4 - 20 });
-    text(g, l.toUpperCase(), x, py + 106, { font: `600 15px ${HEAD}`, spacing: 2, fill: '#8a93b8', maxW: pwid / 4 - 20 });
+    text(g, v, x, py + 66, { font: `600 46px ${HEAD}`, fill: v === '—' || v === '0' ? '#5d6684' : '#ffffff', maxW: pwid / 4 - 20 });
+    text(g, l.toUpperCase(), x, py + 100, { font: `600 15px ${HEAD}`, spacing: 2, fill: '#8a93b8', maxW: pwid / 4 - 20 });
   });
 
+  // Codex summary.
+  const sum = keepSummary(game);
+  const codex = [
+    tx('shareCard.sumCharms', { n: sum.charms[0], total: sum.charms[1] }),
+    tx('shareCard.sumBestiary', { n: sum.monsters }),
+    tx('shareCard.sumHands', { n: sum.hands[0], total: sum.hands[1] }),
+    sum.evidence[0] ? tx('shareCard.sumEvidence', { n: sum.evidence[0], total: sum.evidence[1] }) : '',
+  ].filter(Boolean).join('  ·  ');
+  text(g, codex.toUpperCase(), W / 2, 1226, { font: `600 17px ${HEAD}`, spacing: 2, fill: '#b8bfd8', maxW: W - 140 });
+
   // Footer.
-  text(g, tx('shareCard.modeDayFallen', { mode: tx(game.mode === 'legacy' ? 'shareCard.legacy' : 'shareCard.story'), townDay: game.profile.townDay, length: game.roster.filter((x) => x.status === 'dead').length }), W / 2, 1268, { font: `italic 22px ${BODY}`, fill: '#c9cfe6' });
-  text(g, SITE, W / 2, 1300, { font: `600 16px ${HEAD}`, spacing: 4, fill: R.a, alpha: 0.8 });
+  text(g, tx('shareCard.modeDayFallen', { mode: tx(game.mode === 'legacy' ? 'shareCard.legacy' : 'shareCard.story'), townDay: game.profile.townDay, length: sum.fallen }), W / 2, 1264, { font: `italic 22px ${BODY}`, fill: '#c9cfe6' });
+  text(g, tx('shareCard.siteTrip', { site: SITE, code: tripcodeOf(sum) }), W / 2, 1300, { font: `600 18px ${HEAD}`, spacing: 3, fill: R.a, alpha: 0.9 });
   return canvas;
 }
 
@@ -296,12 +301,14 @@ export function shareModal(): HTMLElement {
   const canShare = !!(navigator.canShare && navigator.canShare({ files: [new File([''], 'x.png', { type: 'image/png' })] }));
   let timer = 0;
   const top = topThree(game);
+  const trip = h('code', { class: 'tripcode', 'data-key': 'share-trip' }, tripcodeOf(keepSummary(game)));
   return h('div', { class: 'modal-back', role: 'dialog', 'aria-modal': 'true', 'aria-label': tx('shareCard.shareCard'), on: { click: (e: Event) => { if (e.target === e.currentTarget) close(); } } },
     h('div', { class: 'win modal narrow share-sheet' },
       h('h2', null, tx('shareCard.shareYourLegends')),
       canvas,
       h('input', { class: 'field', placeholder: tx('shareCard.keeperNameOptional'), maxlength: 24, value: game.profile.keeperName ?? '', 'aria-label': tx('shareCard.keeperName'),
-        on: { input: (e: Event) => { game.profile.keeperName = (e.target as HTMLInputElement).value.trim() || undefined; persist(); clearTimeout(timer); timer = window.setTimeout(() => void renderShareCard(game, canvas), 250); } } }),
+        on: { input: (e: Event) => { game.profile.keeperName = (e.target as HTMLInputElement).value.trim() || undefined; persist(); trip.textContent = tripcodeOf(keepSummary(game)); clearTimeout(timer); timer = window.setTimeout(() => void renderShareCard(game, canvas), 250); } } }),
+      h('p', { class: 'small muted' }, tx('town.tripcode'), ' ', trip, ' ', tx('shareCard.tripcodeNote')),
       h('p', { class: 'small muted' }, top.length ? tx('shareCard.featuringLevelHeroesUpBreak', { map: top.map((x) => tx('shareCard.lv', { xName: x.name, level: x.level })).join(', ') }) : tx('shareCard.recruitSomeHeroesFirst')),
       h('div', { class: 'row', style: 'margin-top:8px' },
         h('span', { class: 'spacer' }),

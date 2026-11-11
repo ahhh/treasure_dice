@@ -43,7 +43,7 @@ export interface DlgNode {
   variant?: 'speech' | 'read' | 'head';
 }
 
-export type Where = 'tavern' | 'kilnrow' | 'muster' | 'guild' | 'chronicle' | 'cartographer' | 'armory' | 'apothecary' | 'enchanter' | 'training' | 'vault' | 'codex';
+export type Where = 'tavern' | 'kilnrow' | 'muster' | 'guild' | 'chronicle' | 'cartographer' | 'armory' | 'apothecary' | 'enchanter' | 'training' | 'vault';
 
 export interface Script {
   id: string;

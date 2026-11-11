@@ -15,7 +15,8 @@ import {
   shopItems, rosterCap, recruitCost, FACILITIES, facilityCost, enchantCost, trainingCap, trainingCost, partySuggestion, canEquip,
 } from '../meta/town.ts';
 import { randomSeed } from '../engine/rng.ts';
-import { DIFFICULTY_MOD, DIFFICULTY_ORDER, DIFFICULTY_INFO } from '../rules/balance.ts';
+import { DIFFICULTY_MOD, DIFFICULTY_ORDER, DIFFICULTY_INFO, difficultyOpen, sizeOpen } from '../rules/balance.ts';
+import { tripcode } from '../meta/tripcode.ts';
 import { exportSave } from '../persistence/save.ts';
 import { download } from './title.ts';
 import { saveGame } from '../persistence/save.ts';
@@ -37,16 +38,19 @@ import { term } from '../content/terms.ts';
 
 /** The Keep's tabs: [id, label, art]. A function so labels follow the language. */
 const allTabs = (): [string, string, string][] => ([
-  ['guild', 'town/guild'], ['tavern', 'town/tavern'], ['chronicle', 'town/door'], ['cartographer', 'town/cartographer'], ['armory', 'town/armory'],
-  ['apothecary', 'town/apothecary'], ['enchanter', 'town/enchanter'], ['training', 'town/training'], ['vault', 'town/vault'], ['codex', 'town/keep'],
+  ['cartographer', 'town/cartographer'], ['guild', 'town/guild'], ['tavern', 'town/tavern'], ['chronicle', 'town/door'], ['armory', 'town/armory'],
+  ['apothecary', 'town/apothecary'], ['enchanter', 'town/enchanter'], ['training', 'town/training'], ['vault', 'town/vault'],
 ] as const).map(([id, art]) => [id, tx(`town.tab.${id}`), art]);
 
-/** The Low Lantern appears once the guided tour is over; once Tiamat wakes it moves to the top. */
+/**
+ * The Cartographer (where every run starts) always leads the list. The Low Lantern
+ * appears once the guided tour is over; once Tiamat wakes it moves up right below.
+ */
 function tabsFor(): [string, string, string][] {
   const g = app.game!;
   const tabs = allTabs().filter(([id]) => id !== 'tavern' || tavernOpen(g));
-  if (awakened(g) && !tiamatSlain(g)) tabs.sort((a, b) => Number(b[0] === 'tavern') - Number(a[0] === 'tavern'));
-  return tabs;
+  const rank = (id: string) => (id === 'cartographer' ? 0 : id === 'tavern' && awakened(g) && !tiamatSlain(g) ? 1 : 2);
+  return tabs.sort((a, b) => rank(a[0]) - rank(b[0]));
 }
 
 // ── keeper barks: one line on the first visit after each head wakes ─────────
@@ -118,7 +122,9 @@ export function townScreen(): HTMLElement {
   return h('div', null, topbar(),
     h('div', { class: 'town' },
       h('nav', { class: 'town-nav', 'aria-label': tx('town.keepFacilities') }, ...TABS.map(([id, name]) =>
-        btn([name, id === 'guild' && pending ? h('span', { class: 'badge red', style: 'margin-left:6px' }, tx('town.levelUp', { pending })) : null, id === 'tavern' && news ? h('span', { class: 'badge red', style: 'margin-left:6px' }, '!') : null], () => { app.ui.townTab = id; render(); }, { cls: tab === id ? 'on' : '', key: `tab-${id}` }))),
+        id === 'cartographer'
+          ? btn([h('span', { class: 'adv-icon', 'aria-hidden': 'true' }, '🗺'), h('span', { class: 'adv-text' }, name, h('small', null, tx('town.startARun')))], () => { app.ui.townTab = id; render(); }, { cls: `adventure ${tab === id ? 'on' : ''}`, key: `tab-${id}`, title: tx('town.startARunTitle') })
+          : btn([name, id === 'guild' && pending ? h('span', { class: 'badge red', style: 'margin-left:6px' }, tx('town.levelUp', { pending })) : null, id === 'tavern' && news ? h('span', { class: 'badge red', style: 'margin-left:6px' }, '!') : null], () => { app.ui.townTab = id; render(); }, { cls: tab === id ? 'on' : '', key: `tab-${id}` }))),
       h('main', null,
         h('div', { class: 'town-banner', style: bgStyle(bannerKey, 'linear-gradient(135deg,#26346a,#0b1230)') }, h('h1', null, t[1])),
         keeperBark(t[0]),
@@ -128,7 +134,7 @@ export function townScreen(): HTMLElement {
 
 const TAB_RENDER: Record<string, () => HTMLElement> = {
   guild: guildTab, tavern: tavernTab, chronicle: chronicleTab, cartographer: cartTab, armory: () => shopTab('gear'), apothecary: () => shopTab('consumable'),
-  enchanter: enchantTab, training: trainingTab, vault: vaultTab, codex: codexTab,
+  enchanter: enchantTab, training: trainingTab, vault: vaultTab,
 };
 
 function heroCard(hero: Hero, opts: { onClick?: () => void; sel?: boolean; extra?: HTMLElement | null } = {}): HTMLElement {
@@ -188,8 +194,15 @@ function cartTab(): HTMLElement {
   const levels = partyHeroes.map((x) => x.level);
   const spread = levels.length ? Math.max(...levels) - Math.min(...levels) : 0;
   const tooSeasoned = levels.some((l) => l >= TUTORIAL_MAX_LEVEL);
+  // The cellar stays open after the tour (or a skipped one) while anyone is still green enough for it.
+  const cellarOpen = tutorialOn || alive.some((x) => x.level < TUTORIAL_MAX_LEVEL);
+  // Lengths and harder difficulties open per echo after its first clear.
+  const echo = finale ? null : (ui.biome as BiomeId);
+  const lockedTip = echo ? tx('town.clearEchoToUnlock', { name: BIOMES[echo].name }) : '';
+  if (echo && !difficultyOpen(g, echo, ui.difficulty)) ui.difficulty = 'standard';
+  if (echo && !sizeOpen(g, echo, ui.size)) ui.size = 'normal';
   return h('div', { class: 'col' },
-    tutorialOn ? h('div', { class: 'win tutorial-call' },
+    cellarOpen ? h('div', { class: 'win tutorial-call' },
       h('h2', null, tx('town.theTrainingCellar')),
       h('p', { class: 'prose' }, tx('town.aShortGentlePracticeDungeon')),
       tooSeasoned ? h('p', { class: 'small danger' }, tx('town.cellarTooExperienced', { level: TUTORIAL_MAX_LEVEL })) : null,
@@ -226,12 +239,19 @@ function cartTab(): HTMLElement {
           h('p', { class: 'small muted' }, `${BIOMES[ui.biome as BiomeId].meter.icon} ${BIOMES[ui.biome as BiomeId].meter.name}: ${BIOMES[ui.biome as BiomeId].meter.text}`)),
       h('div', { class: 'row' },
         h('span', null, tx('town.difficulty')),
-        ...DIFFICULTY_ORDER.map((d) => btn(tx(`town.difficultyName.${d}`), () => { ui.difficulty = d; render(); }, { cls: `small ${ui.difficulty === d ? 'on' : ''} ${d === 'deadly' ? 'deadly' : ''}`, title: DIFFICULTY_INFO[d] })),
+        ...DIFFICULTY_ORDER.map((d) => {
+          const open = !echo || difficultyOpen(g, echo, d);
+          return btn([open ? null : '🔒 ', tx(`town.difficultyName.${d}`)], () => { ui.difficulty = d; render(); }, { cls: `small ${ui.difficulty === d ? 'on' : ''} ${d === 'deadly' ? 'deadly' : ''}`, title: open ? DIFFICULTY_INFO[d] : lockedTip, disabled: !open, key: `diff-${d}` });
+        }),
       ),
-      h('div', { class: 'row', style: 'margin-top:6px' },
+      finale ? null : h('div', { class: 'row', style: 'margin-top:6px' },
         h('span', null, tx('town.length')),
-        ...(['short', 'normal', 'long'] as const).map((s) => btn(tx(`town.size.${s}`), () => { ui.size = s; render(); }, { cls: `small ${ui.size === s ? 'on' : ''}` })),
+        ...(['short', 'normal', 'long'] as const).map((s) => {
+          const open = sizeOpen(g, echo!, s);
+          return btn([open ? null : '🔒 ', tx(`town.size.${s}`)], () => { ui.size = s; render(); }, { cls: `small ${ui.size === s ? 'on' : ''}`, title: open ? undefined : lockedTip, disabled: !open, key: `size-${s}` });
+        }),
       ),
+      echo && !g.profile.sigils[echo] ? h('p', { class: 'small muted' }, lockedTip) : null,
       h('p', { class: `small ${DIFFICULTY_MOD[ui.difficulty].rank ? 'gold' : 'muted'}` }, tx('town.difficultyLine', { name: tx(`town.difficultyName.${ui.difficulty}`), info: DIFFICULTY_INFO[ui.difficulty] })),
       h('div', { class: 'row', style: 'margin-top:8px' },
         h('label', { for: 'seed' }, tx('town.seed')),
@@ -258,7 +278,8 @@ function chronicleTab(): HTMLElement {
   const best = alive.reduce((m, x) => Math.max(m, x.level), 0);
   const para = (t: string) => h('p', { class: 'prose' }, t);
   return h('div', { class: 'col' },
-    h('div', { class: 'win chronicle', 'data-tut': 'story' },
+    chronicleJumps(),
+    h('div', { class: 'win chronicle', 'data-tut': 'story', id: 'chron-story' },
       banner(`story/${PROLOGUE.id}`, PROLOGUE.title), h('div', { class: 'chapter-head' }, PROLOGUE.head), h('h2', null, PROLOGUE.title), ...PROLOGUE.text.map(para), ...notes('prologue'),
       h('div', { class: 'heads' }, ...BIOME_ORDER.map((b) => {
         const broken = (g.profile.sigils[b] ?? 0) > 0;
@@ -283,11 +304,58 @@ function chronicleTab(): HTMLElement {
         ? tx('town.allFiveEchoesAreBroken')
         : tx('town.requiresAllFiveEchoesCleared', { v: 5 - echoesUncleared(g).length, FINALE_LEVEL, v2: best || '—' })),
       story.tiamat ? [banner(`story/${EPILOGUE.id}`, EPILOGUE.title), h('div', { class: 'chapter-head', style: 'margin-top:10px' }, EPILOGUE.head), h('h3', null, EPILOGUE.title), ...EPILOGUE.text.map(para), h('p', { class: 'gold' }, tx('town.tiamatSlain2', { tiamat: story.tiamat }))] : null),
+    ...keepRecords(),
+  );
+}
+
+/** Jump links at the top of the (long) Chronicle. */
+function chronicleJumps(): HTMLElement {
+  const g = app.game!;
+  const go = (id: string) => () => document.getElementById(`chron-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const parts = ['story', 'records', ...(tavernOpen(g) ? ['journal'] : []), 'charms', 'bestiary', 'hands'];
+  return h('div', { class: 'win row chronicle-jumps' }, ...parts.map((id) => btn(tx(`town.chronicleSection.${id}`), go(id), { cls: 'small', key: `chron-jump-${id}` })));
+}
+
+/** The Keep's record and everything it has found (formerly the Codex), with the share card. */
+function keepRecords(): (HTMLElement | null)[] {
+  const g = app.game!;
+  const s = g.profile.stats;
+  const code = tripcode(g);
+  return [
+    h('div', { class: 'win', id: 'chron-records' }, h('h2', null, tx('town.records')),
+      h('table', { class: 'mini' }, ...[
+        [tx('town.stat.expeditions'), s.expeditions], [tx('town.stat.clears'), s.clears], [tx('town.stat.retreats'), s.retreats], [tx('town.stat.wipes'), s.wipes], [tx('town.stat.deaths'), s.deaths], [tx('town.stat.bestScore'), fmt(s.bestScore)],
+      ].map(([k, v]) => h('tr', null, h('th', null, String(k)), h('td', null, String(v)))))),
     h('div', { class: 'win' },
       h('h2', null, tx('town.shareYourLegends')),
       h('p', { class: 'small muted' }, tx('town.aCardWithYourThree')),
-      h('span', { 'data-tut': 'share' }, btn(tx('town.makeAShareCard'), () => openShareCard(g), { cls: 'primary', key: 'share-card' }))),
-  );
+      h('div', { class: 'row' },
+        h('span', { 'data-tut': 'share' }, btn(tx('town.makeAShareCard'), () => openShareCard(g), { cls: 'primary', key: 'share-card' })),
+        h('span', { class: 'small muted' }, tx('town.tripcode')),
+        h('code', { class: 'tripcode', 'data-key': 'tripcode' }, code),
+        btn(tx('town.copy'), () => { void navigator.clipboard?.writeText(code).then(() => toast(tx('town.copied'))); }, { cls: 'small', key: 'tripcode-copy' })),
+      h('p', { class: 'small muted' }, tx('town.tripcodeHint'))),
+    ...codexWins(),
+  ];
+}
+
+
+function codexWins(): (HTMLElement | null)[] {
+  const g = app.game!;
+  return [
+    tavernOpen(g) ? h('div', { class: 'win', id: 'chron-journal' }, h('h2', null, tx('town.journalTheQueenSDue', { length: Object.values(EVIDENCE).filter((e) => has(g, `ev:${e.id}`)).length, length2: Object.keys(EVIDENCE).length })),
+      h('div', { class: 'list' }, ...Object.values(EVIDENCE).map((e) => has(g, `ev:${e.id}`)
+        ? h('div', { class: 'item-row' }, h('div', { class: 'icon', style: 'width:56px;height:56px' }, art(e.art, e.name)), h('div', { class: 'grow' }, h('b', null, e.name), h('div', { class: 'small prose' }, e.text), awakened(g) && e.after ? h('div', { class: 'small annotation' }, `✒ ${e.after}`) : null))
+        : h('div', { class: 'item-row muted' }, h('div', { class: 'icon', style: 'width:56px;height:56px' }), h('span', null, '???'))))) : null,
+    h('div', { class: 'win', id: 'chron-charms' }, h('h2', null, tx('town.charmsFound', { charmsLength: g.profile.codex.charms.length, CHARMSLength: CHARMS.length })),
+      h('div', { class: 'charm-bar' }, ...CHARMS.map((c) => g.profile.codex.charms.includes(c.id) ? charmEl(c.id) : h('div', { class: 'charm empty', title: tx('town.undiscovered') })))),
+    h('div', { class: 'win', id: 'chron-bestiary' }, h('h2', null, tx('town.bestiary', { monstersLength: g.profile.codex.monsters.length })),
+      h('div', { class: 'cards' }, ...g.profile.codex.monsters.map((id) => MONSTERS[id]).filter(Boolean).map((m) => h('div', { class: 'item-row' },
+        h('div', { class: 'icon', style: 'width:56px;height:56px' }, art(`monsters/${m.biome}_${m.id}`, m.name)), h('div', null, h('b', null, m.name), h('div', { class: 'small muted' }, m.flavor)))))),
+    h('div', { class: 'win', id: 'chron-hands' }, h('h2', null, tx('town.hands')),
+      h('table', { class: 'mini' }, h('tr', null, h('th', null, tx('town.hand')), h('th', null, tx('town.chips')), h('th', null, tx('town.mult')), h('th', null, tx('town.perOmen'))),
+        ...HANDS.map((x) => h('tr', null, h('td', null, x.name, g.profile.codex.hands.includes(x.id) ? '' : ' ?'), h('td', { class: 'chipc' }, x.chips), h('td', { class: 'multc' }, `×${x.mult}`), h('td', { class: 'small muted' }, `+${x.lvChips} / +${x.lvMult}`))))),
+  ];
 }
 
 function shopTab(kind: 'gear' | 'consumable'): HTMLElement {
@@ -377,29 +445,6 @@ function trainingTab(): HTMLElement {
         extra: hero.level < cap && !hero.pendingLevel ? btn(tx('town.trainG', { trainingCost: trainingCost(g, hero) }), () => { if (run({ type: 'train', heroId: hero.id }).ok) { app.ui.levelUp = hero.id; render(); } }, { cls: 'small primary', disabled: g.profile.bankedGold < trainingCost(g, hero) }) : null,
       })))),
     facilityWin(),
-  );
-}
-
-function codexTab(): HTMLElement {
-  const g = app.game!;
-  const s = g.profile.stats;
-  return h('div', { class: 'col' },
-    h('div', { class: 'win' }, h('h2', null, tx('town.records')),
-      h('table', { class: 'mini' }, ...[
-        [tx('town.stat.expeditions'), s.expeditions], [tx('town.stat.clears'), s.clears], [tx('town.stat.retreats'), s.retreats], [tx('town.stat.wipes'), s.wipes], [tx('town.stat.deaths'), s.deaths], [tx('town.stat.bestScore'), fmt(s.bestScore)],
-      ].map(([k, v]) => h('tr', null, h('th', null, String(k)), h('td', null, String(v)))))),
-    tavernOpen(g) ? h('div', { class: 'win' }, h('h2', null, tx('town.journalTheQueenSDue', { length: Object.values(EVIDENCE).filter((e) => has(g, `ev:${e.id}`)).length, length2: Object.keys(EVIDENCE).length })),
-      h('div', { class: 'list' }, ...Object.values(EVIDENCE).map((e) => has(g, `ev:${e.id}`)
-        ? h('div', { class: 'item-row' }, h('div', { class: 'icon', style: 'width:56px;height:56px' }, art(e.art, e.name)), h('div', { class: 'grow' }, h('b', null, e.name), h('div', { class: 'small prose' }, e.text), awakened(g) && e.after ? h('div', { class: 'small annotation' }, `✒ ${e.after}`) : null))
-        : h('div', { class: 'item-row muted' }, h('div', { class: 'icon', style: 'width:56px;height:56px' }), h('span', null, '???'))))) : null,
-    h('div', { class: 'win' }, h('h2', null, tx('town.charmsFound', { charmsLength: g.profile.codex.charms.length, CHARMSLength: CHARMS.length })),
-      h('div', { class: 'charm-bar' }, ...CHARMS.map((c) => g.profile.codex.charms.includes(c.id) ? charmEl(c.id) : h('div', { class: 'charm empty', title: tx('town.undiscovered') })))),
-    h('div', { class: 'win' }, h('h2', null, tx('town.bestiary', { monstersLength: g.profile.codex.monsters.length })),
-      h('div', { class: 'cards' }, ...g.profile.codex.monsters.map((id) => MONSTERS[id]).filter(Boolean).map((m) => h('div', { class: 'item-row' },
-        h('div', { class: 'icon', style: 'width:56px;height:56px' }, art(`monsters/${m.biome}_${m.id}`, m.name)), h('div', null, h('b', null, m.name), h('div', { class: 'small muted' }, m.flavor)))))),
-    h('div', { class: 'win' }, h('h2', null, tx('town.hands')),
-      h('table', { class: 'mini' }, h('tr', null, h('th', null, tx('town.hand')), h('th', null, tx('town.chips')), h('th', null, tx('town.mult')), h('th', null, tx('town.perOmen'))),
-        ...HANDS.map((x) => h('tr', null, h('td', null, x.name, g.profile.codex.hands.includes(x.id) ? '' : ' ?'), h('td', { class: 'chipc' }, x.chips), h('td', { class: 'multc' }, `×${x.mult}`), h('td', { class: 'small muted' }, `+${x.lvChips} / +${x.lvMult}`))))),
   );
 }
 

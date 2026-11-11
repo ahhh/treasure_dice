@@ -1,7 +1,7 @@
 /** SRD 5.2.1 species and backgrounds (paraphrased), plus name tables. */
 import type { Ability, DamageType, Skill } from '../engine/types.ts';
 import type { Rng } from '../engine/rng.ts';
-import { textTable } from '../i18n/index.ts';
+import { lookup, textTable } from '../i18n/index.ts';
 
 export interface SpeciesDef {
   id: string;
@@ -41,30 +41,46 @@ export const BACKGROUNDS = textTable<Record<string, BackgroundDef>, 'name' | 'te
   soldier: { id: 'soldier', skills: ['athletics', 'intimidation'], abilities: ['str', 'dex', 'con'], feat: 'savageAttacker' },
 });
 
-export const FIRST_NAMES = [
-  'Alaric', 'Mira', 'Vex', 'Brannoc', 'Ysolde', 'Corvin', 'Tamsin', 'Oren', 'Kestrel', 'Ilsa', 'Davor', 'Seren',
-  'Harrow', 'Quill', 'Rook', 'Elowen', 'Garrick', 'Liesl', 'Thane', 'Nyx', 'Bastian', 'Aveline', 'Doran', 'Fen',
-  'Isolde', 'Jory', 'Kael', 'Lark', 'Magnus', 'Nell', 'Orla', 'Piety', 'Rhosyn', 'Sable', 'Tobin', 'Ula',
-  'Wren', 'Yarrow', 'Zephyr', 'Ansel', 'Brisa', 'Cato', 'Delphine', 'Emrys', 'Frey', 'Gideon', 'Hale', 'Ivo',
-];
+/** Name parts for one species (game.json → heroNames.<species>). Surnames join a start and an end. */
+interface NameParts { female: string[]; male: string[]; surnameStart: string[]; surnameEnd: string[] }
 
-export const LAST_NAMES = [
-  'Ashdown', 'Blackbriar', 'Coppervein', 'Dunmore', 'Emberly', 'Fairwind', 'Greymantle', 'Hollowell', 'Ironwood', 'Kettleburn',
-  'Larkspur', 'Mossgrave', 'Nettlefield', 'Oakhart', 'Pennywhistle', 'Quarrystone', 'Ravenscar', 'Saltmarsh', 'Thornwood', 'Underbough',
-  'Vantrell', 'Whitlock', 'Yewbrook', 'Ambervale', 'Brightwater', 'Cindermoor', 'Dawnmere', 'Elmsworth', 'Foxglove', 'Goldhollow',
-  'Hearthstone', 'Juniper', 'Kingsley', 'Lockhart', 'Marrowby', 'Northam', 'Oldcastle', 'Pike', 'Redfern', 'Stormcrow',
-  'Tallowmere', 'Umber', 'Vale', 'Wyndham', 'Fletcher', 'Dicewright', 'Lanternfall', 'Blackwood', 'Silverhand', 'Gallowglass',
-];
+const list = (v: unknown): string[] => (Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string' && x.trim() !== '') : []);
+/** A species' name parts in the current language, falling back to English list by list. */
+export function nameParts(species: string): NameParts {
+  const sp = SPECIES[species] ? species : 'human';
+  const get = (k: keyof NameParts) => { const here = list(lookup('game', ['heroNames', sp, k])); return here.length ? here : list(lookup('game', ['heroNames', 'human', k])); };
+  return { female: get('female'), male: get('male'), surnameStart: get('surnameStart'), surnameEnd: get('surnameEnd') };
+}
 
-/** First + last name, avoiding every name in `taken` (case-insensitive). */
-export function uniqueName(rng: Rng, taken: Iterable<string>): string {
-  const used = new Set([...taken].map((n) => n.toLowerCase()));
+/** One random name in a species' style: a first name for the sex, and a two-part surname. */
+export function speciesName(rng: Rng, species: string, sex?: 'male' | 'female'): string {
+  const p = nameParts(species);
+  const first = rng.pick(sex === 'female' ? p.female : sex === 'male' ? p.male : [...p.female, ...p.male]);
+  return `${first} ${rng.pick(p.surnameStart)}${rng.pick(p.surnameEnd).toLowerCase()}`;
+}
+
+/**
+ * A fresh name for a recruit of this species and sex, never one already in
+ * `taken` (case-insensitive). It also tries to give a first name and a surname
+ * nobody in `taken` has yet, so a roster reads as distinct people.
+ */
+export function uniqueName(rng: Rng, taken: Iterable<string>, species = 'human', sex?: 'male' | 'female'): string {
+  const names = [...taken].map((n) => n.toLowerCase());
+  const used = new Set(names);
+  const firsts = new Set(names.map((n) => n.split(' ')[0]));
+  const lasts = new Set(names.map((n) => n.split(' ').slice(1).join(' ')));
+  let fallback = '';
   for (let i = 0; i < 200; i++) {
-    const n = `${rng.pick(FIRST_NAMES)} ${rng.pick(LAST_NAMES)}`;
-    if (!used.has(n.toLowerCase())) return n;
+    const n = speciesName(rng, species, sex);
+    const k = n.toLowerCase();
+    if (used.has(k)) continue;
+    const [f, ...rest] = k.split(' ');
+    if (!firsts.has(f) && !lasts.has(rest.join(' '))) return n;
+    fallback ||= n;
   }
+  if (fallback) return fallback;
   // Exhausted the random tries (absurdly large roster): number the name.
-  const base = `${rng.pick(FIRST_NAMES)} ${rng.pick(LAST_NAMES)}`;
+  const base = speciesName(rng, species, sex);
   let k = 2;
   while (used.has(`${base} ${k}`.toLowerCase())) k++;
   return `${base} ${k}`;

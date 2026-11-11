@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "text": "vite --config text-editor/vite.config.ts",
+    "text:context": "node scripts/ui-context.ts",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",

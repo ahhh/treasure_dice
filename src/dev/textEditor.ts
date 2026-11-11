@@ -198,7 +198,7 @@ function field(ns: Ns, path: Path, opts: { label?: string; rows?: number } = {})
     flags.append(...hits.map((x) => h('button', { class: 'flag', title: 'Select it', on: { click: () => { ta.focus(); ta.setSelectionRange(x.start, x.end); } } }, `⚑ “${x.text}” · ${x.why}`)));
     wrap.classList.toggle('flagged', hits.length > 0);
   };
-  const wrap = h('div', { class: `field ${st.lang !== 'en' && !ta.value ? 'missing' : ''}` },
+  const wrap = h('div', { class: `field ${st.lang !== 'en' && !ta.value ? 'missing' : ''}`, 'data-path': `${ns}:${path.join('/')}` },
     opts.label ? h('label', null, opts.label) : null,
     st.lang !== 'en' && typeof en === 'string' ? h('div', { class: 'ref', lang: 'en' }, en) : null,
     h('div', { class: 'ta' }, hl, ta),
@@ -207,6 +207,34 @@ function field(ns: Ns, path: Path, opts: { label?: string; rows?: number } = {})
   requestAnimationFrame(() => grow(ta));
   return wrap;
 }
+/** A whole list of short strings (names) in one box, comma- or line-separated. */
+function listField(ns: Ns, path: Path, opts: { label: string; onChange?: () => void }): HTMLElement {
+  const en = getAt(st.en[ns], path);
+  const cur = getAt(st.work[ns], path);
+  const show = (v: unknown) => (Array.isArray(v) ? v.filter((x) => typeof x === 'string' && x).join(', ') : '');
+  const count = h('span', { class: 'muted small' });
+  const ta = h('textarea', {
+    rows: 3, spellcheck: true, lang: st.lang,
+    placeholder: st.lang === 'en' ? '' : 'Untranslated: the game uses the English list',
+    on: { input: (e: Event) => {
+      const t = e.target as HTMLTextAreaElement;
+      const items = t.value.split(/[,\n]/).map((x) => x.trim()).filter(Boolean);
+      const parent = getAt(st.work[ns], path.slice(0, -1));
+      if (parent && typeof parent === 'object') (parent as Json)[path[path.length - 1]] = items;
+      else { setAt(st.work[ns], path, ''); (getAt(st.work[ns], path.slice(0, -1)) as Json)[path[path.length - 1]] = items; }
+      count.textContent = `${items.length}`;
+      grow(t); edited(); opts.onChange?.();
+    } },
+  });
+  ta.value = show(cur);
+  count.textContent = `${Array.isArray(cur) ? cur.length : 0}`;
+  requestAnimationFrame(() => grow(ta));
+  return h('div', { class: 'field', 'data-path': `${ns}:${path.join('/')}` },
+    h('label', null, opts.label, ' · ', count),
+    st.lang !== 'en' ? h('div', { class: 'ref', lang: 'en' }, show(en)) : null,
+    h('div', { class: 'ta' }, ta));
+}
+
 /** Fields for whichever of these keys English has at `path`. */
 const fields = (ns: Ns, path: Path, keys: [key: string, label: string, rows?: number][]) =>
   keys.filter(([k]) => has(ns, [...path, k])).map(([k, label, rows]) => field(ns, [...path, k], { label, rows }));
@@ -420,7 +448,8 @@ const worldView = () => view(
     field(S, ['door'], { label: 'Fallback', rows: 1 })),
   card(h('div', { class: 'face glyph' }, '🐉'), h('b', null, 'The finale'),
     ...fields(S, ['finale'], [['name', 'Name', 1], ['tagline', 'Tagline', 1], ['premise', 'Premise', 3], ['bossRoom', 'Boss room', 1], ['bossText', 'Boss room text']])),
-  card(h('div', { class: 'face glyph' }, '🔁'), h('b', null, 'Shared lines'), field(S, ['leadOpen'], { label: 'Appended to a failed quest check' })));
+  card(h('div', { class: 'face glyph' }, '🔁'), h('b', null, 'Shared lines'), field(S, ['leadOpen'], { label: 'Appended to a failed quest check' }),
+    has(S, ['questRoomText']) ? field(S, ['questRoomText'], { label: 'Room text where a lead\'s event waits' }) : null));
 
 // ── game data views (generic) ───────────────────────────────────────────────
 
@@ -518,6 +547,7 @@ const GAME_TABLES: Record<string, [string, Path]> = {
   upgrades: ['Upgrades', ['upgrades']],
   facilities: ['Keep facilities', ['facilities']],
   tutorialRooms: ['Tutorial rooms', ['tutorialRooms']],
+  terms: ['Terms by id', ['terms']],
 };
 
 /** Whole-object tables of loose strings (names lists, formats): one card per top-level key. */
@@ -530,6 +560,29 @@ const looseView = (key: string) => {
   return view(heading(title, note), ...paths.map((p) => card(h('div', { class: 'face glyph' }, '¶'), h('b', null, pretty(p[0])),
     ...leaves(getAt(st.en[G], p), p).map((q) => field(G, q, { label: labelFor(q.slice(p.length), undefined) || pretty(p[0]), rows: 1 })))));
 };
+
+/** Random recruits' names: per species, first names by sex and a surname built from two halves. */
+function heroNamesView(): HTMLElement {
+  const pick = (a: unknown) => (Array.isArray(a) && a.length ? String(a[Math.floor(Math.random() * a.length)]) : '?');
+  const arr = (sp: string, k: string) => { const w = getAt(st.work[G], ['heroNames', sp, k]); return Array.isArray(w) && w.length ? w : (getAt(st.en[G], ['heroNames', sp, k]) as unknown[]) ?? []; };
+  return view(heading('Hero names', 'New recruits get a first name for their species and sex, and a surname made of a start and an end (“Iron” + “beard”). Separate names with commas or new lines. Keep each species\' names its own: tests fail if two species share a first name or a surname half. The starting three are named in Interface → Meta Town.'),
+    ...Object.keys((getAt(st.en[G], ['heroNames']) as Json) ?? {}).map((sp) => {
+      const samples = h('p', { class: 'muted small' });
+      const roll = () => {
+        const sex = ['female', 'male'];
+        samples.textContent = `Samples: ${Array.from({ length: 6 }, (_, i) => `${pick(arr(sp, sex[i % 2]))} ${pick(arr(sp, 'surnameStart'))}${pick(arr(sp, 'surnameEnd')).toLowerCase()}`).join(' · ')}`;
+      };
+      roll();
+      const base = ['heroNames', sp];
+      return card(h('div', { class: 'face glyph' }, '✎'),
+        h('div', { class: 'meta' }, chip(`id ${sp}`, 'id'), h('b', null, String(getAt(st.work[G], ['species', sp, 'name']) || sp)), h('a', { class: 'jump', href: '#', on: { click: (e: Event) => { e.preventDefault(); roll(); } } }, 'new samples')),
+        listField(G, [...base, 'female'], { label: 'Female first names', onChange: roll }),
+        listField(G, [...base, 'male'], { label: 'Male first names', onChange: roll }),
+        listField(G, [...base, 'surnameStart'], { label: 'Surname starts', onChange: roll }),
+        listField(G, [...base, 'surnameEnd'], { label: 'Surname ends (joined lowercase)', onChange: roll }),
+        samples);
+    }));
+}
 
 // ── interface views ─────────────────────────────────────────────────────────
 
@@ -575,7 +628,7 @@ function entries(): Entry[] {
   for (const e of evs.filter((x) => !x.quest)) add(`Events · ${biomeName(e.biome)}`, `event:${e.id}`, title(S, ['events', e.id, 'title'], e.id), e.kind, [[S, ['events', e.id]]]);
   add('Story', 'chronicle', 'The Chronicle', 'Chapters, notes, lullaby', [[S, ['chapters']], [S, ['annotations']], [S, ['lullaby']], [S, ['dissent']]]);
   add('Story', 'people', 'People', 'Names and titles', [[S, ['npcs']]]);
-  add('Story', 'world', 'Heads, doors, finale', 'Tiamat', [[S, ['heads']], [S, ['doors']], [S, ['door']], [S, ['finale']], [S, ['leadOpen']]]);
+  add('Story', 'world', 'Heads, doors, finale', 'Tiamat', [[S, ['heads']], [S, ['doors']], [S, ['door']], [S, ['finale']], [S, ['leadOpen']], [S, ['questRoomText']]]);
   add('Quest', 'leads', 'Leads', `${Object.keys(LEADS).length} leads`, [[S, ['leads']]]);
   add('Quest', 'evidence', 'Evidence', `${Object.keys(EVIDENCE).length} pieces`, [[S, ['evidence']]]);
   add('Quest', 'rumors', 'Rumours', `${RUMORS.length} rumours`, [[S, ['rumorSources']], [S, ['rumors']]]);
@@ -602,6 +655,7 @@ function entries(): Entry[] {
   }
   for (const [k, [label, path]] of Object.entries(GAME_TABLES)) add('Game · tables', `table:${k}`, label, path.join('.'), [[G, path]]);
   for (const [k, [title, , paths]] of Object.entries(LOOSE)) add('Game · tables', `loose:${k}`, title, '', paths.map((p) => [G, p] as [Ns, Path]));
+  add('Game · tables', 'heroNames', 'Hero names', 'Random recruits by species', [[G, ['heroNames']]]);
   for (const sec of Object.keys(st.en[U] ?? {})) add('Interface', `ui:${sec}`, pretty(sec), sourceFile(sec), [[U, [sec]]]);
   return [...groups.entries()].flatMap(([group, items]) => items.map((e) => ({ ...e, group })));
 }
@@ -761,6 +815,7 @@ function renderToolbar() {
 const VIEWS: Record<string, () => HTMLElement> = {
   heads: headsView, eulogy: eulogyView, chronicle: chronicleView, people: peopleView, world: worldView,
   leads: leadsView, evidence: evidenceView, rumors: rumorsView, drinks: drinksView, muster: musterView,
+  heroNames: heroNamesView,
 };
 
 function renderMain() {
@@ -806,6 +861,9 @@ function renderBar() {
     dirty.length || st.error ? h('span', { class: st.error ? 'meta err' : 'meta' }, dirty.length ? `unsaved: ${dirty.map((ns) => `${st.lang}/${ns}.json`).join(', ')}` : st.status) : null,
     h('button', { class: dirty.length ? 'primary' : '', disabled: !dirty.length, title: '⌘S', on: { click: () => void save() } }, 'Save')].filter((x) => x !== null));
 }
+
+/** Hooks for scripts/ui-editor.mjs (coverage check): list entries, open one. */
+(window as unknown as { __editor: unknown }).__editor = { keys: () => ui.all.map((e) => e.key), select, ready: () => ui.all.length > 0 };
 
 function renderAll() {
   ui.all = entries();

@@ -88,7 +88,7 @@
     "requiresAllFiveEchoesCleared": "Requires all five echoes cleared ({v}/5) and a level {FINALE_LEVEL} hero in the party. Your strongest living hero is level {v2}.",
     "tiamatSlain2": "Tiamat slain ×{tiamat}.",
     "shareYourLegends": "Share your legends",
-    "aCardWithYourThree": "A card with your three best heroes, the echoes you have broken, and your record. Save it as an image or share it.",
+    "aCardWithYourThree": "A card with your three best heroes, the echoes you have broken, your record and what you have found, stamped with your tripcode. Save it as an image or share it.",
     "makeAShareCard": "🖼 Make a share card",
     "armoryStock": "Armory stock",
     "apothecaryStock": "Apothecary stock",
@@ -159,8 +159,7 @@
       "apothecary": "Apothecary",
       "enchanter": "Enchanter",
       "training": "Training Grounds",
-      "vault": "Vault",
-      "codex": "Codex"
+      "vault": "Vault"
     },
     "difficultyName": {
       "explorer": "Explorer",
@@ -172,7 +171,22 @@
     "goldWord": "gold",
     "sigilsWord": "sigils",
     "difficultyLine": "{name}: {info}",
-    "priceG": "{price} g"
+    "priceG": "{price} g",
+    "clearEchoToUnlock": "Break {name} once to unlock the Short and Long runs and the Perilous and Deadly difficulties.",
+    "chronicleSection": {
+      "story": "Story",
+      "records": "Records",
+      "journal": "Journal",
+      "charms": "Charms",
+      "bestiary": "Bestiary",
+      "hands": "Hands"
+    },
+    "tripcode": "Tripcode",
+    "copy": "Copy",
+    "copied": "Tripcode copied.",
+    "tripcodeHint": "Your tripcode is made from this Keep's record: the same heroes, echoes, finds and Keeper name always give the same eight symbols. It changes as your legend grows.",
+    "startARun": "Start a run",
+    "startARunTitle": "Choose three heroes and a dungeon, then set out."
   },
   "modals": {
     "hp": "HP {hp}/{maxHp}",
@@ -320,11 +334,11 @@
     "theKeepIsABig": "The Keep is a big menu",
     "eachTabIsAFacility": "Each tab is a facility:",
     "guildHallYourRosterLevel": "**Guild Hall**: your roster, level-ups and recruits.",
-    "chronicleTheStorySoFar": "**Chronicle**: the story so far, and your share card.",
-    "cartographerPickThreeHeroesAnd": "**Cartographer**: pick three heroes and a dungeon.",
+    "chronicleTheStorySoFar": "**Chronicle**: the story so far, your records and discoveries, and your share card.",
+    "cartographerPickThreeHeroesAnd": "**Cartographer** (the orange tab at the top): pick three heroes and a dungeon. Every run starts here.",
     "armoryApothecaryBuyGearAnd": "**Armory / Apothecary**: buy gear and potions.",
     "enchanterTrainingUpgradeGearTrain": "**Enchanter / Training**: upgrade gear, train benched heroes, upgrade the Keep.",
-    "vaultCodexYourLootAnd": "**Vault / Codex**: your loot, and everything you have discovered.",
+    "vaultCodexYourLootAnd": "**Vault**: your loot, and a save backup.",
     "clickAnyTabToSwitch": "Click any tab to switch. The tour will take you to the ones that matter now.",
     "meetYourHeroes": "Meet your heroes",
     "theseAreYourFirstThree": "These are your first three heroes: {map}. A fighter up front, a cleric to heal, and a rogue for big hits.",
@@ -651,7 +665,7 @@
     "go": "Go",
     "theOnlyLightInThe": "The only light in the Keep",
     "tonightAtTheLowLantern": "Tonight at the Low Lantern",
-    "evidenceSeeTheCodex": "Evidence {ev}/{length} (see the Codex)",
+    "evidenceSeeTheCodex": "Evidence {ev}/{length} (see the Chronicle)",
     "walkDownToKilnRow": "Walk down to Kiln Row",
     "priceG": "{price} g"
   },
@@ -751,7 +765,13 @@
       "mythicKeeper": "Mythic Keeper",
       "championOfTheKeep": "Champion of the Keep",
       "dragonslayer": "Dragonslayer"
-    }
+    },
+    "sumCharms": "{n}/{total} charms",
+    "sumBestiary": "{n} foes catalogued",
+    "sumHands": "{n}/{total} hands",
+    "sumEvidence": "{n}/{total} evidence",
+    "siteTrip": "{site}  ·  ✦ {code}",
+    "tripcodeNote": "(the same record always makes the same code)"
   },
   "tips": {
     "close": "Close",
@@ -1297,7 +1317,9 @@
     "triesVsDc": "{heroName} tries {SKILL_NAMES}: {total} vs DC {dc} — {result}",
     "thievesTools": "thieves' tools",
     "successResult": "success!",
-    "failureResult": "failure."
+    "failureResult": "failure.",
+    "difficultyLocked": "Break this echo once before trying it on Perilous or Deadly.",
+    "lengthLocked": "Break this echo once before choosing a Short or Long run."
   },
   "metaQuest": {
     "notOnTheMenuYet": "Not on the menu yet.",
@@ -1326,7 +1348,7 @@
     "erenDidNotComeBack": "Eren did not come back from the Fourth Door."
   },
   "metaTown": {
-    "alaricHeartwood": "Alaric Heartwood",
+    "rossHeartwood": "Ross Heartwood",
     "kelseyCoppervein": "Kelsey Coppervein",
     "pippenUnderbough": "Pippen Underbough",
     "noSuchRecruit": "No such recruit.",

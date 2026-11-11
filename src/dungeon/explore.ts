@@ -20,7 +20,7 @@ import { HANDS } from '../fortune/hands.ts';
 import { startCombat, makeCtx, syncHeroes, hooks, heroOf, heroes as combatHeroes } from '../combat/core.ts';
 import { derive, fullRestore, shortRest, spendHitDice, SKILL_NAMES } from '../rules/character.ts';
 import { castableSpells, SPELLS } from '../content/spells.ts';
-import { goldReward, DOUBLOONS_PER_COMBAT, DIFFICULTY_MOD, VITALITY } from '../rules/balance.ts';
+import { goldReward, DOUBLOONS_PER_COMBAT, DIFFICULTY_MOD, VITALITY, difficultyOpen, sizeOpen } from '../rules/balance.ts';
 import { rollItem, rollMagicItem, bossLootChoice, rollLegendary, ownedLegends, LEGEND_CHANCE } from '../meta/loot.ts';
 import { makeItem } from '../rules/character.ts';
 import { buildTutorialMap, TUTORIAL_SEED } from './tutorial.ts';
@@ -56,7 +56,11 @@ export function startExpedition(g: GameState, o: StartOpts): string | null {
     const blocked = finaleBlocked(heroes as Hero[], g);
     if (blocked) return blocked;
     o = { ...o, biome: 'starfall', size: 'long' };
-  } else if (!o.tutorial && !g.profile.unlockedBiomes.includes(o.biome)) return tx('dungeonExplore.thatEchoIsStillSealed');
+  } else if (!o.tutorial) {
+    if (!g.profile.unlockedBiomes.includes(o.biome)) return tx('dungeonExplore.thatEchoIsStillSealed');
+    if (!difficultyOpen(g, o.biome, o.difficulty)) return tx('dungeonExplore.difficultyLocked');
+    if (o.size && !sizeOpen(g, o.biome, o.size)) return tx('dungeonExplore.lengthLocked');
+  }
   const levels = heroes.map((h) => h!.level).sort((a, b) => a - b);
   // Effective level weights the strongest heroes but never ignores a weak link (plan §4.5).
   const partyLevel = Math.max(1, Math.round((levels[0] + levels[1] * 1.5 + levels[2] * 1.5) / 4));

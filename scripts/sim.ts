@@ -7,6 +7,7 @@ import { newGame } from '../src/meta/town.ts';
 import { createHero, fullRestore } from '../src/rules/character.ts';
 import { Rng } from '../src/engine/rng.ts';
 import { dispatch } from '../src/app/commands.ts';
+import { difficultyOpen } from '../src/rules/balance.ts';
 import { autoExpedition } from '../src/app/autoplay.ts';
 import type { BiomeId, ClassId, Difficulty } from '../src/engine/types.ts';
 
@@ -26,6 +27,8 @@ for (let i = 0; i < runs; i++) {
   const g = newGame(1, 'legacy', `SIM-${i}`);
   g.profile.unlockedBiomes = ['cinder', 'rootbound', 'drowned', 'mirror', 'starfall'];
   if (finale) for (const b of g.profile.unlockedBiomes) g.profile.sigils[b] = 1;
+  // Perilous and Deadly open after an echo's first clear: count this one as broken.
+  else if (!difficultyOpen(g, biome, diff)) g.profile.sigils[biome] = 1;
   const comp = comps[i % comps.length];
   const rng = new Rng([i + 1, 7, 9, 11]);
   g.roster = comp.map((c) => createHero(rng, c, level));

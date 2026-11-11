@@ -155,6 +155,7 @@ describe('difficulty rewards', () => {
         const r8 = new Rng([i + 1, 2, 3, 4]);
         g.roster = (['fighter', 'cleric', 'wizard'] as const).map((c) => createHero(r8, c, 8));
         g.roster.forEach(fullRestore);
+        g.profile.sigils.cinder = 1;
         expect(dispatch(g, { type: 'startExpedition', partyIds: g.roster.map((h) => h.id), biome: 'cinder', difficulty, seed: `DIFF-${i}` }).ok).toBe(true);
         let seenBonus = -1;
         for (let s = 0; g.expedition && s < 4000; s++) {
