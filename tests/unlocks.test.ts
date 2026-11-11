@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { newGame } from '../src/meta/town.ts';
 import { dispatch } from '../src/app/commands.ts';
 import { difficultyOpen, sizeOpen } from '../src/rules/balance.ts';
+import { finishExpedition, TUTORIAL_MAX_LEVEL } from '../src/dungeon/explore.ts';
 import { keepSummary, tripcode, tripcodeOf, TRIP_ALPHABET, TRIP_LENGTH } from '../src/meta/tripcode.ts';
 
 const start = (g: ReturnType<typeof newGame>, o: Record<string, unknown>) =>
@@ -35,6 +36,31 @@ describe('per-echo unlocks', () => {
     g.tutorial = null;
     expect(start(g, { tutorial: true }).ok).toBe(true);
     expect(g.expedition?.tutorial).toBe(true);
+  });
+
+  it('the Training Cellar levels heroes on every clear until they are too seasoned to enter', () => {
+    const g = newGame(1, 'legacy', 'CELLAR');
+    g.tutorial = null;
+    for (let lvl = 1; lvl < TUTORIAL_MAX_LEVEL; lvl++) {
+      for (const h of g.roster) { h.level = lvl; h.pendingLevel = false; }
+      expect(start(g, { tutorial: true }).ok).toBe(true);
+      finishExpedition(g, 'won');
+      expect(g.lastResult!.leveled).toHaveLength(3);
+      g.lastResult = undefined;
+    }
+    for (const h of g.roster) { h.level = TUTORIAL_MAX_LEVEL; h.pendingLevel = false; }
+    expect(start(g, { tutorial: true }).ok).toBe(false);
+  });
+
+  it('an Explorer clear levels the party but earns no sigil and opens no door', () => {
+    const g = newGame(1, 'legacy', 'EASY');
+    expect(start(g, { difficulty: 'explorer' }).ok).toBe(true);
+    finishExpedition(g, 'won');
+    expect(g.lastResult!.leveled).toHaveLength(3);
+    expect(g.lastResult!.practice).toBe(true);
+    expect(g.lastResult!.chapter).toBeUndefined();
+    expect(g.profile.sigils.cinder ?? 0).toBe(0);
+    expect(g.profile.unlockedBiomes).not.toContain('rootbound');
   });
 });
 

@@ -1529,7 +1529,7 @@
   "highWater": {
    "line": 710,
    "file": "src/combat/hero.ts",
-   "code": "if (exp.biome === 'drowned' && exp.meter >= 1) return (d) => (d.material === 'storm' || d.material === 'frost' ? { mult: 2, note: tx('combatHero.highWater') } : null);"
+   "code": "if (exp.biome === 'drowned' && exp.meter >= 1) return (d) => (d.material === 'storm' ? { mult: 2, note: tx('combatHero.highWater') } : null);"
   },
   "quarry": {
    "line": 736,
@@ -3312,7 +3312,7 @@
  },
  "rulesCharacter": {
   "unarmedStrike": {
-   "line": 367,
+   "line": 370,
    "file": "src/rules/character.ts",
    "code": "name: tx('rulesCharacter.unarmedStrike'), toHit: mods[ability] + pb + (claws ? 1 : 0), dice: die ? `1d${die}` : '1', bonus: mods[ability] + (claws ? 1 : 0),"
   }
@@ -4183,503 +4183,518 @@
    "file": "src/ui/modals.ts",
    "code": "const plan = Object.entries(sc.levels).map(([l, fs]) => tx('modals.subclassLevelPlan', { level: l, names: fs.map((f) => f.name).join(', ') })).join(' · ');"
   },
+  "subclassDice": {
+   "line": 135,
+   "file": "src/ui/modals.ts",
+   "code": "const dice = sc.dice ? ` ${tx('modals.subclassDice', { name: MATERIALS[sc.dice].name })}` : '';"
+  },
   "reachedLevel": {
-   "line": 143,
+   "line": 144,
    "file": "src/ui/modals.ts",
    "code": "if (r.ok) { sfx.fanfare(); toast(tx('modals.reachedLevel', { heroName: hero.name, next: pv.next }), true); close(); }"
   },
   "conHitPointsVitalityResources": {
-   "line": 146,
+   "line": 147,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row' }, heroPortrait(hero, 'lg'), h('div', null, h('h2', null, `${hero.name} — ${cls.name} ${pv.next}`), h('p', { class: 'small muted' }, tx('modals.conHitPointsVitalityResources', { hpGain: pv.hpGain })))),"
   },
   "newFeatures": {
-   "line": 147,
+   "line": 148,
    "file": "src/ui/modals.ts",
    "code": "h('h3', null, tx('modals.newFeatures')),"
   },
   "moreHitPointsAndA": {
-   "line": 148,
+   "line": 149,
    "file": "src/ui/modals.ts",
    "code": "pv.features.length ? h('div', null, ...pv.features.map((f) => h('div', { class: 'feat' }, h('b', null, f.name), h('span', { class: `impl ${f.impl}` }, f.impl), ' — ', f.text))) : h('p', { class: 'muted' }, tx('modals.moreHitPointsAndA')),"
   },
   "newSpellsAvailable": {
-   "line": 149,
+   "line": 150,
    "file": "src/ui/modals.ts",
    "code": "pv.newSpells.length ? h('p', { class: 'small' }, h('b', null, tx('modals.newSpellsAvailable')), pv.newSpells.map((s) => SPELLS[s]?.name).join(', ')) : null,"
   },
   "abilityScoreImprovementOrFeat": {
-   "line": 152,
+   "line": 153,
    "file": "src/ui/modals.ts",
    "code": "return h('div', { class: 'win', style: 'margin-top:8px' }, h('h3', null, tx('modals.abilityScoreImprovementOrFeat')),"
   },
   "n2ToOne": {
-   "line": 153,
+   "line": 154,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row' }, ...(['plus2', 'split', 'feat'] as const).map((m) => btn(m === 'plus2' ? tx('modals.n2ToOne') : m === 'split' ? tx('modals.n1ToTwo') : tx('modals.takeAFeat'), () => { st.asiMode = m; render(); }, { cls: `small ${st.asiMode === m ? 'on' : ''}` }))),"
   },
   "n1ToTwo": {
-   "line": 153,
+   "line": 154,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row' }, ...(['plus2', 'split', 'feat'] as const).map((m) => btn(m === 'plus2' ? tx('modals.n2ToOne') : m === 'split' ? tx('modals.n1ToTwo') : tx('modals.takeAFeat'), () => { st.asiMode = m; render(); }, { cls: `small ${st.asiMode === m ? 'on' : ''}` }))),"
   },
   "takeAFeat": {
-   "line": 153,
+   "line": 154,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row' }, ...(['plus2', 'split', 'feat'] as const).map((m) => btn(m === 'plus2' ? tx('modals.n2ToOne') : m === 'split' ? tx('modals.n1ToTwo') : tx('modals.takeAFeat'), () => { st.asiMode = m; render(); }, { cls: `small ${st.asiMode === m ? 'on' : ''}` }))),"
   },
   "choose": {
-   "line": 163,
+   "line": 164,
    "file": "src/ui/modals.ts",
    "code": "return h('div', { class: 'win', style: 'margin-top:8px' }, h('h3', null, tx('modals.choose', { featureName: feature.name, max })),"
   },
   "dicePathChooseYourColour": {
-   "line": 169,
+   "line": 170,
    "file": "src/ui/modals.ts",
    "code": "h('h3', null, pv.next === RECOLOUR_LEVEL ? tx('modals.dicePathChooseYourColour') : tx('modals.dicePathChooseOneMark', { milestone: TRAIT_LEVELS.includes(pv.next) ? tx('modals.traitMilestone') : '' })),"
   },
   "dicePathChooseOneMark": {
-   "line": 169,
+   "line": 170,
    "file": "src/ui/modals.ts",
    "code": "h('h3', null, pv.next === RECOLOUR_LEVEL ? tx('modals.dicePathChooseYourColour') : tx('modals.dicePathChooseOneMark', { milestone: TRAIT_LEVELS.includes(pv.next) ? tx('modals.traitMilestone') : '' })),"
   },
   "traitMilestone": {
-   "line": 169,
+   "line": 170,
    "file": "src/ui/modals.ts",
    "code": "h('h3', null, pv.next === RECOLOUR_LEVEL ? tx('modals.dicePathChooseYourColour') : tx('modals.dicePathChooseOneMark', { milestone: TRAIT_LEVELS.includes(pv.next) ? tx('modals.traitMilestone') : '' })),"
   },
   "permanentChangesToThisHero": {
-   "line": 170,
+   "line": 171,
    "file": "src/ui/modals.ts",
    "code": "h('p', { class: 'small muted' }, tx('modals.permanentChangesToThisHero')),"
   },
   "later": {
-   "line": 173,
+   "line": 174,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row', style: 'margin-top:12px' }, h('span', { class: 'spacer' }), btn(tx('modals.later'), close), btn(tx('modals.becomeLevel', { next: pv.next }), confirmLevel, { cls: 'primary', key: 'confirm-level' })),"
   },
   "becomeLevel": {
-   "line": 173,
+   "line": 174,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row', style: 'margin-top:12px' }, h('span', { class: 'spacer' }), btn(tx('modals.later'), close), btn(tx('modals.becomeLevel', { next: pv.next }), confirmLevel, { cls: 'primary', key: 'confirm-level' })),"
   },
   "bossDefeated": {
-   "line": 184,
+   "line": 185,
    "file": "src/ui/modals.ts",
    "code": "h('h2', { class: 'result-big gold' }, s.kind === 'boss' ? tx('modals.bossDefeated') : tx('modals.victory')),"
   },
   "victory": {
-   "line": 184,
+   "line": 185,
    "file": "src/ui/modals.ts",
    "code": "h('h2', { class: 'result-big gold' }, s.kind === 'boss' ? tx('modals.bossDefeated') : tx('modals.victory')),"
   },
   "gold": {
-   "line": 186,
+   "line": 187,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row' }, h('span', { class: 'coin' }), h('b', { class: 'gold' }, tx('modals.gold', { gold: s.gold })), h('span', { class: 'small muted' }, tx('modals.carriedBankItByEscaping'))),"
   },
   "carriedBankItByEscaping": {
-   "line": 186,
+   "line": 187,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row' }, h('span', { class: 'coin' }), h('b', { class: 'gold' }, tx('modals.gold', { gold: s.gold })), h('span', { class: 'small muted' }, tx('modals.carriedBankItByEscaping'))),"
   },
   "doubloons": {
-   "line": 187,
+   "line": 188,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row' }, tx('modals.doubloons'), h('b', { class: 'gold' }, `+${s.doubloons}`), tx('modals.interest'), h('b', { class: 'gold' }, `+${s.interest}`), s.charmBonus ? [tx('modals.charms'), h('b', { class: 'gold' }, `+${s.charmBonus}`)] : null),"
   },
   "interest": {
-   "line": 187,
+   "line": 188,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row' }, tx('modals.doubloons'), h('b', { class: 'gold' }, `+${s.doubloons}`), tx('modals.interest'), h('b', { class: 'gold' }, `+${s.interest}`), s.charmBonus ? [tx('modals.charms'), h('b', { class: 'gold' }, `+${s.charmBonus}`)] : null),"
   },
   "charms": {
-   "line": 187,
+   "line": 188,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row' }, tx('modals.doubloons'), h('b', { class: 'gold' }, `+${s.doubloons}`), tx('modals.interest'), h('b', { class: 'gold' }, `+${s.interest}`), s.charmBonus ? [tx('modals.charms'), h('b', { class: 'gold' }, `+${s.charmBonus}`)] : null),"
   },
   "found": {
-   "line": 188,
+   "line": 189,
    "file": "src/ui/modals.ts",
    "code": "...s.items.map((i) => h('div', null, tx('modals.found'), h('b', null, i))),"
   },
   "fortuneRank": {
-   "line": 189,
+   "line": 190,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'result-big', style: 'font-size:28px;margin-top:8px' }, tx('modals.fortuneRank', { rank: s.rank })),"
   },
   "aMilestoneRankChooseA": {
-   "line": 190,
+   "line": 191,
    "file": "src/ui/modals.ts",
    "code": "h('p', { class: 'small muted' }, s.rank % 3 === 0 ? tx('modals.aMilestoneRankChooseA') : tx('modals.chooseABoonForThis'))),"
   },
   "chooseABoonForThis": {
-   "line": 190,
+   "line": 191,
    "file": "src/ui/modals.ts",
    "code": "h('p', { class: 'small muted' }, s.rank % 3 === 0 ? tx('modals.aMilestoneRankChooseA') : tx('modals.chooseABoonForThis'))),"
   },
   "claim": {
-   "line": 191,
+   "line": 192,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row', style: 'justify-content:center' }, btn(tx('modals.claim'), () => { sfx.coin(); run({ type: 'closeSpoils' }); }, { cls: 'primary big', key: 'claim' })),"
   },
   "victory2": {
-   "line": 192,
+   "line": 193,
    "file": "src/ui/modals.ts",
    "code": "], { narrow: true, label: tx('modals.victory2') });"
   },
   "chooseBoons": {
-   "line": 204,
+   "line": 205,
    "file": "src/ui/modals.ts",
    "code": "h('h2', null, b.picks > 1 ? tx('modals.chooseBoons', { picks: b.picks }) : tx('modals.chooseABoon')),"
   },
   "chooseABoon": {
-   "line": 204,
+   "line": 205,
    "file": "src/ui/modals.ts",
    "code": "h('h2', null, b.picks > 1 ? tx('modals.chooseBoons', { picks: b.picks }) : tx('modals.chooseABoon')),"
   },
   "charms2": {
-   "line": 205,
+   "line": 206,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row small muted' }, tx('modals.charms2', { charmsLength: run0.charms.length, charmSlots: charmSlots(run0) }), doubloons(run0.doubloons)),"
   },
   "skip2Doubloons": {
-   "line": 207,
+   "line": 208,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row' }, h('span', { class: 'spacer' }), btn(tx('modals.skip2Doubloons'), () => run({ type: 'skipBoon' }))),"
   },
   "yourCharmSlotsAreFull": {
-   "line": 225,
+   "line": 226,
    "file": "src/ui/modals.ts",
    "code": "h('h2', null, tx('modals.yourCharmSlotsAreFull')),"
   },
   "chooseACharmOrOmen": {
-   "line": 226,
+   "line": 227,
    "file": "src/ui/modals.ts",
    "code": "h('p', { class: 'prose' }, tx('modals.chooseACharmOrOmen')),"
   },
   "cancel": {
-   "line": 231,
+   "line": 232,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row' }, h('span', { class: 'spacer' }), btn(tx('modals.cancel'), cancel)),"
   },
   "replaceACharm": {
-   "line": 232,
+   "line": 233,
    "file": "src/ui/modals.ts",
    "code": "], { narrow: true, label: tx('modals.replaceACharm'), onClose: cancel });"
   },
   "offerADieToThe": {
-   "line": 249,
+   "line": 250,
    "file": "src/ui/modals.ts",
    "code": "h('h2', null, bp.purpose === 'sacrifice' ? tx('modals.offerADieToThe') : needFace ? tx('modals.chooseAFaceToEnchant') : tx('modals.chooseADie')),"
   },
   "chooseAFaceToEnchant": {
-   "line": 249,
+   "line": 250,
    "file": "src/ui/modals.ts",
    "code": "h('h2', null, bp.purpose === 'sacrifice' ? tx('modals.offerADieToThe') : needFace ? tx('modals.chooseAFaceToEnchant') : tx('modals.chooseADie')),"
   },
   "chooseADie": {
-   "line": 249,
+   "line": 250,
    "file": "src/ui/modals.ts",
    "code": "h('h2', null, bp.purpose === 'sacrifice' ? tx('modals.offerADieToThe') : needFace ? tx('modals.chooseAFaceToEnchant') : tx('modals.chooseADie')),"
   },
   "clickAFaceOnAny": {
-   "line": 250,
+   "line": 251,
    "file": "src/ui/modals.ts",
    "code": "h('p', { class: 'small muted' }, needFace ? tx('modals.clickAFaceOnAny') : tx('modals.clickADie')),"
   },
   "clickADie": {
-   "line": 250,
+   "line": 251,
    "file": "src/ui/modals.ts",
    "code": "h('p', { class: 'small muted' }, needFace ? tx('modals.clickAFaceOnAny') : tx('modals.clickADie')),"
   },
   "pickADie": {
-   "line": 253,
+   "line": 254,
    "file": "src/ui/modals.ts",
    "code": "], { label: tx('modals.pickADie'), onClose: cancel });"
   },
   "theHoardTakeOne": {
-   "line": 259,
+   "line": 260,
    "file": "src/ui/modals.ts",
    "code": "h('h2', null, tx('modals.theHoardTakeOne')),"
   },
   "take": {
-   "line": 262,
+   "line": 263,
    "file": "src/ui/modals.ts",
    "code": "btn(tx('modals.take'), () => { sfx.coin(); run({ type: 'pickLoot', idx: i }); }, { cls: 'primary small' })))),"
   },
   "chooseLoot": {
-   "line": 263,
+   "line": 264,
    "file": "src/ui/modals.ts",
    "code": "], { label: tx('modals.chooseLoot') });"
   },
   "thePeddler": {
-   "line": 272,
+   "line": 273,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row' }, h('h2', { class: 'grow' }, tx('modals.thePeddler')), doubloons(exp.fortune.doubloons)),"
   },
   "charmsDiceOmensAllOf": {
-   "line": 273,
+   "line": 274,
    "file": "src/ui/modals.ts",
    "code": "h('p', { class: 'prose' }, tx('modals.charmsDiceOmensAllOf')),"
   },
   "sellACharmHalfPrice": {
-   "line": 275,
+   "line": 276,
    "file": "src/ui/modals.ts",
    "code": "h('h3', null, tx('modals.sellACharmHalfPrice')),"
   },
   "sell": {
-   "line": 276,
+   "line": 277,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'charm-bar' }, ...exp.fortune.charms.map((c, i) => h('button', { class: 'btn small', on: { click: () => { if (confirm(tx('modals.sell', { name: CHARM_BY_ID[c.id]?.name }))) run({ type: 'sellCharm', idx: i }); } } }, charmEl(c.id, c.counter)))),"
   },
   "rerollStock": {
-   "line": 277,
+   "line": 278,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row', style: 'margin-top:10px' }, btn(tx('modals.rerollStock', { rerollCost: shop.rerollCost }), () => run({ type: 'shopReroll' }), { disabled: exp.fortune.doubloons < shop.rerollCost }), h('span', { class: 'spacer' }), btn(tx('modals.leave'), () => run({ type: 'shopClose' }), { cls: 'primary', key: 'leave-shop' })),"
   },
   "leave": {
-   "line": 277,
+   "line": 278,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row', style: 'margin-top:10px' }, btn(tx('modals.rerollStock', { rerollCost: shop.rerollCost }), () => run({ type: 'shopReroll' }), { disabled: exp.fortune.doubloons < shop.rerollCost }), h('span', { class: 'spacer' }), btn(tx('modals.leave'), () => run({ type: 'shopClose' }), { cls: 'primary', key: 'leave-shop' })),"
   },
   "peddler": {
-   "line": 278,
+   "line": 279,
    "file": "src/ui/modals.ts",
    "code": "], { label: tx('modals.peddler'), onClose: () => run({ type: 'shopClose' }) });"
   },
   "continue": {
-   "line": 290,
+   "line": 291,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row', style: 'margin-top:10px' }, h('span', { class: 'spacer' }), btn(tx('modals.continue'), () => run({ type: 'eventClose' }), { cls: 'primary', key: 'ev-continue' }))], { narrow: true, label: ev.title });"
   },
   "theQueenSDue": {
-   "line": 295,
+   "line": 296,
    "file": "src/ui/modals.ts",
    "code": "ev.quest ? h('div', { class: 'chapter-head' }, tx('modals.theQueenSDue')) : null,"
   },
   "dcChance": {
-   "line": 303,
+   "line": 304,
    "file": "src/ui/modals.ts",
    "code": "detail = tx('modals.dcChance', { SKILL_NAMES: SKILL_NAMES[o.check.skill], dc: o.dc, heroName: o.best.hero.name, mod: mod(o.best.bonus), chance });"
   },
   "orUsesAutomaticSuccess": {
-   "line": 309,
+   "line": 310,
    "file": "src/ui/modals.ts",
    "code": "o.spellHelper && o.check ? btn(tx('modals.orUsesAutomaticSuccess', { heroName: o.spellHelper.hero.name, means: SPELLS[o.spellHelper.spell]?.name ?? tx('modals.thievesTools') }), () => run({ type: 'eventChoice', idx: i, useSpell: true }), { cls: 'small', disabled: !o.usable }) : null);"
   },
   "thievesTools": {
-   "line": 309,
+   "line": 310,
    "file": "src/ui/modals.ts",
    "code": "o.spellHelper && o.check ? btn(tx('modals.orUsesAutomaticSuccess', { heroName: o.spellHelper.hero.name, means: SPELLS[o.spellHelper.spell]?.name ?? tx('modals.thievesTools') }), () => run({ type: 'eventChoice', idx: i, useSpell: true }), { cls: 'small', disabled: !o.usable }) : null);"
   },
   "decideLater": {
-   "line": 311,
+   "line": 312,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row', style: 'margin-top:10px' }, h('span', { class: 'spacer' }), btn(tx('modals.decideLater'), () => run({ type: 'eventClose' }), { cls: 'small' })),"
   },
   "diceBagDice": {
-   "line": 320,
+   "line": 321,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row' }, h('h2', { class: 'grow' }, tx('modals.diceBagDice', { length: f.bag.filter((d) => !d.uid.startsWith('ghost')).length })), doubloons(f.doubloons)),"
   },
   "charmsOrderMattersTheyScore": {
-   "line": 322,
+   "line": 323,
    "file": "src/ui/modals.ts",
    "code": "h('h3', { style: 'margin-top:12px' }, tx('modals.charmsOrderMattersTheyScore', { charmsLength: f.charms.length, charmSlots: charmSlots(f) })),"
   },
   "handLevels": {
-   "line": 325,
+   "line": 326,
    "file": "src/ui/modals.ts",
    "code": "h('h3', { style: 'margin-top:12px' }, tx('modals.handLevels')),"
   },
   "hand": {
-   "line": 326,
+   "line": 327,
    "file": "src/ui/modals.ts",
    "code": "h('table', { class: 'mini' }, h('tr', null, h('th', null, tx('modals.hand')), h('th', null, tx('modals.lv')), h('th', null, tx('modals.chips')), h('th', null, tx('modals.mult')), h('th', null, tx('modals.played'))),"
   },
   "lv": {
-   "line": 326,
+   "line": 327,
    "file": "src/ui/modals.ts",
    "code": "h('table', { class: 'mini' }, h('tr', null, h('th', null, tx('modals.hand')), h('th', null, tx('modals.lv')), h('th', null, tx('modals.chips')), h('th', null, tx('modals.mult')), h('th', null, tx('modals.played'))),"
   },
   "chips": {
-   "line": 326,
+   "line": 327,
    "file": "src/ui/modals.ts",
    "code": "h('table', { class: 'mini' }, h('tr', null, h('th', null, tx('modals.hand')), h('th', null, tx('modals.lv')), h('th', null, tx('modals.chips')), h('th', null, tx('modals.mult')), h('th', null, tx('modals.played'))),"
   },
   "mult": {
-   "line": 326,
+   "line": 327,
    "file": "src/ui/modals.ts",
    "code": "h('table', { class: 'mini' }, h('tr', null, h('th', null, tx('modals.hand')), h('th', null, tx('modals.lv')), h('th', null, tx('modals.chips')), h('th', null, tx('modals.mult')), h('th', null, tx('modals.played'))),"
   },
   "played": {
-   "line": 326,
+   "line": 327,
    "file": "src/ui/modals.ts",
    "code": "h('table', { class: 'mini' }, h('tr', null, h('th', null, tx('modals.hand')), h('th', null, tx('modals.lv')), h('th', null, tx('modals.chips')), h('th', null, tx('modals.mult')), h('th', null, tx('modals.played'))),"
   },
   "tokensBestHandThisRun": {
-   "line": 328,
+   "line": 329,
    "file": "src/ui/modals.ts",
    "code": "h('p', { class: 'small muted' }, tx('modals.tokensBestHandThisRun', { v: f.tokens.length ? f.tokens.join(', ') : 'none', bestScore: fmt(f.bestScore) })),"
   },
   "diceBag": {
-   "line": 330,
+   "line": 331,
    "file": "src/ui/modals.ts",
    "code": "], { label: tx('modals.diceBag'), onClose: close });"
   },
   "theDragonQueenFalls": {
-   "line": 336,
+   "line": 337,
    "file": "src/ui/modals.ts",
-   "code": "const title = r.finale && r.kind === 'won' ? tx('modals.theDragonQueenFalls') : r.tutorial && r.kind === 'won' ? tx('modals.practiceComplete') : r.kind === 'won' ? tx('modals.theEchoIsBroken') : r.kind === 'retreated' ? tx('modals.aTacticalRetreat') : tx('modals.thePartyHasFallen');"
+   "code": "const title = r.finale && r.kind === 'won' ? tx('modals.theDragonQueenFalls') : r.tutorial && r.kind === 'won' ? tx('modals.practiceComplete') : r.practice && r.kind === 'won' ? tx('modals.explorerRunComplete') : r.kind === 'won' ? tx('modals.theEchoIsBroken') : r.kind === 'retreated' ? tx('modals.aTacticalRetreat') : tx('modals.thePartyHasFallen');"
   },
   "practiceComplete": {
-   "line": 336,
+   "line": 337,
    "file": "src/ui/modals.ts",
-   "code": "const title = r.finale && r.kind === 'won' ? tx('modals.theDragonQueenFalls') : r.tutorial && r.kind === 'won' ? tx('modals.practiceComplete') : r.kind === 'won' ? tx('modals.theEchoIsBroken') : r.kind === 'retreated' ? tx('modals.aTacticalRetreat') : tx('modals.thePartyHasFallen');"
+   "code": "const title = r.finale && r.kind === 'won' ? tx('modals.theDragonQueenFalls') : r.tutorial && r.kind === 'won' ? tx('modals.practiceComplete') : r.practice && r.kind === 'won' ? tx('modals.explorerRunComplete') : r.kind === 'won' ? tx('modals.theEchoIsBroken') : r.kind === 'retreated' ? tx('modals.aTacticalRetreat') : tx('modals.thePartyHasFallen');"
+  },
+  "explorerRunComplete": {
+   "line": 337,
+   "file": "src/ui/modals.ts",
+   "code": "const title = r.finale && r.kind === 'won' ? tx('modals.theDragonQueenFalls') : r.tutorial && r.kind === 'won' ? tx('modals.practiceComplete') : r.practice && r.kind === 'won' ? tx('modals.explorerRunComplete') : r.kind === 'won' ? tx('modals.theEchoIsBroken') : r.kind === 'retreated' ? tx('modals.aTacticalRetreat') : tx('modals.thePartyHasFallen');"
   },
   "theEchoIsBroken": {
-   "line": 336,
+   "line": 337,
    "file": "src/ui/modals.ts",
-   "code": "const title = r.finale && r.kind === 'won' ? tx('modals.theDragonQueenFalls') : r.tutorial && r.kind === 'won' ? tx('modals.practiceComplete') : r.kind === 'won' ? tx('modals.theEchoIsBroken') : r.kind === 'retreated' ? tx('modals.aTacticalRetreat') : tx('modals.thePartyHasFallen');"
+   "code": "const title = r.finale && r.kind === 'won' ? tx('modals.theDragonQueenFalls') : r.tutorial && r.kind === 'won' ? tx('modals.practiceComplete') : r.practice && r.kind === 'won' ? tx('modals.explorerRunComplete') : r.kind === 'won' ? tx('modals.theEchoIsBroken') : r.kind === 'retreated' ? tx('modals.aTacticalRetreat') : tx('modals.thePartyHasFallen');"
   },
   "aTacticalRetreat": {
-   "line": 336,
+   "line": 337,
    "file": "src/ui/modals.ts",
-   "code": "const title = r.finale && r.kind === 'won' ? tx('modals.theDragonQueenFalls') : r.tutorial && r.kind === 'won' ? tx('modals.practiceComplete') : r.kind === 'won' ? tx('modals.theEchoIsBroken') : r.kind === 'retreated' ? tx('modals.aTacticalRetreat') : tx('modals.thePartyHasFallen');"
+   "code": "const title = r.finale && r.kind === 'won' ? tx('modals.theDragonQueenFalls') : r.tutorial && r.kind === 'won' ? tx('modals.practiceComplete') : r.practice && r.kind === 'won' ? tx('modals.explorerRunComplete') : r.kind === 'won' ? tx('modals.theEchoIsBroken') : r.kind === 'retreated' ? tx('modals.aTacticalRetreat') : tx('modals.thePartyHasFallen');"
   },
   "thePartyHasFallen": {
-   "line": 336,
+   "line": 337,
    "file": "src/ui/modals.ts",
-   "code": "const title = r.finale && r.kind === 'won' ? tx('modals.theDragonQueenFalls') : r.tutorial && r.kind === 'won' ? tx('modals.practiceComplete') : r.kind === 'won' ? tx('modals.theEchoIsBroken') : r.kind === 'retreated' ? tx('modals.aTacticalRetreat') : tx('modals.thePartyHasFallen');"
+   "code": "const title = r.finale && r.kind === 'won' ? tx('modals.theDragonQueenFalls') : r.tutorial && r.kind === 'won' ? tx('modals.practiceComplete') : r.practice && r.kind === 'won' ? tx('modals.explorerRunComplete') : r.kind === 'won' ? tx('modals.theEchoIsBroken') : r.kind === 'retreated' ? tx('modals.aTacticalRetreat') : tx('modals.thePartyHasFallen');"
   },
   "fightsBestHand": {
-   "line": 342,
+   "line": 343,
    "file": "src/ui/modals.ts",
    "code": "h('p', { class: 'prose', style: 'text-align:center;margin:8px auto' }, tx('modals.fightsBestHand', { place: r.finale ? FINALE.name : r.tutorial ? text('game', ['themes', 'tutorial', 'name']) : BIOMES[r.biome].name, fights: r.fights, score: fmt(r.score) })),"
   },
   "evidence": {
-   "line": 345,
+   "line": 346,
    "file": "src/ui/modals.ts",
    "code": "r.quest?.found.length || r.quest?.notes.length ? h('div', { class: 'small gold', style: 'text-align:center;margin:6px 0' }, ...(r.quest.found.map((id) => h('div', null, tx('modals.evidence', { v: EVIDENCE[id]?.name ?? id })))), ...r.quest.notes.map((n) => h('div', null, n))) : null,"
   },
+  "explorerEchoHolds": {
+   "line": 347,
+   "file": "src/ui/modals.ts",
+   "code": "r.practice ? h('p', { class: 'prose', style: 'text-align:center' }, tx('modals.explorerEchoHolds')) : null,"
+  },
   "practiceMakesPerfectNobodyDied": {
-   "line": 346,
+   "line": 348,
    "file": "src/ui/modals.ts",
    "code": "r.tutorial && r.kind !== 'won' ? h('p', { class: 'prose', style: 'text-align:center' }, tx('modals.practiceMakesPerfectNobodyDied')) : null,"
   },
   "goldBanked": {
-   "line": 348,
+   "line": 350,
    "file": "src/ui/modals.ts",
    "code": "h('tr', null, h('th', null, tx('modals.goldBanked')), h('td', { class: 'gold' }, r.gold)),"
   },
   "treasure": {
-   "line": 349,
+   "line": 351,
    "file": "src/ui/modals.ts",
    "code": "r.items.length ? h('tr', null, h('th', null, tx('modals.treasure')), h('td', null, r.items.join(', '))) : null,"
   },
   "readyToLevelUp": {
-   "line": 350,
+   "line": 352,
    "file": "src/ui/modals.ts",
    "code": "r.leveled.length ? h('tr', null, h('th', null, tx('modals.readyToLevelUp')), h('td', null, r.leveled.join(', '))) : null,"
   },
   "fallen": {
-   "line": 351,
+   "line": 353,
    "file": "src/ui/modals.ts",
    "code": "r.fallen.length ? h('tr', null, h('th', null, tx('modals.fallen')), h('td', { class: 'danger' }, r.fallen.join(', '))) : null),"
   },
   "thisRunSCharmsNow": {
-   "line": 352,
+   "line": 354,
    "file": "src/ui/modals.ts",
    "code": "r.charms.length ? h('div', { style: 'margin-top:10px' }, h('div', { class: 'small muted' }, tx('modals.thisRunSCharmsNow')), h('div', { class: 'charm-bar' }, ...r.charms.map((c) => charmEl(c)))) : null,"
   },
   "shareCard": {
-   "line": 354,
+   "line": 356,
    "file": "src/ui/modals.ts",
    "code": "r.kind === 'won' && !r.tutorial ? btn(tx('modals.shareCard'), () => openShareCard(g), { key: 'result-share' }) : null,"
   },
   "returnToTheKeep": {
-   "line": 355,
+   "line": 357,
    "file": "src/ui/modals.ts",
    "code": "btn(tx('modals.returnToTheKeep'), () => { app.ui.townTab = r.leveled.length ? 'guild' : 'cartographer'; run({ type: 'ackResult' }); }, { cls: 'primary big', key: 'ack' })))));"
   },
   "howToPlay": {
-   "line": 364,
+   "line": 366,
    "file": "src/ui/modals.ts",
    "code": "h('div', { class: 'row' }, h('h2', { class: 'grow' }, tx('modals.howToPlay')), languagePicker()),"
   },
   "theLoop": {
-   "line": 365,
+   "line": 367,
    "file": "src/ui/modals.ts",
    "code": "h('h3', null, tx('modals.theLoop')),"
   },
   "pickThreeHeroesAndAn": {
-   "line": 366,
+   "line": 368,
    "file": "src/ui/modals.ts",
    "code": "p(tx('modals.pickThreeHeroesAndAn')),"
   },
   "theFortuneTray": {
-   "line": 367,
+   "line": 369,
    "file": "src/ui/modals.ts",
    "code": "h('h3', null, tx('modals.theFortuneTray')),"
   },
   "eachFightDealsDiceFrom": {
-   "line": 369,
+   "line": 371,
    "file": "src/ui/modals.ts",
    "code": "p(tx('modals.eachFightDealsDiceFrom')),"
   },
   "damageYourActionSReal": {
-   "line": 370,
+   "line": 372,
    "file": "src/ui/modals.ts",
    "code": "p(tx('modals.damageYourActionSReal')),"
   },
   "gettingLucky": {
-   "line": 371,
+   "line": 373,
    "file": "src/ui/modals.ts",
    "code": "h('h3', null, tx('modals.gettingLucky')),"
   },
   "afterEveryFightYourFortune": {
-   "line": 372,
+   "line": 374,
    "file": "src/ui/modals.ts",
    "code": "p(tx('modals.afterEveryFightYourFortune')),"
   },
   "watchOut": {
-   "line": 373,
+   "line": 375,
    "file": "src/ui/modals.ts",
    "code": "h('h3', null, tx('modals.watchOut')),"
   },
   "enemiesHexYourTrayThey": {
-   "line": 374,
+   "line": 376,
    "file": "src/ui/modals.ts",
    "code": "p(tx('modals.enemiesHexYourTrayThey')),"
   },
   "theStory": {
-   "line": 375,
+   "line": 377,
    "file": "src/ui/modals.ts",
    "code": "h('h3', null, tx('modals.theStory')),"
   },
   "tiamatTheFiveHeadedDragon": {
-   "line": 376,
+   "line": 378,
    "file": "src/ui/modals.ts",
    "code": "p(tx('modals.tiamatTheFiveHeadedDragon')),"
   },
   "theLowLanternIsThe": {
-   "line": 377,
+   "line": 379,
    "file": "src/ui/modals.ts",
    "code": "p(tx('modals.theLowLanternIsThe')),"
   },
   "keys19SelectDice": {
-   "line": 378,
+   "line": 380,
    "file": "src/ui/modals.ts",
    "code": "h('p', { class: 'small muted' }, tx('modals.keys19SelectDice')),"
   },
   "restartTheGuidedTour": {
-   "line": 380,
+   "line": 382,
    "file": "src/ui/modals.ts",
    "code": "app.game && !app.game.expedition && !app.game.tutorial ? btn(tx('modals.restartTheGuidedTour'), () => { restartTutorial(app.game!); app.ui.townTab = 'guild'; close(); }, { cls: 'small' }) : null,"
   },
   "gotIt": {
-   "line": 381,
+   "line": 383,
    "file": "src/ui/modals.ts",
    "code": "h('span', { class: 'spacer' }), btn(tx('modals.gotIt'), close, { cls: 'primary', key: 'help-ok' })),"
   }

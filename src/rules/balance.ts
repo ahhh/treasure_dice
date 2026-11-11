@@ -65,12 +65,14 @@ export function depthScale(depth: number, level = 1): number {
  * Harder runs never grant extra levels — a clear is still one level.
  * `enemies` extra foes per fight start at `enemiesFrom` (a level-1 party can't
  * absorb a whole extra monster, so early on the step is carried by hp/dmg).
+ * `drops` scales item drop and legend chances. Only `advances` difficulties break
+ * the echo: earn its sigil, open the next door and tell the story (Explorer is practice).
  */
 export const DIFFICULTY_MOD = {
-  explorer: { rank: 0, hp: 0.82, dmg: 0.82, gold: 0.9, enemies: 0, enemiesFrom: 1, bossAdds: 0, eliteCurse: false },
-  standard: { rank: 0, hp: 1.03, dmg: 1.03, gold: 1, enemies: 0, enemiesFrom: 1, bossAdds: 0, eliteCurse: false },
-  perilous: { rank: 1, hp: 1.1, dmg: 1.08, gold: 1.5, enemies: 1, enemiesFrom: 3, bossAdds: 1, eliteCurse: true },
-  deadly: { rank: 2, hp: 1.22, dmg: 1.18, gold: 2, enemies: 1, enemiesFrom: 3, bossAdds: 2, eliteCurse: true },
+  explorer: { rank: 0, hp: 0.82, dmg: 0.82, gold: 0.9, drops: 0.5, advances: false, enemies: 0, enemiesFrom: 1, bossAdds: 0, eliteCurse: false },
+  standard: { rank: 0, hp: 1.03, dmg: 1.03, gold: 1, drops: 1, advances: true, enemies: 0, enemiesFrom: 1, bossAdds: 0, eliteCurse: false },
+  perilous: { rank: 1, hp: 1.1, dmg: 1.08, gold: 1.5, drops: 1, advances: true, enemies: 1, enemiesFrom: 3, bossAdds: 1, eliteCurse: true },
+  deadly: { rank: 2, hp: 1.22, dmg: 1.18, gold: 2, drops: 1, advances: true, enemies: 1, enemiesFrom: 3, bossAdds: 2, eliteCurse: true },
 } as const;
 
 export const DIFFICULTY_ORDER = ['explorer', 'standard', 'perilous', 'deadly'] as const;

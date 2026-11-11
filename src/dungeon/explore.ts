@@ -40,7 +40,7 @@ const living = (g: GameState) => party(g).filter((h) => h.status === 'alive');
 // ── start ───────────────────────────────────────────────────────────────────
 
 /** Heroes at this level or higher are too seasoned for the Training Cellar. */
-export const TUTORIAL_MAX_LEVEL = 4;
+export const TUTORIAL_MAX_LEVEL = 3;
 
 export interface StartOpts { partyIds: string[]; biome: BiomeId; difficulty: Difficulty; seed: string; size?: 'short' | 'normal' | 'long'; tutorial?: boolean; finale?: boolean }
 
@@ -563,7 +563,7 @@ export function takeLoot(g: GameState): string | null {
     exp.carriedItems.push(it);
     xlog(exp, tx('dungeonExplore.found2', { itemName: itemName(it) }), 'loot');
   }
-  if (!exp.tutorial && loot.chance(room.secret ? LEGEND_CHANCE.secret : LEGEND_CHANCE.treasure)) {
+  if (!exp.tutorial && loot.chance((room.secret ? LEGEND_CHANCE.secret : LEGEND_CHANCE.treasure) * DIFFICULTY_MOD[exp.difficulty].drops)) {
     const lg = rollLegendary(loot, exp.partyLevel, ownedLegends(g));
     if (lg) { exp.carriedItems.push(lg); xlog(exp, tx('dungeonExplore.aLegendLiesInThe', { itemName: itemName(lg) }), 'loot'); }
   }
@@ -637,13 +637,13 @@ function grantSpoils(g: GameState) {
   const base = DOUBLOONS_PER_COMBAT[kind];
   exp.fortune.doubloons += base + intr + charmBonus;
   const items: string[] = [];
-  const dropChance = kind === 'elite' ? 0.75 : kind === 'boss' ? 0 : 0.28;
+  const dropChance = (kind === 'elite' ? 0.75 : kind === 'boss' ? 0 : 0.28) * DIFFICULTY_MOD[exp.difficulty].drops;
   if (loot.chance(dropChance)) {
     const it = rollItem(loot, exp.partyLevel, exp.biome, { boost: (kind === 'elite' ? 1 : 0) + DIFFICULTY_MOD[exp.difficulty].rank });
     exp.carriedItems.push(it);
     items.push(itemName(it));
   }
-  if (kind === 'elite' && !exp.tutorial && loot.chance(LEGEND_CHANCE.elite)) {
+  if (kind === 'elite' && !exp.tutorial && loot.chance(LEGEND_CHANCE.elite * DIFFICULTY_MOD[exp.difficulty].drops)) {
     const lg = rollLegendary(loot, exp.partyLevel, ownedLegends(g));
     if (lg) { exp.carriedItems.push(lg); items.push(`✦ ${itemName(lg)}`); xlog(exp, tx('dungeonExplore.theEliteCarriedALegend', { itemName: itemName(lg) }), 'loot'); }
   }
@@ -665,7 +665,7 @@ function grantSpoils(g: GameState) {
     const rank = exp.tutorial ? 0 : DIFFICULTY_MOD[exp.difficulty].rank;
     exp.lootChoice = { items: bossLootChoice(loot, exp.partyLevel, exp.biome, rank) };
     // Boss hoards are where legends turn up: one of the three may be one-of-a-kind.
-    if (!exp.tutorial && loot.chance(LEGEND_CHANCE.boss + LEGEND_CHANCE.bossPerRank * rank)) {
+    if (!exp.tutorial && loot.chance((LEGEND_CHANCE.boss + LEGEND_CHANCE.bossPerRank * rank) * DIFFICULTY_MOD[exp.difficulty].drops)) {
       const lg = rollLegendary(loot, exp.partyLevel, ownedLegends(g));
       if (lg) exp.lootChoice.items.splice(Math.max(0, exp.lootChoice.items.length - 1), 1, lg);
     }
@@ -993,8 +993,8 @@ export function finishExpedition(g: GameState, kind: 'won' | 'retreated' | 'wipe
     if (h.status === 'dead') { result.fallen.push(h.name); continue; }
     if (kind === 'won') {
       h.history.clears += 1;
-      // The practice cellar only takes a fresh hero from level 1 to 2 (replaying the tour is no XP farm).
-      if (h.level < 20 && (!exp.tutorial || h.level === 1)) { h.pendingLevel = true; result.leveled.push(h.name); }
+      // The practice cellar levels heroes until they're too seasoned to enter it (TUTORIAL_MAX_LEVEL).
+      if (h.level < 20 && (!exp.tutorial || h.level < TUTORIAL_MAX_LEVEL)) { h.pendingLevel = true; result.leveled.push(h.name); }
     }
     // Everyone comes home rested.
     fullRestore(h);
@@ -1009,14 +1009,17 @@ export function finishExpedition(g: GameState, kind: 'won' | 'retreated' | 'wipe
     }
   }
   const story = storyOf(g);
-  const firstClear = kind === 'won' && !exp.finale && !exp.tutorial && !story.seen.includes(exp.biome);
+  // Explorer clears pay out (levels, gold, some loot) but don't break the echo.
+  const breaks = !exp.tutorial && DIFFICULTY_MOD[exp.difficulty].advances;
+  if (kind === 'won' && !exp.finale && !exp.tutorial && !breaks) result.practice = true;
+  const firstClear = kind === 'won' && !exp.finale && breaks && !story.seen.includes(exp.biome);
   if (kind === 'won' && exp.finale) {
     // Tiamat slain: the epilogue, not a sigil.
     g.profile.stats.clears += 1;
     story.tiamat += 1;
     result.chapter = EPILOGUE.id;
-  } else if (kind === 'won' && !exp.tutorial) {
-    // (The practice cellar teaches the loop but earns no sigil and unlocks nothing.)
+  } else if (kind === 'won' && breaks) {
+    // (The practice cellar and Explorer runs earn no sigil and unlock nothing.)
     g.profile.stats.clears += 1;
     g.profile.sigils[exp.biome] = (g.profile.sigils[exp.biome] ?? 0) + 1;
     const next = BIOME_ORDER[BIOME_ORDER.indexOf(exp.biome) + 1];

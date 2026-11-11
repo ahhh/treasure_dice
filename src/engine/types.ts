@@ -549,7 +549,7 @@ export interface GameState {
   shopStock: string[];
   townRng: RngStreams['town'];
   expedition?: Expedition;
-  lastResult?: { kind: 'won' | 'retreated' | 'wiped'; gold: number; items: string[]; fallen: string[]; leveled: string[]; biome: BiomeId; score: number; fights: number; rank: number; charms: string[]; bossRounds?: number; tutorial?: boolean; finale?: boolean; chapter?: string; quest?: { found: string[]; head?: BiomeId; notes: string[] } };
+  lastResult?: { kind: 'won' | 'retreated' | 'wiped'; gold: number; items: string[]; fallen: string[]; leveled: string[]; biome: BiomeId; score: number; fights: number; rank: number; charms: string[]; bossRounds?: number; tutorial?: boolean; finale?: boolean; practice?: boolean; chapter?: string; quest?: { found: string[]; head?: BiomeId; notes: string[] } };
   uidCounter: number;
   settings: { fast: boolean; sound: boolean };
   tutorial?: TutorialState | null;

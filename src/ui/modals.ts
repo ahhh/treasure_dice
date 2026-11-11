@@ -334,7 +334,7 @@ export function bagModal(): HTMLElement {
 export function resultScreen(): HTMLElement {
   const g = app.game!;
   const r = g.lastResult!;
-  const title = r.finale && r.kind === 'won' ? tx('modals.theDragonQueenFalls') : r.tutorial && r.kind === 'won' ? tx('modals.practiceComplete') : r.kind === 'won' ? tx('modals.theEchoIsBroken') : r.kind === 'retreated' ? tx('modals.aTacticalRetreat') : tx('modals.thePartyHasFallen');
+  const title = r.finale && r.kind === 'won' ? tx('modals.theDragonQueenFalls') : r.tutorial && r.kind === 'won' ? tx('modals.practiceComplete') : r.practice && r.kind === 'won' ? tx('modals.explorerRunComplete') : r.kind === 'won' ? tx('modals.theEchoIsBroken') : r.kind === 'retreated' ? tx('modals.aTacticalRetreat') : tx('modals.thePartyHasFallen');
   const chapter: Chapter | undefined = r.chapter === EPILOGUE.id ? EPILOGUE : r.chapter ? CHAPTERS[r.chapter as keyof typeof CHAPTERS] : undefined;
   return h('div', { class: 'title-screen', style: bgStyle(r.kind === 'won' ? `scenes/${r.biome}_boss` : firstArt(`story/${r.kind === 'retreated' ? 'retreat' : 'wipe'}`, 'town/keep'), '#0b1230') + ';background-size:cover;background-position:center' },
     h('div', { class: 'title-inner' },
@@ -344,6 +344,7 @@ export function resultScreen(): HTMLElement {
         chapter ? h('div', { class: 'chronicle story-beat' }, banner(`story/${chapter.id}`, chapter.title), h('div', { class: 'chapter-head' }, chapter.head), h('h2', null, chapter.title), ...chapter.text.map((t) => h('p', { class: 'prose' }, t))) : null,
         r.quest?.head ? staticBox({ name: '???', color: HEAD_EYES[r.quest.head].color, face: art(HEAD_EYES[r.quest.head].key, tx('dialogue.anEye'), 'dlg-face'), variant: 'head' }, headLine(r.quest.head)) : null,
         r.quest?.found.length || r.quest?.notes.length ? h('div', { class: 'small gold', style: 'text-align:center;margin:6px 0' }, ...(r.quest.found.map((id) => h('div', null, tx('modals.evidence', { v: EVIDENCE[id]?.name ?? id })))), ...r.quest.notes.map((n) => h('div', null, n))) : null,
+        r.practice ? h('p', { class: 'prose', style: 'text-align:center' }, tx('modals.explorerEchoHolds')) : null,
         r.tutorial && r.kind !== 'won' ? h('p', { class: 'prose', style: 'text-align:center' }, tx('modals.practiceMakesPerfectNobodyDied')) : null,
         h('table', { class: 'mini' },
           h('tr', null, h('th', null, tx('modals.goldBanked')), h('td', { class: 'gold' }, r.gold)),
