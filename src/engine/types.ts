@@ -516,6 +516,8 @@ export interface QuestState {
   resolve: number;
   leads: { id: string; misses: number; runsLeft?: number }[];
   rumors: string[];
+  /** Rumors heard on a given keep day: they keep their slot in tonight's list. */
+  rumorsHeard?: { day: number; ids: string[] };
   drink?: string;
   /** Keep day Sereth last tended the heroes. */
   tendedDay?: number;

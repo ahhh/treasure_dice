@@ -90,6 +90,7 @@ export function render() {
   const root = app.root;
   const scrollY = window.scrollY;
   const focusKey = (document.activeElement as HTMLElement | null)?.dataset?.key;
+  const scrolls = innerScrolls(root);
   clear(root);
   let screen = 'title';
   const g = app.game;
@@ -105,10 +106,27 @@ export function render() {
     if (o) root.appendChild(o);
   }
   window.scrollTo(0, scrollY);
+  restoreScrolls(root, scrolls);
   if (focusKey) (root.querySelector(`[data-key="${CSS.escape(focusKey)}"]`) as HTMLElement | null)?.focus();
   afterRender.forEach((f) => f());
   afterRender.length = 0;
   for (const f of postRender) f();
+}
+
+// Scrollable panes (modals, option lists) are rebuilt on every render; keep their
+// scroll position so picking an option deep in a list doesn't jump back to the top.
+const SCROLLERS = '.modal, .opt-list, .dlg-log';
+function scrollKey(el: Element, i: number) {
+  return `${el.closest('[aria-label]')?.getAttribute('aria-label') ?? ''}|${el.className}|${i}`;
+}
+function innerScrolls(root: HTMLElement): Map<string, number> {
+  const m = new Map<string, number>();
+  root.querySelectorAll(SCROLLERS).forEach((el, i) => { if (el.scrollTop) m.set(scrollKey(el, i), el.scrollTop); });
+  return m;
+}
+function restoreScrolls(root: HTMLElement, m: Map<string, number>) {
+  if (!m.size) return;
+  root.querySelectorAll(SCROLLERS).forEach((el, i) => { const y = m.get(scrollKey(el, i)); if (y) el.scrollTop = y; });
 }
 
 export const afterRender: (() => void)[] = [];

@@ -263,9 +263,12 @@ export function onExpeditionEnd(g: GameState, exp: Expedition, kind: 'won' | 're
 export function rumorsTonight(g: GameState) {
   const q = questOf(g);
   const pool = RUMORS.filter((r) => check(g, r.when));
-  const fresh = pool.filter((r) => !q.rumors.includes(r.id));
+  // Rumors heard tonight stay put, so listening never reshuffles the list.
+  const today = q.rumorsHeard?.day === g.profile.townDay ? q.rumorsHeard.ids : [];
+  const isFresh = (id: string) => !q.rumors.includes(id) || today.includes(id);
+  const fresh = pool.filter((r) => isFresh(r.id));
   const rng = new Rng(seedState(`rumors|${g.profile.townDay}`));
-  const old = rng.shuffle(pool.filter((r) => q.rumors.includes(r.id)));
+  const old = rng.shuffle(pool.filter((r) => !isFresh(r.id)));
   return [...fresh, ...old].slice(0, 3).map((r) => ({ ...r, isNew: !q.rumors.includes(r.id) }));
 }
 
@@ -273,7 +276,12 @@ export function hearRumor(g: GameState, id: string): string | null {
   const r = RUMORS.find((x) => x.id === id);
   if (!r || !check(g, r.when)) return tx('metaQuest.nobodyIsSayingThatTonight');
   const q = questOf(g);
-  if (!q.rumors.includes(id)) { q.rumors.push(id); applyFx(g, r.fx); }
+  if (!q.rumors.includes(id)) {
+    q.rumors.push(id);
+    if (q.rumorsHeard?.day !== g.profile.townDay) q.rumorsHeard = { day: g.profile.townDay, ids: [] };
+    q.rumorsHeard.ids.push(id);
+    applyFx(g, r.fx);
+  }
   return null;
 }
 
